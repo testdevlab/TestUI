@@ -37,11 +37,11 @@ does much more than that! It provides a fluent API which makes your code readabl
 
 ### Quick Start
 
-* ####Install Java 8 or above
+* #### Install Java 8 or above
 
 The framework is based on Java, so you will need Java JDK to be able to work with it. 
 
-* ####Install Maven
+* #### Install Maven
 
 The framework uses maven to retrieve the necessary dependencies/libraries from maven central. In the future you will be able to use other
 means like gradle, but for now this project is NOT uploaded into Maven Central. We will be working to make this possible as soon as possible.
@@ -49,7 +49,7 @@ means like gradle, but for now this project is NOT uploaded into Maven Central. 
 For now, to use this framework you will have to download the code and and use the packages and classes located under main/java/testUI folder
 (just copy this folder under your project and don't forget to add the basic dependencies as in the pom.xml).
 
-* ####Installing Appium
+* #### Installing Appium
 
 Appium can be installed in one of two ways: via NPM or by downloading Appium Desktop, which is a graphical, desktop-based way to launch the Appium server.
 
@@ -66,7 +66,7 @@ npm install -g appium
 *Installation via Desktop App Download*  
 Simply download the latest version of Appium Desktop from the [releases page](https://github.com/appium/appium-desktop/releases).
 
-* ####Installing Android Studio
+* #### Installing Android Studio
 
 You can go to the [official page](https://developer.android.com/studio) and download the latest version, then you will have to add
  <pre>
@@ -74,7 +74,7 @@ ANDROID_HOME=/home/user_directory/Android/Sdk
 PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
  </pre>
 
-* ####Installing XCode (only mac)
+* #### Installing XCode (only mac)
 
 This is only for iOS testing and Safari testing. You must have installed xcode to be able to run test in simulators and devices. 
 To install it just go to App Store and search for it, download and follow instructions of the installation.
