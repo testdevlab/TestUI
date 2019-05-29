@@ -63,9 +63,6 @@ The actual installation is as simple as:
 npm install -g appium
 </pre>
 
-*Installation via Desktop App Download*  
-Simply download the latest version of Appium Desktop from the [releases page](https://github.com/appium/appium-desktop/releases).
-
 * #### Installing Android Studio
 
 You can go to the [official page](https://developer.android.com/studio) and download the latest version, then you will have to add
