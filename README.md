@@ -18,9 +18,10 @@
 ### 5. [Driver and Server](README.md/#driver-and-server)
 ### 6. [Configuration Settings](README.md/#configuration-settings)
 ### 7. [Quick Start](README.md/#quick-start)
-### 8. [Project Contributors](README.md/#project-contributors)
-#### &nbsp; &nbsp; 8.1. [Reporting Issues](README.md/#reporting-issues)
-### 9. [Code Examples](README.md/#code-examples)
+### 8. [Code Examples](README.md/#code-examples)
+### 9. [Project Contributors](README.md/#project-contributors)
+#### &nbsp; &nbsp; 9.1. [Reporting Issues](README.md/#reporting-issues)
+#### &nbsp; &nbsp; 9.2. [Contributing Code](README.md/#contributing-code)
 
 <a name="Intro"></a>
 ## Introduction
@@ -432,42 +433,6 @@ For Appium setup check out their [page](http://appium.io/) and you can see if th
 * * iOS: connect device or start simulator and run `mvn clean -Dtest=TestIOS test`
 * * Desktop Browser: have Chrome installed and run `mvn clean -Dtest=TestBrowser test`
 
-## Project Contributors
-
-First you will need to have installed Java 8, and Maven. Then install Android Studio and SDK (set up all the environment variables correctly).
-Finally install appium. To be able to run test cases in android devices you must set the android device in debug mode.
-
-For browser testing in mobile device be aware of the chrome version the device has installed, chrome versions < 61 could not work correctly.
-
-To run test cases you must have connected at least one device or at least have one emulator installed.
-
-In the test cases for iOS is using simulators created by XCode, exactly the 12.2 iOS version, which means you will have to install this version using
-a mac computer (For iOS testing is mandatory run in a macOS machine)
-
-### Reporting Issues
-
-In case there is some bug, you can report that as an Issue or send an E-mail to alvaro.lasernalopez@testdevlab.com. 
-The format for these Issues should be as follows:
-
-##### TestUI Version: 
-*(Version)*
-
-##### Platform
-*App Android/Browser chrome Android/App iOS/ Browser Safario iOS/ Computer Browser...*
-(Mentioning which app you are testing could help)
-
-##### Steps
-*Given I set the configuration variables: this, this and this*  
-*And I start an testUI driver with open() method*  
-*Then I use this method*
-
-##### Results
-*The method doesnt do what is expected*
-
-##### Conlose log
-
-*Full stacktrace*
-
 ## Code Examples
 
 Android app as a JUnit test case:
@@ -518,3 +483,34 @@ IOS browser as JUnit test case:
     }
 </pre>
 
+## Project Contributors
+
+We are glad to hear your feedback or review your suggestions for TestUI framework!
+
+### Reporting Issues
+
+In case there is some bug, you can report that as an Issue or send an E-mail to testio@testdevlab.com . 
+The format for these Issues should be as follows:
+
+##### TestUI Version: 
+*(Version)*
+
+##### Platform
+*App Android/Browser chrome Android/App iOS/ Browser Safario iOS/ Computer Browser...*
+(Mentioning which app you are testing could help)
+
+##### Steps
+*Given I set the configuration variables: this, this and this*  
+*And I start an testUI driver with open() method*  
+*Then I use this method*
+
+##### Results
+*The method doesnt do what is expected*
+
+##### Conlose log
+
+*Full stacktrace*
+
+### Contributing Code
+
+COMING SOON
