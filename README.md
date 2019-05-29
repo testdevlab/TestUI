@@ -51,8 +51,6 @@ For now, to use this framework you will have to download the code and and use th
 
 * #### Installing Appium
 
-Appium can be installed in one of two ways: via NPM or by downloading Appium Desktop, which is a graphical, desktop-based way to launch the Appium server.
-
 *Installation via NPM*  
 If you want to run Appium via an npm install first you will have to install Node.js and NPM (use nvm, n, or `brew install node` to install Node.js. 
 Make sure you have not installed Node or Appium with sudo, otherwise you'll run into problems). 
