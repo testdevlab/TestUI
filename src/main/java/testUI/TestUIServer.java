@@ -130,7 +130,7 @@ public class TestUIServer {
             }
         }
         int emulators = useEmulators ? getEmulatorName().size() : 0;
-        int totalDevices = emulators + connectedDevices;
+        int totalDevices = emulators + connectedDevices - startedEmulators;
         int ports = 9586 + usePort.size()*100;
         int bootstrap = 5333 + useBootstrapPort.size()*100;
         String port = String.valueOf(ports);
@@ -144,10 +144,11 @@ public class TestUIServer {
                 if (!iOSTesting) {
                     if (androidDeviceName.isEmpty() && emulatorName.isEmpty()) {
                         if (connectedDevices <= device) {
+                            System.out.println(device + " number of device");
                             assertThat("There are not enough devices connected", useEmulators);
                             assertThat("There are no emulators to start the automation",
-                                    getEmulatorName().get(startedEmulators + device), not(isEmptyOrNullString()));
-                            Configuration.emulatorName = getEmulatorName().get(startedEmulators + device);
+                                    getEmulatorName().get(device), not(isEmptyOrNullString()));
+                            Configuration.emulatorName = getEmulatorName().get(device);
                             attachShutDownHookStopEmulator(getServices());
                         } else {
                             if (!getDevices().toString().contains(getDeviceNames().get(device))) {

@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
         glue = "stepDefinitions",
         features = {"src/test/resources/features/"},
         plugin = {"pretty","io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm", "json:target/cucumber-reports/file.json"}
-        //,tags = {"@IOSBrowserFail"}
 )
-public class TestRunner {
+public class TestCucumber {
 }

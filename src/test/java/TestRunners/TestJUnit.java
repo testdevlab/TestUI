@@ -14,7 +14,7 @@ public class TestJUnit {
     private GoogleLandingPage googleLandingPage = new GoogleLandingPage();
     private FacebookLandingPage facebookLandingPage = new FacebookLandingPage();
 
-    //@Test
+    @Test
     @DisplayName("Android app test case")
     public void testAndroidApp() {
         Configuration.androidAppPath = "1188.apk";
@@ -24,7 +24,7 @@ public class TestJUnit {
         System.out.println(landingPage.getSuggestedCollection().then().findByVisible().and().getText());
     }
 
-   // @Test
+    @Test
     @DisplayName("Android browser test case")
     public void testAndroidBrowser() {
         open("https://www.google.com");
@@ -32,7 +32,7 @@ public class TestJUnit {
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click();
     }
 
-    // @Test
+    @Test
     @DisplayName("IOS app test case")
     public void testIOSApp() {
         Configuration.iOSTesting = true;
@@ -42,7 +42,7 @@ public class TestJUnit {
         open();
     }
 
-    // @Test
+    @Test
     @DisplayName("IOS browser test case")
     public void testIOSBrowser() {
         Configuration.iOSTesting = true;

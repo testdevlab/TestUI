@@ -19,7 +19,7 @@
 ### 6. [Configuration Settings](README.md/#configuration-settings)
 ### 7. [Project Contributors](README.md/#project-contributors)
 #### &nbsp; &nbsp; 7.1. [Reporting Issues](README.md/#reporting-issues)
-### 9. [Code Examples](README.md/#code-examples)
+### 8. [Code Examples](README.md/#code-examples)
 
 <a name="Intro"></a>
 ## Introduction
