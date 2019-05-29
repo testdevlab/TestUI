@@ -6,8 +6,9 @@
 <br/>
 
 ### 1. [Introduction](README.md/#introduction)
-#### &nbsp; &nbsp; 1.1. [Android](README.md/#android)
-#### &nbsp; &nbsp; 1.2. [iOS](README.md/#ios)
+#### &nbsp; &nbsp; 1.1. [Quick Start](README.md/#quick-start)
+#### &nbsp; &nbsp; 1.2. [Android](README.md/#android)
+#### &nbsp; &nbsp; 1.3. [iOS](README.md/#ios)
 ### 2. [Elements](README.md/#elements)
 #### &nbsp; &nbsp; 2.1. [Element Action Methods](README.md/#element-action-methods)
 #### &nbsp; &nbsp; 2.2. [Element Assertion Methods](README.md/#element-assertions-methods)
@@ -33,6 +34,51 @@ At first you will probably be happy to have a faster way of creating the Appium 
 does much more than that! It provides a fluent API which makes your code readable, simple and efficient. This framework was inspired by a similar one for desktop browser automation (Selenide), so for those who have worked with it will find the methods quite similar. Now let's check how it looks...
 
 <a name="Android"></a>
+
+### Quick Start
+
+* ####Install Java 8 or above
+
+The framework is based on Java, so you will need Java JDK to be able to work with it. 
+
+* ####Install Maven
+
+The framework uses maven to retrieve the necessary dependencies/libraries from maven central. In the future you will be able to use other
+means like gradle, but for now this project is NOT uploaded into Maven Central. We will be working to make this possible as soon as possible.
+
+For now, to use this framework you will have to download the code and and use the packages and classes located under main/java/testUI folder
+(just copy this folder under your project and don't forget to add the basic dependencies as in the pom.xml).
+
+* ####Installing Appium
+
+Appium can be installed in one of two ways: via NPM or by downloading Appium Desktop, which is a graphical, desktop-based way to launch the Appium server.
+
+*Installation via NPM*  
+If you want to run Appium via an npm install first you will have to install Node.js and NPM (use nvm, n, or `brew install node` to install Node.js. 
+Make sure you have not installed Node or Appium with sudo, otherwise you'll run into problems). 
+
+The actual installation is as simple as:
+
+<pre>
+npm install -g appium
+</pre>
+
+*Installation via Desktop App Download*  
+Simply download the latest version of Appium Desktop from the [releases page](https://github.com/appium/appium-desktop/releases).
+
+* ####Installing Android Studio
+
+You can go to the [official page](https://developer.android.com/studio) and download the latest version, then you will have to add
+ <pre>
+ANDROID_HOME=/home/user_directory/Android/Sdk
+PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+ </pre>
+
+* ####Installing XCode (only mac)
+
+This is only for iOS testing and Safari testing. You must have installed xcode to be able to run test in simulators and devices. 
+To install it just go to App Store and search for it, download and follow instructions of the installation.
+
 ### Android
 
 Here you see an example of creating an Appium server and Appium driver connecting your device or starting an emulator
@@ -465,6 +511,30 @@ Android browser as JUnit test case:
         open("https://www.google.com");
         E(byXpath("//input[@name='q']")).given().waitFor(5).untilIsVisible().then().sendKeys("TestUI");
         E(byXpath("//button[@class='Tg7LZd']")).given().waitFor(10).untilIsVisible().then().click();
+    }
+</pre>
+
+IOS App as JUnit test case:
+
+<pre>
+    @Test
+    public void testIOSApp() {
+        Configuration.iOSTesting = true;
+        Configuration.iOSVersion = "12.2";
+        Configuration.iOSAppPath = "testapp.app";
+        Configuration.iOSDeviceName = "iPhone 6";
+        open();
+    }
+</pre>
+
+IOS browser as JUnit test case:
+
+<pre>
+    @Test
+    public void testIOSBrowser() {
+        Configuration.iOSTesting = true;
+        open("https://www.facebook.com");
+        E(byXpath("//input[@name='email']")).getSafariFacebookEmailDiv().click();
     }
 </pre>
 
