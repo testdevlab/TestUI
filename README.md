@@ -489,7 +489,7 @@ We are glad to hear your feedback or review your suggestions for TestUI framewor
 
 ### Reporting Issues
 
-In case there is some bug, you can report that as an Issue or send an E-mail to testio@testdevlab.com . 
+In case there is some bug, you can report that as an Issue or send an E-mail to testui@testdevlab.com . 
 The format for these Issues should be as follows:
 
 ##### TestUI Version: 
