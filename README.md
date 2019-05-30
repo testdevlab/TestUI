@@ -6,9 +6,8 @@
 <br/>
 
 ### 1. [Introduction](README.md/#introduction)
-#### &nbsp; &nbsp; 1.1. [Quick Start](README.md/#quick-start)
-#### &nbsp; &nbsp; 1.2. [Android](README.md/#android)
-#### &nbsp; &nbsp; 1.3. [iOS](README.md/#ios)
+#### &nbsp; &nbsp; 1.1. [Android](README.md/#android)
+#### &nbsp; &nbsp; 1.2. [iOS](README.md/#ios)
 ### 2. [Elements](README.md/#elements)
 #### &nbsp; &nbsp; 2.1. [Element Action Methods](README.md/#element-action-methods)
 #### &nbsp; &nbsp; 2.2. [Element Assertion Methods](README.md/#element-assertions-methods)
@@ -18,9 +17,11 @@
 ### 4. [Browser Testing](README.md/#browser-testing)
 ### 5. [Driver and Server](README.md/#driver-and-server)
 ### 6. [Configuration Settings](README.md/#configuration-settings)
-### 7. [Project Contributors](README.md/#project-contributors)
-#### &nbsp; &nbsp; 7.1. [Reporting Issues](README.md/#reporting-issues)
+### 7. [Quick Start](README.md/#quick-start)
 ### 8. [Code Examples](README.md/#code-examples)
+### 9. [Project Contributors](README.md/#project-contributors)
+#### &nbsp; &nbsp; 9.1. [Reporting Issues](README.md/#reporting-issues)
+#### &nbsp; &nbsp; 9.2. [Contributing Code](README.md/#contributing-code)
 
 <a name="Intro"></a>
 ## Introduction
@@ -34,45 +35,6 @@ At first you will probably be happy to have a faster way of creating the Appium 
 does much more than that! It provides a fluent API which makes your code readable, simple and efficient. This framework was inspired by a similar one for desktop browser automation (Selenide), so for those who have worked with it will find the methods quite similar. Now let's check how it looks...
 
 <a name="Android"></a>
-
-### Quick Start
-
-* #### Install Java 8 or above
-
-The framework is based on Java, so you will need Java JDK to be able to work with it. 
-
-* #### Install Maven
-
-The framework uses maven to retrieve the necessary dependencies/libraries from maven central. In the future you will be able to use other
-means like gradle, but for now this project is NOT uploaded into Maven Central. We will be working to make this possible as soon as possible.
-
-For now, to use this framework you will have to download the code and and use the packages and classes located under main/java/testUI folder
-(just copy this folder under your project and don't forget to add the basic dependencies as in the pom.xml).
-
-* #### Installing Appium
-
-*Installation via NPM*  
-If you want to run Appium via an npm install first you will have to install Node.js and NPM (use nvm, n, or `brew install node` to install Node.js. 
-Make sure you have not installed Node or Appium with sudo, otherwise you'll run into problems). 
-
-The actual installation is as simple as:
-
-<pre>
-npm install -g appium
-</pre>
-
-* #### Installing Android Studio
-
-You can go to the [official page](https://developer.android.com/studio) and download the latest version, then you will have to add
- <pre>
-ANDROID_HOME=/home/user_directory/Android/Sdk
-PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
- </pre>
-
-* #### Installing XCode (only mac)
-
-This is only for iOS testing and Safari testing. You must have installed xcode to be able to run test in simulators and devices. 
-To install it just go to App Store and search for it, download and follow instructions of the installation.
 
 ### Android
 
@@ -446,42 +408,30 @@ taken automatically by adb commands testUI executes previous to generate the dri
 
 `* this parameters are mandatory before calling open() or open("url")`
 
+## Quick Start
 
-## Project Contributors
+Basic requirements and steps to start using TestUI
 
-First you will need to have installed Java 8, and Maven. Then install Android Studio and SDK (set up all the environment variables correctly).
-Finally install appium. To be able to run test cases in android devices you must set the android device in debug mode.
+### Setup
 
-For browser testing in mobile device be aware of the chrome version the device has installed, chrome versions < 61 could not work correctly.
+The framework is based on Java, therefore you will need to **install Java 8 or above**.
 
-To run test cases you must have connected at least one device or at least have one emulator installed.
+Then the setup depends on what platform or platforms you want to test on.
 
-In the test cases for iOS is using simulators created by XCode, exactly the 12.2 iOS version, which means you will have to install this version using
-a mac computer (For iOS testing is mandatory run in a macOS machine)
+* Android - Appium setup for Android (Node.js, Android SDK, JDK, Appium)
+* iOS - Appium setup for iOS (Node.js, Xcode, Carthage, Appium)
+* Desktop browser - Selenide does everything for you :) No additional steps
 
-### Reporting Issues
+For Appium setup check out their [page](http://appium.io/) and you can see if the setup was successful by using appium-doctor.
 
-In case there is some bug, you can report that as an Issue or send an E-mail to alvaro.lasernalopez@testdevlab.com. 
-The format for these Issues should be as follows:
+### Try out with existing tests
 
-##### TestUI Version: 
-*(Version)*
-
-##### Platform
-*App Android/Browser chrome Android/App iOS/ Browser Safario iOS/ Computer Browser...*
-(Mentioning which app you are testing could help)
-
-##### Steps
-*Given I set the configuration variables: this, this and this*  
-*And I start an testUI driver with open() method*  
-*Then I use this method*
-
-##### Results
-*The method doesnt do what is expected*
-
-##### Conlose log
-
-*Full stacktrace*
+* Download this repository
+* Go to repo in terminal: `cd path/to/repo/`
+* Execute the test:
+* * Android: connect device or start emulator and run `mvn clean -Dtest=TestAndroid test`
+* * iOS: connect device or start simulator and run `mvn clean -Dtest=TestIOS test`
+* * Desktop Browser: have Chrome installed and run `mvn clean -Dtest=TestBrowser test`
 
 ## Code Examples
 
@@ -533,3 +483,34 @@ IOS browser as JUnit test case:
     }
 </pre>
 
+## Project Contributors
+
+We are glad to hear your feedback or review your suggestions for TestUI framework!
+
+### Reporting Issues
+
+In case there is some bug, you can report that as an Issue or send an E-mail to testui@testdevlab.com . 
+The format for these Issues should be as follows:
+
+##### TestUI Version: 
+*(Version)*
+
+##### Platform
+*App Android/Browser chrome Android/App iOS/ Browser Safario iOS/ Computer Browser...*
+(Mentioning which app you are testing could help)
+
+##### Steps
+*Given I set the configuration variables: this, this and this*  
+*And I start an testUI driver with open() method*  
+*Then I use this method*
+
+##### Results
+*The method doesnt do what is expected*
+
+##### Conlose log
+
+*Full stacktrace*
+
+### Contributing Code
+
+COMING SOON

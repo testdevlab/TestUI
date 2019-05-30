@@ -13,6 +13,7 @@ import static testUI.Utils.By.byXpath;
 public class TestBrowser {
     private GoogleLandingPage googleLandingPage = new GoogleLandingPage();
 
+
    // @Test
     @DisplayName("Laptop browser test case")
     public void testAndroidBrowser() {
