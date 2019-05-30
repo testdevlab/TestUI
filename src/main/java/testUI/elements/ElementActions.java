@@ -9,6 +9,8 @@ import testUI.collections.UICollection;
 
 public interface ElementActions {
 
+    UIElement navigateTo(String url);
+
     UIElement setElement(By element);
 
     UIElement setElement(String accesibilityId);
@@ -73,11 +75,19 @@ public interface ElementActions {
 
     UIElement and();
 
+    UIElement and(String Description);
+
     UIElement given();
+
+    UIElement given(String Description);
 
     UIElement then();
 
+    UIElement then(String Description);
+
     UIElement when();
+
+    UIElement when(String Description);
 
     SelenideElement getSelenideElement();
 }

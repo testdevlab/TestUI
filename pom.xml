@@ -70,6 +70,12 @@
                     </argLine>
                     <forkCount>2</forkCount>
                     <reuseForks>true</reuseForks>
+                    <properties>
+                        <property>
+                            <name>listener</name>
+                            <value>io.qameta.allure.junit4.AllureJunit4</value>
+                        </property>
+                    </properties>
                     <includes>
                         <include>**/Test*.class</include>
                     </includes>

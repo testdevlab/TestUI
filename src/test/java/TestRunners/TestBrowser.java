@@ -7,12 +7,13 @@ import testUI.Configuration;
 
 import static testUI.UIOpen.navigate;
 import static testUI.UIOpen.open;
+import static testUI.Utils.By.byName;
 import static testUI.Utils.By.byXpath;
 
 public class TestBrowser {
     private GoogleLandingPage googleLandingPage = new GoogleLandingPage();
 
-    @Test
+   // @Test
     @DisplayName("Laptop browser test case")
     public void testAndroidBrowser() {
         Configuration.deviceTests = false;
@@ -26,11 +27,12 @@ public class TestBrowser {
     public void testAndroidBrowserOneLine() {
         Configuration.deviceTests = false;
         open("https://www.google.com")
-        .setElement(byXpath("//button[@class='Tg7LZd']")).given().waitFor(5).untilIsVisible().then().sendKeys("TestUI")
-        .setElement(byXpath("//input[@name='q']")).click().waitFor(10).untilHasText("test");
-
-        navigate("https://www.google.com")
-        .setElement(byXpath("//button[@class='Tg7LZd']")).given().waitFor(5).untilIsVisible().then().sendKeys("TestUI")
-        .setElement(byXpath("//input[@name='q']")).click().waitFor(10).untilHasText("test");
+                .given("I set element").setElement(byXpath("//input[@name='q']"))
+                .and("I check if visible").waitFor(5).untilIsVisible()
+                .and("I send keys").sendKeys("TestUI")
+                .when("I set the search button").setElement(byName("btnK"))
+                .and("I click on it").click()
+                .when("I navigate to the google main page").navigateTo("https://www.google.com")
+                .then("I check that the search field is visible").setElement(byXpath("//input[@name='q']")).shouldBe().visible();
     }
 }

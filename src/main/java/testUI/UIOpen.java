@@ -1,5 +1,8 @@
 package testUI;
 
+import io.qameta.allure.AllureLifecycle;
+import io.qameta.allure.model.StepResult;
+import io.qameta.allure.util.ResultsUtils;
 import testUI.elements.TestUI;
 import testUI.elements.UIElement;
 

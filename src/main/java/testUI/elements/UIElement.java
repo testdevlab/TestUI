@@ -1,5 +1,6 @@
 package testUI.elements;
 
+import io.qameta.allure.Allure;
 import testUI.Configuration;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
@@ -9,6 +10,7 @@ import org.openqa.selenium.interactions.touch.TouchActions;
 import testUI.collections.UICollection;
 
 import static testUI.TestUIDriver.getDriver;
+import static testUI.UIOpen.navigate;
 import static testUI.Utils.AppiumHelps.*;
 import static testUI.Utils.WaitUntil.waitUntilClickable;
 import static testUI.Utils.WaitUntil.waitUntilVisible;
@@ -41,6 +43,10 @@ public class UIElement extends TestUI implements ElementActions {
 
     public UIElement setElement(By element) {
         return new UIElement(element,element, element,0,false,accesibilityId,accesibilityIdiOS);
+    }
+
+    public UIElement navigateTo(String url) {
+        return navigate(url);
     }
 
     public UIElement setElement(String accesibilityId) {
@@ -84,7 +90,12 @@ public class UIElement extends TestUI implements ElementActions {
             }
             getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index, collection).click();
         } else {
-            getSelenide(SelenideElement,index, collection).click();
+            try {
+                getSelenide(SelenideElement, index, collection).click();
+            } catch (Throwable e) {
+                takeScreenshotInFaiure();
+                throw new Error(e);
+            }
         }
         return new UIElement(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
@@ -98,7 +109,12 @@ public class UIElement extends TestUI implements ElementActions {
             }
             return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getSize();
         } else {
-            return getSelenide(SelenideElement,index, collection).getSize();
+            try {
+                return getSelenide(SelenideElement, index, collection).getSize();
+            } catch (Throwable e) {
+                takeScreenshotInFaiure();
+                throw new Error(e);
+            }
         }
     }
 
@@ -111,7 +127,12 @@ public class UIElement extends TestUI implements ElementActions {
             }
             return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getLocation();
         } else {
-            return getSelenide(SelenideElement,index, collection).getLocation();
+            try{
+                return getSelenide(SelenideElement,index, collection).getLocation();
+            } catch (Throwable e) {
+                takeScreenshotInFaiure();
+                throw new Error(e);
+            }
         }
     }
 
@@ -123,14 +144,24 @@ public class UIElement extends TestUI implements ElementActions {
         if (Configuration.deviceTests) {
             return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getText();
         }
-        return getSelenide(SelenideElement,index, collection).getText();
+        try {
+            return getSelenide(SelenideElement,index, collection).getText();
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
+        }
     }
 
     public UIElement sendKeys(CharSequence charSequence) {
         if (Configuration.deviceTests) {
             getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).sendKeys(charSequence);
         } else {
-            getSelenide(SelenideElement,index, collection).sendKeys(charSequence);
+            try {
+                getSelenide(SelenideElement, index, collection).sendKeys(charSequence);
+            } catch (Throwable e) {
+                takeScreenshotInFaiure();
+                throw new Error(e);
+            }
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
@@ -140,7 +171,12 @@ public class UIElement extends TestUI implements ElementActions {
             TouchActions action = new TouchActions(getDriver());
             action.moveToElement(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection)).build().perform();
         } else {
-            getSelenide(SelenideElement,index, collection).scrollIntoView(true);
+            try {
+                getSelenide(SelenideElement,index, collection).scrollIntoView(true);
+            } catch (Throwable e) {
+                takeScreenshotInFaiure();
+                throw new Error(e);
+            }
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
@@ -150,7 +186,12 @@ public class UIElement extends TestUI implements ElementActions {
             TouchActions action = new TouchActions(getDriver());
             action.moveToElement(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection), XCoordinate, YCoordinate);
         } else {
-            getSelenide(SelenideElement,index, collection).scrollIntoView(true);
+            try {
+                getSelenide(SelenideElement,index, collection).scrollIntoView(true);
+            } catch (Throwable e) {
+                takeScreenshotInFaiure();
+                throw new Error(e);
+            }
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
@@ -163,7 +204,12 @@ public class UIElement extends TestUI implements ElementActions {
             action.longPress(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection)).move(endX,
                     getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getLocation().getY()).release().perform();
         } else {
-            getSelenide(SelenideElement,index, collection).scrollIntoView(true);
+            try {
+                getSelenide(SelenideElement, index, collection).scrollIntoView(true);
+            } catch (Throwable e) {
+                takeScreenshotInFaiure();
+                throw new Error(e);
+            }
         }
         return new UIElement(element, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS);
     }
@@ -176,7 +222,12 @@ public class UIElement extends TestUI implements ElementActions {
             action.longPress(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection)).move(endX,
                     getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getLocation().getY()).release().perform();
         } else {
-            getSelenide(SelenideElement,index, collection).scrollIntoView(true);
+            try {
+                getSelenide(SelenideElement, index, collection).scrollIntoView(true);
+            } catch (Throwable e) {
+                takeScreenshotInFaiure();
+                throw new Error(e);
+            }
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
@@ -189,40 +240,65 @@ public class UIElement extends TestUI implements ElementActions {
         if (Configuration.deviceTests) {
             getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).clear();
         } else {
-            getSelenide(SelenideElement,index, collection).clear();
+            try {
+                getSelenide(SelenideElement, index, collection).clear();
+            } catch (Throwable e) {
+                takeScreenshotInFaiure();
+                throw new Error(e);
+            }
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public String getCssValue(String cssValue) {
-        if (Configuration.deviceTests) {
-            return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getCssValue(cssValue);
-        } else {
-            return getSelenide(SelenideElement,index, collection).getCssValue(cssValue);
+        try {
+            if (Configuration.deviceTests) {
+                return getElement(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection).getCssValue(cssValue);
+            } else {
+                return getSelenide(SelenideElement, index, collection).getCssValue(cssValue);
+            }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
     }
 
     public String getValue() {
-        if (Configuration.deviceTests) {
-            return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getAttribute("value");
-        } else {
-            return getSelenide(SelenideElement,index, collection).getValue();
+        try {
+            if (Configuration.deviceTests) {
+                return getElement(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection).getAttribute("value");
+            } else {
+                return getSelenide(SelenideElement, index, collection).getValue();
+            }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
     }
 
     public String getName() {
-        if (Configuration.deviceTests) {
-            return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getAttribute("name");
-        } else {
-            return getSelenide(SelenideElement,index, collection).name();
+        try {
+            if (Configuration.deviceTests) {
+                return getElement(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection).getAttribute("name");
+            } else {
+                return getSelenide(SelenideElement, index, collection).name();
+            }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
     }
 
     public String getAttribute(String Attribute) {
-        if (Configuration.deviceTests) {
-            return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getAttribute(Attribute);
-        } else {
-            return getSelenide(SelenideElement,index, collection).getAttribute(Attribute);
+        try {
+            if (Configuration.deviceTests) {
+                return getElement(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection).getAttribute(Attribute);
+            } else {
+                return getSelenide(SelenideElement, index, collection).getAttribute(Attribute);
+            }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
     }
 
@@ -260,7 +336,23 @@ public class UIElement extends TestUI implements ElementActions {
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
+    public UIElement and(String description) {
+        System.out.println("\u001B[32m Working step ->   And " + description);
+        if (Configuration.useAllure) {
+            Allure.step("And " + description);
+        }
+        return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+    }
+
     public UIElement given() {
+        return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+    }
+
+    public UIElement given(String description) {
+        System.out.println("\u001B[32m Working step -> Given " + description);
+        if (Configuration.useAllure) {
+            Allure.step("Given " + description);
+        }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
@@ -268,9 +360,26 @@ public class UIElement extends TestUI implements ElementActions {
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
+    public UIElement then(String description) {
+        System.out.println("\u001B[32m Working step -> Then " + description);
+        if (Configuration.useAllure) {
+            Allure.step("Then " + description);
+        }
+        return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+    }
+
+    public UIElement when(String description) {
+        System.out.println("\u001B[32m Working step -> When " + description);
+        if (Configuration.useAllure) {
+            Allure.step("When " + description);
+        }
+        return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+    }
+
     public UIElement when() {
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
+
 
     public com.codeborne.selenide.SelenideElement getSelenideElement() {
         return getSelenide(element,index, collection);

@@ -64,23 +64,27 @@ public class TestUI {
         try {
             getSelenide(SelenideElement,index, collection).waitUntil(condition, time * 1000);
         } catch (Throwable e) {
-            boolean test = Configuration.deviceTests;
-            Configuration.deviceTests = true;
-            for (int in = 0; in < getDrivers().size(); in++) {
-                byte[] screenshot = takeScreenshot(in);
-                Allure.getLifecycle().addAttachment("Screenshot Mobile " + getDevicesNames().get(in), "image/png", "png", screenshot);
-            }
-            Configuration.deviceTests = false;
-            if (WebDriverRunner.driver().hasWebDriverStarted()) {
-                try {
-                    byte[] screenshot = takeScreenshot();
-                    Allure.getLifecycle().addAttachment("Screenshot Laptop Browser", "image/png", "png", screenshot);
-                } catch (Exception ex) {
-                    System.err.println("Could not take a screenshot in the laptop browser...");
-                }
-            }
-            Configuration.deviceTests = test;
-            getSelenide(SelenideElement,index, collection).waitUntil(condition, 0);
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
+    }
+
+    protected void takeScreenshotInFaiure() {
+        boolean test = Configuration.deviceTests;
+        Configuration.deviceTests = true;
+        for (int in = 0; in < getDrivers().size(); in++) {
+            byte[] screenshot = takeScreenshot(in);
+            Allure.getLifecycle().addAttachment("Screenshot Mobile " + getDevicesNames().get(in), "image/png", "png", screenshot);
+        }
+        Configuration.deviceTests = false;
+        if (WebDriverRunner.driver().hasWebDriverStarted()) {
+            try {
+                byte[] screenshot = takeScreenshot();
+                Allure.getLifecycle().addAttachment("Screenshot Laptop Browser", "image/png", "png", screenshot);
+            } catch (Exception ex) {
+                System.err.println("Could not take a screenshot in the laptop browser...");
+            }
+        }
+        Configuration.deviceTests = test;
     }
 }
