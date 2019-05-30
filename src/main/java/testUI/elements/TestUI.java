@@ -1,18 +1,19 @@
 package testUI.elements;
 
-import testUI.Configuration;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.MobileElement;
 import io.qameta.allure.Allure;
+import io.qameta.allure.model.Status;
 import org.openqa.selenium.By;
+import testUI.Configuration;
 
-import static testUI.TestUIDriver.*;
-import static testUI.TestUIDriver.takeScreenshot;
-import static testUI.UIUtils.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static testUI.TestUIDriver.*;
+import static testUI.UIUtils.getDevicesNames;
+import static testUI.elements.UIElement.getStep;
 
 public class TestUI {
 
@@ -69,7 +70,10 @@ public class TestUI {
         }
     }
 
-    protected void takeScreenshotInFaiure() {
+    public static void takeScreenshotInFaiure() {
+        if (getStep()) {
+            Allure.step("Previous Step Failed!", Status.FAILED);
+        }
         boolean test = Configuration.deviceTests;
         Configuration.deviceTests = true;
         for (int in = 0; in < getDrivers().size(); in++) {

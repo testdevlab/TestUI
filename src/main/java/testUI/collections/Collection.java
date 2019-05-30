@@ -1,9 +1,9 @@
 package testUI.collections;
 
-import testUI.elements.UIElement;
 import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import testUI.elements.UIElement;
 
 public interface Collection {
 
@@ -34,12 +34,4 @@ public interface Collection {
     UIElement findByEnabled();
 
     String asString();
-
-    UICollection and();
-
-    UICollection given();
-
-    UICollection then();
-
-    UICollection when();
 }

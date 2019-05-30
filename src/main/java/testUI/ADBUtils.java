@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static testUI.UIUtils.*;
+import static testUI.UIUtils.putLog;
 
 public class ADBUtils {
 

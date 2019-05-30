@@ -1,26 +1,25 @@
 package testUI;
 
-import testUI.Utils.AppiumHelps;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.AndroidServerFlag;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import testUI.Utils.AppiumHelps;
 
 import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static testUI.ADBUtils.*;
+import static testUI.Configuration.*;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.*;
-import static testUI.Configuration.*;
-import static testUI.Configuration.driver;
 import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.iOSCommands.*;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestUIServer {
     private volatile static boolean serviceRunning = false;
@@ -144,7 +143,6 @@ public class TestUIServer {
                 if (!iOSTesting) {
                     if (androidDeviceName.isEmpty() && emulatorName.isEmpty()) {
                         if (connectedDevices <= device) {
-                            System.out.println(device + " number of device");
                             assertThat("There are not enough devices connected", useEmulators);
                             assertThat("There are no emulators to start the automation",
                                     getEmulatorName().get(device), not(isEmptyOrNullString()));

@@ -1,7 +1,7 @@
 package testUI.Utils;
 
-import testUI.Configuration;
 import com.codeborne.selenide.Selectors;
+import testUI.Configuration;
 
 public class By {
 

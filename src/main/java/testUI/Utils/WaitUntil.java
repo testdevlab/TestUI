@@ -1,16 +1,17 @@
 package testUI.Utils;
 
-import testUI.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Allure;
+import testUI.Configuration;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static testUI.TestUIDriver.getDrivers;
 import static testUI.TestUIDriver.takeScreenshot;
-import static testUI.UIUtils.*;
+import static testUI.UIUtils.getDevicesNames;
+import static testUI.UIUtils.getIOSDevices;
 import static testUI.Utils.AppiumHelps.*;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class WaitUntil {
 

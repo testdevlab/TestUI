@@ -1,8 +1,8 @@
 package testUI.Utils;
 
 import io.appium.java_client.MobileElement;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 
 import static testUI.TestUIDriver.getDriver;
 

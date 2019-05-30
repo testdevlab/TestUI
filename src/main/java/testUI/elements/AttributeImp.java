@@ -1,8 +1,8 @@
 package testUI.elements;
 
-import testUI.Configuration;
 import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
+import testUI.Configuration;
 
 import static testUI.Utils.WaitUntil.waitUntilHasAttribute;
 

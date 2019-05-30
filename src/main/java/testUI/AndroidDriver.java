@@ -4,9 +4,7 @@ import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import static testUI.Configuration.*;
-import static testUI.Configuration.browser;
 import static testUI.TestUIDriver.*;
-import static testUI.TestUIDriver.getDriver;
 import static testUI.TestUIServer.attachShutDownHookStopEmulator;
 import static testUI.TestUIServer.startServerAndDevice;
 import static testUI.UIUtils.*;

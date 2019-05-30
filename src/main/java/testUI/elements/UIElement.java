@@ -1,12 +1,12 @@
 package testUI.elements;
 
-import io.qameta.allure.Allure;
-import testUI.Configuration;
 import io.appium.java_client.MobileElement;
+import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.interactions.touch.TouchActions;
+import testUI.Configuration;
 import testUI.collections.UICollection;
 
 import static testUI.TestUIDriver.getDriver;
@@ -103,9 +103,9 @@ public class UIElement extends TestUI implements ElementActions {
     public Dimension getSize() {
         if (Configuration.deviceTests) {
             if (collection) {
-                waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId),Configuration.timeout, true);
+                waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId), Configuration.timeout, true);
             } else {
-                waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId),Configuration.timeout, true);
+                waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId), Configuration.timeout, true);
             }
             return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getSize();
         } else {
@@ -321,15 +321,15 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public ShouldBe shouldHave() {
-        return new ShouldBe(element,SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS,Configuration.timeout, true);
+        return new ShouldBe(element,SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS, Configuration.timeout, true);
     }
 
     public ShouldBe shouldBe() {
-        return new ShouldBe(element, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS,Configuration.timeout, true);
+        return new ShouldBe(element, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS, Configuration.timeout, true);
     }
 
     public ShouldBe should() {
-        return new ShouldBe(element, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS,Configuration.timeout, true);
+        return new ShouldBe(element, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS, Configuration.timeout, true);
     }
 
     public UIElement and() {
@@ -338,6 +338,7 @@ public class UIElement extends TestUI implements ElementActions {
 
     public UIElement and(String description) {
         System.out.println("\u001B[32m Working step ->   And " + description);
+        step = true;
         if (Configuration.useAllure) {
             Allure.step("And " + description);
         }
@@ -350,6 +351,7 @@ public class UIElement extends TestUI implements ElementActions {
 
     public UIElement given(String description) {
         System.out.println("\u001B[32m Working step -> Given " + description);
+        step = true;
         if (Configuration.useAllure) {
             Allure.step("Given " + description);
         }
@@ -362,6 +364,7 @@ public class UIElement extends TestUI implements ElementActions {
 
     public UIElement then(String description) {
         System.out.println("\u001B[32m Working step -> Then " + description);
+        step = true;
         if (Configuration.useAllure) {
             Allure.step("Then " + description);
         }
@@ -370,6 +373,7 @@ public class UIElement extends TestUI implements ElementActions {
 
     public UIElement when(String description) {
         System.out.println("\u001B[32m Working step -> When " + description);
+        step = true;
         if (Configuration.useAllure) {
             Allure.step("When " + description);
         }
@@ -383,5 +387,15 @@ public class UIElement extends TestUI implements ElementActions {
 
     public com.codeborne.selenide.SelenideElement getSelenideElement() {
         return getSelenide(element,index, collection);
+    }
+
+    private static boolean step = false;
+
+    public static boolean getStep() {
+        return step;
+    }
+
+    public static void setStep(boolean step) {
+        UIElement.step = step;
     }
 }

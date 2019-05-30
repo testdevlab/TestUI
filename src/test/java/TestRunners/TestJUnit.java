@@ -21,7 +21,7 @@ public class TestJUnit {
         open();
         landingPage.getCatering().given().waitFor(10).untilIsVisible().then().click();
         landingPage.getNearMeCollection().get(1).then().waitFor(5).untilIsVisible().and().click();
-        System.out.println(landingPage.getSuggestedCollection().then().findByVisible().and().getText());
+        System.out.println(landingPage.getSuggestedCollection().findByVisible().and().getText());
     }
 
     @Test

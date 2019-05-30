@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 import static testUI.ADBUtils.*;
-import static testUI.UIUtils.*;
 import static testUI.Configuration.addMobileDesiredCapabilities;
 import static testUI.Configuration.iOSDeviceName;
+import static testUI.UIUtils.*;
 import static testUI.iOSCommands.*;
 
 public class TestUIDriver {
