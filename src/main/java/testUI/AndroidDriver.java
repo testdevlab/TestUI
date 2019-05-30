@@ -17,7 +17,7 @@ public class AndroidDriver {
         deviceTests = true;
         iOSTesting = false;
         if (getServices().size() == 0 || !getServices().get(0).isRunning() && desiredCapabilities == null) {
-            startServerAndDevice(true);
+            startServerAndDevice();
             DesiredCapabilities cap = setAppAndroidCapabilities();
             startFirstDriver(cap);
             if (!emulatorName.isEmpty()) {
@@ -33,8 +33,8 @@ public class AndroidDriver {
             } else {
                 putAllureParameter("Using Appium url", appiumUrl);
             }
-            putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
             startFirstDriver(cap);
+            putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
         }
         emulatorName = "";
     }
@@ -42,7 +42,7 @@ public class AndroidDriver {
     public static void openNewApp() {
         deviceTests = true;
         iOSTesting = false;
-        startServerAndDevice(true);
+        startServerAndDevice();
         DesiredCapabilities cap = setAppAndroidCapabilities();
         startDriver(cap);
         if (!emulatorName.isEmpty()) {
@@ -58,7 +58,7 @@ public class AndroidDriver {
         if (deviceTests) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
             if ((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) {
-                startServerAndDevice(true);
+                startServerAndDevice();
                 DesiredCapabilities cap = setAndroidBrowserCapabilities();
                 startFirstBrowserDriver(cap, urlOrRelativeUrl);
                 if (!emulatorName.isEmpty()) {
@@ -74,8 +74,8 @@ public class AndroidDriver {
                 } else {
                     putAllureParameter("Using Appium url", appiumUrl);
                 }
-                putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
                 startFirstBrowserDriver(cap, urlOrRelativeUrl);
+                putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
             }
         } else {
             startSelenideDriver(urlOrRelativeUrl);
@@ -98,7 +98,7 @@ public class AndroidDriver {
         iOSTesting = false;
         if (deviceTests) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
-            startServerAndDevice(true);
+            startServerAndDevice();
             DesiredCapabilities cap = setAndroidBrowserCapabilities();
             startBrowserDriver(cap, urlOrRelativeUrl);
             if (!emulatorName.isEmpty()) {

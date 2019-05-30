@@ -16,7 +16,7 @@ public class IOSDriver {
         iOSTesting = true;
         iOSDevices++;
         if ((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) {
-            startServerAndDevice(true);
+            startServerAndDevice();
             DesiredCapabilities cap = setIOSCapabilities(false);
             startFirstDriver(cap);
         } else {
@@ -35,7 +35,7 @@ public class IOSDriver {
         iOSTesting = true;
         iOSDevices++;
         if (getServices().size() == 0 || !getServices().get(0).isRunning()) {
-            startServerAndDevice(true);
+            startServerAndDevice();
             DesiredCapabilities cap = setIOSCapabilities(false);
             startFirstDriver(cap);
         } else {
@@ -51,7 +51,7 @@ public class IOSDriver {
         iOSDevices++;
         urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
         if (getServices().size() == 0 || !getServices().get(0).isRunning() && desiredCapabilities == null) {
-            startServerAndDevice(true);
+            startServerAndDevice();
             DesiredCapabilities cap = setIOSCapabilities(true);
             startFirstBrowserDriver(cap, urlOrRelativeUrl);
         } else {
@@ -73,7 +73,7 @@ public class IOSDriver {
         iOSDevices++;
         urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
         if (getServices().size() == 0 || !getServices().get(0).isRunning()) {
-            startServerAndDevice(true);
+            startServerAndDevice();
             DesiredCapabilities cap = setIOSCapabilities(true);
             startBrowserDriver(cap, urlOrRelativeUrl);
         } else {

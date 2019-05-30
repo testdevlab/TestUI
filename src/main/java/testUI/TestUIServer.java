@@ -8,6 +8,7 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import testUI.Utils.AppiumHelps;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -120,7 +121,20 @@ public class TestUIServer {
         }
     }
 
-    protected static void startServerAndDevice(boolean attachShootDown) {
+    private static void checkIfAppPathExists() {
+        if (!Configuration.androidAppPath.isEmpty()) {
+            String appPath = Configuration.androidAppPath.charAt(0) == '/' ? Configuration.androidAppPath :
+                    System.getProperty("user.dir") + "/" + Configuration.androidAppPath;
+            File tmpDir = new File(appPath);
+            if (!tmpDir.exists()) {
+                Configuration.androidAppPath = "";
+                throw new Error("The file for the Android app :" + appPath + " does not exists!");
+            }
+        }
+    }
+
+    protected static void startServerAndDevice() {
+        checkIfAppPathExists();
         int connectedDevices = getDeviceNames().size() - 1;
         int startedEmulators = 0;
         for (String devicesNames : getDeviceNames()) {
