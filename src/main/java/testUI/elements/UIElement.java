@@ -37,6 +37,14 @@ public class UIElement extends TestUI implements ElementActions {
         this.accesibilityIdiOS = accesibilityIdiOS;
     }
 
+    public UIElement setElement(By element) {
+        return new UIElement(element,element, element,0,false,accesibilityId,accesibilityIdiOS);
+    }
+
+    public UIElement setElement(String accesibilityId) {
+        return new UIElement(element,SelenideElement, iOSElement,0,false,accesibilityId,accesibilityId);
+    }
+
     public UIElement setSelenideElement(By selenideElement) {
         return new UIElement(element,selenideElement, iOSElement,0,false,accesibilityId,accesibilityIdiOS);
     }

@@ -1,5 +1,8 @@
 package testUI;
 
+import testUI.elements.TestUI;
+import testUI.elements.UIElement;
+
 import static testUI.AndroidDriver.*;
 import static testUI.IOSDriver.*;
 import static testUI.TestUIDriver.getDesiredCapabilities;
@@ -86,12 +89,18 @@ public class UIOpen {
         }
     }
 
-    public static void open(String urlOrRelativeUrl) {
+    public static UIElement open(String urlOrRelativeUrl) {
         if (deviceTests && iOSTesting) {
             openIOSBrowser(urlOrRelativeUrl);
         } else {
             openBrowser(urlOrRelativeUrl);
         }
+        return TestUI.E("");
+    }
+
+    public static UIElement navigate(String urlOrRelativeUrl) {
+        navigate(urlOrRelativeUrl);
+        return TestUI.E("");
     }
 
     public static void openNew(String urlOrRelativeUrl) {

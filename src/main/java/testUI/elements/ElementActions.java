@@ -8,6 +8,10 @@ import org.openqa.selenium.Point;
 
 public interface ElementActions {
 
+    UIElement setElement(By element);
+
+    UIElement setElement(String accesibilityId);
+
     UIElement setSelenideElement(By selenideElement);
 
     UIElement setiOSElement(By iOSElement);

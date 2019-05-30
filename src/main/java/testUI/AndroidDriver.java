@@ -1,5 +1,6 @@
 package testUI;
 
+import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import static testUI.Configuration.*;
@@ -83,6 +84,16 @@ public class AndroidDriver {
         }
         emulatorName = "";
         putAllureParameter("Browser", browser);
+    }
+
+    public static void navigate(String urlOrRelativeUrl) {
+        iOSTesting = false;
+        if (deviceTests) {
+            urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
+            getDriver().get(urlOrRelativeUrl);
+        } else {
+            WebDriverRunner.getWebDriver().navigate().to(urlOrRelativeUrl);
+        }
     }
 
     public static void openNewBrowser(String urlOrRelativeUrl) {
