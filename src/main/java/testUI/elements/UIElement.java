@@ -6,11 +6,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.interactions.touch.TouchActions;
+import testUI.collections.UICollection;
 
 import static testUI.TestUIDriver.getDriver;
 import static testUI.Utils.AppiumHelps.*;
 import static testUI.Utils.WaitUntil.waitUntilClickable;
 import static testUI.Utils.WaitUntil.waitUntilVisible;
+import static testUI.collections.UICollection.EE;
 
 public class UIElement extends TestUI implements ElementActions {
     protected By element;
@@ -43,6 +45,14 @@ public class UIElement extends TestUI implements ElementActions {
 
     public UIElement setElement(String accesibilityId) {
         return new UIElement(element,SelenideElement, iOSElement,0,false,accesibilityId,accesibilityId);
+    }
+
+    public UICollection setCollection(By element) {
+        return EE(element);
+    }
+
+    public UICollection setCollection(String accesibilityId) {
+        return EE(accesibilityId);
     }
 
     public UIElement setSelenideElement(By selenideElement) {

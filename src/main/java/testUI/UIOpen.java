@@ -99,7 +99,7 @@ public class UIOpen {
     }
 
     public static UIElement navigate(String urlOrRelativeUrl) {
-        navigate(urlOrRelativeUrl);
+        navigateURL(urlOrRelativeUrl);
         return TestUI.E("");
     }
 

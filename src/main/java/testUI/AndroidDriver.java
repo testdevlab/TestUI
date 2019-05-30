@@ -86,10 +86,10 @@ public class AndroidDriver {
         putAllureParameter("Browser", browser);
     }
 
-    public static void navigate(String urlOrRelativeUrl) {
+    protected static void navigateURL(String urlOrRelativeUrl) {
         iOSTesting = false;
+        urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
         if (deviceTests) {
-            urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
             getDriver().get(urlOrRelativeUrl);
         } else {
             WebDriverRunner.getWebDriver().navigate().to(urlOrRelativeUrl);

@@ -5,12 +5,17 @@ import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
+import testUI.collections.UICollection;
 
 public interface ElementActions {
 
     UIElement setElement(By element);
 
     UIElement setElement(String accesibilityId);
+
+    UICollection setCollection(By element);
+
+    UICollection setCollection(String accesibilityId);
 
     UIElement setSelenideElement(By selenideElement);
 
