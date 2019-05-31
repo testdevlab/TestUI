@@ -100,7 +100,7 @@ public class ShouldBe extends TestUI {
                 waitUntilContainsText(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS, accesibilityId), time, text, is);
             }
         } else {
-            selenideAssert(condition(is, Condition.text(text)), time, SelenideElement, index, collection);
+            selenideAssert(condition(is, Condition.textCaseSensitive(text)), time, SelenideElement, index, collection);
         }
         return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
@@ -130,7 +130,7 @@ public class ShouldBe extends TestUI {
                 waitUntilContainsTextNoCaseSensitive(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS, accesibilityId), time, text, is);
             }
         } else {
-            selenideAssert(condition(is, Condition.exactText(text)), time, SelenideElement, index, collection);
+            selenideAssert(condition(is, Condition.text(text)), time, SelenideElement, index, collection);
         }
         return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }

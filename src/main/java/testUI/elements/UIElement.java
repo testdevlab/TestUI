@@ -41,8 +41,23 @@ public class UIElement extends TestUI implements ElementActions {
         this.accesibilityIdiOS = accesibilityIdiOS;
     }
 
+    private UIElement(By element) {
+        this.element = element;
+        this.SelenideElement = element;
+        this.iOSElement = element;
+        this.index = 0;
+        this.collection = false;
+    }
+
+    private UIElement(String accesibilityId) {
+        this.index = 0;
+        this.collection = false;
+        this.accesibilityId = accesibilityId;
+        this.accesibilityIdiOS = accesibilityId;
+    }
+
     public UIElement setElement(By element) {
-        return new UIElement(element,element, element,0,false,accesibilityId,accesibilityIdiOS);
+        return new UIElement(element);
     }
 
     public UIElement navigateTo(String url) {
@@ -50,7 +65,7 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement setElement(String accesibilityId) {
-        return new UIElement(element,SelenideElement, iOSElement,0,false,accesibilityId,accesibilityId);
+        return new UIElement(accesibilityId);
     }
 
     public UICollection setCollection(By element) {
@@ -74,11 +89,11 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement setAndroidElement(String accesibilityId) {
-        return new UIElement(element, SelenideElement, iOSElement,0,false,accesibilityId,accesibilityIdiOS);
+        return new UIElement(null, SelenideElement, iOSElement,0,false,accesibilityId,accesibilityIdiOS);
     }
 
     public UIElement setiOSElement(String iOSElementAccId) {
-        return new UIElement(null,null,null,0, false,accesibilityId, iOSElementAccId);
+        return new UIElement(element,SelenideElement,null,0, false,accesibilityId, iOSElementAccId);
     }
 
     public UIElement click() {
