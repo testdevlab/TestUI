@@ -48,6 +48,7 @@ public class TestJUnit {
     @DisplayName("IOS browser test case")
     public void testIOSBrowser() {
         Configuration.iOSTesting = true;
+        Configuration.deviceTests = true;
         open("https://www.facebook.com");
         facebookLandingPage.getSafariFacebookEmailDiv().click();
         facebookLandingPage.getSafariFacebookEmailInput()
