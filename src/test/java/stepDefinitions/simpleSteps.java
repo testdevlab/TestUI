@@ -34,7 +34,7 @@ public class simpleSteps {
         System.out.println(landingPage.getSuggestedCollection().size());
         landingPage.getSuggestedCollection().get(0).given().shouldHave().containText("Suggest").then().click();
         landingPage.getSuggestedCollection().get(0).given().shouldHave().containNoCaseSensitiveText("suggest").then().click();
-        System.out.println(landingPage.getSuggestedCollection().then().findByVisible().and().getText());
+        System.out.println(landingPage.getSuggestedCollection().findByVisible().and().getText());
     }
 
     @Then("I click on map")

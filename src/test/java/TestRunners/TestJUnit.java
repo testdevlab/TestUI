@@ -21,15 +21,17 @@ public class TestJUnit {
         open();
         landingPage.getCatering().given().waitFor(10).untilIsVisible().then().click();
         landingPage.getNearMeCollection().get(1).then().waitFor(5).untilIsVisible().and().click();
-        System.out.println(landingPage.getSuggestedCollection().then().findByVisible().and().getText());
+        System.out.println(landingPage.getSuggestedCollection().findByVisible().and().getText());
     }
 
     @Test
     @DisplayName("Android browser test case")
     public void testAndroidBrowser() {
-        open("https://www.google.com");
-        googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible().then().sendKeys("TestUI");
-        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click();
+        open("https://www.google.com")
+        .given().setElement(googleLandingPage.getGoogleSearchInput())
+        .and().waitFor(5).untilIsVisible().then().sendKeys("TestUI")
+        .when().setElement(googleLandingPage.getGoogleSearch())
+        .and().waitFor(10).untilIsVisible().then().click();
     }
 
     @Test

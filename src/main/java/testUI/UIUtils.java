@@ -5,7 +5,6 @@ import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.qameta.allure.Allure;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,13 +13,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import static testUI.TestUIDriver.*;
-import static testUI.TestUIDriver.setDriver;
-import static testUI.Utils.AppiumHelps.sleep;
 import static com.codeborne.selenide.Selenide.open;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static testUI.TestUIDriver.*;
+import static testUI.Utils.AppiumHelps.sleep;
+import static testUI.elements.TestUI.takeScreenshotInFaiure;
 
 public class UIUtils {
     private static Logger logger = LoggerFactory.getLogger(UIUtils.class);
@@ -28,6 +26,15 @@ public class UIUtils {
     private static List<String> Device = new ArrayList<>();
     private static List<String> DeviceName = new ArrayList<>();
     private static List<String> IOSDevices = new ArrayList<>();
+    private static List<String> Emulators = new ArrayList<>();
+
+    protected static void setEmulator(String  emulators) {
+        Emulators.add(emulators);
+    }
+
+    protected static List<String> getEmulators() {
+        return Emulators;
+    }
 
     public static void setDevice(String dev, String deviceName) {
         Device.add(dev);
@@ -176,7 +183,7 @@ public class UIUtils {
                 sleep(500);
                 if (i == 1) {
                     System.err.println("Could not create driver! check that the devices are correctly connected and in debug mode");
-                    throw new Error();
+                    throw new Error(e);
                 }
             }
         }
@@ -194,22 +201,7 @@ public class UIUtils {
 
     public static void UIAssert(String reason, boolean assertion){
         if (!assertion && Configuration.useAllure) {
-            boolean test = Configuration.deviceTests;
-            Configuration.deviceTests = true;
-            for (int index = 0; index < getDrivers().size(); index++) {
-                byte[] screenshot = takeScreenshot(index);
-                Allure.getLifecycle().addAttachment("Screenshot Mobile " + getDevicesNames().get(index), "image/png", "png", screenshot);
-            }
-            Configuration.deviceTests = false;
-            if (WebDriverRunner.driver().hasWebDriverStarted()) {
-                try {
-                    byte[] screenshot = takeScreenshot();
-                    Allure.getLifecycle().addAttachment("Screenshot Laptop Browser", "image/png", "png", screenshot);
-                } catch (Exception e) {
-                    System.err.println("Could not take a screenshot in the laptop browser...");
-                }
-            }
-            Configuration.deviceTests = test;
+            takeScreenshotInFaiure();
         }
         assertThat(reason, assertion);
     }

@@ -1,7 +1,6 @@
 package testUI.collections;
 
 import static testUI.Utils.By.*;
-import static testUI.Utils.By.byXpath;
 import static testUI.collections.UICollection.EE;
 
 public class TheCollection {

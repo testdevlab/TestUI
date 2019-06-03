@@ -5,8 +5,21 @@ import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
+import testUI.collections.UICollection;
 
 public interface ElementActions {
+
+    UIElement navigateTo(String url);
+
+    UIElement setElement(By element);
+
+    UIElement setElement(UIElement element);
+
+    UIElement setElement(String accesibilityId);
+
+    UICollection setCollection(By element);
+
+    UICollection setCollection(String accesibilityId);
 
     UIElement setSelenideElement(By selenideElement);
 
@@ -64,11 +77,19 @@ public interface ElementActions {
 
     UIElement and();
 
+    UIElement and(String Description);
+
     UIElement given();
+
+    UIElement given(String Description);
 
     UIElement then();
 
+    UIElement then(String Description);
+
     UIElement when();
+
+    UIElement when(String Description);
 
     SelenideElement getSelenideElement();
 }

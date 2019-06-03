@@ -1,26 +1,26 @@
 package testUI;
 
-import testUI.Utils.AppiumHelps;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.AndroidServerFlag;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import testUI.Utils.AppiumHelps;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static testUI.ADBUtils.*;
+import static testUI.Configuration.*;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.*;
-import static testUI.Configuration.*;
-import static testUI.Configuration.driver;
 import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.iOSCommands.*;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestUIServer {
     private volatile static boolean serviceRunning = false;
@@ -79,7 +79,7 @@ public class TestUIServer {
         for (int i = 0; i < 40; i++) {
             if (serv.size() != 0 && !serv.get(0).isRunning()) {
                 AppiumHelps.sleep(1000);
-                for (String device : getDevices()) {
+                for (String device : getEmulators()) {
                     stopEmulator(device);
                 }
                 break;
@@ -121,7 +121,20 @@ public class TestUIServer {
         }
     }
 
-    protected static void startServerAndDevice(boolean attachShootDown) {
+    private static void checkIfAppPathExists() {
+        if (!Configuration.androidAppPath.isEmpty()) {
+            String appPath = Configuration.androidAppPath.charAt(0) == '/' ? Configuration.androidAppPath :
+                    System.getProperty("user.dir") + "/" + Configuration.androidAppPath;
+            File tmpDir = new File(appPath);
+            if (!tmpDir.exists()) {
+                Configuration.androidAppPath = "";
+                throw new Error("The file for the Android app :" + appPath + " does not exists!");
+            }
+        }
+    }
+
+    protected static void startServerAndDevice() {
+        checkIfAppPathExists();
         int connectedDevices = getDeviceNames().size() - 1;
         int startedEmulators = 0;
         for (String devicesNames : getDeviceNames()) {
@@ -144,11 +157,11 @@ public class TestUIServer {
                 if (!iOSTesting) {
                     if (androidDeviceName.isEmpty() && emulatorName.isEmpty()) {
                         if (connectedDevices <= device) {
-                            System.out.println(device + " number of device");
                             assertThat("There are not enough devices connected", useEmulators);
                             assertThat("There are no emulators to start the automation",
-                                    getEmulatorName().get(device), not(isEmptyOrNullString()));
-                            Configuration.emulatorName = getEmulatorName().get(device);
+                                    getEmulatorName().get(device - (totalDevices - emulators)), not(isEmptyOrNullString()));
+                            Configuration.emulatorName = getEmulatorName().get(device - (totalDevices - emulators));
+                            setEmulator(Configuration.emulatorName);
                             attachShutDownHookStopEmulator(getServices());
                         } else {
                             if (!getDevices().toString().contains(getDeviceNames().get(device))) {

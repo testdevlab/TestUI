@@ -1,18 +1,19 @@
 package testUI.collections;
 
-import testUI.Configuration;
-import testUI.elements.UIElement;
 import com.codeborne.selenide.ElementsCollection;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import testUI.Configuration;
+import testUI.elements.UIElement;
 
 import java.util.List;
 
-import static testUI.TestUIDriver.getDriver;
-import static testUI.Utils.AppiumHelps.*;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static testUI.TestUIDriver.getDriver;
+import static testUI.Utils.AppiumHelps.*;
+import static testUI.elements.TestUI.takeScreenshotInFaiure;
 
 public class UICollection implements Collection {
     private int index = 0;
@@ -24,10 +25,6 @@ public class UICollection implements Collection {
 
     public static UICollection EE(By element) {
         return new UICollection(element, element, element, 0, "","");
-    }
-
-    public static UICollection EE(By element, By SelenideElement) {
-        return new UICollection(element, SelenideElement);
     }
 
     public static UICollection EE(String accesibilityId) {
@@ -45,11 +42,6 @@ public class UICollection implements Collection {
         this.iOSElement = iOSElement;
         this.accesibilityId = accesibilityId;
         this.accesibilityIdiOS = accesibilityIdiOS;
-    }
-
-    private UICollection(By element, By SelenideElement) {
-        this.SelenideElement = SelenideElement;
-        this.element = element;
     }
 
     public UICollection setSelenideCollection(By SelenideElement) {
@@ -95,10 +87,15 @@ public class UICollection implements Collection {
     }
 
     public String asString() {
-        if (Configuration.deviceTests) {
-            return getElementList().get(index).toString();
-        } else {
-            return $$(SelenideElement).get(index).toString();
+        try {
+            if (Configuration.deviceTests) {
+                return getElementList().get(index).toString();
+            } else {
+                return $$(SelenideElement).get(index).toString();
+            }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
     }
 
@@ -118,7 +115,12 @@ public class UICollection implements Collection {
                 return 0;
             }
         } else {
-            return $$(SelenideElement).size();
+            try {
+                return $$(SelenideElement).size();
+            } catch (Throwable e) {
+                takeScreenshotInFaiure();
+                throw new Error(e);
+            }
         }
     }
 
@@ -130,7 +132,12 @@ public class UICollection implements Collection {
                 return new Dimension(0,0);
             }
         } else {
-            return $$(SelenideElement).get(index).getSize();
+            try {
+                return $$(SelenideElement).get(index).getSize();
+            } catch (Throwable e) {
+                takeScreenshotInFaiure();
+                throw new Error(e);
+            }
         }
     }
 
@@ -148,6 +155,7 @@ public class UICollection implements Collection {
                 }
             }
         }
+        takeScreenshotInFaiure();
         assertThat("No visible element with this selector: " + element.toString(), false);
         return new UIElement(element, SelenideElement, element, index, true, accesibilityId,accesibilityIdiOS);
     }
@@ -161,12 +169,13 @@ public class UICollection implements Collection {
             }
         } else {
             for (int i = 0; i < size(); i++) {
-                if ($$(SelenideElement).get(i).is(com.codeborne.selenide.Condition.visible)) {
+                if ($$(SelenideElement).get(i).is(com.codeborne.selenide.Condition.text(text))) {
                     return new UIElement(element, SelenideElement, element, i, true, accesibilityId,accesibilityIdiOS);
                 }
             }
         }
-        assertThat("No visible element with this selector: " + element.toString(), false);
+        takeScreenshotInFaiure();
+        assertThat("No visible element with that text '" + text + "' and this selector: " + element.toString(), false);
         return new UIElement(element, SelenideElement, element, index, true, accesibilityId,accesibilityIdiOS);
     }
 
@@ -184,22 +193,8 @@ public class UICollection implements Collection {
                 }
             }
         }
+        takeScreenshotInFaiure();
+        assertThat("No enabled element with this selector: " + element.toString(), false);
         return new UIElement(element, SelenideElement, element, index, true, accesibilityId,accesibilityIdiOS);
-    }
-
-    public UICollection and() {
-        return new UICollection(element, SelenideElement, element, index, accesibilityId,accesibilityIdiOS);
-    }
-
-    public UICollection given() {
-        return new UICollection(element, SelenideElement, element, index, accesibilityId,accesibilityIdiOS);
-    }
-
-    public UICollection then() {
-        return new UICollection(element, SelenideElement, element, index, accesibilityId,accesibilityIdiOS);
-    }
-
-    public UICollection when() {
-        return new UICollection(element, SelenideElement, element, index, accesibilityId,accesibilityIdiOS);
     }
 }

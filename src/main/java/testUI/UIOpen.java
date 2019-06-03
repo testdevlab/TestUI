@@ -1,13 +1,17 @@
 package testUI;
 
+import testUI.elements.TestUI;
+import testUI.elements.UIElement;
+
 import static testUI.AndroidDriver.*;
+import static testUI.Configuration.*;
 import static testUI.IOSDriver.*;
 import static testUI.TestUIDriver.getDesiredCapabilities;
 import static testUI.UIUtils.putLog;
-import static testUI.Configuration.*;
+import static testUI.elements.UIElement.setStep;
 
 public class UIOpen {
-    public static void open() {
+    public static UIElement open() {
         if (iOSTesting) {
             if (iOSAppPath.isEmpty() && getDesiredCapabilities() == null) {
                 if (!androidAppPath.isEmpty() || (!appActivity.isEmpty() && !appPackage.isEmpty())) {
@@ -44,9 +48,11 @@ public class UIOpen {
                 openApp();
             }
         }
+        setStep(false);
+        return TestUI.E("");
     }
 
-    public static void openNew() {
+    public static UIElement openNew() {
         if (iOSTesting) {
             if (iOSAppPath.isEmpty() && getDesiredCapabilities() == null) {
                 if (!androidAppPath.isEmpty() && (!appActivity.isEmpty() && !appPackage.isEmpty())) {
@@ -84,21 +90,32 @@ public class UIOpen {
                 openNewApp();
             }
         }
+        setStep(false);
+        return TestUI.E("");
     }
 
-    public static void open(String urlOrRelativeUrl) {
+    public static UIElement open(String urlOrRelativeUrl) {
         if (deviceTests && iOSTesting) {
             openIOSBrowser(urlOrRelativeUrl);
         } else {
             openBrowser(urlOrRelativeUrl);
         }
+        setStep(false);
+        return TestUI.E("");
     }
 
-    public static void openNew(String urlOrRelativeUrl) {
+    public static UIElement navigate(String urlOrRelativeUrl) {
+        navigateURL(urlOrRelativeUrl);
+        return TestUI.E("");
+    }
+
+    public static UIElement openNew(String urlOrRelativeUrl) {
         if (deviceTests && iOSTesting) {
             openNewIOSBrowser(urlOrRelativeUrl);
         } else {
             openNewBrowser(urlOrRelativeUrl);
         }
+        setStep(false);
+        return TestUI.E("");
     }
 }

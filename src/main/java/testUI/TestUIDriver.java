@@ -12,6 +12,8 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import testUI.elements.TestUI;
+import testUI.elements.UIElement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,17 +21,23 @@ import java.util.List;
 import java.util.Map;
 
 import static testUI.ADBUtils.*;
-import static testUI.UIUtils.*;
 import static testUI.Configuration.addMobileDesiredCapabilities;
 import static testUI.Configuration.iOSDeviceName;
+import static testUI.UIUtils.*;
 import static testUI.iOSCommands.*;
 
 public class TestUIDriver {
     private static List<AppiumDriver> driver = new ArrayList<>();
     private static Map<String, AppiumDriver> driverNames = new HashMap<>();
 
-    public synchronized static void setDriver(AppiumDriver driver) {
+    public synchronized static UIElement setDriver(AppiumDriver driver) {
         TestUIDriver.driver.add(driver);
+        return TestUI.E("");
+    }
+
+    public static UIElement setDriver(WebDriver driver) {
+        WebDriverRunner.setWebDriver(driver);
+        return TestUI.E("");
     }
 
     public  static void setDriver(AppiumDriver driver, String deviceName) {
