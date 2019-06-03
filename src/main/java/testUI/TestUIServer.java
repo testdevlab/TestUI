@@ -37,13 +37,13 @@ public class TestUIServer {
         builder.usingPort(Integer.parseInt(port));
         builder.withCapabilities(cap);
         builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
-        builder.withArgument(GeneralServerFlag.LOG_LEVEL, "error");
+        builder.withArgument(GeneralServerFlag.LOG_LEVEL, serverLogLevel);
         builder.withArgument(AndroidServerFlag.BOOTSTRAP_PORT_NUMBER, Bootstrap);
         //Start the server with the builder
         TestUIServer.serviceRunning = false;
         setService(AppiumDriverLocalService.buildService(builder));
         getServices().get(getServices().size() - 1).start();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 8; i++) {
             String serviceOut = getService(getServices().size() - 1).getStdOut();
             if (serviceOut != null) {
                 if (serviceOut.contains("Could not start REST http")) {

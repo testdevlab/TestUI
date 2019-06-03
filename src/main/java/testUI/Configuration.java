@@ -33,6 +33,9 @@ public class Configuration extends SelenideConfiguration {
     public static String UDID = "";
     public static String updatedWDABundleId = "";
     public static DesiredCapabilities addMobileDesiredCapabilities;
+    public static String AutomationName = "";
+    public static boolean useNewWDA = true;
+    public static String serverLogLevel = "error";
 
     protected static DesiredCapabilities desiredCapabilities;
     protected static int iOSDevices = 0;
