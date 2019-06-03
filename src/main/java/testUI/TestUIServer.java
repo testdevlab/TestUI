@@ -159,8 +159,8 @@ public class TestUIServer {
                         if (connectedDevices <= device) {
                             assertThat("There are not enough devices connected", useEmulators);
                             assertThat("There are no emulators to start the automation",
-                                    getEmulatorName().get(device), not(isEmptyOrNullString()));
-                            Configuration.emulatorName = getEmulatorName().get(device);
+                                    getEmulatorName().get(device - (totalDevices - emulators)), not(isEmptyOrNullString()));
+                            Configuration.emulatorName = getEmulatorName().get(device - (totalDevices - emulators));
                             setEmulator(Configuration.emulatorName);
                             attachShutDownHookStopEmulator(getServices());
                         } else {
