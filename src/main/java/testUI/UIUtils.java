@@ -26,6 +26,15 @@ public class UIUtils {
     private static List<String> Device = new ArrayList<>();
     private static List<String> DeviceName = new ArrayList<>();
     private static List<String> IOSDevices = new ArrayList<>();
+    private static List<String> Emulators = new ArrayList<>();
+
+    protected static void setEmulator(String  emulators) {
+        Emulators.add(emulators);
+    }
+
+    protected static List<String> getEmulators() {
+        return Emulators;
+    }
 
     public static void setDevice(String dev, String deviceName) {
         Device.add(dev);
@@ -174,7 +183,7 @@ public class UIUtils {
                 sleep(500);
                 if (i == 1) {
                     System.err.println("Could not create driver! check that the devices are correctly connected and in debug mode");
-                    throw new Error();
+                    throw new Error(e);
                 }
             }
         }

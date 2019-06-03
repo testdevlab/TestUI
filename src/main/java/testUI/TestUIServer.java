@@ -79,7 +79,7 @@ public class TestUIServer {
         for (int i = 0; i < 40; i++) {
             if (serv.size() != 0 && !serv.get(0).isRunning()) {
                 AppiumHelps.sleep(1000);
-                for (String device : getDevices()) {
+                for (String device : getEmulators()) {
                     stopEmulator(device);
                 }
                 break;
@@ -161,6 +161,7 @@ public class TestUIServer {
                             assertThat("There are no emulators to start the automation",
                                     getEmulatorName().get(device), not(isEmptyOrNullString()));
                             Configuration.emulatorName = getEmulatorName().get(device);
+                            setEmulator(Configuration.emulatorName);
                             attachShutDownHookStopEmulator(getServices());
                         } else {
                             if (!getDevices().toString().contains(getDeviceNames().get(device))) {

@@ -60,6 +60,10 @@ public class UIElement extends TestUI implements ElementActions {
         return new UIElement(element);
     }
 
+    public UIElement setElement(UIElement element) {
+        return element;
+    }
+
     public UIElement navigateTo(String url) {
         return navigate(url);
     }

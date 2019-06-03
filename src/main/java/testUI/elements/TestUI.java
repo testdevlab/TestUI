@@ -78,7 +78,8 @@ public class TestUI {
         Configuration.deviceTests = true;
         for (int in = 0; in < getDrivers().size(); in++) {
             byte[] screenshot = takeScreenshot(in);
-            Allure.getLifecycle().addAttachment("Screenshot Mobile " + getDevicesNames().get(in), "image/png", "png", screenshot);
+            String deviceName = getDevicesNames().size() > in ? getDevicesNames().get(in) : "";
+            Allure.getLifecycle().addAttachment("Screenshot Mobile " + deviceName, "image/png", "png", screenshot);
         }
         Configuration.deviceTests = false;
         if (WebDriverRunner.driver().hasWebDriverStarted()) {

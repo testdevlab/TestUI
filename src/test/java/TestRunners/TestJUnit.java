@@ -27,9 +27,11 @@ public class TestJUnit {
     @Test
     @DisplayName("Android browser test case")
     public void testAndroidBrowser() {
-        open("https://www.google.com");
-        googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible().then().sendKeys("TestUI");
-        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click();
+        open("https://www.google.com")
+        .given().setElement(googleLandingPage.getGoogleSearchInput())
+        .and().waitFor(5).untilIsVisible().then().sendKeys("TestUI")
+        .when().setElement(googleLandingPage.getGoogleSearch())
+        .and().waitFor(10).untilIsVisible().then().click();
     }
 
     @Test

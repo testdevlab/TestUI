@@ -13,6 +13,8 @@ public interface ElementActions {
 
     UIElement setElement(By element);
 
+    UIElement setElement(UIElement element);
+
     UIElement setElement(String accesibilityId);
 
     UICollection setCollection(By element);
