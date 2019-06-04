@@ -3,6 +3,7 @@ package testUI;
 import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.Configuration.*;
 import static testUI.TestUIDriver.*;
 import static testUI.TestUIServer.*;
@@ -64,6 +65,9 @@ public class AndroidDriver {
                     stop(1);
                 }
                 startServerAndDevice();
+                if (getDevices().size() != 0) {
+                    checkAndInstallChromedriver();
+                }
                 DesiredCapabilities cap = setAndroidBrowserCapabilities();
                 startFirstBrowserDriver(cap, urlOrRelativeUrl);
                 if (!emulatorName.isEmpty()) {
@@ -104,6 +108,9 @@ public class AndroidDriver {
         if (deviceTests) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
             startServerAndDevice();
+            if (getDevices().size() != 0) {
+                checkAndInstallChromedriver();
+            }
             DesiredCapabilities cap = setAndroidBrowserCapabilities();
             startBrowserDriver(cap, urlOrRelativeUrl);
             if (!emulatorName.isEmpty()) {

@@ -5,8 +5,10 @@ import org.junit.Test;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
 
+import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.UIOpen.navigate;
 import static testUI.UIOpen.open;
+import static testUI.UIUtils.setDevice;
 import static testUI.Utils.By.byName;
 import static testUI.Utils.By.byXpath;
 
@@ -36,5 +38,11 @@ public class TestBrowser {
                 .and("I click on it").click()
                 .when("I navigate to the google main page").navigateTo("https://www.google.com")
                 .then("I check that the search field is visible").setElement(byXpath("//input[@name='q']")).shouldBe().visible();
+    }
+
+    @Test
+    public void test() {
+        setDevice("emulator-5554", "emulator-5554");
+        checkAndInstallChromedriver();
     }
 }

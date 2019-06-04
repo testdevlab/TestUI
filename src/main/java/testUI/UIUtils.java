@@ -16,6 +16,7 @@ import java.util.List;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.TestUIDriver.*;
 import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.elements.TestUI.takeScreenshotInFaiure;
@@ -134,6 +135,9 @@ public class UIUtils {
                 e.printStackTrace();
             } catch (Exception e) {
                 System.err.println("Could not create driver! retrying...");
+                if (getDevices().size() != 0) {
+                    checkAndInstallChromedriver();
+                }
                 sleep(500);
                 if (i == 1) {
                     throw new Error(e);
@@ -157,6 +161,9 @@ public class UIUtils {
                 e.printStackTrace();
             } catch (Exception e) {
                 System.err.println("Could not create driver! retrying...");
+                if (getDevices().size() != 0) {
+                    checkAndInstallChromedriver();
+                }
                 sleep(500);
                 if (i == 1) {
                     e.printStackTrace();
@@ -190,12 +197,26 @@ public class UIUtils {
     }
 
     protected static void startDriver(DesiredCapabilities desiredCapabilities) {
-        try {
-            String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(Configuration.usePort.size()-1) + "/wd/hub" :
-                    Configuration.appiumUrl;
-            setDriver(new AppiumDriver(new URL(url), desiredCapabilities) {});
-        } catch (Exception e) {
-            e.printStackTrace();
+        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(Configuration.usePort.size()-1) + "/wd/hub" :
+                Configuration.appiumUrl;
+        for (int i = 0; i < 2 ; i++) {
+            try {
+                if (getDrivers().size() == 0) {
+                    setDriver(new AppiumDriver(new URL(url), desiredCapabilities) {
+                    });
+                } else {
+                    setDriver(new AppiumDriver(new URL(url), desiredCapabilities) {
+                    }, 0);
+                }
+                break;
+            } catch (Exception e) {
+                System.err.println("Could not create driver! retrying...");
+                sleep(500);
+                if (i == 1) {
+                    System.err.println("Could not create driver! check that the devices are correctly connected and in debug mode");
+                    throw new Error(e);
+                }
+            }
         }
     }
 
