@@ -160,10 +160,10 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public String getText() {
-        if (Configuration.deviceTests) {
-            return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getText();
-        }
         try {
+            if (Configuration.deviceTests) {
+                return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getText();
+            }
             return getSelenide(SelenideElement,index, collection).getText();
         } catch (Throwable e) {
             takeScreenshotInFaiure();
@@ -172,99 +172,104 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement sendKeys(CharSequence charSequence) {
-        if (Configuration.deviceTests) {
-            getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).sendKeys(charSequence);
-        } else {
-            try {
+        try {
+            if (Configuration.deviceTests) {
+                getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).sendKeys(charSequence);
+            } else {
                 getSelenide(SelenideElement, index, collection).sendKeys(charSequence);
-            } catch (Throwable e) {
-                takeScreenshotInFaiure();
-                throw new Error(e);
             }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement scrollIntoView() {
-        if (Configuration.deviceTests) {
-            TouchActions action = new TouchActions(getDriver());
-            action.moveToElement(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection)).build().perform();
-        } else {
-            try {
+        try {
+            if (Configuration.deviceTests) {
+                TouchActions action = new TouchActions(getDriver());
+                action.moveToElement(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection)).build().perform();
+            } else {
                 getSelenide(SelenideElement,index, collection).scrollIntoView(true);
-            } catch (Throwable e) {
-                takeScreenshotInFaiure();
-                throw new Error(e);
             }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement swipe(int XCoordinate, int YCoordinate) {
-        if (Configuration.deviceTests) {
-            TouchActions action = new TouchActions(getDriver());
-            action.moveToElement(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection), XCoordinate, YCoordinate);
-        } else {
-            try {
+        try {
+            if (Configuration.deviceTests) {
+                TouchActions action = new TouchActions(getDriver());
+                action.moveToElement(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection), XCoordinate, YCoordinate);
+            } else {
                 getSelenide(SelenideElement,index, collection).scrollIntoView(true);
-            } catch (Throwable e) {
-                takeScreenshotInFaiure();
-                throw new Error(e);
             }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement swipeRight() {
-        if (Configuration.deviceTests) {
-            Dimension size = getDriver().manage().window().getSize();
-            int endX = (int) (size.width * 0.8);
-            TouchActions action = new TouchActions(getDriver());
-            action.longPress(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection)).move(endX,
-                    getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getLocation().getY()).release().perform();
-        } else {
-            try {
+        try {
+            if (Configuration.deviceTests) {
+                Dimension size = getDriver().manage().window().getSize();
+                int endX = (int) (size.width * 0.8);
+                TouchActions action = new TouchActions(getDriver());
+                action.longPress(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection)).move(endX,
+                        getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getLocation().getY()).release().perform();
+            } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
-            } catch (Throwable e) {
-                takeScreenshotInFaiure();
-                throw new Error(e);
             }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement swipeLeft() {
-        if (Configuration.deviceTests) {
-            Dimension size = getDriver().manage().window().getSize();
-            int endX = (int) (size.width * 0.10);
-            TouchActions action = new TouchActions(getDriver());
-            action.longPress(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection)).move(endX,
-                    getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getLocation().getY()).release().perform();
-        } else {
-            try {
+        try {
+            if (Configuration.deviceTests) {
+                Dimension size = getDriver().manage().window().getSize();
+                int endX = (int) (size.width * 0.10);
+                TouchActions action = new TouchActions(getDriver());
+                action.longPress(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection)).move(endX,
+                        getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getLocation().getY()).release().perform();
+            } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
-            } catch (Throwable e) {
-                takeScreenshotInFaiure();
-                throw new Error(e);
             }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public MobileElement getMobileElement() {
-        return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection);
+        try {
+            return getElement(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection);
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
+        }
     }
 
     public UIElement clear() {
-        if (Configuration.deviceTests) {
-            getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).clear();
-        } else {
-            try {
-                getSelenide(SelenideElement, index, collection).clear();
-            } catch (Throwable e) {
-                takeScreenshotInFaiure();
-                throw new Error(e);
+        try {
+            if (Configuration.deviceTests) {
+                getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).clear();
+            } else {
+                    getSelenide(SelenideElement, index, collection).clear();
             }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }

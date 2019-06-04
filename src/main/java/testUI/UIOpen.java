@@ -8,10 +8,12 @@ import static testUI.Configuration.*;
 import static testUI.IOSDriver.*;
 import static testUI.TestUIDriver.getDesiredCapabilities;
 import static testUI.UIUtils.putLog;
+import static testUI.elements.TestUI.setScreenshotTaken;
 import static testUI.elements.UIElement.setStep;
 
 public class UIOpen {
     public static UIElement open() {
+        setScreenshotTaken(false);
         if (iOSTesting) {
             if (iOSAppPath.isEmpty() && getDesiredCapabilities() == null) {
                 if (!androidAppPath.isEmpty() || (!appActivity.isEmpty() && !appPackage.isEmpty())) {
@@ -53,6 +55,7 @@ public class UIOpen {
     }
 
     public static UIElement openNew() {
+        setScreenshotTaken(false);
         if (iOSTesting) {
             if (iOSAppPath.isEmpty() && getDesiredCapabilities() == null) {
                 if (!androidAppPath.isEmpty() && (!appActivity.isEmpty() && !appPackage.isEmpty())) {
@@ -95,6 +98,7 @@ public class UIOpen {
     }
 
     public static UIElement open(String urlOrRelativeUrl) {
+        setScreenshotTaken(false);
         if (deviceTests && iOSTesting) {
             openIOSBrowser(urlOrRelativeUrl);
         } else {
@@ -110,6 +114,7 @@ public class UIOpen {
     }
 
     public static UIElement openNew(String urlOrRelativeUrl) {
+        setScreenshotTaken(false);
         if (deviceTests && iOSTesting) {
             openNewIOSBrowser(urlOrRelativeUrl);
         } else {

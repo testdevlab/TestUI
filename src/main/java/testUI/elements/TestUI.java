@@ -43,16 +43,21 @@ public class TestUI {
 
     protected MobileElement getElement(String accesibilityIdiOS, String accesibilityId,By iOSElement, By element, int index,
                                        boolean collection) {
-        if (collection) {
-            if (!getAccesibilityId(accesibilityIdiOS,accesibilityId).isEmpty()) {
-                return (MobileElement) getDriver().findElementsByAccessibilityId(getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
-            }
-            return (MobileElement) getDriver().findElements(getAppiumElement(iOSElement, element)).get(index);
+        try {
+                if (collection) {
+                    if (!getAccesibilityId(accesibilityIdiOS,accesibilityId).isEmpty()) {
+                        return (MobileElement) getDriver().findElementsByAccessibilityId(getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
+                    }
+                    return (MobileElement) getDriver().findElements(getAppiumElement(iOSElement, element)).get(index);
+                }
+                if (!getAccesibilityId(accesibilityIdiOS,accesibilityId).isEmpty()) {
+                    return (MobileElement) getDriver().findElementByAccessibilityId(getAccesibilityId(accesibilityIdiOS,accesibilityId));
+                }
+            return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
-        if (!getAccesibilityId(accesibilityIdiOS,accesibilityId).isEmpty()) {
-            return (MobileElement) getDriver().findElementByAccessibilityId(getAccesibilityId(accesibilityIdiOS,accesibilityId));
-        }
-        return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
     }
 
     protected SelenideElement getSelenide(By element, int index, boolean collection) {
@@ -70,26 +75,35 @@ public class TestUI {
         }
     }
 
+    private static boolean screenshotTaken = false;
+
+    public static void setScreenshotTaken(boolean screenshotTaken) {
+        TestUI.screenshotTaken = screenshotTaken;
+    }
+
     public static void takeScreenshotInFaiure() {
-        if (getStep()) {
-            Allure.step("Previous Step Failed!", Status.FAILED);
-        }
-        boolean test = Configuration.deviceTests;
-        Configuration.deviceTests = true;
-        for (int in = 0; in < getDrivers().size(); in++) {
-            byte[] screenshot = takeScreenshot(in);
-            String deviceName = getDevicesNames().size() > in ? getDevicesNames().get(in) : "";
-            Allure.getLifecycle().addAttachment("Screenshot Mobile " + deviceName, "image/png", "png", screenshot);
-        }
-        Configuration.deviceTests = false;
-        if (WebDriverRunner.driver().hasWebDriverStarted()) {
-            try {
-                byte[] screenshot = takeScreenshot();
-                Allure.getLifecycle().addAttachment("Screenshot Laptop Browser", "image/png", "png", screenshot);
-            } catch (Exception ex) {
-                System.err.println("Could not take a screenshot in the laptop browser...");
+        if (!screenshotTaken) {
+            if (getStep()) {
+                Allure.step("Previous Step Failed!", Status.FAILED);
             }
+            boolean test = Configuration.deviceTests;
+            Configuration.deviceTests = true;
+            for (int in = 0; in < getDrivers().size(); in++) {
+                byte[] screenshot = takeScreenshot(in);
+                String deviceName = getDevicesNames().size() > in ? getDevicesNames().get(in) : "";
+                Allure.getLifecycle().addAttachment("Screenshot Mobile " + deviceName, "image/png", "png", screenshot);
+            }
+            Configuration.deviceTests = false;
+            if (WebDriverRunner.driver().hasWebDriverStarted()) {
+                try {
+                    byte[] screenshot = takeScreenshot();
+                    Allure.getLifecycle().addAttachment("Screenshot Laptop Browser", "image/png", "png", screenshot);
+                } catch (Exception ex) {
+                    System.err.println("Could not take a screenshot in the laptop browser...");
+                }
+            }
+            Configuration.deviceTests = test;
+            screenshotTaken = true;
         }
-        Configuration.deviceTests = test;
     }
 }
