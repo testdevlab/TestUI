@@ -5,6 +5,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import static testUI.Configuration.*;
 import static testUI.TestUIDriver.setIOSCapabilities;
 import static testUI.TestUIServer.startServerAndDevice;
+import static testUI.TestUIServer.stop;
 import static testUI.UIUtils.*;
 
 public class IOSDriver {
@@ -15,7 +16,10 @@ public class IOSDriver {
         deviceTests = true;
         iOSTesting = true;
         iOSDevices++;
-        if ((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) {
+        if (((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) || getIOSDevices().size() == 0) {
+            if (getServices().size() != 0) {
+                stop(1);
+            }
             startServerAndDevice();
             DesiredCapabilities cap = setIOSCapabilities(false);
             startFirstDriver(cap);
@@ -50,7 +54,10 @@ public class IOSDriver {
         iOSTesting = true;
         iOSDevices++;
         urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
-        if (getServices().size() == 0 || !getServices().get(0).isRunning() && desiredCapabilities == null) {
+        if (((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) || getIOSDevices().size() == 0) {
+            if (getServices().size() != 0) {
+                stop(1);
+            }
             startServerAndDevice();
             DesiredCapabilities cap = setIOSCapabilities(true);
             startFirstBrowserDriver(cap, urlOrRelativeUrl);

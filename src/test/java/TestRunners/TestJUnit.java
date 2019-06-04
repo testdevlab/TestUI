@@ -17,6 +17,7 @@ public class TestJUnit {
     @Test
     @DisplayName("Android app test case")
     public void testAndroidApp() {
+        Configuration.iOSTesting = false;
         Configuration.androidAppPath = "1188.apk";
         open();
         landingPage.getCatering().given().waitFor(10).untilIsVisible().then().click();
@@ -27,6 +28,7 @@ public class TestJUnit {
     @Test
     @DisplayName("Android browser test case")
     public void testAndroidBrowser() {
+        Configuration.iOSTesting = false;
         open("https://www.google.com")
         .given().setElement(googleLandingPage.getGoogleSearchInput())
         .and().waitFor(5).untilIsVisible().then().sendKeys("TestUI")

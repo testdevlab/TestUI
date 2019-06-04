@@ -5,8 +5,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import static testUI.Configuration.*;
 import static testUI.TestUIDriver.*;
-import static testUI.TestUIServer.attachShutDownHookStopEmulator;
-import static testUI.TestUIServer.startServerAndDevice;
+import static testUI.TestUIServer.*;
 import static testUI.UIUtils.*;
 
 public class AndroidDriver {
@@ -16,7 +15,10 @@ public class AndroidDriver {
     public static void openApp() {
         deviceTests = true;
         iOSTesting = false;
-        if (getServices().size() == 0 || !getServices().get(0).isRunning() && desiredCapabilities == null) {
+        if (((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) || getDevices().size() == 0) {
+            if (getServices().size() != 0) {
+                stop(1);
+            }
             startServerAndDevice();
             DesiredCapabilities cap = setAppAndroidCapabilities();
             startFirstDriver(cap);
@@ -57,7 +59,10 @@ public class AndroidDriver {
         iOSTesting = false;
         if (deviceTests) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
-            if ((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) {
+            if (((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) || getDevices().size() == 0) {
+                if (getServices().size() != 0) {
+                    stop(1);
+                }
                 startServerAndDevice();
                 DesiredCapabilities cap = setAndroidBrowserCapabilities();
                 startFirstBrowserDriver(cap, urlOrRelativeUrl);
