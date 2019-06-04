@@ -52,12 +52,12 @@ public class IOSDriver {
     public static void openIOSBrowser(String urlOrRelativeUrl) {
         deviceTests = true;
         iOSTesting = true;
-        iOSDevices++;
         urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
         if (((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) || getIOSDevices().size() == 0) {
             if (getServices().size() != 0) {
                 stop(1);
             }
+            iOSDevices++;
             startServerAndDevice();
             startFirstIOSBrowserDriver(urlOrRelativeUrl);
         } else {
