@@ -227,6 +227,11 @@ public class TestUIDriver {
                 cap.setCapability(MobileCapabilityType.DEVICE_NAME, Configuration.emulatorName);
                 cap.setCapability(AndroidMobileCapabilityType.AVD, Configuration.emulatorName);
             }
+            if (Configuration.AutomationName.isEmpty()) {
+                cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
+            } else {
+                cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, Configuration.AutomationName);
+            }
             cap.setCapability(MobileCapabilityType.NO_RESET, true);
             cap.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
             cap.setCapability(MobileCapabilityType.BROWSER_NAME, browser);
@@ -288,6 +293,7 @@ public class TestUIDriver {
                 capabilities.setCapability("updatedWDABundleId", Configuration.updatedWDABundleId);
             }
             // DEFAULT THINGS
+            capabilities.setCapability(IOSMobileCapabilityType.USE_NEW_WDA, Configuration.useNewWDA);
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, Configuration.iOSDeviceName);
             capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, Configuration.iOSVersion);
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.IOS);

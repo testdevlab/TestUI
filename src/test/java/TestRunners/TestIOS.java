@@ -15,6 +15,7 @@ public class TestIOS {
     @Test
     @DisplayName("IOS browser test case")
     public void testIOSBrowser() {
+        Configuration.deviceTests = true;
         Configuration.iOSTesting = true;
         open("https://www.facebook.com");
         facebookLandingPage.getSafariFacebookEmailDiv().click();

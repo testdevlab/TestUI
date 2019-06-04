@@ -37,13 +37,13 @@ public class TestUIServer {
         builder.usingPort(Integer.parseInt(port));
         builder.withCapabilities(cap);
         builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
-        builder.withArgument(GeneralServerFlag.LOG_LEVEL, "error");
+        builder.withArgument(GeneralServerFlag.LOG_LEVEL, serverLogLevel);
         builder.withArgument(AndroidServerFlag.BOOTSTRAP_PORT_NUMBER, Bootstrap);
         //Start the server with the builder
         TestUIServer.serviceRunning = false;
         setService(AppiumDriverLocalService.buildService(builder));
         getServices().get(getServices().size() - 1).start();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 8; i++) {
             String serviceOut = getService(getServices().size() - 1).getStdOut();
             if (serviceOut != null) {
                 if (serviceOut.contains("Could not start REST http")) {
@@ -146,6 +146,7 @@ public class TestUIServer {
         int totalDevices = emulators + connectedDevices - startedEmulators;
         int ports = 9586 + usePort.size()*100;
         int bootstrap = 5333 + useBootstrapPort.size()*100;
+        int realDevices = totalDevices - emulators;
         String port = String.valueOf(ports);
         String Bootstrap = String.valueOf(bootstrap);
         for (int device = usePort.size(); device < totalDevices + iOSDevices; device++) {
@@ -154,41 +155,7 @@ public class TestUIServer {
                 attachShutDownHook(getServices());
             }
             if (serviceRunning || (!appiumUrl.isEmpty() && getDevices().size() >= device)) {
-                if (!iOSTesting) {
-                    if (androidDeviceName.isEmpty() && emulatorName.isEmpty()) {
-                        if (connectedDevices <= device) {
-                            assertThat("There are not enough devices connected", useEmulators);
-                            assertThat("There are no emulators to start the automation",
-                                    getEmulatorName().get(device - (totalDevices - emulators)), not(isEmptyOrNullString()));
-                            Configuration.emulatorName = getEmulatorName().get(device - (totalDevices - emulators));
-                            setEmulator(Configuration.emulatorName);
-                            attachShutDownHookStopEmulator(getServices());
-                        } else {
-                            if (!getDevices().toString().contains(getDeviceNames().get(device))) {
-                                setDevice(getDeviceNames().get(device), getDeviceNames().get(device));
-                            }
-                        }
-                    } else {
-                        if (emulatorName.isEmpty()) {
-                            setDevice(androidDeviceName, androidDeviceName);
-                        }
-                    }
-                } else {
-                    if (iOSDeviceName.isEmpty()) {
-                        if (UDID.isEmpty()) {
-                            Map<String, String> sampleIOSDevice = getSampleDevice();
-                            iOSDeviceName = sampleIOSDevice.get("name");
-                            iOSVersion = sampleIOSDevice.get("version");
-                            UDID = sampleIOSDevice.get("udid");
-                        } else {
-                            iOSDeviceName = getIOSName(UDID);
-                            iOSVersion = getIOSVersion(UDID);
-                        }
-                    }
-                    setiOSDevice(iOSDeviceName);
-                }
-                driver = iOSTesting ? getDevices().size() + getIOSDevices().size() : getDevices().size();
-                driver = emulatorName.isEmpty() ? driver : driver + 1;
+                setRunDevice(realDevices, connectedDevices, device);
                 break;
             }
             port = String.valueOf(Integer.parseInt(port) + 100);
@@ -203,13 +170,53 @@ public class TestUIServer {
         }
     }
 
+    protected static void setRunDevice(int realDevices, int connectedDevices, int device) {
+        if (!iOSTesting) {
+            if (androidDeviceName.isEmpty() && emulatorName.isEmpty()) {
+                if (connectedDevices <= device) {
+                    assertThat("There are not enough devices connected", useEmulators);
+                    assertThat("There are no emulators to start the automation",
+                            getEmulatorName().get(device - realDevices), not(isEmptyOrNullString()));
+                    Configuration.emulatorName = getEmulatorName().get(device - realDevices);
+                    setEmulator(Configuration.emulatorName);
+                    attachShutDownHookStopEmulator(getServices());
+                } else {
+                    if (!getDevices().toString().contains(getDeviceNames().get(device))) {
+                        setDevice(getDeviceNames().get(device), getDeviceNames().get(device));
+                    }
+                }
+            } else {
+                if (emulatorName.isEmpty()) {
+                    setDevice(androidDeviceName, androidDeviceName);
+                }
+            }
+        } else {
+            if (iOSDeviceName.isEmpty()) {
+                if (UDID.isEmpty()) {
+                    Map<String, String> sampleIOSDevice = getSampleDevice();
+                    iOSDeviceName = sampleIOSDevice.get("name");
+                    iOSVersion = sampleIOSDevice.get("version");
+                    UDID = sampleIOSDevice.get("udid");
+                } else {
+                    iOSDeviceName = getIOSName(UDID);
+                    iOSVersion = getIOSVersion(UDID);
+                }
+            }
+            setiOSDevice(iOSDeviceName);
+        }
+        driver = iOSTesting ? getDevices().size() + getIOSDevices().size() : getDevices().size();
+        driver = emulatorName.isEmpty() ? driver : driver + 1;
+    }
+
     public static void stop(int driver) {
         if (deviceTests) {
             usePort.remove(driver - 1);
             useBootstrapPort.remove(driver - 1);
-            getDrivers().get(driver - 1).close();
-            sleep(500);
-            getDrivers().get(driver - 1).quit();
+            try {
+                getDrivers().get(driver - 1).quit();
+            } catch (Exception e) {
+                System.err.println("Could not quit driver, probably already stopped");
+            }
             removeDriver(driver - 1);
             getServices().get(driver - 1).stop();
             getServices().remove(driver - 1);
