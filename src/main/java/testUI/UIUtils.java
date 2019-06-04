@@ -116,16 +116,48 @@ public class UIUtils {
         open(urlOrRelativeUrl);
     }
 
-    protected static void startFirstBrowserDriver(DesiredCapabilities desiredCapabilities, String urlOrRelativeUrl) {
+    protected static void startFirstIOSBrowserDriver(String urlOrRelativeUrl) {
         String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(0) + "/wd/hub" : Configuration.appiumUrl;
         for (int i = 0; i < 2 ; i++) {
+            DesiredCapabilities cap = setIOSCapabilities(true);
             try {
                 putLog("Starting appium driver...");
                 if (getDrivers().size() == 0) {
-                    setDriver(new AppiumDriver(new URL(url), desiredCapabilities) {
+                    setDriver(new AppiumDriver(new URL(url), cap) {
                     });
                 } else {
-                    setDriver(new AppiumDriver(new URL(url), desiredCapabilities) {
+                    setDriver(new AppiumDriver(new URL(url), cap) {
+                    }, 0);
+                }
+                Configuration.driver = 1;
+                getDriver().get(urlOrRelativeUrl);
+                break;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                System.err.println("Could not create driver! retrying...");
+                if (getDevices().size() != 0) {
+                    checkAndInstallChromedriver();
+                }
+                sleep(500);
+                if (i == 1) {
+                    throw new Error(e);
+                }
+            }
+        }
+    }
+
+    protected static void startFirstAndroidBrowserDriver(String urlOrRelativeUrl) {
+        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(0) + "/wd/hub" : Configuration.appiumUrl;
+        for (int i = 0; i < 2 ; i++) {
+            DesiredCapabilities cap = setAndroidBrowserCapabilities();
+            try {
+                putLog("Starting appium driver...");
+                if (getDrivers().size() == 0) {
+                    setDriver(new AppiumDriver(new URL(url), cap) {
+                    });
+                } else {
+                    setDriver(new AppiumDriver(new URL(url), cap) {
                     }, 0);
                 }
                 Configuration.driver = 1;

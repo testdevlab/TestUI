@@ -59,8 +59,7 @@ public class IOSDriver {
                 stop(1);
             }
             startServerAndDevice();
-            DesiredCapabilities cap = setIOSCapabilities(true);
-            startFirstBrowserDriver(cap, urlOrRelativeUrl);
+            startFirstIOSBrowserDriver(urlOrRelativeUrl);
         } else {
             DesiredCapabilities cap = setIOSCapabilities(true);
             if (appiumUrl.isEmpty()) {
@@ -68,7 +67,7 @@ public class IOSDriver {
             } else {
                 putAllureParameter("Using Appium url", appiumUrl);
             }
-            startFirstBrowserDriver(cap, urlOrRelativeUrl);
+            startFirstIOSBrowserDriver(urlOrRelativeUrl);
         }
         putAllureParameter("Browser", "Safari");
     }
