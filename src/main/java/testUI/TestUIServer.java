@@ -105,12 +105,12 @@ public class TestUIServer {
             try {
                 driver.close();
             } catch (Exception e) {
-                System.err.println("Couldn't close the driver");
+                putLog("Couldn't close the driver, probably already closed");
             }
             try {
                 driver.quit();
             } catch (Exception e) {
-                System.err.println("Couldn't quit the driver");
+                putLog("Couldn't quit the driver, probably already stopped");
             }
         }
         putLog("Running Shutdown Server");

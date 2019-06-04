@@ -117,7 +117,12 @@ public class ADBUtils {
                     break;
                 }
             }
-            String chromeVersion = f.split("=")[1];
+            String chromeVersion;
+            if (f != null) {
+                chromeVersion = f.split("=")[1];
+            } else {
+                chromeVersion = "";
+            }
             String chromedriverVersion = getChromedriverVersion(chromeVersion);
             String Platform = System.getProperty("os.name").toLowerCase();
             String ActualVersion = "";
@@ -142,18 +147,16 @@ public class ADBUtils {
                         "installation or run npm install appium -g");
             } else {
                 putLog("Detected Chrome version = " + chromeVersion + ". Installing the chromedriver: " + chromedriverVersion);
-                Process p5 = Runtime.getRuntime().exec("npm uninstall appium -g");
-                BufferedReader stdInput5 = new BufferedReader(new
-                        InputStreamReader(p5.getInputStream()));
-                while ((s = stdInput5.readLine()) != null) {
-                    System.out.println(s);
-                }
-                Process p2 = Runtime.getRuntime().exec("npm install appium -g --chromedriver_version=\"" + chromedriverVersion + "\"");
+                String chromedriverCustomPath = "";
+                Process p2 = Runtime.getRuntime().exec("npm install appium-chromedriver -g --chromedriver_version=\"" + chromedriverVersion + "\"");
                 BufferedReader stdInput2 = new BufferedReader(new
                         InputStreamReader(p2.getInputStream()));
                 while ((s = stdInput2.readLine()) != null) {
-                    System.out.println(s);
+                    if (s.contains("successfully put in place")) {
+                        chromedriverCustomPath = "/" + s.split(" /")[1].split(" successfully put in place")[0];
+                    }
                 }
+                Configuration.chromeDriverPath = chromedriverCustomPath;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -183,7 +186,7 @@ public class ADBUtils {
             case "59":
                 return "2.32";
             default:
-                return "2.44";
+                return "2.46";
         }
     }
 }

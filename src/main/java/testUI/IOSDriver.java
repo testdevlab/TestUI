@@ -52,15 +52,14 @@ public class IOSDriver {
     public static void openIOSBrowser(String urlOrRelativeUrl) {
         deviceTests = true;
         iOSTesting = true;
-        iOSDevices++;
         urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
         if (((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) || getIOSDevices().size() == 0) {
             if (getServices().size() != 0) {
                 stop(1);
             }
+            iOSDevices++;
             startServerAndDevice();
-            DesiredCapabilities cap = setIOSCapabilities(true);
-            startFirstBrowserDriver(cap, urlOrRelativeUrl);
+            startFirstIOSBrowserDriver(urlOrRelativeUrl);
         } else {
             DesiredCapabilities cap = setIOSCapabilities(true);
             if (appiumUrl.isEmpty()) {
@@ -68,7 +67,7 @@ public class IOSDriver {
             } else {
                 putAllureParameter("Using Appium url", appiumUrl);
             }
-            startFirstBrowserDriver(cap, urlOrRelativeUrl);
+            startFirstIOSBrowserDriver(urlOrRelativeUrl);
         }
         putAllureParameter("Browser", "Safari");
     }

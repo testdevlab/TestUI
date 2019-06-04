@@ -68,8 +68,7 @@ public class AndroidDriver {
                 if (getDevices().size() != 0) {
                     checkAndInstallChromedriver();
                 }
-                DesiredCapabilities cap = setAndroidBrowserCapabilities();
-                startFirstBrowserDriver(cap, urlOrRelativeUrl);
+                startFirstAndroidBrowserDriver(urlOrRelativeUrl);
                 if (!emulatorName.isEmpty()) {
                     setDevice(getDriver().getCapabilities().asMap().get("deviceUDID").toString(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
                     attachShutDownHookStopEmulator(getServices(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
@@ -77,13 +76,12 @@ public class AndroidDriver {
                 putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
             } else {
                 driver = 1;
-                DesiredCapabilities cap = setAndroidBrowserCapabilities();
                 if (appiumUrl.isEmpty()) {
                     putAllureParameter("Using Appium port", usePort.get(0));
                 } else {
                     putAllureParameter("Using Appium url", appiumUrl);
                 }
-                startFirstBrowserDriver(cap, urlOrRelativeUrl);
+                startFirstAndroidBrowserDriver(urlOrRelativeUrl);
                 putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
             }
         } else {

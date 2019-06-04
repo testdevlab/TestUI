@@ -204,6 +204,9 @@ public class TestUIDriver {
     }
 
     public static DesiredCapabilities setAndroidBrowserCapabilities() {
+        if (Configuration.emulatorName.isEmpty() && getDevices().size() == 0) {
+            throw new Error("There is no device available to run the automation!");
+        }
         if (Configuration.emulatorName.isEmpty() && !getDeviceStatus(getDevice()).equals("device")) {
             System.err.println("The device status is " + getDeviceStatus(getDevice()) +
                     " to use usb, you must allow usb debugging for this device: " + getDevice());
@@ -217,7 +220,9 @@ public class TestUIDriver {
         // Created object of DesiredCapabilities class.
         DesiredCapabilities cap = new DesiredCapabilities();
         if (!Configuration.chromeDriverPath.isEmpty()) {
-            cap.setCapability("chromedriverExecutable", System.getProperty("user.dir") + "/" + Configuration.chromeDriverPath);
+            String chromePath = Configuration.chromeDriverPath.charAt(0) == '/' ? Configuration.chromeDriverPath :
+                    System.getProperty("user.dir") + "/" + Configuration.chromeDriverPath;
+            cap.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, chromePath);
         }
         if (getDesiredCapabilities() == null) {
             if (Configuration.emulatorName.isEmpty()) {
