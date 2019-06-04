@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static testUI.UIUtils.getDevice;
 import static testUI.UIUtils.putLog;
 
 public class ADBUtils {
@@ -100,6 +101,89 @@ public class ADBUtils {
             Runtime.getRuntime().exec("adb -s " + emulator + " emu kill");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void checkAndInstallChromedriver() {
+        String s;
+        String f = null;
+        try {
+            Process p = Runtime.getRuntime().exec("adb -s " + getDevice() + " shell dumpsys package com.android.chrome | grep versionName");
+            BufferedReader stdInput = new BufferedReader(new
+                    InputStreamReader(p.getInputStream()));
+            while ((s = stdInput.readLine()) != null) {
+                f = s;
+                if (f.contains("versionName=")) {
+                    break;
+                }
+            }
+            String chromeVersion = f.split("=")[1];
+            String chromedriverVersion = getChromedriverVersion(chromeVersion);
+            String Platform = System.getProperty("os.name").toLowerCase();
+            String ActualVersion = "";
+            String chromedriverPath;
+            if (Platform.contains("mac")) {
+                chromedriverPath = "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/mac/chromedriver -v";
+            } else if (Platform.contains("linux")) {
+                chromedriverPath = "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/linux/chromedriver -v";
+            } else {
+                chromedriverPath = "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/win/chromedriver -v";
+            }
+            Process p3 = Runtime.getRuntime().exec(chromedriverPath);
+            BufferedReader stdInput3 = new BufferedReader(new
+                    InputStreamReader(p3.getInputStream()));
+            while ((s = stdInput3.readLine()) != null) {
+                ActualVersion = s;
+            }
+            if (ActualVersion.contains(chromedriverVersion) || chromedriverVersion.equals("NOT")) {
+                putLog("Detected Chrome version = " + chromeVersion + " matches with the actual chromedriver: " + ActualVersion);
+            } else if (ActualVersion.isEmpty()) {
+                putLog("Detected Chrome version = " + chromeVersion + " but the Appium ChromeDriver is unknown, maybe you should check the appium " +
+                        "installation or run npm install appium -g");
+            } else {
+                putLog("Detected Chrome version = " + chromeVersion + ". Installing the chromedriver: " + chromedriverVersion);
+                Process p5 = Runtime.getRuntime().exec("npm uninstall appium -g");
+                BufferedReader stdInput5 = new BufferedReader(new
+                        InputStreamReader(p5.getInputStream()));
+                while ((s = stdInput5.readLine()) != null) {
+                    System.out.println(s);
+                }
+                Process p2 = Runtime.getRuntime().exec("npm install appium -g --chromedriver_version=\"" + chromedriverVersion + "\"");
+                BufferedReader stdInput2 = new BufferedReader(new
+                        InputStreamReader(p2.getInputStream()));
+                while ((s = stdInput2.readLine()) != null) {
+                    System.out.println(s);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String getChromedriverVersion(String chromeVersion) {
+        switch (chromeVersion.split("\\.")[0]) {
+            case "68":
+                return "2.40";
+            case "67":
+                return "2.40";
+            case "66":
+                return "2.40";
+            case "65":
+                return "2.35";
+            case "64":
+                return "2.35";
+            case "63":
+                return "2.35";
+            case "62":
+                return "2.35";
+            case "61":
+                return "2.32";
+            case "60":
+                return "2.32";
+            case "59":
+                return "2.32";
+            default:
+                return "2.44";
         }
     }
 }
