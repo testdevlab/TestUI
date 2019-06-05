@@ -6,10 +6,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,13 +131,13 @@ public class ADBUtils {
             String ActualVersion = "";
             String chromedriverPath;
             if (Platform.contains("mac")) {
-                chromedriverPath = "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/mac/chromedriver -v";
+                chromedriverPath = "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/mac/chromedriver";
             } else if (Platform.contains("linux")) {
-                chromedriverPath = "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/linux/chromedriver -v";
+                chromedriverPath = "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/linux/chromedriver";
             } else {
-                chromedriverPath = "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/win/chromedriver -v";
+                chromedriverPath = "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/win/chromedriver";
             }
-            Process p3 = Runtime.getRuntime().exec(chromedriverPath);
+            Process p3 = Runtime.getRuntime().exec(chromedriverPath + " -v");
             BufferedReader stdInput3 = new BufferedReader(new
                     InputStreamReader(p3.getInputStream()));
             while ((s = stdInput3.readLine()) != null) {
@@ -151,7 +147,7 @@ public class ADBUtils {
                 putLog("Detected Chrome driver already specified for this device");
             } else if (ActualVersion.contains(ActualVersion) || chromedriverVersion.equals("NOT")) {
                 putLog("Detected Chrome version = " + chromeVersion + " matches with the actual chromedriver: " + ActualVersion);
-            } else if (ActualVersion.isEmpty()) {
+            } else if (!doesFileExists(chromedriverPath)) {
                 putLog("Detected Chrome version = " + chromeVersion + " but the Appium ChromeDriver is unknown, maybe you should check the appium " +
                         "installation or run npm install appium -g");
             } else if (getTargetDirectory()) {
@@ -193,6 +189,11 @@ public class ADBUtils {
         File targetDir = targetClassesDir.getParentFile();
         String destinationPath =  targetDir + "/chromedriver" + getDevice();
         File tmpDir = new File(destinationPath);
+        return tmpDir.exists();
+    }
+
+    private static boolean doesFileExists(String filePath) {
+        File tmpDir = new File(filePath);
         return tmpDir.exists();
     }
 
