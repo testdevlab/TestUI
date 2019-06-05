@@ -1,7 +1,6 @@
 package testUI;
 
 import com.codeborne.selenide.SelenideConfig;
-import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.qameta.allure.Allure;
