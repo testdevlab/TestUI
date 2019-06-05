@@ -1,8 +1,15 @@
 package testUI;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,13 +147,17 @@ public class ADBUtils {
             while ((s = stdInput3.readLine()) != null) {
                 ActualVersion = s;
             }
-            if (ActualVersion.contains(chromedriverVersion) || chromedriverVersion.equals("NOT")) {
+            if (!Configuration.chromeDriverPath.isEmpty()) {
+                putLog("Detected Chrome driver already specified for this device");
+            } else if (ActualVersion.contains(ActualVersion) || chromedriverVersion.equals("NOT")) {
                 putLog("Detected Chrome version = " + chromeVersion + " matches with the actual chromedriver: " + ActualVersion);
             } else if (ActualVersion.isEmpty()) {
                 putLog("Detected Chrome version = " + chromeVersion + " but the Appium ChromeDriver is unknown, maybe you should check the appium " +
                         "installation or run npm install appium -g");
+            } else if (getTargetDirectory()) {
+                putLog("Detected Chrome driver already installed for this device, placed in target directory");
             } else {
-                putLog("Detected Chrome version = " + chromeVersion + ". Installing the chromedriver: " + chromedriverVersion);
+                putLog("Detected Chrome version = " + chromeVersion + ". Installing the ChromeDriver: " + chromedriverVersion);
                 String chromedriverCustomPath = "";
                 Process p2 = Runtime.getRuntime().exec("npm install appium-chromedriver -g --chromedriver_version=\"" + chromedriverVersion + "\"");
                 BufferedReader stdInput2 = new BufferedReader(new
@@ -156,11 +167,33 @@ public class ADBUtils {
                         chromedriverCustomPath = "/" + s.split(" /")[1].split(" successfully put in place")[0];
                     }
                 }
-                Configuration.chromeDriverPath = chromedriverCustomPath;
+                Configuration.chromeDriverPath = copyFileToCustomFolder(chromedriverCustomPath);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String copyFileToCustomFolder(String originalPath) {
+        File targetClassesDir = new File(ADBUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        File targetDir = targetClassesDir.getParentFile();
+        String destinationPath =  targetDir + "/chromedriver" + getDevice();
+        try {
+            FileUtils.moveFile(
+                    FileUtils.getFile(originalPath),
+                    FileUtils.getFile(destinationPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return destinationPath;
+    }
+
+    private static boolean getTargetDirectory() {
+        File targetClassesDir = new File(ADBUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        File targetDir = targetClassesDir.getParentFile();
+        String destinationPath =  targetDir + "/chromedriver" + getDevice();
+        File tmpDir = new File(destinationPath);
+        return tmpDir.exists();
     }
 
     private static String getChromedriverVersion(String chromeVersion) {
