@@ -136,9 +136,6 @@ public class UIUtils {
                 e.printStackTrace();
             } catch (Exception e) {
                 System.err.println("Could not create driver! retrying...");
-                if (getDevices().size() != 0) {
-                    checkAndInstallChromedriver();
-                }
                 sleep(500);
                 if (i == 1) {
                     throw new Error(e);

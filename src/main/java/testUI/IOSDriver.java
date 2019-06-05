@@ -61,7 +61,6 @@ public class IOSDriver {
             startServerAndDevice();
             startFirstIOSBrowserDriver(urlOrRelativeUrl);
         } else {
-            DesiredCapabilities cap = setIOSCapabilities(true);
             if (appiumUrl.isEmpty()) {
                 putAllureParameter("Using Appium port", usePort.get(0));
             } else {
