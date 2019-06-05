@@ -13,7 +13,7 @@ public class SelenideConfiguration {
     public static String browserSize = "";
     public static String browserPosition = "";
     public static boolean startMaximized = false;
-    public static DesiredCapabilities selenideBrowserCapabilities;
+    public static DesiredCapabilities selenideBrowserCapabilities = new DesiredCapabilities();
 //    public static String pageLoadStrategy;
 //    public static boolean clickViaJs;
 //    public static boolean screenshots;
