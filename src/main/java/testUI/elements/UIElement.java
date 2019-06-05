@@ -361,7 +361,7 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement and(String description) {
-        System.out.println("\u001B[32m Working step ->   And " + description);
+        System.out.println("\u001B[32m Working step ->   And " + description + "\u001B[0m");
         step = true;
         if (Configuration.useAllure) {
             Allure.step("And " + description);
@@ -374,7 +374,7 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement given(String description) {
-        System.out.println("\u001B[32m Working step -> Given " + description);
+        System.out.println("\u001B[32m Working step -> Given " + description + "\u001B[0m");
         step = true;
         if (Configuration.useAllure) {
             Allure.step("Given " + description);
@@ -387,7 +387,7 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement then(String description) {
-        System.out.println("\u001B[32m Working step -> Then " + description);
+        System.out.println("\u001B[32m Working step -> Then " + description + "\u001B[0m");
         step = true;
         if (Configuration.useAllure) {
             Allure.step("Then " + description);
@@ -396,7 +396,7 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement when(String description) {
-        System.out.println("\u001B[32m Working step -> When " + description);
+        System.out.println("\u001B[32m Working step -> When " + description + "\u001B[0m");
         step = true;
         if (Configuration.useAllure) {
             Allure.step("When " + description);
