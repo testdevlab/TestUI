@@ -2,6 +2,7 @@ package testUI.Utils;
 
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 
 import static testUI.TestUIDriver.getDriver;
@@ -12,7 +13,7 @@ public class AppiumHelps {
             if (accesibilityId.isEmpty())
                 return getDriver().findElement(element).isDisplayed();
             return getDriver().findElementByAccessibilityId(accesibilityId).isDisplayed();
-        } catch (StaleElementReferenceException var4) {
+        } catch (NoSuchElementException e) {
             return false;
         }
     }
@@ -22,7 +23,7 @@ public class AppiumHelps {
             if (accesibilityId.isEmpty())
                 return ((MobileElement)getDriver().findElements(element).get(index)).isDisplayed();
             return ((MobileElement)getDriver().findElementsByAccessibilityId(accesibilityId)).isDisplayed();
-        } catch (StaleElementReferenceException var4) {
+        } catch (NoSuchElementException var4) {
             return false;
         }
     }
