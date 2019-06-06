@@ -44,7 +44,7 @@ public class TestUIServer {
         setService(AppiumDriverLocalService.buildService(builder));
         getServices().get(getServices().size() - 1).start();
         for (int i = 0; i < 8; i++) {
-            String serviceOut = getService(getServices().size() - 1).getStdOut();
+            String serviceOut = getServices().get(getServices().size() - 1).getStdOut();
             if (serviceOut != null) {
                 if (serviceOut.contains("Could not start REST http")) {
                     putLog("Could not start server in port: " + port + "\n Let's try a different one");
@@ -220,6 +220,44 @@ public class TestUIServer {
             removeDriver(driver - 1);
             getServices().get(driver - 1).stop();
             getServices().remove(driver - 1);
+            if (getDevices().size() != 0) {
+                stopEmulator(getDevices().get(driver - 1));
+                getDevices().remove(driver - 1);
+            }
+            Configuration.driver = getDrivers().size();
+        } else {
+            getSelenideDriver().close();
+            getSelenideDriver().quit();
+            deviceTests = true;
+        }
+    }
+
+    protected static void tryStop(int driver) {
+        if (deviceTests) {
+            try {
+                usePort.remove(driver - 1);
+                useBootstrapPort.remove(driver - 1);
+            } catch (Exception e) {
+                putLog("could not remove ports");
+            }
+            try {
+                getDrivers().get(driver - 1).quit();
+            } catch (Exception e) {
+                System.err.println("Could not quit driver, probably already stopped");
+            }
+            try {
+                removeDriver(driver - 1);
+            } catch (Exception e){
+                putLog("could not remove driver");
+            }
+            try {
+                if (getServices().size() == driver) {
+                    getServices().get(driver - 1).stop();
+                    getServices().remove(driver - 1);
+                }
+            } catch (Exception e) {
+                putLog("Could not remove services");
+            }
             if (getDevices().size() != 0) {
                 stopEmulator(getDevices().get(driver - 1));
                 getDevices().remove(driver - 1);

@@ -62,7 +62,7 @@ public class AndroidDriver {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
             if (((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) || getDevices().size() == 0) {
                 if (getServices().size() != 0) {
-                    stop(1);
+                    tryStop(1);
                 }
                 startServerAndDevice();
                 if (getDevices().size() != 0) {
