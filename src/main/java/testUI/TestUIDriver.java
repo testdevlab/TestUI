@@ -189,11 +189,13 @@ public class TestUIDriver {
                 cap.setCapability("androidInstallPath", appPath);
                 cap.setCapability("app", appPath);
             }
+            int systemPort = Integer.parseInt(Configuration.usePort.get(Configuration.usePort.size() - 1)) + 10;
+            cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
         } else {
             cap = getDesiredCapabilities();
         }
         // ADD CUSTOM CAPABILITIES
-        if (Configuration.addMobileDesiredCapabilities != null) {
+        if (!Configuration.addMobileDesiredCapabilities.asMap().isEmpty()) {
             for (String key : addMobileDesiredCapabilities.asMap().keySet()) {
                 cap.setCapability(key, addMobileDesiredCapabilities.asMap().get(key));
             }
@@ -237,6 +239,10 @@ public class TestUIDriver {
             } else {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, Configuration.AutomationName);
             }
+            int systemPort = Integer.parseInt(Configuration.usePort.get(Configuration.usePort.size() - 1)) + 10;
+            int chromeDriverPort = Integer.parseInt(Configuration.usePort.get(Configuration.usePort.size() - 1)) + 15;
+            cap.setCapability("chromeDriverPort", chromeDriverPort);
+            cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
             cap.setCapability(MobileCapabilityType.NO_RESET, true);
             cap.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
             cap.setCapability(MobileCapabilityType.BROWSER_NAME, browser);
@@ -245,7 +251,7 @@ public class TestUIDriver {
             cap = getDesiredCapabilities();
         }
         // ADD CUSTOM CAPABILITIES
-        if (Configuration.addMobileDesiredCapabilities != null) {
+        if (!Configuration.addMobileDesiredCapabilities.asMap().isEmpty()) {
             for (String key : addMobileDesiredCapabilities.asMap().keySet()) {
                 cap.setCapability(key, addMobileDesiredCapabilities.asMap().get(key));
             }
@@ -307,7 +313,7 @@ public class TestUIDriver {
             capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 10000);
             capabilities.setCapability(IOSMobileCapabilityType.COMMAND_TIMEOUTS, 15000);
             // ADD CUSTOM CAPABILITIES
-            if (Configuration.addMobileDesiredCapabilities != null) {
+            if (!Configuration.addMobileDesiredCapabilities.asMap().isEmpty()) {
                 for (String key : addMobileDesiredCapabilities.asMap().keySet()) {
                     capabilities.setCapability(key, addMobileDesiredCapabilities.asMap().get(key));
                 }
