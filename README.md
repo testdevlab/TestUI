@@ -32,7 +32,42 @@ finally discovering why your Appium server or your device did not connect to you
 functions you wrote does not work as they should.
 
 At first you will probably be happy to have a faster way of creating the Appium server and driver, but the framework
-does much more than that! It provides a fluent API which makes your code readable, simple and efficient. This framework was inspired by a similar one for desktop browser automation (Selenide), so for those who have worked with it will find the methods quite similar. Now let's check how it looks...
+does much more than that! It provides a fluent API which makes your code readable, simple and efficient. This framework was 
+inspired by a similar one for desktop browser automation (Selenide), so for those who have worked with it will find the methods 
+quite similar. Now let's check how it looks...
+
+First to start using it you can include it as a dependency in your pom.xml using jitpack:
+
+```
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+     </repositories>
+     
+      <dependencies>
+             <dependency>
+                 <groupId>com.github.testdevlab</groupId>
+                 <artifactId>TestUI</artifactId>
+                 <version>master-SNAPSHOT</version>
+             </dependency>
+      </dependencies>
+```
+
+In version you can use `master-SNAPSHOT` or the last commit reference to get the latest update.
+
+If you are using gradle:
+
+```
+repositories {
+            maven { url 'https://jitpack.io' }
+        }
+		
+dependencies {
+        implementation 'com.github.testdevlab:TestUI:master-SNAPSHOT'
+    }
+```
 
 <a name="Android"></a>
 
