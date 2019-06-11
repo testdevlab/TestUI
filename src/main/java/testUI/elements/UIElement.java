@@ -101,20 +101,20 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement click() {
-        if (Configuration.deviceTests) {
-            if (collection) {
-                waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId));
+        try {
+            if (Configuration.deviceTests) {
+                if (collection) {
+                    waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId));
+                } else {
+                    waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId), index);
+                }
+                getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index, collection).click();
             } else {
-                waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId), index);
-            }
-            getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index, collection).click();
-        } else {
-            try {
                 getSelenide(SelenideElement, index, collection).click();
-            } catch (Throwable e) {
-                takeScreenshotInFaiure();
-                throw new Error(e);
             }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
