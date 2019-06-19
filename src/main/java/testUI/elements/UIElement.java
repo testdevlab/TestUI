@@ -185,19 +185,13 @@ public class UIElement extends TestUI implements ElementActions {
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public UIElement scrollIntoView() {
+    public Scrolling scrollTo() {
         try {
-            if (Configuration.deviceTests) {
-                TouchActions action = new TouchActions(getDriver());
-                action.moveToElement(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection)).build().perform();
-            } else {
-                getSelenide(SelenideElement,index, collection).scrollIntoView(true);
-            }
+            return new Scrolling(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
         } catch (Throwable e) {
             takeScreenshotInFaiure();
             throw new Error(e);
         }
-        return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement swipe(int XCoordinate, int YCoordinate) {

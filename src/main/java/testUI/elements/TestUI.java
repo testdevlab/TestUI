@@ -60,6 +60,20 @@ public class TestUI {
         }
     }
 
+    protected MobileElement getElementWithoutException(String accesibilityIdiOS, String accesibilityId,By iOSElement, By element, int index,
+                                       boolean collection) {
+        if (collection) {
+            if (!getAccesibilityId(accesibilityIdiOS,accesibilityId).isEmpty()) {
+                return (MobileElement) getDriver().findElementsByAccessibilityId(getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
+            }
+            return (MobileElement) getDriver().findElements(getAppiumElement(iOSElement, element)).get(index);
+        }
+        if (!getAccesibilityId(accesibilityIdiOS,accesibilityId).isEmpty()) {
+            return (MobileElement) getDriver().findElementByAccessibilityId(getAccesibilityId(accesibilityIdiOS,accesibilityId));
+        }
+        return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
+    }
+
     protected SelenideElement getSelenide(By element, int index, boolean collection) {
         if (collection)
             return $$(element).get(index);

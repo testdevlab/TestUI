@@ -54,7 +54,6 @@ public class ShouldBe extends TestUI {
                         is);
             } else {
                 waitUntilVisible(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS, accesibilityId), time, is);
-
             }
         } else {
             selenideAssert(condition(is, Condition.visible), time, SelenideElement, index, collection);

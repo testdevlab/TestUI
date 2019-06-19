@@ -43,7 +43,7 @@ public interface ElementActions {
 
     UIElement sendKeys(CharSequence charSequence);
 
-    UIElement scrollIntoView();
+    Scrolling scrollTo();
 
     UIElement swipe(int XCoordinate, int YCoordinate);
 
