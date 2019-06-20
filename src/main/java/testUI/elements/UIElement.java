@@ -4,6 +4,7 @@ import io.appium.java_client.MobileElement;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.interactions.touch.TouchActions;
 import testUI.Configuration;
@@ -185,13 +186,18 @@ public class UIElement extends TestUI implements ElementActions {
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public UIElement scrollIntoView() {
+    public Scrolling scrollTo() {
+        return new Scrolling(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+    }
+
+    @Deprecated
+    public UIElement scrollIntoView(boolean upCenter) {
         try {
             if (Configuration.deviceTests) {
-                TouchActions action = new TouchActions(getDriver());
-                action.moveToElement(getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection)).build().perform();
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(" + upCenter + ");",
+                        getElementWithoutException(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection));
             } else {
-                getSelenide(SelenideElement,index, collection).scrollIntoView(true);
+                getSelenide(SelenideElement,index, collection).scrollIntoView(upCenter);
             }
         } catch (Throwable e) {
             takeScreenshotInFaiure();
