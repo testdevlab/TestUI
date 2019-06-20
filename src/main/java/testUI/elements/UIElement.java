@@ -187,12 +187,7 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public Scrolling scrollTo() {
-        try {
-            return new Scrolling(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
-        } catch (Throwable e) {
-            takeScreenshotInFaiure();
-            throw new Error(e);
-        }
+        return new Scrolling(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     @Deprecated
