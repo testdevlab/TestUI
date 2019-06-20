@@ -4,13 +4,13 @@ import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import testUI.Configuration;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
+import static java.lang.Math.abs;
 import static testUI.TestUIDriver.getDriver;
-import static testUI.Utils.AppiumHelps.visible;
 
 public class Scrolling extends TestUI {
     private By AppiumElement;
@@ -37,15 +37,19 @@ public class Scrolling extends TestUI {
         this.collection = collection;
     }
 
-    public UIElement view() {
+    public UIElement customSwipeUp(int PixelGap, int numberOfSwipes) {
         if (Configuration.deviceTests) {
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < numberOfSwipes; i++) {
                 TouchAction action = new TouchAction(getDriver());
-                action.press(PointOption.point(40, 500)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(300)))
-                        .moveTo(PointOption.point(40, 100)).release().perform();
-                if (visible(getAppiumElement(iOSElement,AppiumElement),getAccesibilityId(accesibilityIdiOS,accesibilityId))) {
-                    break;
+                int startY = 500;
+                PixelGap = abs(PixelGap);
+                int endY = 500 - PixelGap;
+                if (endY < 0) {
+                    endY = 100;
+                    startY = endY + PixelGap;
                 }
+                action.press(PointOption.point(40, startY)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(300)))
+                        .moveTo(PointOption.point(40, endY)).release().perform();
             }
         } else {
             getSelenide(SelenideElement,index, collection).scrollIntoView(true);
@@ -53,23 +57,75 @@ public class Scrolling extends TestUI {
         return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public UIElement click() {
+    public UIElement customSwipeDown(int PixelGap, int numberOfSwipes) {
         if (Configuration.deviceTests) {
-            for (int i = 0; i < 20; i++) {
-                try {
-                    getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-                    getElementWithoutException(accesibilityIdiOS, accesibilityId, iOSElement, AppiumElement, index, collection).click();
-                    break;
-                } catch (Throwable e) {
-                    System.out.println("hey");
-                    TouchAction action = new TouchAction(getDriver());
-                    action.press(PointOption.point(40, 500)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(300)))
-                            .moveTo(PointOption.point(40, 200)).release().perform();
-                    // Nothing got clicked
-                }
+            for (int i = 0; i < numberOfSwipes; i++) {
+                TouchAction action = new TouchAction(getDriver());
+                int startY = 500;
+                PixelGap = abs(PixelGap);
+                int endY = 500 + PixelGap;
+                action.press(PointOption.point(40, startY)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(300)))
+                        .moveTo(PointOption.point(40, endY)).release().perform();
             }
         } else {
-            getSelenide(SelenideElement,index, collection).scrollIntoView(true).click();
+            getSelenide(SelenideElement,index, collection).scrollIntoView(true);
+        }
+        return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+    }
+
+    public UIElement swipeLeft(int PixelGap, int startX, int startY) {
+        if (Configuration.deviceTests) {
+            TouchAction action = new TouchAction(getDriver());
+            PixelGap = abs(PixelGap);
+            int endX = startX - PixelGap;
+            action.press(PointOption.point(startX, startY)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(300)))
+                    .moveTo(PointOption.point(endX, startY)).release().perform();
+        } else {
+            getSelenide(SelenideElement,index, collection).scrollIntoView(true);
+        }
+        return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+    }
+
+    public UIElement swipeRigt(int PixelGap, int startX, int startY) {
+        if (Configuration.deviceTests) {
+            TouchAction action = new TouchAction(getDriver());
+            PixelGap = abs(PixelGap);
+            int endX = startX + PixelGap;
+            action.press(PointOption.point(startX, startY)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(300)))
+                    .moveTo(PointOption.point(endX, startY)).release().perform();
+        } else {
+            getSelenide(SelenideElement,index, collection).scrollIntoView(true);
+        }
+        return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+    }
+
+    public UIElement view(boolean upCenter) {
+        if (Configuration.deviceTests) {
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(" + upCenter + ");",
+                        getElementWithoutException(accesibilityIdiOS, accesibilityId, iOSElement, AppiumElement, index, collection));
+        } else {
+            getSelenide(SelenideElement,index, collection).scrollIntoView(upCenter);
+        }
+        return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+    }
+
+    public UIElement view(String options) {
+        if (Configuration.deviceTests) {
+            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(" + options + ");",
+                    getElementWithoutException(accesibilityIdiOS, accesibilityId, iOSElement, AppiumElement, index, collection));
+        } else {
+            getSelenide(SelenideElement,index, collection).scrollIntoView(options);
+        }
+        return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+    }
+
+    public UIElement click() {
+        if (Configuration.deviceTests) {
+            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView({behavior: \"smooth\", block: \"center\", inline: \"nearest\"});",
+                    getElementWithoutException(accesibilityIdiOS, accesibilityId, iOSElement, AppiumElement, index, collection));
+                    getElement(accesibilityIdiOS, accesibilityId, iOSElement, AppiumElement, index, collection).click();
+        } else {
+            getSelenide(SelenideElement,index, collection).scrollIntoView("{behavior: \"smooth\", block: \"center\", inline: \"nearest\"}").click();
         }
         return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }

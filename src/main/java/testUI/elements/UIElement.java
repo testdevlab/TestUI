@@ -4,6 +4,7 @@ import io.appium.java_client.MobileElement;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.interactions.touch.TouchActions;
 import testUI.Configuration;
@@ -192,6 +193,22 @@ public class UIElement extends TestUI implements ElementActions {
             takeScreenshotInFaiure();
             throw new Error(e);
         }
+    }
+
+    @Deprecated
+    public UIElement scrollIntoView(boolean upCenter) {
+        try {
+            if (Configuration.deviceTests) {
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(" + upCenter + ");",
+                        getElementWithoutException(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection));
+            } else {
+                getSelenide(SelenideElement,index, collection).scrollIntoView(upCenter);
+            }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
+        }
+        return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement swipe(int XCoordinate, int YCoordinate) {

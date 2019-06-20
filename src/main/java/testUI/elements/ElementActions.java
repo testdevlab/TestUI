@@ -45,6 +45,8 @@ public interface ElementActions {
 
     Scrolling scrollTo();
 
+    UIElement scrollIntoView(boolean upCenter);
+
     UIElement swipe(int XCoordinate, int YCoordinate);
 
     UIElement swipeRight();

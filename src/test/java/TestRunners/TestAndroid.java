@@ -16,7 +16,7 @@ public class TestAndroid {
     @DisplayName("Android browser test case")
     public void testAndroidBrowser() {
         open("http://www.crealiza.es");
-        googleLandingPage.getGoogleSearchInput().scrollTo().click()
+        googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
                 .given("Check search input visible and set value").waitFor(5).untilIsVisible().then().sendKeys("TestUI");
         googleLandingPage.getGoogleSearch().then("Check that search button visible").waitFor(10).untilIsVisible()
                 .and("Click on search button").click();
