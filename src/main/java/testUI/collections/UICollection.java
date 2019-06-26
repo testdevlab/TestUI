@@ -10,7 +10,6 @@ import testUI.elements.UIElement;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$$;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static testUI.TestUIDriver.getDriver;
 import static testUI.Utils.AppiumHelps.*;
 import static testUI.elements.TestUI.takeScreenshotInFaiure;
@@ -156,8 +155,7 @@ public class UICollection implements Collection {
             }
         }
         takeScreenshotInFaiure();
-        assertThat("No visible element with this selector: " + element.toString(), false);
-        return new UIElement(element, SelenideElement, element, index, true, accesibilityId,accesibilityIdiOS);
+        throw new Error("No visible element with this selector: " + element.toString());
     }
 
     public UIElement findByText(String text) {
@@ -175,8 +173,7 @@ public class UICollection implements Collection {
             }
         }
         takeScreenshotInFaiure();
-        assertThat("No visible element with that text '" + text + "' and this selector: " + element.toString(), false);
-        return new UIElement(element, SelenideElement, element, index, true, accesibilityId,accesibilityIdiOS);
+        throw new Error("No visible element with that text '" + text + "' and this selector: " + element.toString());
     }
 
     public UIElement findByEnabled() {
@@ -194,7 +191,6 @@ public class UICollection implements Collection {
             }
         }
         takeScreenshotInFaiure();
-        assertThat("No enabled element with this selector: " + element.toString(), false);
-        return new UIElement(element, SelenideElement, element, index, true, accesibilityId,accesibilityIdiOS);
+        throw new Error("No enabled element with this selector: " + element.toString());
     }
 }
