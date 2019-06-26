@@ -6,7 +6,6 @@ import testUI.Configuration;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static testUI.TestUIDriver.getDrivers;
 import static testUI.TestUIDriver.takeScreenshot;
 import static testUI.UIUtils.getDevicesNames;
@@ -16,29 +15,31 @@ import static testUI.Utils.AppiumHelps.*;
 public class WaitUntil {
 
     private static void assertFunction(String element, String accesibility, String reason, boolean found) {
-        if (!found && Configuration.useAllure) {
-            boolean test = Configuration.deviceTests;
-            Configuration.deviceTests = true;
-            for (int index = 0; index < getDrivers().size(); index++) {
-                byte[] screenshot = takeScreenshot(index);
-                List<String> deviceName = Configuration.iOSTesting && index == 0 ? getIOSDevices() : getDevicesNames();
-                Allure.getLifecycle().addAttachment("Screenshot Mobile " + deviceName.get(index), "image/png", "png", screenshot);
-            }
-            Configuration.deviceTests = false;
-            if (WebDriverRunner.driver().hasWebDriverStarted()) {
-                try {
-                    byte[] screenshot = takeScreenshot();
-                    Allure.getLifecycle().addAttachment("Screenshot Laptop Browser", "image/png", "png", screenshot);
-                } catch (Exception e) {
-                    System.err.println("Could not take a screenshot in the laptop browser...");
+        if (!found) {
+            if (Configuration.useAllure) {
+                boolean test = Configuration.deviceTests;
+                Configuration.deviceTests = true;
+                for (int index = 0; index < getDrivers().size(); index++) {
+                    byte[] screenshot = takeScreenshot(index);
+                    List<String> deviceName = Configuration.iOSTesting && index == 0 ? getIOSDevices() : getDevicesNames();
+                    Allure.getLifecycle().addAttachment("Screenshot Mobile " + deviceName.get(index), "image/png", "png", screenshot);
                 }
+                Configuration.deviceTests = false;
+                if (WebDriverRunner.driver().hasWebDriverStarted()) {
+                    try {
+                        byte[] screenshot = takeScreenshot();
+                        Allure.getLifecycle().addAttachment("Screenshot Laptop Browser", "image/png", "png", screenshot);
+                    } catch (Exception e) {
+                        System.err.println("Could not take a screenshot in the laptop browser...");
+                    }
+                }
+                Configuration.deviceTests = test;
             }
-            Configuration.deviceTests = test;
-        }
-        if (accesibility.isEmpty()) {
-            assertThat("The element '" + element + "' " + reason, found);
-        } else {
-            assertThat("The element 'By.accessibilityId: " + accesibility + "' " + reason, found);
+            if (accesibility.isEmpty()) {
+                throw new Error("The element '" + element + "' " + reason);
+            } else {
+                throw new Error("The element 'By.accessibilityId: " + accesibility + "' " + reason);
+            }
         }
     }
 

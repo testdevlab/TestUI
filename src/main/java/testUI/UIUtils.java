@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.open;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.TestUIDriver.*;
 import static testUI.Utils.AppiumHelps.sleep;
@@ -252,6 +251,8 @@ public class UIUtils {
         if (!assertion && Configuration.useAllure) {
             takeScreenshotInFaiure();
         }
-        assertThat(reason, assertion);
+        if (!assertion) {
+            throw new Error(reason);
+        }
     }
 }

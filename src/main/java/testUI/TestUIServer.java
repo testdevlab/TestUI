@@ -12,9 +12,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.not;
 import static testUI.ADBUtils.*;
 import static testUI.Configuration.*;
 import static testUI.TestUIDriver.*;
@@ -174,9 +171,11 @@ public class TestUIServer {
         if (!iOSTesting) {
             if (androidDeviceName.isEmpty() && emulatorName.isEmpty()) {
                 if (connectedDevices <= device) {
-                    assertThat("There are not enough devices connected", useEmulators);
-                    assertThat("There are no emulators to start the automation",
-                            getEmulatorName().get(device - realDevices), not(isEmptyOrNullString()));
+                    if (!useEmulators) {
+                        throw new Error("There are not enough devices connected");
+                    } else if (getEmulatorName().get(device - realDevices) == null || getEmulatorName().get(device - realDevices).isEmpty()) {
+                        throw new Error("There are no emulators to start the automation");
+                    }
                     Configuration.emulatorName = getEmulatorName().get(device - realDevices);
                     setEmulator(Configuration.emulatorName);
                     attachShutDownHookStopEmulator(getServices());
