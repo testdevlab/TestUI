@@ -35,7 +35,7 @@ public class WaitUntil {
                 }
                 Configuration.deviceTests = test;
             }
-            if (accesibility.isEmpty()) {
+            if (accesibility == null || accesibility.isEmpty()) {
                 throw new Error("The element '" + element + "' " + reason);
             } else {
                 throw new Error("The element 'By.accessibilityId: " + accesibility + "' " + reason);
