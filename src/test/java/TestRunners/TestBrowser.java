@@ -9,8 +9,8 @@ import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.UIOpen.navigate;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.setDevice;
-import static testUI.Utils.By.byName;
-import static testUI.Utils.By.byXpath;
+import static testUI.Utils.AppiumHelps.sleep;
+import static testUI.Utils.By.*;
 
 public class TestBrowser {
     private GoogleLandingPage googleLandingPage = new GoogleLandingPage();
@@ -30,14 +30,15 @@ public class TestBrowser {
     @DisplayName("Laptop browser test case one line code")
     public void testAndroidBrowserOneLine() {
         Configuration.deviceTests = false;
-        open("https://www.google.com")
-                .given("I set element").setElement(byXpath("//input[@name='q']"))
+        open("https://loadero.com/login")
+                .given("I set element").setElement(byCssSelector("#username"))
                 .and("I check if visible").waitFor(5).untilIsVisible()
-                .and("I send keys").setValueJs("TestUI")
-                .then("I find the search button").setCollection(byName("btnK")).findByVisible()
-                .and("I click on it").click()
-                .when("I navigate to the google main page").navigateTo("https://www.google.com")
-                .then("I check that the search field is visible").setElement(byXpath("//input[@name='q']")).shouldBe().visible();
+                .and("I send keys").setValueJs("TestUI@yopmail.com")
+                .given("I set element").setElement(byCssSelector("#password"))
+                .and("I check if visible").waitFor(5).untilIsVisible()
+                .and("I send keys").setValueJs("password")
+                .then("I find the submit").setElement(byCssSelector("[type=\"submit\"]"))
+                .and("I click on it").click();
     }
 
     @Test
