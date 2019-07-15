@@ -6,10 +6,8 @@ import pages.GoogleLandingPage;
 import testUI.Configuration;
 
 import static testUI.ADBUtils.checkAndInstallChromedriver;
-import static testUI.UIOpen.navigate;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.setDevice;
-import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
 
 public class TestBrowser {
@@ -39,7 +37,6 @@ public class TestBrowser {
                 .and("I send keys").setValueJs("password")
                 .then("I find the submit").setElement(byCssSelector("[type=\"submit\"]"))
                 .and("I click on it").click();
-        sleep(5000);
     }
 
     @Test
