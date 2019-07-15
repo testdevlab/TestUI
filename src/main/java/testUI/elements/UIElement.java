@@ -203,6 +203,41 @@ public class UIElement extends TestUI implements ElementActions {
         return new UIElement(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
 
+    public UIElement setValueJs(String value, boolean clickBeforeSetValue) {
+        if (clickBeforeSetValue) {
+            click();
+        }
+        try {
+            if (Configuration.deviceTests) {
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].value='" + value + "';",
+                        getElementWithoutException(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection));
+            } else {
+                ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript("arguments[0].value='" + value + "';",
+                        getSelenide(SelenideElement, index, collection));
+            }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
+        }
+        return new UIElement(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+    }
+
+    public UIElement executeJsOverElement(String JsScript) {
+        try {
+            if (Configuration.deviceTests) {
+                ((JavascriptExecutor) getDriver()).executeScript(JsScript,
+                        getElementWithoutException(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection));
+            } else {
+                ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript(JsScript,
+                        getSelenide(SelenideElement, index, collection));
+            }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
+        }
+        return new UIElement(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+    }
+
     public Scrolling scrollTo() {
         return new Scrolling(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
