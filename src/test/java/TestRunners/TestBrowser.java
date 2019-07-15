@@ -22,7 +22,7 @@ public class TestBrowser {
     public void testAndroidBrowser() {
         Configuration.deviceTests = false;
         open("https://www.google.com");
-        googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible().then().setValueJs("TestUI");
+        googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible().then().sendKeys("TestUI");
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click();
     }
 
@@ -33,8 +33,8 @@ public class TestBrowser {
         open("https://www.google.com")
                 .given("I set element").setElement(byXpath("//input[@name='q']"))
                 .and("I check if visible").waitFor(5).untilIsVisible()
-                .and("I send keys").sendKeys("TestUI")
-                .then("I find the search button").setElement(byName("btnK"))
+                .and("I send keys").setValueJs("TestUI")
+                .then("I find the search button").setCollection(byName("btnK")).findByVisible()
                 .and("I click on it").click()
                 .when("I navigate to the google main page").navigateTo("https://www.google.com")
                 .then("I check that the search field is visible").setElement(byXpath("//input[@name='q']")).shouldBe().visible();
