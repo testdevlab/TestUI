@@ -2,10 +2,7 @@ package TestRunners;
 
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
-import pages.FacebookLandingPage;
 import pages.GoogleLandingPage;
-import pages.LandingPage;
-import testUI.Configuration;
 
 import static testUI.UIOpen.open;
 
@@ -15,9 +12,9 @@ public class TestAndroid {
     @Test
     @DisplayName("Android browser test case")
     public void testAndroidBrowser() {
-        open("http://www.crealiza.es");
+        open("https://www.google.com");
         googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
-                .given("Check search input visible and set value").waitFor(5).untilIsVisible().then().sendKeys("TestUI");
+                .given("Check search input visible and set value").waitFor(5).untilIsVisible().then().setValueJs("TestUI");
         googleLandingPage.getGoogleSearch().then("Check that search button visible").waitFor(10).untilIsVisible()
                 .and("Click on search button").click();
     }

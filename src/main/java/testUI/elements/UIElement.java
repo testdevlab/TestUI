@@ -192,7 +192,7 @@ public class UIElement extends TestUI implements ElementActions {
     public UIElement setValueJs(String value) {
         try {
             if (Configuration.deviceTests) {
-                ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript("arguments[0].value='" + value + "';",
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].value='" + value + "';",
                         getElementWithoutException(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection));
             } else {
                 ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript("arguments[0].value='" + value + "';",
