@@ -105,7 +105,7 @@ public class UIUtils {
         com.codeborne.selenide.Configuration.browserSize = Configuration.browserSize.isEmpty() ? defaults.browserSize() : Configuration.browserSize;
         com.codeborne.selenide.Configuration.fastSetValue = Configuration.fastSetValue;
         com.codeborne.selenide.Configuration.remote = Configuration.remote.isEmpty() ? defaults.remote() : Configuration.remote;
-        com.codeborne.selenide.Configuration.browserPosition = Configuration.browserPosition.isEmpty() ? defaults.remote() : Configuration.browserPosition;
+        com.codeborne.selenide.Configuration.browserPosition = Configuration.browserPosition.isEmpty() ? defaults.browserPosition() : Configuration.browserPosition;
     }
 
     protected static void startSelenideDriver(String urlOrRelativeUrl) {

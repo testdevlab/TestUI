@@ -43,6 +43,12 @@ public interface ElementActions {
 
     UIElement sendKeys(CharSequence charSequence);
 
+    UIElement setValueJs(String value);
+
+    UIElement setValueJs(String value, boolean clickBeforeSetValue);
+
+    UIElement executeJsOverElement(String JsScript);
+
     Scrolling scrollTo();
 
     UIElement scrollIntoView(boolean upCenter);
