@@ -1,5 +1,6 @@
 package testUI.elements;
 
+import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.MobileElement;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
@@ -186,6 +187,22 @@ public class UIElement extends TestUI implements ElementActions {
             throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+    }
+
+    public UIElement setValueJs(String value) {
+        try {
+            if (Configuration.deviceTests) {
+                ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript("arguments[0].value='" + value + "';",
+                        getElementWithoutException(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection));
+            } else {
+                ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript("arguments[0].value='" + value + "';",
+                        getSelenide(SelenideElement, index, collection));
+            }
+        } catch (Throwable e) {
+            takeScreenshotInFaiure();
+            throw new Error(e);
+        }
+        return new UIElement(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
 
     public Scrolling scrollTo() {

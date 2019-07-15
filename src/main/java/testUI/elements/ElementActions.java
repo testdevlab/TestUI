@@ -43,6 +43,8 @@ public interface ElementActions {
 
     UIElement sendKeys(CharSequence charSequence);
 
+    UIElement setValueJs(String value);
+
     Scrolling scrollTo();
 
     UIElement scrollIntoView(boolean upCenter);

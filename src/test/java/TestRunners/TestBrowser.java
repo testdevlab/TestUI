@@ -22,7 +22,7 @@ public class TestBrowser {
     public void testAndroidBrowser() {
         Configuration.deviceTests = false;
         open("https://www.google.com");
-        googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible().then().sendKeys("TestUI");
+        googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible().then().setValueJs("TestUI");
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click();
     }
 
