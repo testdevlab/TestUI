@@ -33,12 +33,13 @@ public class TestBrowser {
         open("https://loadero.com/login")
                 .given("I set element").setElement(byCssSelector("#username"))
                 .and("I check if visible").waitFor(5).untilIsVisible()
-                .and("I send keys").setValueJs("TestUI@yopmail.com")
+                .and("I send keys").setValueJs("\\uD83D\\uDE00")
                 .given("I set element").setElement(byCssSelector("#password"))
                 .and("I check if visible").waitFor(5).untilIsVisible()
                 .and("I send keys").setValueJs("password")
                 .then("I find the submit").setElement(byCssSelector("[type=\"submit\"]"))
                 .and("I click on it").click();
+        sleep(5000);
     }
 
     @Test
