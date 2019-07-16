@@ -4,6 +4,7 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import pages.GoogleLandingPage;
 
+import static testUI.TestUIDriver.getAndroidTestUIDriver;
 import static testUI.UIOpen.open;
 
 public class TestAndroid {
@@ -13,6 +14,8 @@ public class TestAndroid {
     @DisplayName("Android browser test case")
     public void testAndroidBrowser() {
         open("https://www.google.com");
+        getAndroidTestUIDriver().toggleWifi();
+        getAndroidTestUIDriver().toggleWifi();
         googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
                 .given("Check search input visible and set value").waitFor(5).untilIsVisible().then().setValueJs("TestUI");
         googleLandingPage.getGoogleSearch().then("Check that search button visible").waitFor(10).untilIsVisible()

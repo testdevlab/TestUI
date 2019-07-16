@@ -9,7 +9,7 @@ import static testUI.TestUIDriver.*;
 import static testUI.TestUIServer.*;
 import static testUI.UIUtils.*;
 
-public class AndroidDriver {
+public class AndroidTestUIDriver {
 
     // ANDROID APP AND BROWSER SUPPORT
 
@@ -22,7 +22,7 @@ public class AndroidDriver {
             }
             startServerAndDevice();
             DesiredCapabilities cap = setAppAndroidCapabilities();
-            startFirstDriver(cap);
+            startFirstAndroidDriver(cap);
             if (!emulatorName.isEmpty()) {
                 setDevice(getDriver().getCapabilities().asMap().get("deviceUDID").toString(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
                 attachShutDownHookStopEmulator(getServices(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
@@ -36,7 +36,7 @@ public class AndroidDriver {
             } else {
                 putAllureParameter("Using Appium url", appiumUrl);
             }
-            startFirstDriver(cap);
+            startFirstAndroidDriver(cap);
             putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
         }
         emulatorName = "";
@@ -47,7 +47,7 @@ public class AndroidDriver {
         iOSTesting = false;
         startServerAndDevice();
         DesiredCapabilities cap = setAppAndroidCapabilities();
-        startDriver(cap);
+        startAndroidDriver(cap);
         if (!emulatorName.isEmpty()) {
             setDevice(getDriver().getCapabilities().asMap().get("deviceUDID").toString(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
             attachShutDownHookStopEmulator(getServices(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
@@ -110,7 +110,7 @@ public class AndroidDriver {
                 checkAndInstallChromedriver();
             }
             DesiredCapabilities cap = setAndroidBrowserCapabilities();
-            startBrowserDriver(cap, urlOrRelativeUrl);
+            startBrowserAndroidDriver(cap, urlOrRelativeUrl);
             if (!emulatorName.isEmpty()) {
                 setDevice(getDriver().getCapabilities().asMap().get("deviceUDID").toString(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
                 attachShutDownHookStopEmulator(getServices(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
