@@ -1,7 +1,8 @@
 package testUI;
 
 import com.codeborne.selenide.SelenideConfig;
-import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -121,10 +122,10 @@ public class UIUtils {
             try {
                 putLog("Starting appium driver...");
                 if (getDrivers().size() == 0) {
-                    setDriver(new AppiumDriver(new URL(url), cap) {
+                    setDriver(new IOSDriver(new URL(url), cap) {
                     });
                 } else {
-                    setDriver(new AppiumDriver(new URL(url), cap) {
+                    setDriver(new IOSDriver(new URL(url), cap) {
                     }, 0);
                 }
                 Configuration.driver = 1;
@@ -149,10 +150,10 @@ public class UIUtils {
             try {
                 putLog("Starting appium driver...");
                 if (getDrivers().size() == 0) {
-                    setDriver(new AppiumDriver(new URL(url), cap) {
+                    setDriver(new AndroidDriver(new URL(url), cap) {
                     });
                 } else {
-                    setDriver(new AppiumDriver(new URL(url), cap) {
+                    setDriver(new AndroidDriver(new URL(url), cap) {
                     }, 0);
                 }
                 Configuration.driver = 1;
@@ -173,12 +174,12 @@ public class UIUtils {
         }
     }
 
-    protected static void startBrowserDriver(DesiredCapabilities desiredCapabilities, String urlOrRelativeUrl) {
+    protected static void startBrowserAndroidDriver(DesiredCapabilities desiredCapabilities, String urlOrRelativeUrl) {
         String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(Configuration.usePort.size()-1) + "/wd/hub" :
                 Configuration.appiumUrl;
         for (int i = 0; i < 2 ; i++) {
             try {
-                setDriver(new AppiumDriver(new URL(url),
+                setDriver(new AndroidDriver(new URL(url),
                         desiredCapabilities) {
                 });
                 Configuration.driver = getDrivers().size();
@@ -200,15 +201,42 @@ public class UIUtils {
         }
     }
 
-    protected static void startFirstDriver(DesiredCapabilities desiredCapabilities) {
+    protected static void startBrowserIOSDriver(DesiredCapabilities desiredCapabilities, String urlOrRelativeUrl) {
+        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(Configuration.usePort.size()-1) + "/wd/hub" :
+                Configuration.appiumUrl;
+        for (int i = 0; i < 2 ; i++) {
+            try {
+                setDriver(new IOSDriver(new URL(url),
+                        desiredCapabilities) {
+                });
+                Configuration.driver = getDrivers().size();
+                getDriver().get(urlOrRelativeUrl);
+                break;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                System.err.println("Could not create driver! retrying...");
+                if (getDevices().size() != 0) {
+                    checkAndInstallChromedriver();
+                }
+                sleep(500);
+                if (i == 1) {
+                    e.printStackTrace();
+                    throw new Error();
+                }
+            }
+        }
+    }
+
+    protected static void startFirstAndroidDriver(DesiredCapabilities desiredCapabilities) {
         String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(0) + "/wd/hub" : Configuration.appiumUrl;
         for (int i = 0; i < 2 ; i++) {
             try {
                 if (getDrivers().size() == 0) {
-                    setDriver(new AppiumDriver(new URL(url), desiredCapabilities) {
+                    setDriver(new AndroidDriver(new URL(url), desiredCapabilities) {
                     });
                 } else {
-                    setDriver(new AppiumDriver(new URL(url), desiredCapabilities) {
+                    setDriver(new AndroidDriver(new URL(url), desiredCapabilities) {
                     }, 0);
                 }
                 break;
@@ -223,16 +251,39 @@ public class UIUtils {
         }
     }
 
-    protected static void startDriver(DesiredCapabilities desiredCapabilities) {
+    protected static void startFirstIOSDriver(DesiredCapabilities desiredCapabilities) {
+        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(0) + "/wd/hub" : Configuration.appiumUrl;
+        for (int i = 0; i < 2 ; i++) {
+            try {
+                if (getDrivers().size() == 0) {
+                    setDriver(new IOSDriver(new URL(url), desiredCapabilities) {
+                    });
+                } else {
+                    setDriver(new IOSDriver(new URL(url), desiredCapabilities) {
+                    }, 0);
+                }
+                break;
+            } catch (Exception e) {
+                System.err.println("Could not create driver! retrying...");
+                sleep(500);
+                if (i == 1) {
+                    System.err.println("Could not create driver! check that the devices are correctly connected and in debug mode");
+                    throw new Error(e);
+                }
+            }
+        }
+    }
+
+    protected static void startAndroidDriver(DesiredCapabilities desiredCapabilities) {
         String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(Configuration.usePort.size()-1) + "/wd/hub" :
                 Configuration.appiumUrl;
         for (int i = 0; i < 2 ; i++) {
             try {
                 if (getDrivers().size() == 0) {
-                    setDriver(new AppiumDriver(new URL(url), desiredCapabilities) {
+                    setDriver(new AndroidDriver(new URL(url), desiredCapabilities) {
                     });
                 } else {
-                    setDriver(new AppiumDriver(new URL(url), desiredCapabilities) {
+                    setDriver(new AndroidDriver(new URL(url), desiredCapabilities) {
                     }, 0);
                 }
                 break;

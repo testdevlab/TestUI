@@ -2,6 +2,8 @@ package testUI;
 
 import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileBrowserType;
@@ -28,10 +30,19 @@ import static testUI.iOSCommands.*;
 
 public class TestUIDriver {
     private static List<AppiumDriver> driver = new ArrayList<>();
+    private static List<AndroidDriver> AndroidTestUIDriver = new ArrayList<>();
+    private static List<IOSDriver> IOSTestUIDriver = new ArrayList<>();
     private static Map<String, AppiumDriver> driverNames = new HashMap<>();
 
-    public synchronized static UIElement setDriver(AppiumDriver driver) {
+    public synchronized static UIElement setDriver(AndroidDriver driver) {
         TestUIDriver.driver.add(driver);
+        TestUIDriver.AndroidTestUIDriver.add(driver);
+        return TestUI.E("");
+    }
+
+    public synchronized static UIElement setDriver(IOSDriver driver) {
+        TestUIDriver.driver.add(driver);
+        TestUIDriver.IOSTestUIDriver.add(driver);
         return TestUI.E("");
     }
 
@@ -50,6 +61,27 @@ public class TestUIDriver {
 
     public synchronized static void setDriver(AppiumDriver driver, int driverNumber) {
         TestUIDriver.driver.set(driverNumber, driver);
+    }
+
+    public synchronized static void setDriver(AndroidDriver driver, int driverNumber) {
+        TestUIDriver.AndroidTestUIDriver.set(driverNumber, driver);
+        TestUIDriver.driver.set(driverNumber, driver);
+    }
+
+    public static AndroidDriver getAndroidTestUIDriver() {
+        if (AndroidTestUIDriver.isEmpty() || AndroidTestUIDriver.size() < Configuration.driver) {
+            throw new NullPointerException("There is no driver bound to the automation, start driver before running test cases! \n" +
+                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + AndroidTestUIDriver.size());
+        }
+        return AndroidTestUIDriver.get(Configuration.driver - 1);
+    }
+
+    public static IOSDriver getIOSTestUIDriver() {
+        if (IOSTestUIDriver.isEmpty() || IOSTestUIDriver.size() < Configuration.driver) {
+            throw new NullPointerException("There is no driver bound to the automation, start driver before running test cases! \n" +
+                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + IOSTestUIDriver.size());
+        }
+        return IOSTestUIDriver.get(Configuration.driver - 1);
     }
 
     public static AppiumDriver getDriver() {

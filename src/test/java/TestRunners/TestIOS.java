@@ -7,6 +7,7 @@ import pages.GoogleLandingPage;
 import pages.LandingPage;
 import testUI.Configuration;
 
+import static testUI.TestUIDriver.getIOSTestUIDriver;
 import static testUI.UIOpen.open;
 
 public class TestIOS {
@@ -18,6 +19,7 @@ public class TestIOS {
         Configuration.deviceTests = true;
         Configuration.iOSTesting = true;
         open("https://www.facebook.com");
+        System.out.println(getIOSTestUIDriver().getBatteryInfo().getState());
         facebookLandingPage.getSafariFacebookEmailDiv().click();
         facebookLandingPage.getSafariFacebookEmailInput()
                 .given().waitFor(5).untilIsVisible()

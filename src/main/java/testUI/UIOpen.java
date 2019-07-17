@@ -3,9 +3,9 @@ package testUI;
 import testUI.elements.TestUI;
 import testUI.elements.UIElement;
 
-import static testUI.AndroidDriver.*;
+import static testUI.AndroidTestUIDriver.*;
 import static testUI.Configuration.*;
-import static testUI.IOSDriver.*;
+import static testUI.IOSTestUIDriver.*;
 import static testUI.TestUIDriver.getDesiredCapabilities;
 import static testUI.UIUtils.putLog;
 import static testUI.elements.TestUI.setScreenshotTaken;

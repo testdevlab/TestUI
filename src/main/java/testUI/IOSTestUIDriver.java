@@ -8,7 +8,7 @@ import static testUI.TestUIServer.startServerAndDevice;
 import static testUI.TestUIServer.stop;
 import static testUI.UIUtils.*;
 
-public class IOSDriver {
+public class IOSTestUIDriver {
 
     // NOW IOS APP AND BROWSER
 
@@ -22,7 +22,7 @@ public class IOSDriver {
             }
             startServerAndDevice();
             DesiredCapabilities cap = setIOSCapabilities(false);
-            startFirstDriver(cap);
+            startFirstIOSDriver(cap);
         } else {
             DesiredCapabilities cap = setIOSCapabilities(false);
             if (appiumUrl.isEmpty()) {
@@ -30,7 +30,7 @@ public class IOSDriver {
             } else {
                 putAllureParameter("Using Appium url", appiumUrl);
             }
-            startFirstDriver(cap);
+            startFirstIOSDriver(cap);
         }
     }
 
@@ -41,11 +41,11 @@ public class IOSDriver {
         if (getServices().size() == 0 || !getServices().get(0).isRunning()) {
             startServerAndDevice();
             DesiredCapabilities cap = setIOSCapabilities(false);
-            startFirstDriver(cap);
+            startFirstIOSDriver(cap);
         } else {
             DesiredCapabilities cap = setIOSCapabilities(false);
             putAllureParameter("Using Appium port", usePort.get(0));
-            startFirstDriver(cap);
+            startFirstIOSDriver(cap);
         }
     }
 
@@ -80,10 +80,10 @@ public class IOSDriver {
         if (getServices().size() == 0 || !getServices().get(0).isRunning()) {
             startServerAndDevice();
             DesiredCapabilities cap = setIOSCapabilities(true);
-            startBrowserDriver(cap, urlOrRelativeUrl);
+            startBrowserIOSDriver(cap, urlOrRelativeUrl);
         } else {
             DesiredCapabilities cap = setIOSCapabilities(true);
-            startBrowserDriver(cap, urlOrRelativeUrl);
+            startBrowserIOSDriver(cap, urlOrRelativeUrl);
         }
         putAllureParameter("Browser", "Safari");
     }
