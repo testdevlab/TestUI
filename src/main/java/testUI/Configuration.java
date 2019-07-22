@@ -36,6 +36,7 @@ public class Configuration extends SelenideConfiguration {
     public static String AutomationName = "";
     public static boolean useNewWDA = true;
     public static String serverLogLevel = "error";
+    public static String screenshotPath = "";
 
     protected static DesiredCapabilities desiredCapabilities;
     protected static int iOSDevices = 0;

@@ -21,7 +21,8 @@ public class TestBrowser {
         Configuration.deviceTests = false;
         open("https://www.google.com");
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible().then().sendKeys("TestUI");
-        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click();
+        Configuration.screenshotPath = "target/";
+        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("screen.png");
     }
 
     @Test

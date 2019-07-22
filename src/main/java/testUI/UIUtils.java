@@ -18,7 +18,7 @@ import static com.codeborne.selenide.Selenide.open;
 import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.TestUIDriver.*;
 import static testUI.Utils.AppiumHelps.sleep;
-import static testUI.elements.TestUI.takeScreenshotInFaiure;
+import static testUI.elements.TestUI.takeScreenshotsAllure;
 
 public class UIUtils {
     private static Logger logger = LoggerFactory.getLogger(UIUtils.class);
@@ -300,7 +300,7 @@ public class UIUtils {
 
     public static void UIAssert(String reason, boolean assertion){
         if (!assertion && Configuration.useAllure) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
         }
         if (!assertion) {
             throw new Error(reason);

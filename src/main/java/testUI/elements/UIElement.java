@@ -113,7 +113,7 @@ public class UIElement extends TestUI implements ElementActions {
             try {
                 getSelenide(SelenideElement, index, collection).click();
             } catch (Throwable e) {
-                takeScreenshotInFaiure();
+                takeScreenshotsAllure();
                 throw new Error(e);
             }
         }
@@ -132,7 +132,7 @@ public class UIElement extends TestUI implements ElementActions {
             try {
                 return getSelenide(SelenideElement, index, collection).getSize();
             } catch (Throwable e) {
-                takeScreenshotInFaiure();
+                takeScreenshotsAllure();
                 throw new Error(e);
             }
         }
@@ -150,7 +150,7 @@ public class UIElement extends TestUI implements ElementActions {
             try{
                 return getSelenide(SelenideElement,index, collection).getLocation();
             } catch (Throwable e) {
-                takeScreenshotInFaiure();
+                takeScreenshotsAllure();
                 throw new Error(e);
             }
         }
@@ -167,7 +167,7 @@ public class UIElement extends TestUI implements ElementActions {
             }
             return getSelenide(SelenideElement,index, collection).getText();
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
     }
@@ -180,7 +180,7 @@ public class UIElement extends TestUI implements ElementActions {
                 getSelenide(SelenideElement, index, collection).sendKeys(charSequence);
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
@@ -197,7 +197,7 @@ public class UIElement extends TestUI implements ElementActions {
                         getSelenide(SelenideElement, index, collection));
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
@@ -216,7 +216,7 @@ public class UIElement extends TestUI implements ElementActions {
                         getSelenide(SelenideElement, index, collection));
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
@@ -232,7 +232,7 @@ public class UIElement extends TestUI implements ElementActions {
                         getSelenide(SelenideElement, index, collection));
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
@@ -252,7 +252,7 @@ public class UIElement extends TestUI implements ElementActions {
                 getSelenide(SelenideElement,index, collection).scrollIntoView(upCenter);
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
@@ -267,7 +267,7 @@ public class UIElement extends TestUI implements ElementActions {
                 getSelenide(SelenideElement,index, collection).scrollIntoView(true);
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
@@ -285,7 +285,7 @@ public class UIElement extends TestUI implements ElementActions {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS);
@@ -303,7 +303,7 @@ public class UIElement extends TestUI implements ElementActions {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
@@ -313,7 +313,7 @@ public class UIElement extends TestUI implements ElementActions {
         try {
             return getElement(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection);
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
     }
@@ -326,7 +326,7 @@ public class UIElement extends TestUI implements ElementActions {
                     getSelenide(SelenideElement, index, collection).clear();
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
@@ -340,7 +340,7 @@ public class UIElement extends TestUI implements ElementActions {
                 return getSelenide(SelenideElement, index, collection).getCssValue(cssValue);
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
     }
@@ -353,7 +353,7 @@ public class UIElement extends TestUI implements ElementActions {
                 return getSelenide(SelenideElement, index, collection).getValue();
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
     }
@@ -366,7 +366,7 @@ public class UIElement extends TestUI implements ElementActions {
                 return getSelenide(SelenideElement, index, collection).name();
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
     }
@@ -379,7 +379,7 @@ public class UIElement extends TestUI implements ElementActions {
                 return getSelenide(SelenideElement, index, collection).getAttribute(Attribute);
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
     }

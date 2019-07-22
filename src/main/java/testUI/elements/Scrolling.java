@@ -56,7 +56,7 @@ public class Scrolling extends TestUI {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
@@ -77,7 +77,7 @@ public class Scrolling extends TestUI {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
@@ -95,7 +95,7 @@ public class Scrolling extends TestUI {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
@@ -113,7 +113,7 @@ public class Scrolling extends TestUI {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
@@ -128,7 +128,7 @@ public class Scrolling extends TestUI {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(upCenter);
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
@@ -143,7 +143,7 @@ public class Scrolling extends TestUI {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(options);
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
@@ -159,7 +159,7 @@ public class Scrolling extends TestUI {
                 getSelenide(SelenideElement, index, collection).scrollIntoView("{behavior: \"smooth\", block: \"center\", inline: \"nearest\"}").click();
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
         return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);

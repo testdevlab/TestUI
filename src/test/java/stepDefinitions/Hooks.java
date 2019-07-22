@@ -77,7 +77,7 @@ public class Hooks {
         open("https://www.google.com");
     }
 
-    @After(order = 0) // takeScreenshot IS A TESTUI METHOD THAT RETURNS SCREENSHOT IN BYTE TYPE
+    @After(order = 0) // saveScreenshot IS A TESTUI METHOD THAT RETURNS SCREENSHOT IN BYTE TYPE
     public void takeScreenshotAfterFailure(Scenario scenario){
         if(scenario.isFailed()){
             byte[] screenshot = takeScreenshot();
