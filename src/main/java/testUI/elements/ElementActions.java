@@ -49,6 +49,8 @@ public interface ElementActions {
 
     UIElement executeJsOverElement(String JsScript);
 
+    UIElement executeJs(String var1, Object... var2);
+
     Scrolling scrollTo();
 
     UIElement scrollIntoView(boolean upCenter);

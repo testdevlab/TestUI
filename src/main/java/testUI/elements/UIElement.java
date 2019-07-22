@@ -238,6 +238,20 @@ public class UIElement extends TestUI implements ElementActions {
         return new UIElement(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
 
+    public UIElement executeJs(String var1, Object... var2) {
+        try {
+            if (Configuration.deviceTests) {
+                ((JavascriptExecutor) getDriver()).executeScript(var1, var2);
+            } else {
+                ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript(var1, var2);
+            }
+        } catch (Throwable e) {
+            takeScreenshotsAllure();
+            throw new Error(e);
+        }
+        return new UIElement(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+    }
+
     public Scrolling scrollTo() {
         return new Scrolling(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
