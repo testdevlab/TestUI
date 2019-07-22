@@ -120,6 +120,26 @@ public class UIElement extends TestUI implements ElementActions {
         return new UIElement(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
 
+    public UIElement doubleClick() {
+        try {
+            if (Configuration.deviceTests) {
+                if (collection) {
+                    waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId));
+                } else {
+                    waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId), index);
+                }
+                getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index, collection).click();
+                getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index, collection).click();
+            } else {
+                getSelenide(SelenideElement, index, collection).doubleClick();
+            }
+        } catch (Throwable e) {
+            takeScreenshotsAllure();
+            throw new Error(e);
+        }
+        return new UIElement(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+    }
+
     public Dimension getSize() {
         if (Configuration.deviceTests) {
             if (collection) {

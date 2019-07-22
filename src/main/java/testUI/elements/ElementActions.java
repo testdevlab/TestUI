@@ -33,6 +33,8 @@ public interface ElementActions {
 
     UIElement click();
 
+    UIElement doubleClick();
+
     Dimension getSize();
 
     Point getLocation();

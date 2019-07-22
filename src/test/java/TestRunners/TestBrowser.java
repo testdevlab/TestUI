@@ -7,6 +7,7 @@ import testUI.Configuration;
 
 import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.UIOpen.open;
+import static testUI.UIUtils.executeJs;
 import static testUI.UIUtils.setDevice;
 import static testUI.Utils.By.*;
 
@@ -20,7 +21,9 @@ public class TestBrowser {
     public void testAndroidBrowser() {
         Configuration.deviceTests = false;
         open("https://www.google.com");
-        googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible().then().sendKeys("TestUI");
+        googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
+        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
+        googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
         Configuration.screenshotPath = "target/";
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("screen.png");
     }
