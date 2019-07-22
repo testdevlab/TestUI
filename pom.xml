@@ -128,7 +128,7 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>5.2.1</version> <!-- Use 4.12.2 if does not work in 5.X.X-->
+            <version>5.2.3</version> <!-- Use 4.12.2 if does not work in 5.X.X-->
         </dependency>
         <dependency>
             <groupId>io.appium</groupId>

@@ -112,7 +112,6 @@ public class UIUtils {
     }
 
     protected static void startSelenideDriver(String urlOrRelativeUrl) {
-        System.clearProperty("webdriver.chrome.driver");
         setUpSelenideVariables();
         open(urlOrRelativeUrl);
     }
