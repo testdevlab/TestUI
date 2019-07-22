@@ -6,8 +6,16 @@ import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.MobileElement;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import testUI.Configuration;
+import testUI.TestUIDriver;
+
+import java.io.File;
+import java.io.IOException;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -55,7 +63,7 @@ public class TestUI {
                 }
             return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
     }
@@ -84,7 +92,7 @@ public class TestUI {
         try {
             getSelenide(SelenideElement,index, collection).waitUntil(condition, time * 1000);
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
     }
@@ -95,7 +103,7 @@ public class TestUI {
         TestUI.screenshotTaken = screenshotTaken;
     }
 
-    public static void takeScreenshotInFaiure() {
+    public static void takeScreenshotsAllure() {
         if (!screenshotTaken) {
             if (getStep()) {
                 Allure.step("Previous Step Failed!", Status.FAILED);
@@ -103,14 +111,14 @@ public class TestUI {
             boolean test = Configuration.deviceTests;
             Configuration.deviceTests = true;
             for (int in = 0; in < getDrivers().size(); in++) {
-                byte[] screenshot = takeScreenshot(in);
+                byte[] screenshot = TestUIDriver.takeScreenshot(in);
                 String deviceName = getDevicesNames().size() > in ? getDevicesNames().get(in) : "";
                 Allure.getLifecycle().addAttachment("Screenshot Mobile " + deviceName, "image/png", "png", screenshot);
             }
             Configuration.deviceTests = false;
             if (WebDriverRunner.driver().hasWebDriverStarted()) {
                 try {
-                    byte[] screenshot = takeScreenshot();
+                    byte[] screenshot = TestUIDriver.takeScreenshot();
                     Allure.getLifecycle().addAttachment("Screenshot Laptop Browser", "image/png", "png", screenshot);
                 } catch (Exception ex) {
                     System.err.println("Could not take a screenshot in the laptop browser...");
@@ -118,6 +126,27 @@ public class TestUI {
             }
             Configuration.deviceTests = test;
             screenshotTaken = true;
+        }
+    }
+
+    public void saveScreenshot(String path) {
+        if (Configuration.deviceTests) {
+            if (getDrivers().size() != 0) {
+                Configuration.driver = Configuration.driver > getDrivers().size() ? getDrivers().size() : Configuration.driver;
+                File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+                try {
+                    FileUtils.copyFile(scrFile, new File(Configuration.screenshotPath + path));
+                } catch (IOException e) {
+                    System.err.println("Could not save the screenshot");
+                }
+            }
+        } else {
+            File scrFile = ((TakesScreenshot) getSelenideDriver()).getScreenshotAs(OutputType.FILE);
+            try {
+                FileUtils.copyFile(scrFile, new File(Configuration.screenshotPath + path));
+            } catch (IOException e) {
+                System.err.println("Could not save the screenshot");
+            }
         }
     }
 }

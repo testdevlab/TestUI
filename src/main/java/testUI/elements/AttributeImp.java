@@ -51,7 +51,7 @@ public class AttributeImp extends TestUI implements testUI.elements.Attribute {
                 time,false);
     }
 
-    public TestUI equalTo(String value) {
+    public UIElement equalTo(String value) {
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilHasAttribute(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS, accesibilityId),

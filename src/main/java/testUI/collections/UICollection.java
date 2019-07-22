@@ -12,10 +12,10 @@ import java.util.List;
 import static com.codeborne.selenide.Selenide.$$;
 import static testUI.TestUIDriver.getDriver;
 import static testUI.Utils.AppiumHelps.*;
-import static testUI.elements.TestUI.takeScreenshotInFaiure;
+import static testUI.elements.TestUI.takeScreenshotsAllure;
 
 public class UICollection implements Collection {
-    private int index = 0;
+    private int index;
     private By element;
     private By SelenideElement;
     private By iOSElement;
@@ -26,21 +26,21 @@ public class UICollection implements Collection {
         return new UICollection(element, element, element, 0, "","");
     }
 
-    public static UICollection EE(String accesibilityId) {
-        return new UICollection(null, null, null, 0,accesibilityId ,accesibilityId);
+    public static UICollection EE(String accessibilityId) {
+        return new UICollection(null, null, null, 0,accessibilityId ,accessibilityId);
     }
 
     public static UICollection EEx(String xpath) {
         return new UICollection(By.xpath(xpath), By.xpath(xpath), By.xpath(xpath), 0, "","");
     }
 
-    protected UICollection(By element, By SelenideElement, By iOSElement, int index, String accesibilityId, String accesibilityIdiOS) {
+    protected UICollection(By element, By SelenideElement, By iOSElement, int index, String accessibilityId, String accessibilityIdaOS) {
         this.element = element;
         this.index = index;
         this.SelenideElement = SelenideElement;
         this.iOSElement = iOSElement;
-        this.accesibilityId = accesibilityId;
-        this.accesibilityIdiOS = accesibilityIdiOS;
+        this.accesibilityId = accessibilityId;
+        this.accesibilityIdiOS = accessibilityIdaOS;
     }
 
     public UICollection setSelenideCollection(By SelenideElement) {
@@ -51,16 +51,16 @@ public class UICollection implements Collection {
         return new UICollection(element, SelenideElement, iOSElement, index, accesibilityId, accesibilityIdiOS);
     }
 
-    public UICollection setIOSCollection(String accesibilityIdiOS) {
-        return new UICollection(element, SelenideElement, iOSElement, index, accesibilityId, accesibilityIdiOS);
+    public UICollection setIOSCollection(String accessibilityIdiOS) {
+        return new UICollection(element, SelenideElement, iOSElement, index, accesibilityId, accessibilityIdiOS);
     }
 
     public UICollection setAndroidCollection(By element) {
         return new UICollection(element, SelenideElement, iOSElement, index, accesibilityId, accesibilityIdiOS);
     }
 
-    public UICollection setAndroidCollection(String accesibilityId) {
-        return new UICollection(element, SelenideElement, iOSElement, index, accesibilityId, accesibilityIdiOS);
+    public UICollection setAndroidCollection(String accessibilityId) {
+        return new UICollection(element, SelenideElement, iOSElement, index, accessibilityId, accesibilityIdiOS);
     }
 
     public ElementsCollection getSelenideCollection() {
@@ -73,15 +73,15 @@ public class UICollection implements Collection {
         return element;
     }
 
-    private String getAccesibilityId() {
+    private String getAccessibilityId() {
         if (Configuration.iOSTesting)
             return accesibilityIdiOS;
         return accesibilityId;
     }
 
     private List getElementList() {
-        if (!getAccesibilityId().isEmpty())
-            return getDriver().findElementsByAccessibilityId(getAccesibilityId());
+        if (!getAccessibilityId().isEmpty())
+            return getDriver().findElementsByAccessibilityId(getAccessibilityId());
         return getDriver().findElements(getAppiumElement());
     }
 
@@ -93,7 +93,7 @@ public class UICollection implements Collection {
                 return $$(SelenideElement).get(index).toString();
             }
         } catch (Throwable e) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
             throw new Error(e);
         }
     }
@@ -117,7 +117,7 @@ public class UICollection implements Collection {
             try {
                 return $$(SelenideElement).size();
             } catch (Throwable e) {
-                takeScreenshotInFaiure();
+                takeScreenshotsAllure();
                 throw new Error(e);
             }
         }
@@ -134,7 +134,7 @@ public class UICollection implements Collection {
             try {
                 return $$(SelenideElement).get(index).getSize();
             } catch (Throwable e) {
-                takeScreenshotInFaiure();
+                takeScreenshotsAllure();
                 throw new Error(e);
             }
         }
@@ -143,7 +143,7 @@ public class UICollection implements Collection {
     public UIElement findByVisible() {
         if (Configuration.deviceTests) {
             for (int i = 0; i < size(); i++) {
-                if (visible(getAppiumElement(), getAccesibilityId(), i)) {
+                if (visible(getAppiumElement(), getAccessibilityId(), i)) {
                     return new UIElement(element, SelenideElement, element, i, true, accesibilityId,accesibilityIdiOS);
                 }
             }
@@ -154,14 +154,14 @@ public class UICollection implements Collection {
                 }
             }
         }
-        takeScreenshotInFaiure();
+        takeScreenshotsAllure();
         throw new Error("No visible element with this selector: " + element.toString());
     }
 
     public UIElement findByText(String text) {
         if (Configuration.deviceTests) {
             for (int i = 0; i < size(); i++) {
-                if (containsText(getAppiumElement(), getAccesibilityId(), i, text)) {
+                if (containsText(getAppiumElement(), getAccessibilityId(), i, text)) {
                     return new UIElement(element, SelenideElement, element, i, true, accesibilityId,accesibilityIdiOS);
                 }
             }
@@ -172,14 +172,14 @@ public class UICollection implements Collection {
                 }
             }
         }
-        takeScreenshotInFaiure();
+        takeScreenshotsAllure();
         throw new Error("No visible element with that text '" + text + "' and this selector: " + element.toString());
     }
 
     public UIElement findByEnabled() {
         if (Configuration.deviceTests) {
             for (int i = 0; i < size(); i++) {
-                if (enable(getAppiumElement(), getAccesibilityId(), i)) {
+                if (enable(getAppiumElement(), getAccessibilityId(), i)) {
                     return new UIElement(element, SelenideElement, element, i, true, accesibilityId,accesibilityIdiOS);
                 }
             }
@@ -190,7 +190,7 @@ public class UICollection implements Collection {
                 }
             }
         }
-        takeScreenshotInFaiure();
+        takeScreenshotsAllure();
         throw new Error("No enabled element with this selector: " + element.toString());
     }
 }

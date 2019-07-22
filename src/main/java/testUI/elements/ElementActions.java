@@ -33,6 +33,8 @@ public interface ElementActions {
 
     UIElement click();
 
+    UIElement doubleClick();
+
     Dimension getSize();
 
     Point getLocation();
@@ -48,6 +50,8 @@ public interface ElementActions {
     UIElement setValueJs(String value, boolean clickBeforeSetValue);
 
     UIElement executeJsOverElement(String JsScript);
+
+    UIElement executeJs(String var1, Object... var2);
 
     Scrolling scrollTo();
 

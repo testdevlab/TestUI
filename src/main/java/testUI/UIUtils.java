@@ -1,10 +1,12 @@
 package testUI;
 
 import com.codeborne.selenide.SelenideConfig;
+import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.qameta.allure.Allure;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +20,7 @@ import static com.codeborne.selenide.Selenide.open;
 import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.TestUIDriver.*;
 import static testUI.Utils.AppiumHelps.sleep;
-import static testUI.elements.TestUI.takeScreenshotInFaiure;
+import static testUI.elements.TestUI.takeScreenshotsAllure;
 
 public class UIUtils {
     private static Logger logger = LoggerFactory.getLogger(UIUtils.class);
@@ -110,7 +112,6 @@ public class UIUtils {
     }
 
     protected static void startSelenideDriver(String urlOrRelativeUrl) {
-        System.clearProperty("webdriver.chrome.driver");
         setUpSelenideVariables();
         open(urlOrRelativeUrl);
     }
@@ -298,9 +299,23 @@ public class UIUtils {
         }
     }
 
+
+    public static void executeJs(String var1, Object... var2) {
+        try {
+            if (Configuration.deviceTests) {
+                ((JavascriptExecutor) getDriver()).executeScript(var1, var2);
+            } else {
+                ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript(var1, var2);
+            }
+        } catch (Throwable e) {
+            takeScreenshotsAllure();
+            throw new Error(e);
+        }
+    }
+
     public static void UIAssert(String reason, boolean assertion){
         if (!assertion && Configuration.useAllure) {
-            takeScreenshotInFaiure();
+            takeScreenshotsAllure();
         }
         if (!assertion) {
             throw new Error(reason);
