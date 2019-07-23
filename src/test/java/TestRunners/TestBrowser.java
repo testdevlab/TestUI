@@ -1,14 +1,14 @@
 package TestRunners;
 
 import io.qameta.allure.junit4.DisplayName;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
 
 import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.UIOpen.open;
-import static testUI.UIUtils.executeJs;
-import static testUI.UIUtils.setDevice;
+import static testUI.UIUtils.*;
 import static testUI.Utils.By.*;
 
 public class TestBrowser {
@@ -24,8 +24,9 @@ public class TestBrowser {
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
-        Configuration.screenshotPath = "target/";
-        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("screen.png");
+        googleLandingPage.getGoogleSearch().shouldHave().emptyText();
+        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
+                ".png");
     }
 
     @Test

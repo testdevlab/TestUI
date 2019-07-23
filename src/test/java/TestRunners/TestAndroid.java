@@ -14,10 +14,11 @@ public class TestAndroid {
     @DisplayName("Android browser test case")
     public void testAndroidBrowser() {
         open("https://www.google.com");
-        getAndroidTestUIDriver().toggleWifi();
-        getAndroidTestUIDriver().toggleWifi();
+//        getAndroidTestUIDriver().toggleWifi();
+//        getAndroidTestUIDriver().toggleWifi();
         googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
-                .given("Check search input visible and set value").waitFor(5).untilIsVisible().then().setValueJs("TestUI");
+                .given("Check search input visible and set value").waitFor(5).untilIsVisible().then().setValueJs("TestUI")
+                .shouldHave().not().emptyAttribute("value");
         googleLandingPage.getGoogleSearch().then("Check that search button visible").waitFor(10).untilIsVisible()
                 .and("Click on search button").click();
     }
