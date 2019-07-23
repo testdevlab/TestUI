@@ -192,7 +192,7 @@ public class ShouldBe extends TestUI {
                 waitUntilEmptyAttribute(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, Attribute, is);
             }
         } else {
-            selenideAssert(condition(is, Condition.attribute(Attribute)), time, SelenideElement, index, collection);
+            selenideAssert(condition(is, Condition.attribute(Attribute,"")), time, SelenideElement, index, collection);
         }
         return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
