@@ -168,4 +168,32 @@ public class ShouldBe extends TestUI {
         }
         return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
+
+    public UIElement emptyText() {
+        if (Configuration.deviceTests) {
+            if (collection) {
+                waitUntilEmptyText(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS, accesibilityId), index,
+                        time, is);
+            } else {
+                waitUntilEmptyText(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS, accesibilityId), time, is);
+            }
+        } else {
+            selenideAssert(condition(is, Condition.empty), time, SelenideElement, index, collection);
+        }
+        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+    }
+
+    public UIElement emptyAttribute(String Attribute) {
+        if (Configuration.deviceTests) {
+            if (collection) {
+                waitUntilEmptyAttribute(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        index, time, Attribute, is);
+            } else {
+                waitUntilEmptyAttribute(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, Attribute, is);
+            }
+        } else {
+            selenideAssert(condition(is, Condition.attribute(Attribute)), time, SelenideElement, index, collection);
+        }
+        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+    }
 }

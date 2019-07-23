@@ -107,6 +107,18 @@ public class AppiumHelps {
         }
     }
 
+    public static boolean emptyAttribute(By element, String accesibilityId, int index, String Attribute) {
+        try {
+            if (accesibilityId.isEmpty())
+                return ((MobileElement)getDriver().findElements(element).get(index)).getAttribute(Attribute) == null ||
+                        ((MobileElement)getDriver().findElements(element).get(index)).getAttribute(Attribute).isEmpty();
+            return ((MobileElement)getDriver().findElementsByAccessibilityId(accesibilityId)).getAttribute(Attribute) == null ||
+                    ((MobileElement)getDriver().findElementsByAccessibilityId(accesibilityId)).getAttribute(Attribute).isEmpty();
+        } catch (Exception var4) {
+            return false;
+        }
+    }
+
     public static boolean attribute(By element, String accesibilityId, String Attribute, String text) {
         try {
             if (accesibilityId.isEmpty())
@@ -127,6 +139,18 @@ public class AppiumHelps {
         }
     }
 
+    public static boolean emptyAttribute(By element, String accesibilityId, String Attribute) {
+        try {
+            if (accesibilityId.isEmpty())
+                return getDriver().findElement(element).getAttribute(Attribute) == null ||
+                        getDriver().findElement(element).getAttribute(Attribute).isEmpty();
+            return getDriver().findElementByAccessibilityId(accesibilityId).getAttribute(Attribute) == null ||
+                    getDriver().findElementByAccessibilityId(accesibilityId).getAttribute(Attribute).isEmpty();
+        } catch (Exception var4) {
+            return false;
+        }
+    }
+
     public static boolean equalsText(By element, String accesibilityId, int index, String text) {
         try {
             if (accesibilityId.isEmpty())
@@ -137,11 +161,31 @@ public class AppiumHelps {
         }
     }
 
+    public static boolean emptyText(By element, String accesibilityId, int index) {
+        try {
+            if (accesibilityId.isEmpty())
+                return ((MobileElement)getDriver().findElements(element).get(index)).getText().isEmpty();
+            return ((MobileElement)getDriver().findElementsByAccessibilityId(accesibilityId)).getText().isEmpty();
+        } catch (Exception var4) {
+            return false;
+        }
+    }
+
     public static boolean equalsText(By element, String accesibilityId, String text) {
         try {
             if (accesibilityId.isEmpty())
                 return getDriver().findElement(element).getText().equals(text);
             return getDriver().findElementByAccessibilityId(accesibilityId).getText().equals(text);
+        } catch (Exception var4) {
+            return false;
+        }
+    }
+
+    public static boolean emptyText(By element, String accesibilityId) {
+        try {
+            if (accesibilityId.isEmpty())
+                return getDriver().findElement(element).getText().isEmpty();
+            return getDriver().findElementByAccessibilityId(accesibilityId).getText().isEmpty();
         } catch (Exception var4) {
             return false;
         }

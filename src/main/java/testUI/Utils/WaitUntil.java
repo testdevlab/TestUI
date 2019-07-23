@@ -235,6 +235,20 @@ public class WaitUntil {
         assertFunction(getElementString(element), accesibility,"has not containText '" + text + "'!", found);
     }
 
+    public static void waitUntilEmptyText(org.openqa.selenium.By element, String accesibility, int Seconds, boolean hasText) {
+        long t= System.currentTimeMillis();
+        long end = t+(Seconds * 1000);
+        boolean found = false;
+        while(System.currentTimeMillis() < end) {
+            if (emptyText(element, accesibility) == hasText) {
+                found = true;
+                break;
+            }
+            sleep(200);
+        }
+        assertFunction(getElementString(element), accesibility,"should be empty or is not visible!", found);
+    }
+
     public static void waitUntilExactText(org.openqa.selenium.By element, String accesibility, int index, int Seconds, String text, boolean hasText) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
@@ -248,6 +262,21 @@ public class WaitUntil {
         }
         assertFunction(getElementString(element) + "[" + index + "]", accesibility,
                 "with containText '" + text + "' is not visible!", found);
+    }
+
+    public static void waitUntilEmptyText(org.openqa.selenium.By element, String accesibility, int index, int Seconds, boolean hasText) {
+        long t= System.currentTimeMillis();
+        long end = t+(Seconds * 1000);
+        boolean found = false;
+        while(System.currentTimeMillis() < end) {
+            if (emptyText(element, accesibility, index) == hasText) {
+                found = true;
+                break;
+            }
+            sleep(200);
+        }
+        assertFunction(getElementString(element) + "[" + index + "]", accesibility,
+                "with should be empty text or is not visible!", found);
     }
 
     public static void waitUntilHasValue(org.openqa.selenium.By element, String accesibility, int Seconds, String text, boolean hasVallue) {
@@ -290,7 +319,7 @@ public class WaitUntil {
             }
             sleep(200);
         }
-        assertFunction(getElementString(element) + "[" + index + "]", accesibility,"has no '" + Attribute
+        assertFunction(getElementString(element) + "[" + index + "]", accesibility,"has no attribute '" + Attribute
                 + "' with value '" + value + "'!", found);
     }
 
@@ -305,8 +334,24 @@ public class WaitUntil {
             }
             sleep(200);
         }
-        assertFunction(getElementString(element) + "[" + index + "]", accesibility,"has no '" + Attribute
+        assertFunction(getElementString(element) + "[" + index + "]", accesibility,"has no attribute '" + Attribute
                 + "'!", found);
+    }
+
+    public static void waitUntilEmptyAttribute(org.openqa.selenium.By element, String accesibility, int index, int Seconds, String Attribute,
+                                           boolean hasAttribute) {
+        long t= System.currentTimeMillis();
+        long end = t+(Seconds * 1000);
+        boolean found = false;
+        while(System.currentTimeMillis() < end) {
+            if (emptyAttribute(element, accesibility, index, Attribute) == hasAttribute) {
+                found = true;
+                break;
+            }
+            sleep(200);
+        }
+        assertFunction(getElementString(element) + "[" + index + "]", accesibility,"should have attribute '" + Attribute
+                + "' empty or null!", found);
     }
 
     public static void waitUntilHasAttribute(org.openqa.selenium.By element, String accesibility, int Seconds, String Attribute, String value, boolean is) {
@@ -320,7 +365,7 @@ public class WaitUntil {
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility,"has no '" + Attribute
+        assertFunction(getElementString(element), accesibility,"has no attribute '" + Attribute
                 + "' with value '" + value + "'!", found);
     }
 
@@ -335,6 +380,21 @@ public class WaitUntil {
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility,"has no '" + Attribute + "'!", found);
+        assertFunction(getElementString(element), accesibility,"has no attribute '" + Attribute + "'!", found);
+    }
+
+    public static void waitUntilEmptyAttribute(org.openqa.selenium.By element, String accesibility, int Seconds, String Attribute, boolean hasAttribute) {
+        long t= System.currentTimeMillis();
+        long end = t+(Seconds * 1000);
+        boolean found = false;
+        while(System.currentTimeMillis() < end) {
+            if (emptyAttribute(element, accesibility, Attribute) == hasAttribute) {
+                found = true;
+                break;
+            }
+            sleep(200);
+        }
+        assertFunction(getElementString(element), accesibility,"should have attribute '" + Attribute
+                + "' empty or null!", found);
     }
 }
