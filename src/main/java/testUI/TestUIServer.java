@@ -227,9 +227,13 @@ public class TestUIServer {
             }
             Configuration.driver = getDrivers().size();
         } else {
-            getSelenideDriver().close();
-            getSelenideDriver().quit();
-            deviceTests = true;
+            try {
+                getSelenideDriver().close();
+                getSelenideDriver().quit();
+            } catch (Exception e) {
+                putLog("Browser closed already");
+            }
+            close();
         }
     }
 
@@ -265,9 +269,13 @@ public class TestUIServer {
             }
             Configuration.driver = getDrivers().size();
         } else {
-            getSelenideDriver().close();
-            getSelenideDriver().quit();
-            deviceTests = true;
+            try {
+                getSelenideDriver().close();
+                getSelenideDriver().quit();
+            } catch (Exception e) {
+                putLog("Browser closed already");
+            }
+            close();
         }
     }
 
