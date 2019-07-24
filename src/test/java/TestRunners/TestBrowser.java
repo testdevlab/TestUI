@@ -43,7 +43,8 @@ public class TestBrowser {
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
-        googleLandingPage.getGoogleSearch().shouldHave().not().emptyText();
+        googleLandingPage.getGoogleSearch().shouldHave().not().emptyText().shouldHave().currentUrlEqualTo("https://www.google.com/")
+                .shouldHave().currentUrlContains("https://www.google");
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
                 ".png");
 
