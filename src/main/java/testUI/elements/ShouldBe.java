@@ -4,6 +4,9 @@ import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 import testUI.Configuration;
 
+import static testUI.TestUIDriver.getDriver;
+import static testUI.TestUIDriver.getSelenideDriver;
+import static testUI.UIUtils.UIAssert;
 import static testUI.Utils.WaitUntil.*;
 
 public class ShouldBe extends TestUI {
@@ -193,6 +196,29 @@ public class ShouldBe extends TestUI {
             }
         } else {
             selenideAssert(condition(is, Condition.attribute(Attribute,"")), time, SelenideElement, index, collection);
+        }
+        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+    }
+
+
+    public UIElement currentUrlEqualTo(String expectedUrl) {
+        if (Configuration.deviceTests) {
+            UIAssert("The url is not as expected\n" + "Expected: "+ expectedUrl +
+                    "\n But was: " + getDriver().getCurrentUrl(), getDriver().getCurrentUrl().equals(expectedUrl));
+        } else {
+            UIAssert("The url is not as expected\n" + "Expected: "+ expectedUrl +
+                    "\n But was: " + getSelenideDriver().getCurrentUrl(), getSelenideDriver().getCurrentUrl().equals(expectedUrl));
+        }
+        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+    }
+
+    public UIElement currentUrlContains(String expectedUrl) {
+        if (Configuration.deviceTests) {
+            UIAssert("The url is not as expected\n" + "Expected: "+ expectedUrl +
+                    "\n But was: " + getDriver().getCurrentUrl(), getDriver().getCurrentUrl().contains(expectedUrl));
+        } else {
+            UIAssert("The url is not as expected\n" + "Expected: "+ expectedUrl +
+                    "\n But was: " + getSelenideDriver().getCurrentUrl(), getSelenideDriver().getCurrentUrl().contains(expectedUrl));
         }
         return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
