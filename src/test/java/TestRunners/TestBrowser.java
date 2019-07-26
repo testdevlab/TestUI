@@ -1,21 +1,17 @@
 package TestRunners;
 
 import io.qameta.allure.junit4.DisplayName;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
 
 import static testUI.ADBUtils.checkAndInstallChromedriver;
-import static testUI.NetworkCalls.getNetworkCalls;
 import static testUI.TestUIDriver.setDriver;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
-import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
 
 public class TestBrowser {
@@ -26,7 +22,6 @@ public class TestBrowser {
     @Test
     @DisplayName("Laptop browser test case")
     public void testDesktopBrowser() {
-        Configuration.deviceTests = false;
         Configuration.logNetworkCalls = true;
         open("https://www.google.com");
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
@@ -34,7 +29,17 @@ public class TestBrowser {
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
         googleLandingPage.getGoogleSearch().shouldHave().not().emptyText();
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
-                ".png").getNetworkCalls().filterByExactUrl("https://www.google.com/").logFilteredCalls().assertStatusCode(200);
+                ".png");
+    }
+
+
+    @Test
+    @DisplayName("Laptop browser test case, assert status code")
+    public void testDesktopBrowserStatusCode() {
+        Configuration.deviceTests = false;
+        Configuration.logNetworkCalls = true;
+        open("https://www.google.com")
+                .getNetworkCalls().filterByExactUrl("https://www.google.com/").logFilteredCalls().assertStatusCode(200);
     }
 
     @Test

@@ -43,16 +43,18 @@ public class NetworkCalls {
     public static void setNetworkCalls() {
         if (Configuration.logNetworkCalls) {
             if (Configuration.remote == null || Configuration.remote.isEmpty()) {
-                // start the proxy
-                proxy = new BrowserMobProxyServer();
-                proxy.start(0);
-                // get the Selenium proxy object
-                Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
-                Configuration.selenideBrowserCapabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
-                // enable more detailed HAR capture, if desired (see CaptureType for the complete list)
-                proxy.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
-                // create a new HAR with the label "Proxy"
-                proxy.newHar("Proxy");
+                if (proxy == null || !proxy.isStarted()) {
+                    proxy = new BrowserMobProxyServer();
+                    // start the proxy
+                    proxy.start(0);
+                    // get the Selenium proxy object
+                    Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
+                    Configuration.selenideBrowserCapabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
+                    // enable more detailed HAR capture, if desired (see CaptureType for the complete list)
+                    proxy.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
+                    // create a new HAR with the label "Proxy"
+                    proxy.newHar("Proxy");
+                }
             }
             LoggingPreferences logPrefs = new LoggingPreferences();
             logPrefs.enable(LogType.PERFORMANCE, Level.INFO);
@@ -187,7 +189,8 @@ public class NetworkCalls {
         if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
             for (JSONObject responses : this.filteredCalls) {
                 if (responses.has("response")) {
-                    if (responses.getJSONObject("response").getInt("status") != statusCode) {
+                    if (responses.getJSONObject("response").getInt("status") != statusCode
+                            && responses.getJSONObject("response").getInt("status") != 0) {
                         throw new Error("Status code should be " + statusCode + " but was "
                                 + responses.getJSONObject("response").getInt("status") + "\n Response: \n" +
                                 responses);
@@ -196,7 +199,8 @@ public class NetworkCalls {
             }
         } else {
             for (JSONObject responses : this.filteredCalls) {
-                if (responses.getInt("statusCode") != statusCode) {
+                if (responses.getInt("statusCode") != statusCode
+                        && responses.getInt("statusCode") != 0) {
                     throw new Error("Status code should be " + statusCode + " but was "
                             + responses.getInt("statusCode") + "\n Response: \n" +
                             responses);
@@ -211,7 +215,8 @@ public class NetworkCalls {
             for (JSONObject responses : this.filteredCalls) {
                 if (responses.has("response")) {
                     if (responses.getJSONObject("response").getInt("status") < statusCode
-                            || responses.getJSONObject("response").getInt("status") > statusCode2) {
+                            || responses.getJSONObject("response").getInt("status") > statusCode2
+                            && responses.getJSONObject("response").getInt("status") != 0) {
                         throw new Error("Status code should be between " + statusCode + " and " + statusCode2 + " but was "
                                 + responses.getJSONObject("response").getInt("status") + "\n Response: \n" +
                                 responses);
@@ -221,7 +226,8 @@ public class NetworkCalls {
         } else {
             for (JSONObject responses : this.filteredCalls) {
                 if (responses.getInt("statusCode") < statusCode ||
-                        responses.getInt("statusCode") > statusCode2) {
+                        responses.getInt("statusCode") > statusCode2
+                                && responses.getInt("statusCode") != 0) {
                     throw new Error("Status code should be between " + statusCode + " and " + statusCode2 + " but was "
                             + responses.getInt("statusCode") + "\n Response: \n" +
                             responses);
