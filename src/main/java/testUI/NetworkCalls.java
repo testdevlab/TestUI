@@ -27,11 +27,13 @@ public class NetworkCalls {
     private List<List<JSONObject>> calls;
     private List<JSONObject> filteredCalls;
     private List<Map<String, String>> callHar;
+    private boolean severalFilters;
 
-    private NetworkCalls(List<List<JSONObject>> calls, List<JSONObject> filteredCalls, List<Map<String, String>> callHar) {
+    private NetworkCalls(List<List<JSONObject>> calls, List<JSONObject> filteredCalls, List<Map<String, String>> callHar, boolean severalFilters) {
         this.calls = calls;
         this.filteredCalls = filteredCalls;
         this.callHar = callHar;
+        this.severalFilters = severalFilters;
     }
 
     private static BrowserMobProxy proxy;
@@ -49,6 +51,8 @@ public class NetworkCalls {
                     proxy.start(0);
                     // get the Selenium proxy object
                     Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
+                    seleniumProxy.setHttpProxy("localhost:" + getProxy().getPort());
+                    seleniumProxy.setSslProxy("localhost:" + getProxy().getPort());
                     Configuration.selenideBrowserCapabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
                     // enable more detailed HAR capture, if desired (see CaptureType for the complete list)
                     proxy.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
@@ -100,15 +104,52 @@ public class NetworkCalls {
                 callHar.add(call);
             }
         }
-        return new NetworkCalls(calls, new ArrayList<>(), callHar);
+        return new NetworkCalls(calls, new ArrayList<>(), callHar, false);
     }
 
     public NetworkCalls filterByUrl(String url) {
         List<String> requestIDs = new ArrayList<>();
         List<JSONObject> calls = new ArrayList<>();
-        if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
-            for (List<JSONObject> call : this.calls) {
-                for (JSONObject singleCall : call) {
+        if (!this.severalFilters) {
+            if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
+                for (List<JSONObject> call : this.calls) {
+                    for (JSONObject singleCall : call) {
+                        boolean repeatedCall = !calls.toString().contains(singleCall.toString());
+                        if (singleCall.has("request") &&
+                                singleCall.getJSONObject("request").has("url") &&
+                                singleCall.getJSONObject("request").getString("url").contains(url)) {
+                            if (repeatedCall) {
+                                calls.add(singleCall);
+                            }
+                            if (!requestIDs.toString().contains(singleCall.getString("requestId"))) {
+                                requestIDs.add(singleCall.getString("requestId"));
+                            }
+                        } else if (singleCall.has("response") &&
+                                singleCall.getJSONObject("response").has("url") &&
+                                singleCall.getJSONObject("response").getString("url").contains(url)) {
+                            if (repeatedCall) {
+                                calls.add(singleCall);
+                            }
+                            if (!requestIDs.toString().contains(singleCall.getString("requestId"))) {
+                                requestIDs.add(singleCall.getString("requestId"));
+                            }
+                        }
+
+                    }
+                }
+            } else {
+                for (Map<String ,String> call : this.callHar) {
+                    JSONObject jsonObject = new JSONObject();
+                    if (call.get("URL").contains(url)) {
+                        jsonObject.put("URL",call.get("URL"));
+                        jsonObject.put("statusCode", call.get("Status"));
+                        calls.add(jsonObject);
+                    }
+                }
+            }
+        } else {
+            if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
+                for (JSONObject singleCall : this.filteredCalls) {
                     if (singleCall.has("request") &&
                             singleCall.getJSONObject("request").has("url") &&
                             singleCall.getJSONObject("request").getString("url").contains(url)) {
@@ -128,32 +169,68 @@ public class NetworkCalls {
                             requestIDs.add(singleCall.getString("requestId"));
                         }
                     }
-
                 }
-            }
-        } else {
-            for (Map<String ,String> call : this.callHar) {
-                JSONObject jsonObject = new JSONObject();
-                if (call.get("URL").contains(url)) {
-                    jsonObject.put("URL",call.get("URL"));
-                    jsonObject.put("statusCode", call.get("Status"));
-                    calls.add(jsonObject);
+            } else {
+                for (JSONObject jsonObject : this.filteredCalls) {
+                    JSONObject jsonObject2 = new JSONObject();
+                    if (jsonObject.get("URL").toString().contains(url)) {
+                        jsonObject2.put("URL", jsonObject.get("URL"));
+                        jsonObject2.put("statusCode", jsonObject.get("statusCode"));
+                        calls.add(jsonObject2);
+                    }
                 }
             }
         }
-        return new NetworkCalls(this.calls, calls, this.callHar);
+        return new NetworkCalls(this.calls, calls, this.callHar,this.severalFilters);
     }
 
     public NetworkCalls filterByExactUrl(String url) {
         List<String> requestIDs = new ArrayList<>();
         List<JSONObject> calls = new ArrayList<>();
-        if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
-            for (List<JSONObject> call : this.calls) {
-                for (JSONObject singleCall : call) {
+        if (!this.severalFilters) {
+            if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
+                for (List<JSONObject> call : this.calls) {
+                    for (JSONObject singleCall : call) {
+                        boolean repeatedCall = !calls.toString().contains(singleCall.toString());
+                        if (singleCall.has("request") &&
+                                singleCall.getJSONObject("request").has("url") &&
+                                singleCall.getJSONObject("request").getString("url").equals(url)) {
+                            if (repeatedCall) {
+                                calls.add(singleCall);
+                            }
+                            if (!requestIDs.toString().contains(singleCall.getString("requestId"))) {
+                                requestIDs.add(singleCall.getString("requestId"));
+                            }
+                        } else if (singleCall.has("response") &&
+                                singleCall.getJSONObject("response").has("url") &&
+                                singleCall.getJSONObject("response").getString("url").equals(url)) {
+                            if (repeatedCall) {
+                                calls.add(singleCall);
+                            }
+                            if (!requestIDs.toString().contains(singleCall.getString("requestId"))) {
+                                requestIDs.add(singleCall.getString("requestId"));
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (Map<String, String> call : this.callHar) {
+                    JSONObject jsonObject = new JSONObject();
+                    if (call.get("URL").equals(url)) {
+                        jsonObject.put("URL", call.get("URL"));
+                        jsonObject.put("statusCode", call.get("Status"));
+                        calls.add(jsonObject);
+                    }
+                }
+            }
+        } else {
+            if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
+                for (JSONObject singleCall : this.filteredCalls) {
+                    boolean repeatedCall = !calls.toString().contains(singleCall.toString());
                     if (singleCall.has("request") &&
                             singleCall.getJSONObject("request").has("url") &&
                             singleCall.getJSONObject("request").getString("url").equals(url)) {
-                        if (!calls.toString().contains(singleCall.toString())) {
+                        if (repeatedCall) {
                             calls.add(singleCall);
                         }
                         if (!requestIDs.toString().contains(singleCall.getString("requestId"))) {
@@ -162,27 +239,35 @@ public class NetworkCalls {
                     } else if (singleCall.has("response") &&
                             singleCall.getJSONObject("response").has("url") &&
                             singleCall.getJSONObject("response").getString("url").equals(url)) {
-                        if (!calls.toString().contains(singleCall.toString())) {
+                        if (repeatedCall) {
                             calls.add(singleCall);
                         }
                         if (!requestIDs.toString().contains(singleCall.getString("requestId"))) {
                             requestIDs.add(singleCall.getString("requestId"));
                         }
                     }
-
                 }
-            }
-        } else {
-            for (Map<String ,String> call : this.callHar) {
-                JSONObject jsonObject = new JSONObject();
-                if (call.get("URL").equals(url)) {
-                    jsonObject.put("URL",call.get("URL"));
-                    jsonObject.put("statusCode", call.get("Status"));
-                    calls.add(jsonObject);
+            } else {
+                for (JSONObject jsonObject : this.filteredCalls) {
+                    JSONObject jsonObject2 = new JSONObject();
+                    if (jsonObject.get("URL").toString().equals(url)) {
+                        jsonObject2.put("URL", jsonObject.get("URL"));
+                        jsonObject2.put("statusCode", jsonObject.get("statusCode"));
+                        calls.add(jsonObject2);
+                    }
                 }
             }
         }
-        return new NetworkCalls(this.calls, calls, this.callHar);
+        return new NetworkCalls(this.calls, calls, this.callHar,this.severalFilters);
+    }
+
+
+    public NetworkCalls and() {
+        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, true);
+    }
+
+    public NetworkCalls or() {
+        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, false);
     }
 
     public NetworkCalls assertStatusCode(int statusCode) {
@@ -207,15 +292,15 @@ public class NetworkCalls {
                 }
             }
         }
-        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar);
+        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
 
     public NetworkCalls assertStatusCode(int statusCode, int statusCode2) {
         if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
             for (JSONObject responses : this.filteredCalls) {
                 if (responses.has("response")) {
-                    if (responses.getJSONObject("response").getInt("status") < statusCode
-                            || responses.getJSONObject("response").getInt("status") > statusCode2
+                    if ((responses.getJSONObject("response").getInt("status") < statusCode
+                            || responses.getJSONObject("response").getInt("status") > statusCode2)
                             && responses.getJSONObject("response").getInt("status") != 0) {
                         throw new Error("Status code should be between " + statusCode + " and " + statusCode2 + " but was "
                                 + responses.getJSONObject("response").getInt("status") + "\n Response: \n" +
@@ -225,8 +310,8 @@ public class NetworkCalls {
             }
         } else {
             for (JSONObject responses : this.filteredCalls) {
-                if (responses.getInt("statusCode") < statusCode ||
-                        responses.getInt("statusCode") > statusCode2
+                if ((responses.getInt("statusCode") < statusCode ||
+                        responses.getInt("statusCode") > statusCode2)
                                 && responses.getInt("statusCode") != 0) {
                     throw new Error("Status code should be between " + statusCode + " and " + statusCode2 + " but was "
                             + responses.getInt("statusCode") + "\n Response: \n" +
@@ -234,7 +319,7 @@ public class NetworkCalls {
                 }
             }
         }
-        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar);
+        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
 
     public List<JSONObject> extractFiltered() {
@@ -243,6 +328,15 @@ public class NetworkCalls {
 
     public NetworkCalls logFilteredCalls() {
         putLog(this.filteredCalls.toString());
-        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar);
+        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
+    }
+
+    public NetworkCalls logAllCalls() {
+        if (!this.calls.isEmpty()) {
+            putLog(this.calls.toString());
+        } else {
+            putLog(this.callHar.toString());
+        }
+        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
 }

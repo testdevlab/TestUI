@@ -39,7 +39,9 @@ public class TestBrowser {
         Configuration.deviceTests = false;
         Configuration.logNetworkCalls = true;
         open("https://www.google.com")
-                .getNetworkCalls().filterByExactUrl("https://www.google.com/").logFilteredCalls().assertStatusCode(200);
+                .getNetworkCalls().logAllCalls().filterByUrl("https://www.google.com/").logFilteredCalls()
+                .and()
+                .filterByUrl("https://www.google.com/images/").logFilteredCalls().assertStatusCode(200);
     }
 
     @Test
