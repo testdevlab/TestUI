@@ -108,6 +108,52 @@ public class NetworkCalls {
         return new NetworkCalls(calls, new ArrayList<>(), callHar, false);
     }
 
+    public static NetworkCalls getLastNetworkCalls(int lastX) {
+        List<List<JSONObject>> calls = new ArrayList<>();
+        List<Map<String, String>> callHar = new ArrayList<>();
+        if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
+            List<LogEntry> list = getWebDriver().manage().logs().get(LogType.PERFORMANCE).getAll();
+            if (list.size() < lastX) {
+                lastX = list.size();
+            }
+            for (int j = list.size() - lastX; j < list.size(); j++) {
+                LogEntry logEntry = list.get(j);
+                JSONObject obj = new JSONObject(logEntry.getMessage());
+                JSONObject requests = obj.getJSONObject("message").getJSONObject("params");
+                if (requests.has("requestId")) {
+                    String requestID = requests.getString("requestId");
+                    List<JSONObject> list1 = new ArrayList<>();
+                    list1.add(requests);
+                    if (calls.toString().contains(requestID)) {
+                        int i = 0;
+                        for (List<JSONObject> call : calls) {
+                            if (call.toString().contains(requestID)) {
+                                list1.addAll(call);
+                                calls.add(i, list1);
+                                break;
+                            }
+                            i++;
+                        }
+                    } else {
+                        calls.add(list1);
+                    }
+                }
+            }
+        } else {
+            Har har = getProxy().getHar();
+            for (HarEntry entry : har.getLog().getEntries()) {
+                Map<String, String> call = new HashMap<>();
+                call.put("URL", entry.getRequest().getUrl());
+                call.put("Status", String.valueOf(entry.getResponse().getStatus()));
+                if (entry.getResponse().getStatus() >= 300) {
+                    call.put("Response: ", String.valueOf(entry.getResponse().getContent().getText()));
+                }
+                callHar.add(call);
+            }
+        }
+        return new NetworkCalls(calls, new ArrayList<>(), callHar, false);
+    }
+
     public NetworkCalls filterByUrl(String url) {
         List<String> requestIDs = new ArrayList<>();
         List<JSONObject> calls = new ArrayList<>();

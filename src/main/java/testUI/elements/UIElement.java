@@ -480,6 +480,10 @@ public class UIElement extends TestUI implements ElementActions {
         return NetworkCalls.getNetworkCalls();
     }
 
+    public NetworkCalls getLastNetworkCalls(int LastX) {
+        return NetworkCalls.getLastNetworkCalls(LastX);
+    }
+
     public UIElement and() {
         return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
