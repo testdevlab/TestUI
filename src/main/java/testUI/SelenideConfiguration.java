@@ -9,6 +9,7 @@ public class SelenideConfiguration {
 //    public static boolean holdBrowserOpen;
 //    public static boolean reopenBrowserOnFail;
     public static String remote = "";
+    public static boolean logNetworkCalls = false;
     public static String browserVersion = "";
     public static String browserSize = "";
     public static String browserPosition = "";

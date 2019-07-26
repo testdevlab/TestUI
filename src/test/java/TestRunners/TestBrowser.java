@@ -10,6 +10,7 @@ import pages.GoogleLandingPage;
 import testUI.Configuration;
 
 import static testUI.ADBUtils.checkAndInstallChromedriver;
+import static testUI.NetworkCalls.getNetworkCalls;
 import static testUI.TestUIDriver.setDriver;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
@@ -26,13 +27,14 @@ public class TestBrowser {
     @DisplayName("Laptop browser test case")
     public void testDesktopBrowser() {
         Configuration.deviceTests = false;
+        Configuration.logNetworkCalls = true;
         open("https://www.google.com");
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
         googleLandingPage.getGoogleSearch().shouldHave().not().emptyText();
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
-                ".png");
+                ".png").getNetworkCalls().filterByExactUrl("https://www.google.com/").logFilteredCalls().assertStatusCode(200);
     }
 
     @Test

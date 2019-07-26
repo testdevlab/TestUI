@@ -128,25 +128,4 @@ public class TestUI {
             screenshotTaken = true;
         }
     }
-
-    public void saveScreenshot(String path) {
-        if (Configuration.deviceTests) {
-            if (getDrivers().size() != 0) {
-                Configuration.driver = Configuration.driver > getDrivers().size() ? getDrivers().size() : Configuration.driver;
-                File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
-                try {
-                    FileUtils.copyFile(scrFile, new File(Configuration.screenshotPath + path));
-                } catch (IOException e) {
-                    System.err.println("Could not save the screenshot");
-                }
-            }
-        } else {
-            File scrFile = ((TakesScreenshot) getSelenideDriver()).getScreenshotAs(OutputType.FILE);
-            try {
-                FileUtils.copyFile(scrFile, new File(Configuration.screenshotPath + path));
-            } catch (IOException e) {
-                System.err.println("Could not save the screenshot");
-            }
-        }
-    }
 }
