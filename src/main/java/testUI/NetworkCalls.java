@@ -1,5 +1,6 @@
 package testUI;
 
+import io.qameta.allure.Allure;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
@@ -327,14 +328,23 @@ public class NetworkCalls {
     }
 
     public NetworkCalls logFilteredCalls() {
+        if (Configuration.useAllure) {
+            Allure.addAttachment("Filtered Calls", this.filteredCalls.toString());
+        }
         putLog(this.filteredCalls.toString());
         return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
 
     public NetworkCalls logAllCalls() {
         if (!this.calls.isEmpty()) {
+            if (Configuration.useAllure) {
+                Allure.addAttachment("Calls", this.calls.toString());
+            }
             putLog(this.calls.toString());
         } else {
+            if (Configuration.useAllure) {
+                Allure.addAttachment("Calls", this.callHar.toString());
+            }
             putLog(this.callHar.toString());
         }
         return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
