@@ -9,6 +9,7 @@ import net.lightbody.bmp.core.har.HarEntry;
 import net.lightbody.bmp.proxy.CaptureType;
 import org.json.JSONObject;
 import org.openqa.selenium.Proxy;
+import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
@@ -56,7 +57,8 @@ public class NetworkCalls {
                     seleniumProxy.setSslProxy("localhost:" + getProxy().getPort());
                     Configuration.selenideBrowserCapabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
                     // enable more detailed HAR capture, if desired (see CaptureType for the complete list)
-                    proxy.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
+                    proxy.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT,
+                            CaptureType.REQUEST_HEADERS, CaptureType.RESPONSE_HEADERS);
                     // create a new HAR with the label "Proxy"
                     proxy.newHar("Proxy");
                 }
@@ -71,27 +73,31 @@ public class NetworkCalls {
         List<List<JSONObject>> calls = new ArrayList<>();
         List<Map<String, String>> callHar = new ArrayList<>();
         if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
-            for (LogEntry list : getWebDriver().manage().logs().get(LogType.PERFORMANCE).getAll()) {
-                JSONObject obj = new JSONObject(list.getMessage());
-                JSONObject requests = obj.getJSONObject("message").getJSONObject("params");
-                if (requests.has("requestId")) {
-                    String requestID = requests.getString("requestId");
-                    List<JSONObject> list1 = new ArrayList<>();
-                    list1.add(requests);
-                    if (calls.toString().contains(requestID)) {
-                        int i = 0;
-                        for (List<JSONObject> call : calls) {
-                            if (call.toString().contains(requestID)) {
-                                list1.addAll(call);
-                                calls.add(i, list1);
-                                break;
+            try {
+                for (LogEntry list : getWebDriver().manage().logs().get(LogType.PERFORMANCE).getAll()) {
+                    JSONObject obj = new JSONObject(list.getMessage());
+                    JSONObject requests = obj.getJSONObject("message").getJSONObject("params");
+                    if (requests.has("requestId")) {
+                        String requestID = requests.getString("requestId");
+                        List<JSONObject> list1 = new ArrayList<>();
+                        list1.add(requests);
+                        if (calls.toString().contains(requestID)) {
+                            int i = 0;
+                            for (List<JSONObject> call : calls) {
+                                if (call.toString().contains(requestID)) {
+                                    list1.addAll(call);
+                                    calls.add(i, list1);
+                                    break;
+                                }
+                                i++;
                             }
-                            i++;
+                        } else {
+                            calls.add(list1);
                         }
-                    } else {
-                        calls.add(list1);
                     }
                 }
+            } catch (UnsupportedCommandException e){
+                putLog("The PERFORMANCE logs are not supported for this browser");
             }
         } else {
             Har har = getProxy().getHar();
@@ -99,6 +105,10 @@ public class NetworkCalls {
                 Map<String, String> call = new HashMap<>();
                 call.put("URL", entry.getRequest().getUrl());
                 call.put("Status", String.valueOf(entry.getResponse().getStatus()));
+                call.put("RequestHeaders", entry.getRequest().getHeaders().toString());
+                call.put("ResponseHeaders", entry.getResponse().getHeaders().toString());
+                String payload = entry.getResponse().getContent().getText() == null ? "" : entry.getResponse().getContent().getText();
+                call.put("Payload", payload);
                 if (entry.getResponse().getStatus() >= 300) {
                     call.put("Response: ", String.valueOf(entry.getResponse().getContent().getText()));
                 }
@@ -145,6 +155,10 @@ public class NetworkCalls {
                 Map<String, String> call = new HashMap<>();
                 call.put("URL", entry.getRequest().getUrl());
                 call.put("Status", String.valueOf(entry.getResponse().getStatus()));
+                call.put("RequestHeaders", entry.getRequest().getHeaders().toString());
+                call.put("ResponseHeaders", entry.getResponse().getHeaders().toString());
+                String payload = entry.getResponse().getContent().getText() == null ? "" : entry.getResponse().getContent().getText();
+                call.put("Payload", payload);
                 if (entry.getResponse().getStatus() >= 300) {
                     call.put("Response: ", String.valueOf(entry.getResponse().getContent().getText()));
                 }
@@ -190,6 +204,9 @@ public class NetworkCalls {
                     if (call.get("URL").contains(url)) {
                         jsonObject.put("URL",call.get("URL"));
                         jsonObject.put("statusCode", call.get("Status"));
+                        jsonObject.put("Payload", call.get("Payload"));
+                        jsonObject.put("RequestHeaders", call.get("RequestHeaders"));
+                        jsonObject.put("ResponseHeaders", call.get("ResponseHeaders"));
                         calls.add(jsonObject);
                     }
                 }
@@ -223,6 +240,9 @@ public class NetworkCalls {
                     if (jsonObject.get("URL").toString().contains(url)) {
                         jsonObject2.put("URL", jsonObject.get("URL"));
                         jsonObject2.put("statusCode", jsonObject.get("statusCode"));
+                        jsonObject2.put("Payload", jsonObject.get("Payload"));
+                        jsonObject2.put("RequestHeaders", jsonObject.get("RequestHeaders"));
+                        jsonObject2.put("ResponseHeaders", jsonObject.get("ResponseHeaders"));
                         calls.add(jsonObject2);
                     }
                 }
@@ -266,6 +286,9 @@ public class NetworkCalls {
                     if (call.get("URL").equals(url)) {
                         jsonObject.put("URL", call.get("URL"));
                         jsonObject.put("statusCode", call.get("Status"));
+                        jsonObject.put("Payload", call.get("Payload"));
+                        jsonObject.put("RequestHeaders", call.get("RequestHeaders"));
+                        jsonObject.put("ResponseHeaders", call.get("ResponseHeaders"));
                         calls.add(jsonObject);
                     }
                 }
@@ -300,6 +323,9 @@ public class NetworkCalls {
                     if (jsonObject.get("URL").toString().equals(url)) {
                         jsonObject2.put("URL", jsonObject.get("URL"));
                         jsonObject2.put("statusCode", jsonObject.get("statusCode"));
+                        jsonObject2.put("Payload", jsonObject.get("Payload"));
+                        jsonObject2.put("RequestHeaders", jsonObject.get("RequestHeaders"));
+                        jsonObject2.put("ResponseHeaders", jsonObject.get("ResponseHeaders"));
                         calls.add(jsonObject2);
                     }
                 }
@@ -365,6 +391,37 @@ public class NetworkCalls {
                             responses);
                 }
             }
+        }
+        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
+    }
+
+
+    public NetworkCalls assertHeader(String Header, String Value) {
+        if (com.codeborne.selenide.Configuration.remote != null && !com.codeborne.selenide.Configuration.remote.isEmpty()) {
+            for (JSONObject responses : this.filteredCalls) {
+                if (responses.has("response")) {
+                    if (responses.getJSONObject("response").getJSONObject("headers").has(Header) &&
+                            !responses.getJSONObject("response").getJSONObject("headers").getString(Header).equals(Value)) {
+                        throw new Error("The headers should contain '" + Header + "' Equal to '" +Value + " but is: " +
+                                responses.getJSONObject("response").getJSONObject("headers").getString(Header)+ "\n"
+                                + responses.getJSONObject("response") + "\n Response: \n" + responses);
+                    }
+                }
+            }
+        } else {
+            for (JSONObject responses : this.filteredCalls) {
+                if (!responses.getString("RequestHeaders").contains(Value) && !responses.getString("ResponseHeaders").contains(Value)) {
+                    throw new Error("The headers should contain '" + Header + "' Equal to '" + Value + " but is: \n " +
+                            responses.getString("ResponseHeaders") + responses.getString("RequestHeaders") + "\n Response: \n" + responses);
+                }
+            }
+        }
+        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
+    }
+
+    public NetworkCalls assertCallExists() {
+        if (this.filteredCalls.size() == 0) {
+            throw new Error("There are n network calls with the filter parameters included!");
         }
         return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
