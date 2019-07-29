@@ -39,9 +39,13 @@ public class TestBrowser {
         Configuration.deviceTests = false;
         Configuration.logNetworkCalls = true;
         open("https://www.google.com")
-                .getLastNetworkCalls(2).filterByExactUrl("https://www.google.com/")
+                .getNetworkCalls().filterByExactUrl("https://www.google.com/").logFilteredCalls()
                 .and()
-                .filterByUrl("https://www.google.com/").assertStatusCode(200).assertHeader("Content-Type", "text/html; charset=UTF-8");
+                .filterByUrl("https://www.google.com/").assertFilteredCallExists().logFilteredCalls().assertStatusCode(200).assertHeader("Content-Type", "text/html; charset=UTF-8");
+
+        stop();
+        open("https://www.google.com")
+                .getLastNetworkCalls(2).filterByUrl("https://www.google.com/").logFilteredCalls().assertFilteredCallExists();
     }
 
     @Test

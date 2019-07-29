@@ -44,6 +44,13 @@ public class NetworkCalls {
         return proxy;
     }
 
+    public static void stopProxy() {
+        proxy.stop();
+        proxy = null;
+    }
+
+    private static Proxy seleniumProxy;
+
     public static void setNetworkCalls() {
         if (Configuration.logNetworkCalls) {
             if (Configuration.remote == null || Configuration.remote.isEmpty()) {
@@ -52,7 +59,7 @@ public class NetworkCalls {
                     // start the proxy
                     proxy.start(0);
                     // get the Selenium proxy object
-                    Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
+                    seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
                     seleniumProxy.setHttpProxy("localhost:" + getProxy().getPort());
                     seleniumProxy.setSslProxy("localhost:" + getProxy().getPort());
                     Configuration.selenideBrowserCapabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
@@ -67,6 +74,10 @@ public class NetworkCalls {
             logPrefs.enable(LogType.PERFORMANCE, Level.INFO);
             Configuration.selenideBrowserCapabilities.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
         }
+    }
+
+    public static Proxy getSeleniumProxy() {
+        return seleniumProxy;
     }
 
     public static NetworkCalls getNetworkCalls() {
@@ -151,16 +162,22 @@ public class NetworkCalls {
             }
         } else {
             Har har = getProxy().getHar();
-            for (HarEntry entry : har.getLog().getEntries()) {
+            List<HarEntry> entryList = har.getLog().getEntries();
+            if (entryList.size() < lastX) {
+                lastX = entryList.size();
+            }
+            System.out.println(entryList.size() );
+            System.out.println(lastX);
+            for (int j = entryList.size() - lastX; j < entryList.size(); j++) {
                 Map<String, String> call = new HashMap<>();
-                call.put("URL", entry.getRequest().getUrl());
-                call.put("Status", String.valueOf(entry.getResponse().getStatus()));
-                call.put("RequestHeaders", entry.getRequest().getHeaders().toString());
-                call.put("ResponseHeaders", entry.getResponse().getHeaders().toString());
-                String payload = entry.getResponse().getContent().getText() == null ? "" : entry.getResponse().getContent().getText();
+                call.put("URL", entryList.get(j).getRequest().getUrl());
+                call.put("Status", String.valueOf(entryList.get(j).getResponse().getStatus()));
+                call.put("RequestHeaders", entryList.get(j).getRequest().getHeaders().toString());
+                call.put("ResponseHeaders", entryList.get(j).getResponse().getHeaders().toString());
+                String payload = entryList.get(j).getResponse().getContent().getText() == null ? "" : entryList.get(j).getResponse().getContent().getText();
                 call.put("Payload", payload);
-                if (entry.getResponse().getStatus() >= 300) {
-                    call.put("Response: ", String.valueOf(entry.getResponse().getContent().getText()));
+                if (entryList.get(j).getResponse().getStatus() >= 300) {
+                    call.put("Response: ", String.valueOf(entryList.get(j).getResponse().getContent().getText()));
                 }
                 callHar.add(call);
             }
@@ -349,6 +366,11 @@ public class NetworkCalls {
                 if (responses.has("response")) {
                     if (responses.getJSONObject("response").getInt("status") != statusCode
                             && responses.getJSONObject("response").getInt("status") != 0) {
+                        if (Configuration.useAllure) {
+                            Allure.addAttachment("Assert Status Code", "Status code should be " + statusCode + " but was "
+                                    + responses.getJSONObject("response").getInt("status") + "\n Response: \n" +
+                                    responses);
+                        }
                         throw new Error("Status code should be " + statusCode + " but was "
                                 + responses.getJSONObject("response").getInt("status") + "\n Response: \n" +
                                 responses);
@@ -359,6 +381,11 @@ public class NetworkCalls {
             for (JSONObject responses : this.filteredCalls) {
                 if (responses.getInt("statusCode") != statusCode
                         && responses.getInt("statusCode") != 0) {
+                    if (Configuration.useAllure) {
+                        Allure.addAttachment("Assert Status Code", "Status code should be " + statusCode + " but was "
+                                + responses.getInt("statusCode") + "\n Response: \n" +
+                                responses);
+                    }
                     throw new Error("Status code should be " + statusCode + " but was "
                             + responses.getInt("statusCode") + "\n Response: \n" +
                             responses);
@@ -375,6 +402,11 @@ public class NetworkCalls {
                     if ((responses.getJSONObject("response").getInt("status") < statusCode
                             || responses.getJSONObject("response").getInt("status") > statusCode2)
                             && responses.getJSONObject("response").getInt("status") != 0) {
+                        if (Configuration.useAllure) {
+                            Allure.addAttachment("Assert Status Code", "Status code should be between " + statusCode + " and " + statusCode2 + " but was "
+                                    + responses.getJSONObject("response").getInt("status") + "\n Response: \n" +
+                                    responses);
+                        }
                         throw new Error("Status code should be between " + statusCode + " and " + statusCode2 + " but was "
                                 + responses.getJSONObject("response").getInt("status") + "\n Response: \n" +
                                 responses);
@@ -386,6 +418,11 @@ public class NetworkCalls {
                 if ((responses.getInt("statusCode") < statusCode ||
                         responses.getInt("statusCode") > statusCode2)
                                 && responses.getInt("statusCode") != 0) {
+                    if (Configuration.useAllure) {
+                        Allure.addAttachment("Assert Status Code", "Status code should be between " + statusCode + " and " + statusCode2 + " but was "
+                                + responses.getInt("statusCode") + "\n Response: \n" +
+                                responses);
+                    }
                     throw new Error("Status code should be between " + statusCode + " and " + statusCode2 + " but was "
                             + responses.getInt("statusCode") + "\n Response: \n" +
                             responses);
@@ -402,6 +439,10 @@ public class NetworkCalls {
                 if (responses.has("response")) {
                     if (responses.getJSONObject("response").getJSONObject("headers").has(Header) &&
                             !responses.getJSONObject("response").getJSONObject("headers").getString(Header).equals(Value)) {
+                        if (Configuration.useAllure) {
+                            Allure.addAttachment("Assert Headers", "The headers should contain '" + Header + "' Equal to '" + Value + " but is: \n " +
+                                    responses.getString("ResponseHeaders") + responses.getString("RequestHeaders") + "\n Response: \n" + responses);
+                        }
                         throw new Error("The headers should contain '" + Header + "' Equal to '" +Value + " but is: " +
                                 responses.getJSONObject("response").getJSONObject("headers").getString(Header)+ "\n"
                                 + responses.getJSONObject("response") + "\n Response: \n" + responses);
@@ -411,6 +452,10 @@ public class NetworkCalls {
         } else {
             for (JSONObject responses : this.filteredCalls) {
                 if (!responses.getString("RequestHeaders").contains(Value) && !responses.getString("ResponseHeaders").contains(Value)) {
+                    if (Configuration.useAllure) {
+                        Allure.addAttachment("Assert Headers", "The headers should contain '" + Header + "' Equal to '" + Value + " but is: \n " +
+                                responses.getString("ResponseHeaders") + responses.getString("RequestHeaders") + "\n Response: \n" + responses);
+                    }
                     throw new Error("The headers should contain '" + Header + "' Equal to '" + Value + " but is: \n " +
                             responses.getString("ResponseHeaders") + responses.getString("RequestHeaders") + "\n Response: \n" + responses);
                 }
@@ -419,9 +464,9 @@ public class NetworkCalls {
         return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
 
-    public NetworkCalls assertCallExists() {
+    public NetworkCalls assertFilteredCallExists() {
         if (this.filteredCalls.size() == 0) {
-            throw new Error("There are n network calls with the filter parameters included!");
+            throw new Error("There are no network calls with the filter parameters included!");
         }
         return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
