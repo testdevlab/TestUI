@@ -72,7 +72,8 @@ public class NetworkCalls {
                 }
             }
             LoggingPreferences logPrefs = new LoggingPreferences();
-            logPrefs.enable(LogType.PERFORMANCE, Level.INFO);
+            logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
+            Configuration.selenideBrowserCapabilities.setCapability("goog:loggingPrefs", logPrefs);
             Configuration.selenideBrowserCapabilities.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
         }
     }

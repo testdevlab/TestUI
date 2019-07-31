@@ -12,6 +12,7 @@ import static testUI.TestUIDriver.setDriver;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
+import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
 
 public class TestBrowser {
