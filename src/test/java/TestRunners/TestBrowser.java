@@ -8,8 +8,10 @@ import pages.GoogleLandingPage;
 import testUI.Configuration;
 
 import static testUI.ADBUtils.checkAndInstallChromedriver;
+import static testUI.NetworkCalls.getNetworkCalls;
 import static testUI.TestUIDriver.setDriver;
 import static testUI.TestUIServer.stop;
+import static testUI.UIOpen.navigate;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
 import static testUI.Utils.By.*;
@@ -38,14 +40,15 @@ public class TestBrowser {
     public void testDesktopBrowserStatusCode() {
         Configuration.deviceTests = false;
         Configuration.logNetworkCalls = true;
+        Configuration.remote = "http://localhost:4444/wd/hub";
         open("https://www.google.com")
-                .getNetworkCalls().filterByExactUrl("https://www.google.com/").logFilteredCalls()
+                .getNetworkCalls().logAllCalls().filterByExactUrl("https://www.google.com/").logFilteredCalls()
                 .and()
-                .filterByUrl("https://www.google.com/").assertFilteredCallExists().logFilteredCalls().assertStatusCode(200).assertHeader("Content-Type", "text/html; charset=UTF-8");
+                .filterByUrl("https://www.google.com/").assertFilteredCallExists().logFilteredCalls().assertStatusCode(200).assertResponseHeader("Content-Type", "text/html; charset=UTF-8");
 
         stop();
         open("https://www.google.com")
-                .getLastNetworkCalls(2).filterByUrl("https://www.google.com/").logFilteredCalls().assertFilteredCallExists();
+                .getLastNetworkCalls(100).logAllCalls().filterByUrl("https://www.google.com/").logFilteredCalls().assertFilteredCallExists();
     }
 
     @Test
