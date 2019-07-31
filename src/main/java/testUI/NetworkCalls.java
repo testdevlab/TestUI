@@ -300,35 +300,17 @@ public class NetworkCalls {
     }
 
     public NetworkCalls assertStatusCode(int statusCode) {
-        if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
-            for (JSONObject responses : this.filteredCalls) {
-                if (responses.has("response")) {
-                    if (responses.getJSONObject("response").getInt("status") != statusCode
-                            && responses.getJSONObject("response").getInt("status") != 0) {
-                        if (Configuration.useAllure) {
-                            Allure.addAttachment("Assert Status Code", "Status code should be " + statusCode + " but was "
-                                    + responses.getJSONObject("response").getInt("status") + "\n Response: \n" +
-                                    responses);
-                        }
-                        throw new Error("Status code should be " + statusCode + " but was "
-                                + responses.getJSONObject("response").getInt("status") + "\n Response: \n" +
-                                responses);
-                    }
-                }
-            }
-        } else {
-            for (JSONObject responses : this.filteredCalls) {
-                if (responses.getInt("statusCode") != statusCode
-                        && responses.getInt("statusCode") != 0) {
-                    if (Configuration.useAllure) {
-                        Allure.addAttachment("Assert Status Code", "Status code should be " + statusCode + " but was "
-                                + responses.getInt("statusCode") + "\n Response: \n" +
-                                responses);
-                    }
-                    throw new Error("Status code should be " + statusCode + " but was "
+        for (JSONObject responses : this.filteredCalls) {
+            if (responses.getInt("statusCode") != statusCode
+                    && responses.getInt("statusCode") != 0) {
+                if (Configuration.useAllure) {
+                    Allure.addAttachment("Assert Status Code", "Status code should be " + statusCode + " but was "
                             + responses.getInt("statusCode") + "\n Response: \n" +
                             responses);
                 }
+                throw new Error("Status code should be " + statusCode + " but was "
+                        + responses.getInt("statusCode") + "\n Response: \n" +
+                        responses);
             }
         }
         return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);

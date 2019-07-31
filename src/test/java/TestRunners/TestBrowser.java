@@ -49,6 +49,13 @@ public class TestBrowser {
         stop();
         open("https://www.google.com")
                 .getLastNetworkCalls(100).logAllCalls().filterByUrl("https://www.google.com/").logFilteredCalls().assertFilteredCallExists();
+        stop();
+        open("https://www.rimowa.com/us/en/home");
+        getNetworkCalls().filterByUrl("https://www.rimowa.com/us/en/home")
+                .assertFilteredCallExists().assertStatusCode(300);
+        navigate("https://www.rimowa.com/us/en/home");
+        getNetworkCalls().filterByUrl("https://www.rimowa.com/us/en/home")
+                .assertFilteredCallExists().assertStatusCode(200);
     }
 
     @Test
