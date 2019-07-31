@@ -8,10 +8,8 @@ import pages.GoogleLandingPage;
 import testUI.Configuration;
 
 import static testUI.ADBUtils.checkAndInstallChromedriver;
-import static testUI.NetworkCalls.getNetworkCalls;
 import static testUI.TestUIDriver.setDriver;
 import static testUI.TestUIServer.stop;
-import static testUI.UIOpen.navigate;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
 import static testUI.Utils.By.*;
@@ -50,12 +48,6 @@ public class TestBrowser {
         open("https://www.google.com")
                 .getLastNetworkCalls(100).logAllCalls().filterByUrl("https://www.google.com/").logFilteredCalls().assertFilteredCallExists();
         stop();
-        open("https://www.rimowa.com/us/en/home");
-        getNetworkCalls().filterByUrl("https://www.rimowa.com/us/en/home")
-                .assertFilteredCallExists().assertStatusCode(300);
-        navigate("https://www.rimowa.com/us/en/home");
-        getNetworkCalls().filterByUrl("https://www.rimowa.com/us/en/home")
-                .assertFilteredCallExists().assertStatusCode(200);
     }
 
     @Test
