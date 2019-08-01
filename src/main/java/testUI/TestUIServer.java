@@ -16,6 +16,7 @@ import java.util.Map;
 import static com.codeborne.selenide.Selenide.close;
 import static testUI.ADBUtils.*;
 import static testUI.Configuration.*;
+import static testUI.NetworkCalls.*;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.*;
 import static testUI.Utils.AppiumHelps.sleep;
@@ -235,6 +236,13 @@ public class TestUIServer {
             }
             close();
         }
+        try {
+            if (getProxy() != null && getProxy().isStarted()) {
+                stopProxy();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected static void tryStop(int driver) {
@@ -277,6 +285,13 @@ public class TestUIServer {
             }
             close();
         }
+        try {
+            if (getProxy() != null && getProxy().isStarted()) {
+                stopProxy();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void stop() {
@@ -304,5 +319,15 @@ public class TestUIServer {
             }
             close();
         }
+        try {
+            if (getProxy() != null && getProxy().isStarted()) {
+                stopProxy();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+
+
 }

@@ -1,11 +1,9 @@
 package TestRunners;
 
 import io.qameta.allure.junit4.DisplayName;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
 
@@ -25,7 +23,7 @@ public class TestBrowser {
     @Test
     @DisplayName("Laptop browser test case")
     public void testDesktopBrowser() {
-        Configuration.deviceTests = false;
+        Configuration.logNetworkCalls = true;
         open("https://www.google.com");
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
@@ -33,6 +31,24 @@ public class TestBrowser {
         googleLandingPage.getGoogleSearch().shouldHave().not().emptyText();
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
                 ".png");
+    }
+
+
+    @Test
+    @DisplayName("Laptop browser test case, assert status code")
+    public void testDesktopBrowserStatusCode() {
+        Configuration.deviceTests = false;
+        Configuration.logNetworkCalls = true;
+        Configuration.remote = "http://localhost:4444/wd/hub";
+        open("https://www.google.com")
+                .getNetworkCalls().logAllCalls().filterByExactUrl("https://www.google.com/").logFilteredCalls()
+                .and()
+                .filterByUrl("https://www.google.com/").assertFilteredCallExists().logFilteredCalls().assertStatusCode(200).assertResponseHeader("Content-Type", "text/html; charset=UTF-8");
+
+        stop();
+        open("https://www.google.com")
+                .getLastNetworkCalls(100).logAllCalls().filterByUrl("https://www.google.com/").logFilteredCalls().assertFilteredCallExists();
+        stop();
     }
 
     @Test

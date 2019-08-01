@@ -6,6 +6,7 @@ import testUI.elements.UIElement;
 import static testUI.AndroidTestUIDriver.*;
 import static testUI.Configuration.*;
 import static testUI.IOSTestUIDriver.*;
+import static testUI.NetworkCalls.setNetworkCalls;
 import static testUI.TestUIDriver.getDesiredCapabilities;
 import static testUI.UIUtils.putLog;
 import static testUI.elements.TestUI.setScreenshotTaken;
@@ -13,6 +14,7 @@ import static testUI.elements.UIElement.setStep;
 
 public class UIOpen {
     public static UIElement open() {
+        setNetworkCalls();
         setScreenshotTaken(false);
         if (iOSTesting) {
             if (iOSAppPath.isEmpty() && getDesiredCapabilities() == null) {
@@ -98,6 +100,7 @@ public class UIOpen {
     }
 
     public static UIElement open(String urlOrRelativeUrl) {
+        setNetworkCalls();
         setScreenshotTaken(false);
         if (deviceTests && iOSTesting) {
             openIOSBrowser(urlOrRelativeUrl);

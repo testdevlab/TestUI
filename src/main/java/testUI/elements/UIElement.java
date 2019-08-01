@@ -3,12 +3,17 @@ package testUI.elements;
 import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.MobileElement;
 import io.qameta.allure.Allure;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.touch.TouchActions;
 import testUI.Configuration;
+import testUI.NetworkCalls;
 import testUI.collections.UICollection;
 
-import static testUI.TestUIDriver.getDriver;
+import java.io.File;
+import java.io.IOException;
+
+import static testUI.TestUIDriver.*;
 import static testUI.UIOpen.navigate;
 import static testUI.Utils.AppiumHelps.*;
 import static testUI.Utils.WaitUntil.waitUntilClickable;
@@ -446,6 +451,37 @@ public class UIElement extends TestUI implements ElementActions {
 
     public ShouldBe should() {
         return new ShouldBe(element, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS, Configuration.timeout, true);
+    }
+
+
+    public UIElement saveScreenshot(String path) {
+        if (Configuration.deviceTests) {
+            if (getDrivers().size() != 0) {
+                Configuration.driver = Configuration.driver > getDrivers().size() ? getDrivers().size() : Configuration.driver;
+                File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+                try {
+                    FileUtils.copyFile(scrFile, new File(Configuration.screenshotPath + path));
+                } catch (IOException e) {
+                    System.err.println("Could not save the screenshot");
+                }
+            }
+        } else {
+            File scrFile = ((TakesScreenshot) getSelenideDriver()).getScreenshotAs(OutputType.FILE);
+            try {
+                FileUtils.copyFile(scrFile, new File(Configuration.screenshotPath + path));
+            } catch (IOException e) {
+                System.err.println("Could not save the screenshot");
+            }
+        }
+        return new UIElement(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+    }
+
+    public NetworkCalls getNetworkCalls() {
+        return NetworkCalls.getNetworkCalls();
+    }
+
+    public NetworkCalls getLastNetworkCalls(int LastX) {
+        return NetworkCalls.getLastNetworkCalls(LastX);
     }
 
     public UIElement and() {
