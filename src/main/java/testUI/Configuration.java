@@ -19,6 +19,7 @@ public class Configuration extends SelenideConfiguration {
     public static List<String> useBootstrapPort = new ArrayList<>();
     public static boolean useAllure = true;
     public static String iOSVersion = "";
+    public static int launchAppTimeout = 20000;
     public static String iOSAppPath = "";
     public static String iOSDeviceName = "";
     public static String androidDeviceName = "";

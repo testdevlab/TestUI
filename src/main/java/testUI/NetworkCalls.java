@@ -291,6 +291,51 @@ public class NetworkCalls {
         return new NetworkCalls(this.calls, calls, this.callHar,this.severalFilters);
     }
 
+    public NetworkCalls filterByHeader(String header, String value) {
+        List<JSONObject> calls = new ArrayList<>();
+        if (!this.severalFilters) {
+            for (Map<String ,String> call : this.callHar) {
+                JSONObject jsonObject = new JSONObject();
+                if (call.get("RequestHeaders") != null && call.get("RequestHeaders").contains(header) && call.get("RequestHeaders").contains(value) ||
+                        call.get("ResponseHeaders") != null && call.get("ResponseHeaders").contains(header) && call.get("ResponseHeaders").contains(value)) {
+                    jsonObject.put("URL",call.get("URL"));
+                    jsonObject.put("statusCode", call.get("Status"));
+                    if (call.get("Payload") != null) {
+                        jsonObject.put("Payload", call.get("Payload"));
+                    }
+                    if (call.get("RequestHeaders") != null) {
+                        jsonObject.put("RequestHeaders", call.get("RequestHeaders"));
+                    }
+                    if (call.get("ResponseHeaders") != null) {
+                        jsonObject.put("ResponseHeaders", call.get("ResponseHeaders"));
+                    }
+                    calls.add(jsonObject);
+                }
+            }
+        } else {
+            for (JSONObject jsonObject : this.filteredCalls) {
+                JSONObject jsonObject2 = new JSONObject();
+                if (jsonObject.has("RequestHeaders") && jsonObject.getString("RequestHeaders").contains(header) &&
+                        jsonObject.getString("RequestHeaders").contains(value) || jsonObject.has("ResponseHeaders")
+                        && jsonObject.getString("ResponseHeaders").contains(header) && jsonObject.getString("ResponseHeaders").contains(value)) {
+                    jsonObject2.put("URL", jsonObject.get("URL"));
+                    jsonObject2.put("statusCode", jsonObject.get("statusCode"));
+                    if (jsonObject.has("Payload")) {
+                        jsonObject2.put("Payload", jsonObject.get("Payload"));
+                    }
+                    if (jsonObject.has("RequestHeaders")) {
+                        jsonObject2.put("RequestHeaders", jsonObject.get("RequestHeaders"));
+                    }
+                    if (jsonObject.has("ResponseHeaders")) {
+                        jsonObject2.put("ResponseHeaders", jsonObject.get("ResponseHeaders"));
+                    }
+                    calls.add(jsonObject2);
+                }
+            }
+        }
+        return new NetworkCalls(this.calls, calls, this.callHar,this.severalFilters);
+    }
+
 
     public NetworkCalls and() {
         return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, true);

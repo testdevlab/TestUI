@@ -210,6 +210,7 @@ public class TestUIDriver {
                 cap.setCapability(MobileCapabilityType.DEVICE_NAME, Configuration.emulatorName);
                 cap.setCapability(AndroidMobileCapabilityType.AVD, Configuration.emulatorName);
             }
+            cap.setCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION, Configuration.launchAppTimeout);
             cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Appium");
             cap.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
             if (Configuration.androidAppPath.isEmpty()) {
@@ -342,7 +343,7 @@ public class TestUIDriver {
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.IOS);
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
             capabilities.setCapability(IOSMobileCapabilityType.START_IWDP, true);
-            capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 10000);
+            capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, Configuration.launchAppTimeout);
             capabilities.setCapability(IOSMobileCapabilityType.COMMAND_TIMEOUTS, 15000);
             // ADD CUSTOM CAPABILITIES
             if (!Configuration.addMobileDesiredCapabilities.asMap().isEmpty()) {
