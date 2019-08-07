@@ -213,10 +213,10 @@ public class TestUIDriver {
             cap.setCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION, Configuration.launchAppTimeout);
             cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Appium");
             cap.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
-            if (Configuration.androidAppPath.isEmpty()) {
+            if (!Configuration.appActivity.isEmpty() && !Configuration.appPackage.isEmpty()) {
                 cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, Configuration.appActivity);
                 cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, Configuration.appPackage);
-            } else {
+            } else if (!Configuration.androidAppPath.isEmpty()){
                 String appPath = Configuration.androidAppPath.charAt(0) == '/' ? Configuration.androidAppPath :
                         System.getProperty("user.dir") + "/" + Configuration.androidAppPath;
                 cap.setCapability("androidInstallPath", appPath);
