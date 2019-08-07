@@ -216,7 +216,8 @@ public class TestUIDriver {
             if (!Configuration.appActivity.isEmpty() && !Configuration.appPackage.isEmpty()) {
                 cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, Configuration.appActivity);
                 cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, Configuration.appPackage);
-            } else if (!Configuration.androidAppPath.isEmpty()){
+            }
+            if (!Configuration.androidAppPath.isEmpty()){
                 String appPath = Configuration.androidAppPath.charAt(0) == '/' ? Configuration.androidAppPath :
                         System.getProperty("user.dir") + "/" + Configuration.androidAppPath;
                 cap.setCapability("androidInstallPath", appPath);
