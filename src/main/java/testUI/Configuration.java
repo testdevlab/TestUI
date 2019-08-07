@@ -10,8 +10,8 @@ public class Configuration extends SelenideConfiguration {
     public static String browser = "chrome";
     public static String baseUrl = "";
     public static int timeout = 5;
-    public static String appPackage;
-    public static String appActivity;
+    public static String appPackage = "";
+    public static String appActivity = "";
     public static boolean deviceTests = true;
     public static boolean useEmulators = true;
     public static int driver = 1;
