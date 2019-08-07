@@ -4,7 +4,6 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import pages.GoogleLandingPage;
 
-import static testUI.TestUIDriver.getAndroidTestUIDriver;
 import static testUI.UIOpen.open;
 
 public class TestAndroid {
