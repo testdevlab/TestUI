@@ -14,13 +14,15 @@ import static testUI.UIUtils.putLog;
 
 public class ADBUtils {
 
-    private static final String androidHome = System.getenv("ANDROID_HOME") + "/platform-tools/";
+    private static final String androidHome = System.getenv("ANDROID_HOME");
+    private static final String platformTools = "/platform-tools/";
+    private static final String emulatorFolder = "emulator";
 
     public static List<String> getDeviceNames() {
         String s;
         List<String> f = new ArrayList<>();
         try {
-            Process p = Runtime.getRuntime().exec(androidHome + "adb devices");
+            Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb devices");
 
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
@@ -37,7 +39,7 @@ public class ADBUtils {
     public static String getDeviceStatus(String device) {
         String s;
         try {
-            Process p = Runtime.getRuntime().exec(androidHome + "adb devices");
+            Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb devices");
 
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
@@ -55,7 +57,7 @@ public class ADBUtils {
         String s;
         List<String> f = new ArrayList<>();
         try {
-            Process p = Runtime.getRuntime().exec("emulator -list-avds");
+            Process p = Runtime.getRuntime().exec(androidHome + emulatorFolder + "emulator -list-avds");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
@@ -71,7 +73,7 @@ public class ADBUtils {
         String s;
         String f = null;
         try {
-            Process p = Runtime.getRuntime().exec(androidHome + "adb -s " + device + " shell getprop ro.build.version.release ");
+            Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb -s " + device + " shell getprop ro.build.version.release ");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
@@ -87,7 +89,7 @@ public class ADBUtils {
         String s;
         String f = null;
         try {
-            Process p = Runtime.getRuntime().exec(androidHome + "adb -s " + device + " shell getprop ro.product.model");
+            Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb -s " + device + " shell getprop ro.product.model");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
@@ -103,7 +105,7 @@ public class ADBUtils {
         try {
             putLog("Stopping emulator for device: " + emulator
                     + "\n adb -s " + emulator + " emu kill");
-            Runtime.getRuntime().exec(androidHome + "adb -s " + emulator + " emu kill");
+            Runtime.getRuntime().exec(androidHome + platformTools + "adb -s " + emulator + " emu kill");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,7 +115,7 @@ public class ADBUtils {
         String s;
         String f = null;
         try {
-            Process p = Runtime.getRuntime().exec(androidHome + "adb -s " + getDevice() + " shell dumpsys package com.android.chrome | grep versionName");
+            Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb -s " + getDevice() + " shell dumpsys package com.android.chrome | grep versionName");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
