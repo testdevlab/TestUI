@@ -3,6 +3,7 @@ package testUI.Utils;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriverException;
 
 import static testUI.TestUIDriver.getDriver;
 
@@ -12,8 +13,12 @@ public class AppiumHelps {
             if (accesibilityId.isEmpty())
                 return getDriver().findElement(element).isDisplayed();
             return getDriver().findElementByAccessibilityId(accesibilityId).isDisplayed();
-        } catch (NoSuchElementException e) {
-            return false;
+        } catch (WebDriverException e) {
+            if (e.getMessage().contains("Unable to locate element")) {
+                return false;
+            } else {
+                throw new WebDriverException(e);
+            }
         }
     }
 
@@ -22,8 +27,12 @@ public class AppiumHelps {
             if (accesibilityId.isEmpty())
                 return ((MobileElement)getDriver().findElements(element).get(index)).isDisplayed();
             return ((MobileElement)getDriver().findElementsByAccessibilityId(accesibilityId)).isDisplayed();
-        } catch (NoSuchElementException var4) {
-            return false;
+        } catch (WebDriverException e) {
+            if (e.getMessage().contains("Unable to locate element")) {
+                return false;
+            } else {
+                throw new WebDriverException(e);
+            }
         }
     }
 
