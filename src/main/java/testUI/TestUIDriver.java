@@ -237,7 +237,7 @@ public class TestUIDriver {
             for (String key : addMobileDesiredCapabilities.asMap().keySet()) {
                 cap.setCapability(key, addMobileDesiredCapabilities.asMap().get(key));
             }
-            addMobileDesiredCapabilities = null;
+            addMobileDesiredCapabilities = new DesiredCapabilities();
         }
         Configuration.desiredCapabilities = cap;
         return cap;
@@ -293,7 +293,7 @@ public class TestUIDriver {
             for (String key : addMobileDesiredCapabilities.asMap().keySet()) {
                 cap.setCapability(key, addMobileDesiredCapabilities.asMap().get(key));
             }
-            addMobileDesiredCapabilities = null;
+            addMobileDesiredCapabilities = new DesiredCapabilities();
         }
         Configuration.desiredCapabilities = cap;
         return cap;
@@ -355,7 +355,7 @@ public class TestUIDriver {
                 for (String key : addMobileDesiredCapabilities.asMap().keySet()) {
                     capabilities.setCapability(key, addMobileDesiredCapabilities.asMap().get(key));
                 }
-                addMobileDesiredCapabilities = null;
+                addMobileDesiredCapabilities = new DesiredCapabilities();
             }
         } else {
             capabilities = getDesiredCapabilities();
