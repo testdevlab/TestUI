@@ -211,7 +211,11 @@ public class TestUIDriver {
                 cap.setCapability(AndroidMobileCapabilityType.AVD, Configuration.emulatorName);
             }
             cap.setCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION, Configuration.launchAppTimeout);
-            cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Appium");
+            if (Configuration.AutomationName.isEmpty()) {
+                cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
+            } else {
+                cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, Configuration.AutomationName);
+            }
             cap.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
             if (!Configuration.appActivity.isEmpty() && !Configuration.appPackage.isEmpty()) {
                 cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, Configuration.appActivity);

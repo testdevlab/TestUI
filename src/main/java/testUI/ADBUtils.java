@@ -14,11 +14,22 @@ import static testUI.UIUtils.putLog;
 
 public class ADBUtils {
 
-    private static final String androidHome = System.getenv("ANDROID_HOME");
-    private static final String platformTools = "/platform-tools/";
-    private static final String emulatorFolder = "/emulator/";
+    private static String androidHome;
+    private static String platformTools = "/platform-tools/";
+    private static String emulatorFolder = "/emulator/";
+
+    private static void setPath() {
+        if (System.getenv("ANDROID_HOME") != null) {
+            androidHome = System.getenv("ANDROID_HOME");
+        } else {
+            androidHome = "";
+            emulatorFolder = "";
+            platformTools = "";
+        }
+    }
 
     public static List<String> getDeviceNames() {
+        setPath();
         String s;
         List<String> f = new ArrayList<>();
         try {
@@ -37,6 +48,7 @@ public class ADBUtils {
     }
 
     public static String getDeviceStatus(String device) {
+        setPath();
         String s;
         try {
             Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb devices");
@@ -54,6 +66,7 @@ public class ADBUtils {
     }
 
     public static List<String> getEmulatorName() {
+        setPath();
         String s;
         List<String> f = new ArrayList<>();
         try {
@@ -70,6 +83,7 @@ public class ADBUtils {
     }
 
     public static String getDeviceVersion(String device) {
+        setPath();
         String s;
         String f = null;
         try {
@@ -86,6 +100,7 @@ public class ADBUtils {
     }
 
     public static String getDeviceModel(String device) {
+        setPath();
         String s;
         String f = null;
         try {
@@ -102,6 +117,7 @@ public class ADBUtils {
     }
 
     public static void stopEmulator(String emulator) {
+        setPath();
         try {
             putLog("Stopping emulator for device: " + emulator
                     + "\n adb -s " + emulator + " emu kill");
@@ -112,6 +128,7 @@ public class ADBUtils {
     }
 
     public static void checkAndInstallChromedriver() {
+        setPath();
         String s;
         String f = null;
         try {
