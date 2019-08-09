@@ -10,8 +10,8 @@ public class Configuration extends SelenideConfiguration {
     public static String browser = "chrome";
     public static String baseUrl = "";
     public static int timeout = 5;
-    public static String appPackage;
-    public static String appActivity;
+    public static String appPackage = "";
+    public static String appActivity = "";
     public static boolean deviceTests = true;
     public static boolean useEmulators = true;
     public static int driver = 1;
@@ -19,6 +19,7 @@ public class Configuration extends SelenideConfiguration {
     public static List<String> useBootstrapPort = new ArrayList<>();
     public static boolean useAllure = true;
     public static String iOSVersion = "";
+    public static int launchAppTimeout = 20000;
     public static String iOSAppPath = "";
     public static String iOSDeviceName = "";
     public static String androidDeviceName = "";

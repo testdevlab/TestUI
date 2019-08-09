@@ -210,12 +210,18 @@ public class TestUIDriver {
                 cap.setCapability(MobileCapabilityType.DEVICE_NAME, Configuration.emulatorName);
                 cap.setCapability(AndroidMobileCapabilityType.AVD, Configuration.emulatorName);
             }
-            cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Appium");
+            cap.setCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION, Configuration.launchAppTimeout);
+            if (Configuration.AutomationName.isEmpty()) {
+                cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
+            } else {
+                cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, Configuration.AutomationName);
+            }
             cap.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
-            if (Configuration.androidAppPath.isEmpty()) {
+            if (!Configuration.appActivity.isEmpty() && !Configuration.appPackage.isEmpty()) {
                 cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, Configuration.appActivity);
                 cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, Configuration.appPackage);
-            } else {
+            }
+            if (!Configuration.androidAppPath.isEmpty()){
                 String appPath = Configuration.androidAppPath.charAt(0) == '/' ? Configuration.androidAppPath :
                         System.getProperty("user.dir") + "/" + Configuration.androidAppPath;
                 cap.setCapability("androidInstallPath", appPath);
@@ -231,7 +237,7 @@ public class TestUIDriver {
             for (String key : addMobileDesiredCapabilities.asMap().keySet()) {
                 cap.setCapability(key, addMobileDesiredCapabilities.asMap().get(key));
             }
-            addMobileDesiredCapabilities = null;
+            addMobileDesiredCapabilities = new DesiredCapabilities();
         }
         Configuration.desiredCapabilities = cap;
         return cap;
@@ -287,7 +293,7 @@ public class TestUIDriver {
             for (String key : addMobileDesiredCapabilities.asMap().keySet()) {
                 cap.setCapability(key, addMobileDesiredCapabilities.asMap().get(key));
             }
-            addMobileDesiredCapabilities = null;
+            addMobileDesiredCapabilities = new DesiredCapabilities();
         }
         Configuration.desiredCapabilities = cap;
         return cap;
@@ -342,14 +348,14 @@ public class TestUIDriver {
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.IOS);
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
             capabilities.setCapability(IOSMobileCapabilityType.START_IWDP, true);
-            capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 10000);
+            capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, Configuration.launchAppTimeout);
             capabilities.setCapability(IOSMobileCapabilityType.COMMAND_TIMEOUTS, 15000);
             // ADD CUSTOM CAPABILITIES
             if (!Configuration.addMobileDesiredCapabilities.asMap().isEmpty()) {
                 for (String key : addMobileDesiredCapabilities.asMap().keySet()) {
                     capabilities.setCapability(key, addMobileDesiredCapabilities.asMap().get(key));
                 }
-                addMobileDesiredCapabilities = null;
+                addMobileDesiredCapabilities = new DesiredCapabilities();
             }
         } else {
             capabilities = getDesiredCapabilities();

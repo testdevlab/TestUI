@@ -280,13 +280,7 @@ public class UIUtils {
                 Configuration.appiumUrl;
         for (int i = 0; i < 2 ; i++) {
             try {
-                if (getDrivers().size() == 0) {
-                    setDriver(new AndroidDriver(new URL(url), desiredCapabilities) {
-                    });
-                } else {
-                    setDriver(new AndroidDriver(new URL(url), desiredCapabilities) {
-                    }, 0);
-                }
+                setDriver(new AndroidDriver(new URL(url), desiredCapabilities) {});
                 break;
             } catch (Exception e) {
                 System.err.println("Could not create driver! retrying...");
@@ -297,6 +291,7 @@ public class UIUtils {
                 }
             }
         }
+        Configuration.driver = getDrivers().size();
     }
 
 

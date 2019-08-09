@@ -24,6 +24,30 @@ public class TestBrowser {
     @DisplayName("Laptop browser test case")
     public void testDesktopBrowser() {
         Configuration.logNetworkCalls = true;
+        Configuration.deviceTests = false;
+        Configuration.browser = "chrome";
+        open("https://www.google.com");
+        googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
+        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
+        googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
+        googleLandingPage.getGoogleSearch().shouldHave().not().emptyText();
+        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
+                ".png");
+    }
+
+    @Test
+    @DisplayName("Laptop browser test case")
+    public void testDesktopBrowserSafari() {
+        Configuration.deviceTests = false;
+        Configuration.browser = "safari";
+        open("https://www.google.com");
+        googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
+        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
+        googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
+        googleLandingPage.getGoogleSearch().shouldHave().not().emptyText();
+        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
+                ".png");
+        stop();
         open("https://www.google.com");
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
@@ -39,6 +63,7 @@ public class TestBrowser {
     public void testDesktopBrowserStatusCode() {
         Configuration.deviceTests = false;
         Configuration.logNetworkCalls = true;
+        Configuration.browser = "chrome";
         Configuration.remote = "http://localhost:4444/wd/hub";
         open("https://www.google.com")
                 .getNetworkCalls().logAllCalls().filterByExactUrl("https://www.google.com/").logFilteredCalls()
@@ -56,6 +81,7 @@ public class TestBrowser {
     public void testDesktopCustomDriverBrowser() {
         Configuration.deviceTests = false;
         open("https://www.google.com");
+        Configuration.browser = "chrome";
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
@@ -77,14 +103,14 @@ public class TestBrowser {
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
         googleLandingPage.getGoogleSearch().shouldHave().not().emptyText();
-        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
-                ".png");
+        stop();
     }
 
     @Test
     @DisplayName("Laptop browser test case one line code")
     public void testAndroidBrowserOneLine() {
         Configuration.deviceTests = false;
+        Configuration.browser = "chrome";
         open("https://loadero.com/login")
                 .given("I set element").setElement(byCssSelector("#username"))
                 .and("I check if visible").waitFor(5).untilIsVisible()

@@ -142,15 +142,23 @@ public class UICollection implements Collection {
 
     public UIElement findByVisible() {
         if (Configuration.deviceTests) {
-            for (int i = 0; i < size(); i++) {
-                if (visible(getAppiumElement(), getAccessibilityId(), i)) {
-                    return new UIElement(element, SelenideElement, element, i, true, accesibilityId,accesibilityIdiOS);
+            long t= System.currentTimeMillis();
+            long end = t+(Configuration.timeout * 1000);
+            while(System.currentTimeMillis() < end) {
+                for (int i = 0; i < size(); i++) {
+                    if (visible(getAppiumElement(), getAccessibilityId(), i)) {
+                        return new UIElement(element, SelenideElement, element, i, true, accesibilityId, accesibilityIdiOS);
+                    }
                 }
             }
         } else {
-            for (int i = 0; i < size(); i++) {
-                if ($$(SelenideElement).get(i).is(com.codeborne.selenide.Condition.visible)) {
-                    return new UIElement(element, SelenideElement, element, i, true, accesibilityId,accesibilityIdiOS);
+            long t= System.currentTimeMillis();
+            long end = t+(Configuration.timeout * 1000);
+            while(System.currentTimeMillis() < end) {
+                for (int i = 0; i < size(); i++) {
+                    if ($$(SelenideElement).get(i).is(com.codeborne.selenide.Condition.visible)) {
+                        return new UIElement(element, SelenideElement, element, i, true, accesibilityId, accesibilityIdiOS);
+                    }
                 }
             }
         }
@@ -160,15 +168,23 @@ public class UICollection implements Collection {
 
     public UIElement findByText(String text) {
         if (Configuration.deviceTests) {
-            for (int i = 0; i < size(); i++) {
-                if (containsText(getAppiumElement(), getAccessibilityId(), i, text)) {
-                    return new UIElement(element, SelenideElement, element, i, true, accesibilityId,accesibilityIdiOS);
+            long t= System.currentTimeMillis();
+            long end = t+(Configuration.timeout * 1000);
+            while(System.currentTimeMillis() < end) {
+                for (int i = 0; i < size(); i++) {
+                    if (containsText(getAppiumElement(), getAccessibilityId(), i, text)) {
+                        return new UIElement(element, SelenideElement, element, i, true, accesibilityId, accesibilityIdiOS);
+                    }
                 }
             }
         } else {
-            for (int i = 0; i < size(); i++) {
-                if ($$(SelenideElement).get(i).is(com.codeborne.selenide.Condition.text(text))) {
-                    return new UIElement(element, SelenideElement, element, i, true, accesibilityId,accesibilityIdiOS);
+            long t= System.currentTimeMillis();
+            long end = t+(Configuration.timeout * 1000);
+            while(System.currentTimeMillis() < end) {
+                for (int i = 0; i < size(); i++) {
+                    if ($$(SelenideElement).get(i).is(com.codeborne.selenide.Condition.text(text))) {
+                        return new UIElement(element, SelenideElement, element, i, true, accesibilityId, accesibilityIdiOS);
+                    }
                 }
             }
         }
@@ -178,15 +194,23 @@ public class UICollection implements Collection {
 
     public UIElement findByEnabled() {
         if (Configuration.deviceTests) {
-            for (int i = 0; i < size(); i++) {
-                if (enable(getAppiumElement(), getAccessibilityId(), i)) {
-                    return new UIElement(element, SelenideElement, element, i, true, accesibilityId,accesibilityIdiOS);
+            long t= System.currentTimeMillis();
+            long end = t+(Configuration.timeout * 1000);
+            while(System.currentTimeMillis() < end) {
+                for (int i = 0; i < size(); i++) {
+                    if (enable(getAppiumElement(), getAccessibilityId(), i)) {
+                        return new UIElement(element, SelenideElement, element, i, true, accesibilityId, accesibilityIdiOS);
+                    }
                 }
             }
         } else {
-            for (int i = 0; i < size(); i++) {
-                if ($$(SelenideElement).get(i).is(com.codeborne.selenide.Condition.enabled)) {
-                    return new UIElement(element, SelenideElement, element, i, true, accesibilityId,accesibilityIdiOS);
+            long t= System.currentTimeMillis();
+            long end = t+(Configuration.timeout * 1000);
+            while(System.currentTimeMillis() < end) {
+                for (int i = 0; i < size(); i++) {
+                    if ($$(SelenideElement).get(i).is(com.codeborne.selenide.Condition.enabled)) {
+                        return new UIElement(element, SelenideElement, element, i, true, accesibilityId, accesibilityIdiOS);
+                    }
                 }
             }
         }

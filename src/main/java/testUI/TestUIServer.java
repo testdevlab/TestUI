@@ -298,8 +298,10 @@ public class TestUIServer {
         if (deviceTests) {
             usePort.remove(driver - 1);
             useBootstrapPort.remove(driver - 1);
-            getDrivers().get(driver - 1).close();
-            sleep(500);
+            if (iOSTesting) {
+                getDrivers().get(driver - 1).close();
+                sleep(500);
+            }
             getDrivers().get(driver - 1).quit();
             removeDriver(driver - 1);
             getServices().get(driver - 1).stop();

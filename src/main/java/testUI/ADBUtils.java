@@ -14,11 +14,26 @@ import static testUI.UIUtils.putLog;
 
 public class ADBUtils {
 
+    private static String androidHome;
+    private static String platformTools = "/platform-tools/";
+    private static String emulatorFolder = "/emulator/";
+
+    private static void setPath() {
+        if (System.getenv("ANDROID_HOME") != null) {
+            androidHome = System.getenv("ANDROID_HOME");
+        } else {
+            androidHome = "";
+            emulatorFolder = "";
+            platformTools = "";
+        }
+    }
+
     public static List<String> getDeviceNames() {
+        setPath();
         String s;
         List<String> f = new ArrayList<>();
         try {
-            Process p = Runtime.getRuntime().exec("adb devices");
+            Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb devices");
 
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
@@ -33,9 +48,10 @@ public class ADBUtils {
     }
 
     public static String getDeviceStatus(String device) {
+        setPath();
         String s;
         try {
-            Process p = Runtime.getRuntime().exec("adb devices");
+            Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb devices");
 
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
@@ -50,10 +66,11 @@ public class ADBUtils {
     }
 
     public static List<String> getEmulatorName() {
+        setPath();
         String s;
         List<String> f = new ArrayList<>();
         try {
-            Process p = Runtime.getRuntime().exec("emulator -list-avds");
+            Process p = Runtime.getRuntime().exec(androidHome + emulatorFolder + "emulator -list-avds");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
@@ -66,10 +83,11 @@ public class ADBUtils {
     }
 
     public static String getDeviceVersion(String device) {
+        setPath();
         String s;
         String f = null;
         try {
-            Process p = Runtime.getRuntime().exec("adb -s " + device + " shell getprop ro.build.version.release ");
+            Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb -s " + device + " shell getprop ro.build.version.release ");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
@@ -82,10 +100,11 @@ public class ADBUtils {
     }
 
     public static String getDeviceModel(String device) {
+        setPath();
         String s;
         String f = null;
         try {
-            Process p = Runtime.getRuntime().exec("adb -s " + device + " shell getprop ro.product.model");
+            Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb -s " + device + " shell getprop ro.product.model");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
@@ -98,20 +117,22 @@ public class ADBUtils {
     }
 
     public static void stopEmulator(String emulator) {
+        setPath();
         try {
             putLog("Stopping emulator for device: " + emulator
                     + "\n adb -s " + emulator + " emu kill");
-            Runtime.getRuntime().exec("adb -s " + emulator + " emu kill");
+            Runtime.getRuntime().exec(androidHome + platformTools + "adb -s " + emulator + " emu kill");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static void checkAndInstallChromedriver() {
+        setPath();
         String s;
         String f = null;
         try {
-            Process p = Runtime.getRuntime().exec("adb -s " + getDevice() + " shell dumpsys package com.android.chrome | grep versionName");
+            Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb -s " + getDevice() + " shell dumpsys package com.android.chrome | grep versionName");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
@@ -127,25 +148,11 @@ public class ADBUtils {
                 chromeVersion = "";
             }
             String chromedriverVersion = getChromedriverVersion(chromeVersion);
-            String Platform = System.getProperty("os.name").toLowerCase();
-            String ActualVersion = "";
-            String chromedriverPath;
-            if (Platform.contains("mac")) {
-                chromedriverPath = "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/mac/chromedriver";
-            } else if (Platform.contains("linux")) {
-                chromedriverPath = "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/linux/chromedriver";
-            } else {
-                chromedriverPath = "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/win/chromedriver";
-            }
-            Process p3 = Runtime.getRuntime().exec(chromedriverPath + " -v");
-            BufferedReader stdInput3 = new BufferedReader(new
-                    InputStreamReader(p3.getInputStream()));
-            while ((s = stdInput3.readLine()) != null) {
-                ActualVersion = s;
-            }
+            String ActualVersion = returnChromeDriverVersion();
+            String chromedriverPath = getChromeDriverPath();
             if (!Configuration.chromeDriverPath.isEmpty()) {
                 putLog("Detected Chrome driver already specified for this device");
-            } else if (ActualVersion.contains(ActualVersion) || chromedriverVersion.equals("NOT")) {
+            } else if (ActualVersion.contains(chromedriverVersion) || chromedriverVersion.equals("NOT")) {
                 putLog("Detected Chrome version = " + chromeVersion + " matches with the actual chromedriver: " + ActualVersion);
             } else if (!doesFileExists(chromedriverPath)) {
                 putLog("Detected Chrome version = " + chromeVersion + " but the Appium ChromeDriver is unknown, maybe you should check the appium " +
@@ -170,6 +177,34 @@ public class ADBUtils {
         }
     }
 
+    private static String returnChromeDriverVersion() {
+        String s;
+        String ActualVersion = "";
+        try {
+            String chromedriverPath = getChromeDriverPath();
+            Process p3 = Runtime.getRuntime().exec(chromedriverPath + " -v");
+            BufferedReader stdInput3 = new BufferedReader(new
+                    InputStreamReader(p3.getInputStream()));
+            while ((s = stdInput3.readLine()) != null) {
+                ActualVersion = s;
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ActualVersion;
+    }
+
+    private static String getChromeDriverPath() {
+        String Platform = System.getProperty("os.name").toLowerCase();
+        if (Platform.contains("mac")) {
+            return "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/mac/chromedriver";
+        } else if (Platform.contains("linux")) {
+            return "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/linux/chromedriver";
+        } else {
+            return "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/win/chromedriver";
+        }
+    }
+
     private static String copyFileToCustomFolder(String originalPath) {
         File targetClassesDir = new File(ADBUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         File targetDir = targetClassesDir.getParentFile();
@@ -189,6 +224,9 @@ public class ADBUtils {
         File targetDir = targetClassesDir.getParentFile();
         String destinationPath =  targetDir + "/chromedriver" + getDevice();
         File tmpDir = new File(destinationPath);
+        if (tmpDir.exists()) {
+            Configuration.chromeDriverPath = destinationPath;
+        }
         return tmpDir.exists();
     }
 
@@ -199,6 +237,16 @@ public class ADBUtils {
 
     private static String getChromedriverVersion(String chromeVersion) {
         switch (chromeVersion.split("\\.")[0]) {
+            case "77":
+                return "77.0.3865.10";
+            case "76":
+                return "76.0.3809.68";
+            case "75":
+                return "2.46";
+            case "74":
+                return "2.46";
+            case "73":
+                return "2.46";
             case "72":
                 return "2.44";
             case "71":
@@ -228,7 +276,7 @@ public class ADBUtils {
             case "59":
                 return "2.32";
             default:
-                return "2.46";
+                return "NOT";
         }
     }
 }

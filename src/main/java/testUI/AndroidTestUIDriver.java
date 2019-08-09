@@ -106,7 +106,7 @@ public class AndroidTestUIDriver {
         if (deviceTests) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
             startServerAndDevice();
-            if (getDevices().size() != 0) {
+            if (getDevices().size() >= driver) {
                 checkAndInstallChromedriver();
             }
             DesiredCapabilities cap = setAndroidBrowserCapabilities();
