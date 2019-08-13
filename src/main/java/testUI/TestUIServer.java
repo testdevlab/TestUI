@@ -43,7 +43,9 @@ public class TestUIServer {
         TestUIServer.serviceRunning = false;
         setService(AppiumDriverLocalService.buildService(builder));
         getServices().get(getServices().size() - 1).start();
-        for (int i = 0; i < 8; i++) {
+        long t= System.currentTimeMillis();
+        long end = t+(timeStartAppiumServer * 1000);
+        while(System.currentTimeMillis() < end) {
             String serviceOut = getServices().get(getServices().size() - 1).getStdOut();
             if (serviceOut != null) {
                 if (serviceOut.contains("Could not start REST http")) {
@@ -56,7 +58,7 @@ public class TestUIServer {
             } else {
                 TestUIServer.serviceRunning = true;
             }
-            sleep(500);
+            sleep(100);
         }
         if (!TestUIServer.serviceRunning) {
             getServices().remove(getServices().size() - 1);
