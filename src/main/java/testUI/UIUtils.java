@@ -64,7 +64,11 @@ public class UIUtils {
     }
 
     public static String getDevice() {
-        return Device.get(Configuration.driver - 1);
+        if (Device.size() >= Configuration.driver) {
+            return Device.get(Configuration.driver - 1);
+        }
+        putErrorLog("No device has been set!");
+        return "";
     }
 
     public static String getDeviceName() {

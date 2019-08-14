@@ -18,7 +18,7 @@ public class ADBUtils {
     private static String platformTools = "/platform-tools/";
     private static String emulatorFolder = "/emulator/";
 
-    private static void setPath() {
+    private static void setPathAndCheckAdbServer() {
         if (System.getenv("ANDROID_HOME") != null) {
             androidHome = System.getenv("ANDROID_HOME");
         } else {
@@ -26,10 +26,24 @@ public class ADBUtils {
             emulatorFolder = "";
             platformTools = "";
         }
+        // Check adb is running
+        try {
+            String s;
+            Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb start-server");
+            BufferedReader stdInput = new BufferedReader(new
+                    InputStreamReader(p.getInputStream()));
+            while ((s = stdInput.readLine()) != null) {
+                if (s.contains("daemon started successfully")) {
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static List<String> getDeviceNames() {
-        setPath();
+        setPathAndCheckAdbServer();
         String s;
         List<String> f = new ArrayList<>();
         try {
@@ -48,7 +62,7 @@ public class ADBUtils {
     }
 
     public static String getDeviceStatus(String device) {
-        setPath();
+        setPathAndCheckAdbServer();
         String s;
         try {
             Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb devices");
@@ -66,7 +80,7 @@ public class ADBUtils {
     }
 
     public static List<String> getEmulatorName() {
-        setPath();
+        setPathAndCheckAdbServer();
         String s;
         List<String> f = new ArrayList<>();
         try {
@@ -83,7 +97,7 @@ public class ADBUtils {
     }
 
     public static String getDeviceVersion(String device) {
-        setPath();
+        setPathAndCheckAdbServer();
         String s;
         String f = null;
         try {
@@ -100,7 +114,7 @@ public class ADBUtils {
     }
 
     public static String getDeviceModel(String device) {
-        setPath();
+        setPathAndCheckAdbServer();
         String s;
         String f = null;
         try {
@@ -117,7 +131,7 @@ public class ADBUtils {
     }
 
     public static void stopEmulator(String emulator) {
-        setPath();
+        setPathAndCheckAdbServer();
         try {
             putLog("Stopping emulator for device: " + emulator
                     + "\n adb -s " + emulator + " emu kill");
@@ -128,7 +142,7 @@ public class ADBUtils {
     }
 
     public static void checkAndInstallChromedriver() {
-        setPath();
+        setPathAndCheckAdbServer();
         String s;
         String f = null;
         try {
