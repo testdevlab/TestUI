@@ -95,7 +95,7 @@ public class NetworkCalls {
                             requests.getJSONObject("request").has("url")) {
                         call.put("URL", requests.getJSONObject("request").getString("url"));
                         if (requests.getJSONObject("request").has("status")) {
-                            call.put("Status", requests.getJSONObject("request").getString("status"));
+                            call.put("Status", String.valueOf(requests.getJSONObject("request").getInt("status")));
                         } else {
                             call.put("Status", "0");
                         }
@@ -116,6 +116,24 @@ public class NetworkCalls {
                             call.put("ResponseHeaders", requests.getJSONObject("response").getJSONObject("headers").toString());
                         } else {
                             call.put("RequestHeaders", "");
+                        }
+                    }
+                    if (!call.isEmpty()) {
+                        callHar.add(call);
+                        call = new HashMap<>();
+                    }
+                    if (requests.has("redirectResponse") &&
+                            requests.getJSONObject("redirectResponse").has("url")) {
+                        call.put("URL", requests.getJSONObject("redirectResponse").getString("url"));
+                        if (requests.getJSONObject("redirectResponse").has("status")) {
+                            call.put("Status", String.valueOf(requests.getJSONObject("redirectResponse").getInt("status")));
+                        } else {
+                            call.put("Status", "0");
+                        }
+                        if (requests.getJSONObject("redirectResponse").has("headers")) {
+                            call.put("ResponseHeaders", requests.getJSONObject("redirectResponse").getJSONObject("headers").toString());
+                        } else {
+                            call.put("ResponseHeaders", "");
                         }
                     }
                     if (!call.isEmpty()) {
