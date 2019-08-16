@@ -91,6 +91,20 @@ public class WaitFor extends ShouldBe implements Asserts {
         return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
+    public UIElement untilHasCaseNotSensitiveText(String text) {
+        if (Configuration.deviceTests) {
+            if (collection) {
+                waitUntilContainsTextNoCaseSensitive(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), index, time,
+                        text, true);
+            } else {
+                waitUntilContainsTextNoCaseSensitive(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, text, true);
+            }
+        } else {
+            selenideAssert(Condition.text(text), time, SelenideElement, index, collection);
+        }
+        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+    }
+
     public UIElement untilHasValue(String value) {
         if (Configuration.deviceTests) {
             if (collection) {

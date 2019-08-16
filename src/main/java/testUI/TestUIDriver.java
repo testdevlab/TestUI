@@ -328,7 +328,7 @@ public class TestUIDriver {
             if (browser) {
                 capabilities.setCapability(MobileCapabilityType.AUTO_WEBVIEW, true);
                 capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
-            } else {
+            } else if (!Configuration.iOSAppPath.isEmpty()) {
                 String appPath = Configuration.iOSAppPath.charAt(0) == '/' ? Configuration.iOSAppPath :
                         System.getProperty("user.dir") + "/" + Configuration.iOSAppPath;
                 capabilities.setCapability(MobileCapabilityType.APP, appPath);
@@ -341,7 +341,11 @@ public class TestUIDriver {
             if (!Configuration.updatedWDABundleId.isEmpty()) {
                 capabilities.setCapability("updatedWDABundleId", Configuration.updatedWDABundleId);
             }
+            if (!Configuration.bundleId.isEmpty()) {
+                capabilities.setCapability("bundleId", Configuration.bundleId);
+            }
             // DEFAULT THINGS
+            capabilities.setCapability(MobileCapabilityType.NO_RESET, false);
             capabilities.setCapability(IOSMobileCapabilityType.USE_NEW_WDA, Configuration.useNewWDA);
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, Configuration.iOSDeviceName);
             capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, Configuration.iOSVersion);

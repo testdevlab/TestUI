@@ -5,7 +5,6 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.AndroidServerFlag;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import testUI.Utils.AppiumHelps;
 
@@ -16,7 +15,8 @@ import java.util.Map;
 import static com.codeborne.selenide.Selenide.close;
 import static testUI.ADBUtils.*;
 import static testUI.Configuration.*;
-import static testUI.NetworkCalls.*;
+import static testUI.NetworkCalls.getProxy;
+import static testUI.NetworkCalls.stopProxy;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.*;
 import static testUI.Utils.AppiumHelps.sleep;
@@ -43,7 +43,9 @@ public class TestUIServer {
         TestUIServer.serviceRunning = false;
         setService(AppiumDriverLocalService.buildService(builder));
         getServices().get(getServices().size() - 1).start();
-        for (int i = 0; i < 8; i++) {
+        long t= System.currentTimeMillis();
+        long end = t+(timeStartAppiumServer * 1000);
+        while(System.currentTimeMillis() < end) {
             String serviceOut = getServices().get(getServices().size() - 1).getStdOut();
             if (serviceOut != null) {
                 if (serviceOut.contains("Could not start REST http")) {
@@ -56,7 +58,7 @@ public class TestUIServer {
             } else {
                 TestUIServer.serviceRunning = true;
             }
-            sleep(500);
+            sleep(100);
         }
         if (!TestUIServer.serviceRunning) {
             getServices().remove(getServices().size() - 1);

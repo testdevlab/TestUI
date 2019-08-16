@@ -32,12 +32,14 @@ public class Configuration extends SelenideConfiguration {
     public static String xcodeOrgId = "";
     public static String xcodeSigningId = "";
     public static String UDID = "";
+    public static String bundleId = "";
     public static String updatedWDABundleId = "";
     public static DesiredCapabilities addMobileDesiredCapabilities = new DesiredCapabilities();
     public static String AutomationName = "";
     public static boolean useNewWDA = true;
     public static String serverLogLevel = "error";
     public static String screenshotPath = "";
+    public static int timeStartAppiumServer = 5;
 
     protected static DesiredCapabilities desiredCapabilities;
     protected static int iOSDevices = 0;
