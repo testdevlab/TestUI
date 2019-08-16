@@ -83,7 +83,7 @@ public class WaitUntil {
         long end = t+(Configuration.timeout * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (enable(element, accesibility) && visible(element, accesibility)) {
+            if ((enable(element, accesibility) || Configuration.iOSTesting) && visible(element, accesibility)) {
                 found = true;
                 break;
             }
@@ -97,7 +97,7 @@ public class WaitUntil {
         long end = t+(Configuration.timeout * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (enable(element, accesibility, index) && visible(element, accesibility, index)) {
+            if ((enable(element, accesibility, index) || Configuration.iOSTesting) && visible(element, accesibility, index)) {
                 found = true;
                 break;
             }

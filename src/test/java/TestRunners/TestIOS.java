@@ -18,7 +18,8 @@ public class TestIOS {
     public void testIOSBrowser() {
         Configuration.deviceTests = true;
         Configuration.iOSTesting = true;
-        open("https://www.facebook.com");
+        Configuration.bundleId = "com.bunq.ios-acceptance";
+        open().setElement("Sign up Now").waitFor(10).untilIsVisible().click();
         System.out.println(getIOSTestUIDriver().getBatteryInfo().getState());
         facebookLandingPage.getSafariFacebookEmailDiv().click();
         facebookLandingPage.getSafariFacebookEmailInput()

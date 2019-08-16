@@ -109,7 +109,7 @@ public class UIElement extends TestUI implements ElementActions {
     public UIElement click() {
         try {
             if (Configuration.deviceTests) {
-                if (collection) {
+                if (!collection) {
                     waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId));
                 } else {
                     waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId), index);
@@ -128,7 +128,7 @@ public class UIElement extends TestUI implements ElementActions {
     public UIElement doubleClick() {
         try {
             if (Configuration.deviceTests) {
-                if (collection) {
+                if (!collection) {
                     waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId));
                 } else {
                     waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId), index);
@@ -147,10 +147,10 @@ public class UIElement extends TestUI implements ElementActions {
 
     public Dimension getSize() {
         if (Configuration.deviceTests) {
-            if (collection) {
+            if (!collection) {
                 waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId), Configuration.timeout, true);
             } else {
-                waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId), Configuration.timeout, true);
+                waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId),index, Configuration.timeout, true);
             }
             return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getSize();
         } else {
@@ -165,10 +165,10 @@ public class UIElement extends TestUI implements ElementActions {
 
     public Point getLocation() {
         if (Configuration.deviceTests) {
-            if (collection) {
+            if (!collection) {
                 waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId), Configuration.timeout, true);
             } else {
-                waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId), Configuration.timeout, true);
+                waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId),index, Configuration.timeout, true);
             }
             return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getLocation();
         } else {
