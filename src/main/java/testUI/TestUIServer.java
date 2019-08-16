@@ -5,7 +5,6 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.AndroidServerFlag;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import testUI.Utils.AppiumHelps;
 
@@ -16,7 +15,8 @@ import java.util.Map;
 import static com.codeborne.selenide.Selenide.close;
 import static testUI.ADBUtils.*;
 import static testUI.Configuration.*;
-import static testUI.NetworkCalls.*;
+import static testUI.NetworkCalls.getProxy;
+import static testUI.NetworkCalls.stopProxy;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.*;
 import static testUI.Utils.AppiumHelps.sleep;

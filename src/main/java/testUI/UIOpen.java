@@ -17,15 +17,16 @@ public class UIOpen {
         setNetworkCalls();
         setScreenshotTaken(false);
         if (iOSTesting) {
-            if (iOSAppPath.isEmpty() && getDesiredCapabilities() == null) {
+            if (iOSAppPath.isEmpty() && bundleId.isEmpty() && getDesiredCapabilities() == null) {
                 if (!androidAppPath.isEmpty() || (!appActivity.isEmpty() && !appPackage.isEmpty())) {
                     putLog("iOSTesting variable is set to true, but while all the Android variables are correctly set, the iOS ones aren't:"
                             + "\niOSAppPath = " + iOSAppPath
                             + "\n trying to start the Android app");
                     openApp();
                 } else {
-                    throw new Error("iOSAppPath is mandatory field to run iOS apps, here are your iOS values:"
+                    throw new Error("iOSAppPath or bundleId is mandatory field to run iOS apps, here are your iOS values:"
                             + "\niOSAppPath = " + iOSAppPath
+                            + "\nbundelId = " + bundleId
                             + "\niOSDeviceName = " + iOSDeviceName
                             + "\niOSVersion = " + iOSVersion);
                 }
@@ -59,7 +60,7 @@ public class UIOpen {
     public static UIElement openNew() {
         setScreenshotTaken(false);
         if (iOSTesting) {
-            if (iOSAppPath.isEmpty() && getDesiredCapabilities() == null) {
+            if (iOSAppPath.isEmpty() && bundleId.isEmpty() && getDesiredCapabilities() == null) {
                 if (!androidAppPath.isEmpty() && (!appActivity.isEmpty() && !appPackage.isEmpty())) {
                     putLog("iOSTesting variable is set to true, but while all the Android variables are correctly set, the iOS ones aren't:"
                             + "\niOSAppPath = " + iOSAppPath
