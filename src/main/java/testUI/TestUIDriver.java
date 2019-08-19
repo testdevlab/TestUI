@@ -353,7 +353,7 @@ public class TestUIDriver {
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
             capabilities.setCapability(IOSMobileCapabilityType.START_IWDP, true);
             capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, Configuration.launchAppTimeout);
-            capabilities.setCapability(IOSMobileCapabilityType.COMMAND_TIMEOUTS, 15000);
+            capabilities.setCapability(IOSMobileCapabilityType.COMMAND_TIMEOUTS, 30000);
             // ADD CUSTOM CAPABILITIES
             if (!Configuration.addMobileDesiredCapabilities.asMap().isEmpty()) {
                 for (String key : addMobileDesiredCapabilities.asMap().keySet()) {
