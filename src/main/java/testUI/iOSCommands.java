@@ -35,7 +35,9 @@ public class iOSCommands {
                     iOS.put(versions.get(versions.size() -1), devices);
                     devices = new HashMap<>();
                 }
-                versions.add(line.split("iOS ")[1].split(" ")[0]);
+                if (line.split("iOS ").length >= 2) {
+                    versions.add(line.split("iOS ")[1].split(" ")[0]);
+                }
             }
             if (line.contains("== Devices ==")) {
                 Devices = true;
@@ -108,6 +110,12 @@ public class iOSCommands {
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
+                output.add(s);
+            }
+            Process p2 = Runtime.getRuntime().exec("idevicepair pair " + udid);
+            BufferedReader stdInput2 = new BufferedReader(new
+                    InputStreamReader(p2.getInputStream()));
+            while ((s = stdInput2.readLine()) != null) {
                 output.add(s);
             }
         } catch (IOException e) {
