@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static testUI.UIUtils.putLog;
+
 public class iOSCommands {
     private static Map<String,Map<String,String>> getSimulatorNames() {
         String s;
@@ -116,7 +118,7 @@ public class iOSCommands {
             BufferedReader stdInput2 = new BufferedReader(new
                     InputStreamReader(p2.getInputStream()));
             while ((s = stdInput2.readLine()) != null) {
-                output.add(s);
+                putLog(s);
             }
         } catch (IOException e) {
             e.printStackTrace();
