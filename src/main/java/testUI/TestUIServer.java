@@ -146,8 +146,8 @@ public class TestUIServer {
         }
         int emulators = useEmulators ? getEmulatorName().size() : 0;
         int totalDevices = emulators + connectedDevices - startedEmulators;
-        int ports = 9586 + usePort.size()*100;
-        int bootstrap = 5333 + useBootstrapPort.size()*100;
+        int ports = baseAppiumPort + usePort.size()*100;
+        int bootstrap = baseAppiumBootstrapPort + useBootstrapPort.size()*100;
         int realDevices = totalDevices - emulators;
         String port = String.valueOf(ports);
         String Bootstrap = String.valueOf(bootstrap);

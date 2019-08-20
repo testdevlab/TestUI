@@ -15,6 +15,8 @@ public class Configuration extends SelenideConfiguration {
     public static boolean deviceTests = true;
     public static boolean useEmulators = true;
     public static int driver = 1;
+    public static int baseAppiumPort = 9586;
+    public static int baseAppiumBootstrapPort = 5333;
     public static List<String> usePort = new ArrayList<>();
     public static List<String> useBootstrapPort = new ArrayList<>();
     public static boolean useAllure = true;
