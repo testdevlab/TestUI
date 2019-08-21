@@ -55,7 +55,7 @@ public class UICollection implements Collection {
     }
 
     public UICollection setIOSCollection(String accessibilityIdiOS) {
-        return new UICollection(element, SelenideElement, iOSElement, index, accesibilityId, accessibilityIdiOS);
+        return new UICollection(element, SelenideElement, iOSElement, index, accesibilityId, "accessibilityId: " + accessibilityIdiOS);
     }
 
     public UICollection setAndroidCollection(By element) {
@@ -63,7 +63,7 @@ public class UICollection implements Collection {
     }
 
     public UICollection setAndroidCollection(String accessibilityId) {
-        return new UICollection(element, SelenideElement, iOSElement, index, accessibilityId, accesibilityIdiOS);
+        return new UICollection(element, SelenideElement, iOSElement, index, accessibilityId, "accessibilityId: " + accesibilityIdiOS);
     }
 
     public ElementsCollection getSelenideCollection() {

@@ -75,7 +75,7 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement setElement(String accesibilityId) {
-        return new UIElement(accesibilityId);
+        return new UIElement("accessibilityId: " + accesibilityId);
     }
 
     public UICollection setCollection(By element) {
