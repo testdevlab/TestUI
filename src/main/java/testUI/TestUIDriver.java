@@ -216,6 +216,11 @@ public class TestUIDriver {
             } else {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, Configuration.AutomationName);
             }
+            if (!Configuration.chromeDriverPath.isEmpty()) {
+                String chromePath = Configuration.chromeDriverPath.charAt(0) == '/' ? Configuration.chromeDriverPath :
+                        System.getProperty("user.dir") + "/" + Configuration.chromeDriverPath;
+                cap.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, chromePath);
+            }
             cap.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
             if (!Configuration.appActivity.isEmpty() && !Configuration.appPackage.isEmpty()) {
                 cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, Configuration.appActivity);

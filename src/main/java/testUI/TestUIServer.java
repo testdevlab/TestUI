@@ -213,20 +213,21 @@ public class TestUIServer {
     }
 
     public static void stop(int driver) {
-        if (deviceTests) {
-            usePort.remove(driver - 1);
-            useBootstrapPort.remove(driver - 1);
-            try {
-                getDrivers().get(driver - 1).quit();
-            } catch (Exception e) {
-                System.err.println("Could not quit driver, probably already stopped");
+            if (deviceTests) {
+                usePort.remove(driver - 1);
+                useBootstrapPort.remove(driver - 1);
+            if (iOSTesting) {
+                getDrivers().get(driver - 1).close();
+                sleep(500);
             }
+            getDrivers().get(driver - 1).quit();
             removeDriver(driver - 1);
             getServices().get(driver - 1).stop();
             getServices().remove(driver - 1);
             if (getDevices().size() != 0) {
-                stopEmulator(getDevices().get(driver - 1));
-                getDevices().remove(driver - 1);
+                iOSDevices = driver - getDevices().size();
+                stopEmulator(getDevices().get(driver - iOSDevices - 1));
+                getDevices().remove(driver - iOSDevices - 1);
             }
             Configuration.driver = getDrivers().size();
         } else {
