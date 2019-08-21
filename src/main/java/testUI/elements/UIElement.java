@@ -55,7 +55,7 @@ public class UIElement extends TestUI implements ElementActions {
         this.accesibilityIdiOS = "";
     }
 
-    private UIElement(String accesibilityId) {
+    public UIElement(String accesibilityId) {
         this.index = 0;
         this.collection = false;
         this.accesibilityId = accesibilityId;

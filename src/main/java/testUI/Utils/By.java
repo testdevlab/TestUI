@@ -47,7 +47,23 @@ public class By {
         return Selectors.byValue(value);
     }
 
-    public String byAccesibilityId(String value) {
-        return value;
+    public static String byAccesibilityId(String value) {
+        return "accessibilityId: " + value;
+    }
+
+    public static String byiOSPredicate(String value) {
+        return "predicate: " + value;
+    }
+
+    public static String byAndroidUIAutomator(String value) {
+        return "androidUIAutomator: " + value;
+    }
+
+    public static String byMobileClassName(String value) {
+        return "className: " + value;
+    }
+
+    public static String byMobileName(String value) {
+        return "name: " + value;
     }
 }

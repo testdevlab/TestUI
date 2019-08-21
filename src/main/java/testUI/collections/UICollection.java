@@ -7,10 +7,12 @@ import org.openqa.selenium.Dimension;
 import testUI.Configuration;
 import testUI.elements.UIElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$$;
-import static testUI.TestUIDriver.getDriver;
+import static testUI.TestUIDriver.*;
+import static testUI.UIUtils.UIAssert;
 import static testUI.Utils.AppiumHelps.*;
 import static testUI.elements.TestUI.takeScreenshotsAllure;
 
@@ -27,7 +29,8 @@ public class UICollection implements Collection {
     }
 
     public static UICollection EE(String accessibilityId) {
-        return new UICollection(null, null, null, 0,accessibilityId ,accessibilityId);
+        return new UICollection(null, null, null, 0,"accessibilityId: " + accessibilityId ,
+                "accessibilityId: " +accessibilityId);
     }
 
     public static UICollection EEx(String xpath) {
@@ -80,8 +83,23 @@ public class UICollection implements Collection {
     }
 
     private List getElementList() {
-        if (!getAccessibilityId().isEmpty())
-            return getDriver().findElementsByAccessibilityId(getAccessibilityId());
+        if (!getAccessibilityId().isEmpty()) {
+            switch (getAccessibilityId().split(": ")[0]) {
+                case "accessibilityId":
+                    return getDriver().findElementsByAccessibilityId(getAccessibilityId().split(": ")[1]);
+                case "className":
+                    return getDriver().findElementsByClassName(getAccessibilityId().split(": ")[1]);
+                case "androidUIAutomator":
+                    return getAndroidTestUIDriver().findElementsByAndroidUIAutomator(getAccessibilityId().split(": ")[1]);
+                case "predicate":
+                    return getIOSTestUIDriver().findElementsByIosNsPredicate(getAccessibilityId().split(": ")[1]);
+                case "name":
+                    return getDriver().findElementsByName(getAccessibilityId().split(": ")[1]);
+                default:
+                    UIAssert("The type of locator is not valid! " + getAccessibilityId().split(": ")[0], false);
+                    return new ArrayList();
+            }
+        }
         return getDriver().findElements(getAppiumElement());
     }
 
