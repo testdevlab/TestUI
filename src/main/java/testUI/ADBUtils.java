@@ -256,9 +256,9 @@ public class ADBUtils {
             case "76":
                 return "76.0.3809.68";
             case "75":
-                return "2.46";
+                return "75.0.3770.90";
             case "74":
-                return "2.46";
+                return "74.0.3729.6";
             case "73":
                 return "2.46";
             case "72":
