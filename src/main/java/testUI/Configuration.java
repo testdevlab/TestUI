@@ -29,6 +29,7 @@ public class Configuration extends SelenideConfiguration {
     public static String androidAppPath = "";
     public static String androidVersion = "";
     public static String chromeDriverPath = "";
+    public static boolean installMobileChromeDriver = true;
     public static String appiumUrl = "";
     public static String emulatorName = "";
     public static String xcodeOrgId = "";
