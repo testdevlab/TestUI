@@ -99,11 +99,11 @@ public class UICollection implements Collection {
     }
 
     public UIElement get(int i) {
-        return new UIElement(element, SelenideElement, element, i, true, accesibilityId, accesibilityIdiOS);
+        return new UIElement(element, SelenideElement, iOSElement, i, true, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement first() {
-        return new UIElement(element, SelenideElement, element, 0, true, accesibilityId,accesibilityIdiOS);
+        return new UIElement(element, SelenideElement, iOSElement, 0, true, accesibilityId,accesibilityIdiOS);
     }
 
     public int size() {
