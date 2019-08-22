@@ -94,11 +94,11 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement setiOSElement(By iOSElement) {
-        return new UIElement(element, SelenideElement, iOSElement,0,false,accesibilityId,accesibilityIdiOS);
+        return new UIElement(element, SelenideElement, iOSElement,0,false,accesibilityId,"");
     }
 
     public UIElement setAndroidElement(By element) {
-        return new UIElement(element, SelenideElement, iOSElement,0,false,accesibilityId,accesibilityIdiOS);
+        return new UIElement(element, SelenideElement, iOSElement,0,false,"",accesibilityIdiOS);
     }
 
     public UIElement setAndroidElement(String accesibilityId) {

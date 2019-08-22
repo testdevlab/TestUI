@@ -57,7 +57,7 @@ public class TestUI {
                 return accesibilityIdiOS.split(": ")[1];
             return "";
         } else {
-            if (accesibilityId != null && !accesibilityIdiOS.isEmpty())
+            if (accesibilityId != null && !accesibilityId.isEmpty())
                 return accesibilityId.split(": ")[1];
             return "";
         }
