@@ -7,6 +7,7 @@ import io.appium.java_client.MobileElement;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import testUI.Configuration;
 import testUI.TestUIDriver;
 
@@ -80,6 +81,24 @@ public class TestUI {
         }
     }
 
+    protected WebElement getMobileElement(String locator) {
+        switch (locator.split(": ")[0]) {
+            case "accessibilityId":
+                return getDriver().findElementByAccessibilityId(locator.split(": ")[1]);
+            case "className":
+                return getDriver().findElementByClassName(locator.split(": ")[1]);
+            case "androidUIAutomator":
+                return getAndroidTestUIDriver().findElementByAndroidUIAutomator(locator.split(": ")[1]);
+            case "predicate":
+                return getIOSTestUIDriver().findElementByIosNsPredicate(locator.split(": ")[1]);
+            case "name":
+                return getDriver().findElementByName(locator.split(": ")[1]);
+            default:
+                UIAssert("The type of locator is not valid! " + locator.split(": ")[0], false);
+                return getDriver().findElementByName("");
+        }
+    }
+
     protected MobileElement getElement(String accesibilityIdiOS, String accesibilityId,By iOSElement, By element, int index,
                                        boolean collection) {
         try {
@@ -90,7 +109,7 @@ public class TestUI {
                 return (MobileElement) getMobileElementList(getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
             }
             if (!getAccesibilityId(accesibilityIdiOS,accesibilityId).isEmpty()) {
-                return (MobileElement) getMobileElementList(getAccesibilityId(accesibilityIdiOS,accesibilityId));
+                return (MobileElement) getMobileElement(getAccesibilityId(accesibilityIdiOS,accesibilityId));
             }
             return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
         } catch (Throwable e) {
@@ -108,7 +127,7 @@ public class TestUI {
             return (MobileElement) getMobileElementList(getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
         }
         if (!getAccesibilityId(accesibilityIdiOS,accesibilityId).isEmpty()) {
-            return (MobileElement) getMobileElementList(getAccesibilityId(accesibilityIdiOS,accesibilityId));
+            return (MobileElement) getMobileElement(getAccesibilityId(accesibilityIdiOS,accesibilityId));
         }
         return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
     }

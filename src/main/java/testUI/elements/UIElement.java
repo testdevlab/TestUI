@@ -75,6 +75,9 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement setElement(String accesibilityId) {
+        if (accesibilityId.contains(": ")) {
+            return new UIElement(accesibilityId);
+        }
         return new UIElement("accessibilityId: " + accesibilityId);
     }
 
@@ -99,10 +102,16 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement setAndroidElement(String accesibilityId) {
+        if (accesibilityId.contains(": ")) {
+            return new UIElement(null, SelenideElement, iOSElement,0,false, accesibilityId,accesibilityIdiOS);
+        }
         return new UIElement(null, SelenideElement, iOSElement,0,false,"accessibilityId: " + accesibilityId,accesibilityIdiOS);
     }
 
     public UIElement setiOSElement(String iOSElementAccId) {
+        if (iOSElementAccId.contains(": ")) {
+            return new UIElement(element,SelenideElement,null,0, false,accesibilityId, iOSElementAccId);
+        }
         return new UIElement(element,SelenideElement,null,0, false,accesibilityId, "accessibilityId: " + iOSElementAccId);
     }
 
