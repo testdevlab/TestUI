@@ -52,9 +52,15 @@ public class TestUI {
     }
 
     protected String getLocator(String accesibilityIdiOS, String accesibilityId) {
-        if (Configuration.iOSTesting)
-            return accesibilityIdiOS.split(": ")[1];
-        return accesibilityId.split(": ")[1];
+        if (Configuration.iOSTesting) {
+            if (accesibilityIdiOS != null && !accesibilityIdiOS.isEmpty())
+                return accesibilityIdiOS.split(": ")[1];
+            return "";
+        } else {
+            if (accesibilityId != null && !accesibilityIdiOS.isEmpty())
+                return accesibilityId.split(": ")[1];
+            return "";
+        }
     }
 
     protected String getAccesibilityId(String accesibilityIdiOS, String accesibilityId) {
