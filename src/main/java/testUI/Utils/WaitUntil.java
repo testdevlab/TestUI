@@ -38,7 +38,7 @@ public class WaitUntil {
             if (accesibility == null || accesibility.isEmpty()) {
                 throw new Error("The element '" + element + "' " + reason);
             } else {
-                throw new Error("The element 'By.accessibilityId: " + accesibility + "' " + reason);
+                throw new Error("The element 'By." + accesibility.split(": ")[0] + ": " + accesibility.split(": ")[1] + "' " + reason);
             }
         }
     }
@@ -49,18 +49,19 @@ public class WaitUntil {
         return "";
     }
 
-    public static void waitUntilVisible(org.openqa.selenium.By element, String accesibility, int Seconds, boolean isVisible) {
+    public static void waitUntilVisible(org.openqa.selenium.By element, String accessibility, int Seconds, boolean isVisible) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (visible(element, accesibility) == isVisible) {
+            if (visible(element, accessibility) == isVisible) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility, "is not visible!", found);
+        assertFunction(getElementString(element), accessibility, "is not visible after "
+                + Seconds + " seconds!", found);
     }
 
     public static void waitUntilVisible(org.openqa.selenium.By element, String accesibility, int index, int Seconds,
@@ -75,326 +76,340 @@ public class WaitUntil {
             }
             sleep(200);
         }
-        assertFunction(getElementString(element) + "[" + index + "]", accesibility, "is not visible!", found);
+        assertFunction(getElementString(element) + "[" + index + "]", accesibility, "is not visible after "
+                + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilClickable(org.openqa.selenium.By element, String accesibility) {
+    public static void waitUntilClickable(org.openqa.selenium.By element, String accessibility) {
         long t= System.currentTimeMillis();
         long end = t+(Configuration.timeout * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if ((enable(element, accesibility) || Configuration.iOSTesting) && visible(element, accesibility)) {
+            if ((enable(element, accessibility) || Configuration.iOSTesting) && visible(element, accessibility)) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility,"' is not clickable!", found);
+        assertFunction(getElementString(element), accessibility,"' is not clickable after "
+                + Configuration.timeout + " seconds!", found);
     }
 
-    public static void waitUntilClickable(org.openqa.selenium.By element, String accesibility, int index) {
+    public static void waitUntilClickable(org.openqa.selenium.By element, String accessibility, int index) {
         long t= System.currentTimeMillis();
         long end = t+(Configuration.timeout * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if ((enable(element, accesibility, index) || Configuration.iOSTesting) && visible(element, accesibility, index)) {
+            if ((enable(element, accessibility, index) || Configuration.iOSTesting) && visible(element, accessibility, index)) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility, "' is not clickable!", found);
+        assertFunction(getElementString(element), accessibility, "' is not clickable after "
+                + Configuration.timeout + " seconds!", found);
     }
 
-    public static void waitUntilEnable(org.openqa.selenium.By element, String accesibility, int Seconds, boolean isEnabled) {
+    public static void waitUntilEnable(org.openqa.selenium.By element, String accessibility, int Seconds, boolean isEnabled) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (enable(element,accesibility) == isEnabled) {
+            if (enable(element,accessibility) == isEnabled) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility,"' is not enabled!", found);
+        assertFunction(getElementString(element), accessibility,"' is not enabled after "
+                + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilEnable(org.openqa.selenium.By element, String accesibility, int index, int Seconds, boolean isEnabled) {
+    public static void waitUntilEnable(org.openqa.selenium.By element, String accessibility, int index, int Seconds, boolean isEnabled) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (enable(element, accesibility, index) == isEnabled) {
+            if (enable(element, accessibility, index) == isEnabled) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element) + "[" + index + "]", accesibility, "is not enabled!", found);
+        assertFunction(getElementString(element) + "[" + index + "]", accessibility, "is not enabled after "
+                + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilExist(org.openqa.selenium.By element, String accesibility, int Seconds, boolean Exist) {
+    public static void waitUntilExist(org.openqa.selenium.By element, String accessibility, int Seconds, boolean Exist) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (exists(element, accesibility) == Exist) {
+            if (exists(element, accessibility) == Exist) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility,"' not exists!", found);
+        assertFunction(getElementString(element), accessibility,"' not exists after "
+                + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilExist(org.openqa.selenium.By element, String accesibility, int index, int Seconds, boolean exists) {
+    public static void waitUntilExist(org.openqa.selenium.By element, String accessibility, int index, int Seconds, boolean exists) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (exists(element, accesibility, index) == exists) {
+            if (exists(element, accessibility, index) == exists) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element) + "[" + index + "]", accesibility,"not exists!", found);
+        assertFunction(getElementString(element) + "[" + index + "]", accessibility,"not exists after "
+                + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilContainsText(org.openqa.selenium.By element, String accesibility, int Seconds, String text, boolean hasText) {
+    public static void waitUntilContainsText(org.openqa.selenium.By element, String accessibility, int Seconds, String text, boolean hasText) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (containsText(element, accesibility, text) == hasText) {
+            if (containsText(element, accessibility, text) == hasText) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility,"has not containText '" + text + "'!", found);
+        assertFunction(getElementString(element), accessibility,"has not containText '" + text + "' after "
+                + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilContainsText(org.openqa.selenium.By element, String accesibility, int index, int Seconds, String text, boolean hasText) {
+    public static void waitUntilContainsText(org.openqa.selenium.By element, String accessibility, int index, int Seconds, String text, boolean hasText) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (containsText(element, accesibility, index, text) == hasText) {
+            if (containsText(element, accessibility, index, text) == hasText) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element) + "[" + index + "]", accesibility,
-                "with containText '" + text + "' is not visible!", found);
+        assertFunction(getElementString(element) + "[" + index + "]", accessibility,
+                "with containText '" + text + "' is not visible after "
+                        + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilContainsTextNoCaseSensitive(org.openqa.selenium.By element, String accesibility, int Seconds, String text, boolean hasText) {
+    public static void waitUntilContainsTextNoCaseSensitive(org.openqa.selenium.By element, String accessibility, int Seconds, String text, boolean hasText) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (containsTextNoCaseSensitive(element, accesibility, text) == hasText) {
+            if (containsTextNoCaseSensitive(element, accessibility, text) == hasText) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility,"has not containText '" + text + "'!", found);
+        assertFunction(getElementString(element), accessibility,"has not containText '" + text + "' after "
+                + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilContainsTextNoCaseSensitive(org.openqa.selenium.By element, String accesibility, int index, int Seconds, String text,
+    public static void waitUntilContainsTextNoCaseSensitive(org.openqa.selenium.By element, String accessibility, int index, int Seconds, String text,
                                                      boolean hasText) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (containsTextNoCaseSensitive(element, accesibility, index, text) == hasText) {
+            if (containsTextNoCaseSensitive(element, accessibility, index, text) == hasText) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element) + "[" + index + "]", accesibility,
-                "with containText '" + text + "' is not visible!", found);
+        assertFunction(getElementString(element) + "[" + index + "]", accessibility,
+                "with containText '" + text + "' is not visible after " + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilExactText(org.openqa.selenium.By element, String accesibility, int Seconds, String text, boolean hasText) {
+    public static void waitUntilExactText(org.openqa.selenium.By element, String accessibility, int Seconds, String text, boolean hasText) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (equalsText(element, accesibility, text) == hasText) {
+            if (equalsText(element, accessibility, text) == hasText) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility,"has not containText '" + text + "'!", found);
+        assertFunction(getElementString(element), accessibility,"has not containText '" + text + "' after " + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilEmptyText(org.openqa.selenium.By element, String accesibility, int Seconds, boolean hasText) {
+    public static void waitUntilEmptyText(org.openqa.selenium.By element, String accessibility, int Seconds, boolean hasText) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (emptyText(element, accesibility) == hasText) {
+            if (emptyText(element, accessibility) == hasText) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility,"should be empty or is not visible!", found);
+        assertFunction(getElementString(element), accessibility,"should be empty or is not visible after "
+                + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilExactText(org.openqa.selenium.By element, String accesibility, int index, int Seconds, String text, boolean hasText) {
+    public static void waitUntilExactText(org.openqa.selenium.By element, String accessibility, int index, int Seconds, String text, boolean hasText) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (equalsText(element, accesibility, index, text) == hasText) {
+            if (equalsText(element, accessibility, index, text) == hasText) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element) + "[" + index + "]", accesibility,
-                "with containText '" + text + "' is not visible!", found);
+        assertFunction(getElementString(element) + "[" + index + "]", accessibility,
+                "with containText '" + text + "' is not visible after " + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilEmptyText(org.openqa.selenium.By element, String accesibility, int index, int Seconds, boolean hasText) {
+    public static void waitUntilEmptyText(org.openqa.selenium.By element, String accessibility, int index, int Seconds, boolean hasText) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (emptyText(element, accesibility, index) == hasText) {
+            if (emptyText(element, accessibility, index) == hasText) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element) + "[" + index + "]", accesibility,
-                "with should be empty text or is not visible!", found);
+        assertFunction(getElementString(element) + "[" + index + "]", accessibility,
+                "with should be empty text or is not visible after " + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilHasValue(org.openqa.selenium.By element, String accesibility, int Seconds, String text, boolean hasVallue) {
+    public static void waitUntilHasValue(org.openqa.selenium.By element, String accessibility, int Seconds, String text, boolean hasVallue) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (value(element, accesibility, text) == hasVallue) {
+            if (value(element, accessibility, text) == hasVallue) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility,"has not value '" + text + "'!", found);
+        assertFunction(getElementString(element), accessibility,"has not value '" + text + "' after "
+                + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilHasValue(org.openqa.selenium.By element, String accesibility, int index, int Seconds, String text, boolean hasValue) {
+    public static void waitUntilHasValue(org.openqa.selenium.By element, String accessibility, int index, int Seconds, String text, boolean hasValue) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (value(element, accesibility, index, text) == hasValue) {
+            if (value(element, accessibility, index, text) == hasValue) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element) + "[" + index + "]", accesibility,"with value '"
-                + text + "is not visible!", found);
+        assertFunction(getElementString(element) + "[" + index + "]", accessibility,"with value '"
+                + text + "is not visible after" + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilHasAttribute(org.openqa.selenium.By element, String accesibility, int index, int Seconds, String Attribute, String value, boolean hasValue) {
+    public static void waitUntilHasAttribute(org.openqa.selenium.By element, String accessibility, int index, int Seconds, String Attribute, String value,
+                                             boolean hasValue) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (attribute(element, accesibility, index, Attribute, value) == hasValue) {
+            if (attribute(element, accessibility, index, Attribute, value) == hasValue) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element) + "[" + index + "]", accesibility,"has no attribute '" + Attribute
-                + "' with value '" + value + "'!", found);
+        assertFunction(getElementString(element) + "[" + index + "]", accessibility,"has no attribute '" + Attribute
+                + "' with value '" + value + "' after " + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilHasAttribute(org.openqa.selenium.By element, String accesibility, int index, int Seconds, String Attribute, boolean hasAttribute) {
+    public static void waitUntilHasAttribute(org.openqa.selenium.By element, String accessibility, int index, int Seconds, String Attribute,
+                                             boolean hasAttribute) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (attribute(element, accesibility, index, Attribute) == hasAttribute) {
+            if (attribute(element, accessibility, index, Attribute) == hasAttribute) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element) + "[" + index + "]", accesibility,"has no attribute '" + Attribute
-                + "'!", found);
+        assertFunction(getElementString(element) + "[" + index + "]", accessibility,"has no attribute '" + Attribute
+                + "' after " + Seconds + " seconds!", found);
     }
 
-    public static void waitUntilEmptyAttribute(org.openqa.selenium.By element, String accesibility, int index, int Seconds, String Attribute,
+    public static void waitUntilEmptyAttribute(org.openqa.selenium.By element, String accessibility, int index, int Seconds, String Attribute,
                                            boolean hasAttribute) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (emptyAttribute(element, accesibility, index, Attribute) == hasAttribute) {
+            if (emptyAttribute(element, accessibility, index, Attribute) == hasAttribute) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element) + "[" + index + "]", accesibility,"should have attribute '" + Attribute
+        assertFunction(getElementString(element) + "[" + index + "]", accessibility,"should have attribute '" + Attribute
                 + "' empty or null!", found);
     }
 
-    public static void waitUntilHasAttribute(org.openqa.selenium.By element, String accesibility, int Seconds, String Attribute, String value, boolean is) {
+    public static void waitUntilHasAttribute(org.openqa.selenium.By element, String accessibility, int Seconds, String Attribute, String value, boolean is) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (attribute(element, accesibility, Attribute, value) == is) {
+            if (attribute(element, accessibility, Attribute, value) == is) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility,"has no attribute '" + Attribute
+        assertFunction(getElementString(element), accessibility,"has no attribute '" + Attribute
                 + "' with value '" + value + "'!", found);
     }
 
-    public static void waitUntilHasAttribute(org.openqa.selenium.By element, String accesibility, int Seconds, String Attribute, boolean hasAttribute) {
+    public static void waitUntilHasAttribute(org.openqa.selenium.By element, String accessibility, int Seconds, String Attribute, boolean hasAttribute) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (attribute(element, accesibility, Attribute) == hasAttribute) {
+            if (attribute(element, accessibility, Attribute) == hasAttribute) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility,"has no attribute '" + Attribute + "'!", found);
+        assertFunction(getElementString(element), accessibility,"has no attribute '" + Attribute + "'!", found);
     }
 
-    public static void waitUntilEmptyAttribute(org.openqa.selenium.By element, String accesibility, int Seconds, String Attribute, boolean hasAttribute) {
+    public static void waitUntilEmptyAttribute(org.openqa.selenium.By element, String accessibility, int Seconds, String Attribute, boolean hasAttribute) {
         long t= System.currentTimeMillis();
         long end = t+(Seconds * 1000);
         boolean found = false;
         while(System.currentTimeMillis() < end) {
-            if (emptyAttribute(element, accesibility, Attribute) == hasAttribute) {
+            if (emptyAttribute(element, accessibility, Attribute) == hasAttribute) {
                 found = true;
                 break;
             }
             sleep(200);
         }
-        assertFunction(getElementString(element), accesibility,"should have attribute '" + Attribute
+        assertFunction(getElementString(element), accessibility,"should have attribute '" + Attribute
                 + "' empty or null!", found);
     }
 }

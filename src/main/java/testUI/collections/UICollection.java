@@ -29,8 +29,12 @@ public class UICollection implements Collection {
     }
 
     public static UICollection EE(String accessibilityId) {
+        if (accessibilityId.contains(": ")) {
+            return new UICollection(null, null, null, 0, accessibilityId ,
+                    accessibilityId);
+        }
         return new UICollection(null, null, null, 0,"accessibilityId: " + accessibilityId ,
-                "accessibilityId: " +accessibilityId);
+                "accessibilityId: " + accessibilityId);
     }
 
     public static UICollection EEx(String xpath) {

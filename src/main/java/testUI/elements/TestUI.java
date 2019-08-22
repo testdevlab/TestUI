@@ -32,6 +32,10 @@ public class TestUI {
 
 
     public static UIElement E(String accesibilityId) {
+        if (accesibilityId.contains(": ")) {
+            return new UIElement(null,null,null,0,false,
+                     accesibilityId, accesibilityId);
+        }
         return new UIElement(null,null,null,0,false,
                 "accessibilityId: " + accesibilityId, "accessibilityId: " + accesibilityId);
     }
