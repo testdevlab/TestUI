@@ -112,7 +112,7 @@ public class TestUI {
                 }
                 return (MobileElement) getMobileElementList(getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
             }
-            if (!getAccesibilityId(accesibilityIdiOS,accesibilityId).isEmpty()) {
+            if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
                 return (MobileElement) getMobileElement(getAccesibilityId(accesibilityIdiOS,accesibilityId));
             }
             return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
@@ -130,7 +130,7 @@ public class TestUI {
             }
             return (MobileElement) getMobileElementList(getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
         }
-        if (!getAccesibilityId(accesibilityIdiOS,accesibilityId).isEmpty()) {
+        if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
             return (MobileElement) getMobileElement(getAccesibilityId(accesibilityIdiOS,accesibilityId));
         }
         return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
