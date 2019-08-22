@@ -59,6 +59,9 @@ public class UICollection implements Collection {
     }
 
     public UICollection setIOSCollection(String accessibilityIdiOS) {
+        if (accessibilityIdiOS.contains(": ")) {
+            return new UICollection(element, SelenideElement, iOSElement, index, accesibilityId, accessibilityIdiOS);
+        }
         return new UICollection(element, SelenideElement, iOSElement, index, accesibilityId, "accessibilityId: " + accessibilityIdiOS);
     }
 
@@ -67,7 +70,10 @@ public class UICollection implements Collection {
     }
 
     public UICollection setAndroidCollection(String accessibilityId) {
-        return new UICollection(element, SelenideElement, iOSElement, index, accessibilityId, "accessibilityId: " + accesibilityIdiOS);
+        if (accessibilityId.contains(": ")) {
+            return new UICollection(element, SelenideElement, iOSElement, index, accessibilityId, accesibilityIdiOS);
+        }
+        return new UICollection(element, SelenideElement, iOSElement, index, "accessibilityId: " + accessibilityId, accesibilityIdiOS);
     }
 
     public ElementsCollection getSelenideCollection() {
