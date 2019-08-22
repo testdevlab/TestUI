@@ -74,7 +74,7 @@ public class AppiumHelps {
     public static boolean enable(By element, String accessibilityId, int index) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((MobileElement)getDriver().findElements(element).get(index)).isEnabled();
+                return ((MobileElement) getDriver().findElements(element).get(index)).isEnabled();
             return ((MobileElement) getMobileElementList(accessibilityId).get(index)).isEnabled();
         } catch (Exception var4) {
             return false;

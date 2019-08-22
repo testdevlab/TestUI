@@ -116,7 +116,7 @@ public class TestUI {
                 if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
                     return (MobileElement) getMobileElementList(getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
                 }
-                return (MobileElement) getMobileElementList(getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
+                return (MobileElement) getDriver().findElements(getAppiumElement(iOSElement, element)).get(index);
             }
             if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
                 return (MobileElement) getMobileElement(getAccesibilityId(accesibilityIdiOS,accesibilityId));
