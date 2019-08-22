@@ -73,6 +73,8 @@ public class TestUI {
                 return getAndroidTestUIDriver().findElementsByAndroidUIAutomator(locator.split(": ")[1]);
             case "predicate":
                 return getIOSTestUIDriver().findElementsByIosNsPredicate(locator.split(": ")[1]);
+            case "classChain":
+                return getIOSTestUIDriver().findElementsByIosClassChain(locator.split(": ")[1]);
             case "name":
                 return getDriver().findElementsByName(locator.split(": ")[1]);
             default:
@@ -91,6 +93,8 @@ public class TestUI {
                 return getAndroidTestUIDriver().findElementByAndroidUIAutomator(locator.split(": ")[1]);
             case "predicate":
                 return getIOSTestUIDriver().findElementByIosNsPredicate(locator.split(": ")[1]);
+            case "classChain":
+                return getIOSTestUIDriver().findElementByIosClassChain(locator.split(": ")[1]);
             case "name":
                 return getDriver().findElementByName(locator.split(": ")[1]);
             default:

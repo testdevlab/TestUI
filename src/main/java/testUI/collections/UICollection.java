@@ -97,6 +97,8 @@ public class UICollection implements Collection {
                     return getAndroidTestUIDriver().findElementsByAndroidUIAutomator(getAccessibilityId().split(": ")[1]);
                 case "predicate":
                     return getIOSTestUIDriver().findElementsByIosNsPredicate(getAccessibilityId().split(": ")[1]);
+                case "classChain":
+                    return getIOSTestUIDriver().findElementsByIosClassChain(getAccessibilityId().split(": ")[1]);
                 case "name":
                     return getDriver().findElementsByName(getAccessibilityId().split(": ")[1]);
                 default:

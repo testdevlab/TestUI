@@ -59,6 +59,10 @@ public class By {
         return "androidUIAutomator: " + value;
     }
 
+    public static String byClassChain(String value) {
+        return "classChain: " + value;
+    }
+
     public static String byMobileClassName(String value) {
         return "className: " + value;
     }
