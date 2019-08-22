@@ -60,20 +60,20 @@ public class UICollection implements Collection {
 
     public UICollection setIOSCollection(String accessibilityIdiOS) {
         if (accessibilityIdiOS.contains(": ")) {
-            return new UICollection(element, SelenideElement, iOSElement, index, accesibilityId, accessibilityIdiOS);
+            return new UICollection(element, SelenideElement, null, index, accesibilityId, accessibilityIdiOS);
         }
-        return new UICollection(element, SelenideElement, iOSElement, index, accesibilityId, "accessibilityId: " + accessibilityIdiOS);
+        return new UICollection(element, SelenideElement, null, index, accesibilityId, "accessibilityId: " + accessibilityIdiOS);
     }
 
     public UICollection setAndroidCollection(By element) {
-        return new UICollection(element, SelenideElement, iOSElement, index, accesibilityId, accesibilityIdiOS);
+        return new UICollection(element, SelenideElement, iOSElement, index, "", accesibilityIdiOS);
     }
 
     public UICollection setAndroidCollection(String accessibilityId) {
         if (accessibilityId.contains(": ")) {
-            return new UICollection(element, SelenideElement, iOSElement, index, accessibilityId, accesibilityIdiOS);
+            return new UICollection(null, SelenideElement, iOSElement, index, accessibilityId, accesibilityIdiOS);
         }
-        return new UICollection(element, SelenideElement, iOSElement, index, "accessibilityId: " + accessibilityId, accesibilityIdiOS);
+        return new UICollection(null, SelenideElement, iOSElement, index, "accessibilityId: " + accessibilityId, accesibilityIdiOS);
     }
 
     public ElementsCollection getSelenideCollection() {
@@ -93,7 +93,7 @@ public class UICollection implements Collection {
     }
 
     private List getElementList() {
-        if (!getAccessibilityId().isEmpty()) {
+        if (!getAccessibilityId().isEmpty() && !getAccessibilityId().split(": ")[0].isEmpty()) {
             switch (getAccessibilityId().split(": ")[0]) {
                 case "accessibilityId":
                     return getDriver().findElementsByAccessibilityId(getAccessibilityId().split(": ")[1]);
