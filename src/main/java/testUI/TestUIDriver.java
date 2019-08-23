@@ -59,7 +59,8 @@ public class TestUIDriver {
         return driverNames;
     }
 
-    public synchronized static void setDriver(AppiumDriver driver, int driverNumber) {
+    public synchronized static void setDriver(IOSDriver driver, int driverNumber) {
+        TestUIDriver.IOSTestUIDriver.set(driverNumber, driver);
         TestUIDriver.driver.set(driverNumber, driver);
     }
 
