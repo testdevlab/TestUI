@@ -266,7 +266,7 @@ public class UIUtils {
                     });
                 } else {
                     try {
-                        getDrivers().get(0).closeApp();
+                        getDrivers().get(0).quit();
                     } catch (Exception e) {
                         System.err.println("Could not close the app before opening again");
                     }
