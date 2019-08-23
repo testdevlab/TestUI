@@ -19,6 +19,7 @@ import java.util.List;
 import static com.codeborne.selenide.Selenide.open;
 import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.TestUIDriver.*;
+import static testUI.TestUIServer.stop;
 import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.elements.TestUI.takeScreenshotsAllure;
 
@@ -264,6 +265,7 @@ public class UIUtils {
                     setDriver(new IOSDriver(new URL(url), desiredCapabilities) {
                     });
                 } else {
+                    getDrivers().get(0).close();
                     setDriver(new IOSDriver(new URL(url), desiredCapabilities) {
                     }, 0);
                 }
