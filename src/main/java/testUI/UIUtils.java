@@ -265,7 +265,11 @@ public class UIUtils {
                     setDriver(new IOSDriver(new URL(url), desiredCapabilities) {
                     });
                 } else {
-                    getDrivers().get(0).close();
+                    try {
+                        getDrivers().get(0).closeApp();
+                    } catch (Exception e) {
+                        System.err.println("Could not close the app before opening again");
+                    }
                     setDriver(new IOSDriver(new URL(url), desiredCapabilities) {
                     }, 0);
                 }
