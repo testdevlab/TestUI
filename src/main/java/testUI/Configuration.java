@@ -42,7 +42,7 @@ public class Configuration extends SelenideConfiguration {
     public static boolean useNewWDA = true;
     public static String serverLogLevel = "error";
     public static String screenshotPath = "";
-    public static int timeStartAppiumServer = 5;
+    public static int timeStartAppiumServer = 20;
 
     protected static DesiredCapabilities desiredCapabilities;
     protected static int iOSDevices = 0;

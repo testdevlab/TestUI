@@ -37,7 +37,7 @@ public class TestUIServer {
         builder.usingPort(Integer.parseInt(port));
         builder.withCapabilities(cap);
         builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
-        builder.withArgument(GeneralServerFlag.LOG_LEVEL, serverLogLevel);
+        builder.withArgument(GeneralServerFlag.LOG_LEVEL, "info");
         builder.withArgument(AndroidServerFlag.BOOTSTRAP_PORT_NUMBER, Bootstrap);
         //Start the server with the builder
         TestUIServer.serviceRunning = false;
@@ -52,6 +52,9 @@ public class TestUIServer {
                     putLog("Could not start server in port: " + port + "\n Let's try a different one");
                     TestUIServer.serviceRunning = false;
                     break;
+                } else if (serviceOut.contains("Appium REST http interface listener started")) {
+                    TestUIServer.serviceRunning = true;
+                    break;
                 } else {
                     TestUIServer.serviceRunning = true;
                 }
@@ -59,6 +62,9 @@ public class TestUIServer {
                 TestUIServer.serviceRunning = true;
             }
             sleep(100);
+        }
+        if (serverLogLevel.equals("error")) {
+            getServices().get(getServices().size() - 1).clearOutPutStreams();
         }
         if (!TestUIServer.serviceRunning) {
             getServices().remove(getServices().size() - 1);
