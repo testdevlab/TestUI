@@ -69,7 +69,7 @@ public class TestUIServer {
             }
             sleep(100);
         }
-        if (!slowResponse) {
+        if (slowResponse) {
             getServices().get(getServices().size() - 1).stop();
             throw new AppiumTimeoutException("Appium server took too long to start");
         }
