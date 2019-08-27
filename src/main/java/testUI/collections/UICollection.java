@@ -5,6 +5,7 @@ import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import testUI.Configuration;
+import testUI.Utils.TestUIException;
 import testUI.elements.UIElement;
 
 import java.util.ArrayList;
@@ -193,7 +194,7 @@ public class UICollection implements Collection {
             }
         }
         takeScreenshotsAllure();
-        throw new Error("No visible element with this selector: " + element.toString());
+        throw new TestUIException("No visible element with this selector: " + element.toString());
     }
 
     public UIElement findByText(String text) {
@@ -219,7 +220,7 @@ public class UICollection implements Collection {
             }
         }
         takeScreenshotsAllure();
-        throw new Error("No visible element with that text '" + text + "' and this selector: " + element.toString());
+        throw new TestUIException("No visible element with that text '" + text + "' and this selector: " + element.toString());
     }
 
     public UIElement findByEnabled() {
@@ -245,6 +246,6 @@ public class UICollection implements Collection {
             }
         }
         takeScreenshotsAllure();
-        throw new Error("No enabled element with this selector: " + element.toString());
+        throw new TestUIException("No enabled element with this selector: " + element.toString());
     }
 }

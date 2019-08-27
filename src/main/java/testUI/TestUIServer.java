@@ -7,6 +7,7 @@ import io.appium.java_client.service.local.flags.AndroidServerFlag;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import testUI.Utils.AppiumHelps;
+import testUI.Utils.AppiumTimeoutException;
 
 import java.io.File;
 import java.util.List;
@@ -41,6 +42,7 @@ public class TestUIServer {
         builder.withArgument(AndroidServerFlag.BOOTSTRAP_PORT_NUMBER, Bootstrap);
         //Start the server with the builder
         TestUIServer.serviceRunning = false;
+        boolean slowResponse = false;
         setService(AppiumDriverLocalService.buildService(builder));
         getServices().get(getServices().size() - 1).start();
         long t= System.currentTimeMillis();
@@ -51,17 +53,25 @@ public class TestUIServer {
                 if (serviceOut.contains("Could not start REST http")) {
                     putLog("Could not start server in port: " + port + "\n Let's try a different one");
                     TestUIServer.serviceRunning = false;
+                    slowResponse = false;
                     break;
                 } else if (serviceOut.contains("Appium REST http interface listener started")) {
                     TestUIServer.serviceRunning = true;
+                    slowResponse = false;
                     break;
                 } else {
+                    slowResponse = true;
                     TestUIServer.serviceRunning = true;
                 }
             } else {
+                slowResponse = true;
                 TestUIServer.serviceRunning = true;
             }
             sleep(100);
+        }
+        if (!slowResponse) {
+            getServices().get(getServices().size() - 1).stop();
+            throw new AppiumTimeoutException("Appium server took too long to start");
         }
         if (serverLogLevel.equals("error")) {
             getServices().get(getServices().size() - 1).clearOutPutStreams();

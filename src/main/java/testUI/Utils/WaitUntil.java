@@ -36,9 +36,9 @@ public class WaitUntil {
                 Configuration.deviceTests = test;
             }
             if (accesibility == null || accesibility.isEmpty()) {
-                throw new Error("The element '" + element + "' " + reason);
+                throw new TestUIException("The element '" + element + "' " + reason);
             } else {
-                throw new Error("The element 'By." + accesibility.split(": ")[0] + ": " + accesibility.split(": ")[1] + "' " + reason);
+                throw new TestUIException("The element 'By." + accesibility.split(": ")[0] + ": " + accesibility.split(": ")[1] + "' " + reason);
             }
         }
     }
