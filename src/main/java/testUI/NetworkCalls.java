@@ -139,7 +139,7 @@ public class NetworkCalls {
                         callHar.add(call);
                     }
                 }
-            } catch (UnsupportedCommandException e){
+            } catch (UnsupportedCommandException e) {
                 putLog("The PERFORMANCE logs are not supported for this browser");
             }
         } else {
@@ -227,10 +227,10 @@ public class NetworkCalls {
     public NetworkCalls filterByUrl(String url) {
         List<JSONObject> calls = new ArrayList<>();
         if (!this.severalFilters) {
-            for (Map<String ,String> call : this.callHar) {
+            for (Map<String, String> call : this.callHar) {
                 JSONObject jsonObject = new JSONObject();
                 if (call.get("URL").contains(url)) {
-                    jsonObject.put("URL",call.get("URL"));
+                    jsonObject.put("URL", call.get("URL"));
                     jsonObject.put("statusCode", call.get("Status"));
                     if (call.get("Payload") != null) {
                         jsonObject.put("Payload", call.get("Payload"));
@@ -263,16 +263,16 @@ public class NetworkCalls {
                 }
             }
         }
-        return new NetworkCalls(this.calls, calls, this.callHar,this.severalFilters);
+        return new NetworkCalls(this.calls, calls, this.callHar, this.severalFilters);
     }
 
     public NetworkCalls filterByExactUrl(String url) {
         List<JSONObject> calls = new ArrayList<>();
         if (!this.severalFilters) {
-            for (Map<String ,String> call : this.callHar) {
+            for (Map<String, String> call : this.callHar) {
                 JSONObject jsonObject = new JSONObject();
                 if (call.get("URL").equals(url)) {
-                    jsonObject.put("URL",call.get("URL"));
+                    jsonObject.put("URL", call.get("URL"));
                     jsonObject.put("statusCode", call.get("Status"));
                     if (call.get("Payload") != null) {
                         jsonObject.put("Payload", call.get("Payload"));
@@ -305,17 +305,21 @@ public class NetworkCalls {
                 }
             }
         }
-        return new NetworkCalls(this.calls, calls, this.callHar,this.severalFilters);
+        return new NetworkCalls(this.calls, calls, this.callHar, this.severalFilters);
     }
 
     public NetworkCalls filterByHeader(String header, String value) {
         List<JSONObject> calls = new ArrayList<>();
         if (!this.severalFilters) {
-            for (Map<String ,String> call : this.callHar) {
+            for (Map<String, String> call : this.callHar) {
                 JSONObject jsonObject = new JSONObject();
-                if (call.get("RequestHeaders") != null && call.get("RequestHeaders").contains(header) && call.get("RequestHeaders").contains(value) ||
-                        call.get("ResponseHeaders") != null && call.get("ResponseHeaders").contains(header) && call.get("ResponseHeaders").contains(value)) {
-                    jsonObject.put("URL",call.get("URL"));
+                if (call.get("RequestHeaders") != null
+                        && call.get("RequestHeaders").toLowerCase().contains(header.toLowerCase())
+                        && call.get("RequestHeaders").contains(value)
+                        || call.get("ResponseHeaders") != null
+                        && call.get("ResponseHeaders").toLowerCase().contains(header.toLowerCase())
+                        && call.get("ResponseHeaders").contains(value)) {
+                    jsonObject.put("URL", call.get("URL"));
                     jsonObject.put("statusCode", call.get("Status"));
                     if (call.get("Payload") != null) {
                         jsonObject.put("Payload", call.get("Payload"));
@@ -332,9 +336,12 @@ public class NetworkCalls {
         } else {
             for (JSONObject jsonObject : this.filteredCalls) {
                 JSONObject jsonObject2 = new JSONObject();
-                if (jsonObject.has("RequestHeaders") && jsonObject.getString("RequestHeaders").contains(header) &&
-                        jsonObject.getString("RequestHeaders").contains(value) || jsonObject.has("ResponseHeaders")
-                        && jsonObject.getString("ResponseHeaders").contains(header) && jsonObject.getString("ResponseHeaders").contains(value)) {
+                if (jsonObject.has("RequestHeaders")
+                        && jsonObject.getString("RequestHeaders").toLowerCase().contains(header.toLowerCase())
+                        && jsonObject.getString("RequestHeaders").contains(value)
+                        || jsonObject.has("ResponseHeaders")
+                        && jsonObject.getString("ResponseHeaders").toLowerCase().contains(header.toLowerCase())
+                        && jsonObject.getString("ResponseHeaders").contains(value)) {
                     jsonObject2.put("URL", jsonObject.get("URL"));
                     jsonObject2.put("statusCode", jsonObject.get("statusCode"));
                     if (jsonObject.has("Payload")) {
@@ -350,7 +357,7 @@ public class NetworkCalls {
                 }
             }
         }
-        return new NetworkCalls(this.calls, calls, this.callHar,this.severalFilters);
+        return new NetworkCalls(this.calls, calls, this.callHar, this.severalFilters);
     }
 
 
@@ -383,7 +390,7 @@ public class NetworkCalls {
         for (JSONObject responses : this.filteredCalls) {
             if ((responses.getInt("statusCode") < statusCode ||
                     responses.getInt("statusCode") > statusCode2)
-                            && responses.getInt("statusCode") != 0) {
+                    && responses.getInt("statusCode") != 0) {
                 if (Configuration.useAllure) {
                     Allure.addAttachment("Assert Status Code", "Status code should be between " + statusCode + " and " + statusCode2 + " but was "
                             + responses.getInt("statusCode") + "\n Response: \n" +
