@@ -14,7 +14,7 @@ import static testUI.NetworkCalls.setNetworkCalls;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.putLog;
 import static testUI.elements.TestUI.setScreenshotTaken;
-import static testUI.elements.UIElement.setStep;
+import static testUI.elements.Element.setStep;
 
 public class UIOpen {
     public static UIElement open() {

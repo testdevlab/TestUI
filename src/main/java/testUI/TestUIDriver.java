@@ -15,6 +15,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import testUI.elements.TestUI;
+import testUI.elements.Element;
 import testUI.elements.UIElement;
 
 import java.util.ArrayList;

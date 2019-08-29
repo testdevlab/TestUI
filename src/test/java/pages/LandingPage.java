@@ -5,8 +5,8 @@ import testUI.elements.UIElement;
 import lombok.Data;
 
 import static testUI.Utils.By.*;
-import static testUI.collections.UICollection.EE;
-import static testUI.collections.UICollection.EEx;
+import static testUI.collections.TestUI.EE;
+import static testUI.collections.TestUI.EEx;
 import static testUI.elements.TestUI.E;
 import static testUI.elements.TestUI.Ex;
 

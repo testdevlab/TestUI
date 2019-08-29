@@ -6,7 +6,7 @@ import pages.GoogleLandingPage;
 
 import static testUI.UIOpen.open;
 import static testUI.Utils.By.byId;
-import static testUI.collections.UICollection.EE;
+import static testUI.collections.TestUI.EE;
 
 public class TestAndroid {
     private GoogleLandingPage googleLandingPage = new GoogleLandingPage();
