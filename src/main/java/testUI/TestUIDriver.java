@@ -59,7 +59,8 @@ public class TestUIDriver {
         return driverNames;
     }
 
-    public synchronized static void setDriver(AppiumDriver driver, int driverNumber) {
+    public synchronized static void setDriver(IOSDriver driver, int driverNumber) {
+        TestUIDriver.IOSTestUIDriver.set(driverNumber, driver);
         TestUIDriver.driver.set(driverNumber, driver);
     }
 
@@ -216,6 +217,11 @@ public class TestUIDriver {
             } else {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, Configuration.AutomationName);
             }
+            if (!Configuration.chromeDriverPath.isEmpty()) {
+                String chromePath = Configuration.chromeDriverPath.charAt(0) == '/' ? Configuration.chromeDriverPath :
+                        System.getProperty("user.dir") + "/" + Configuration.chromeDriverPath;
+                cap.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, chromePath);
+            }
             cap.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
             if (!Configuration.appActivity.isEmpty() && !Configuration.appPackage.isEmpty()) {
                 cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, Configuration.appActivity);
@@ -353,7 +359,7 @@ public class TestUIDriver {
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
             capabilities.setCapability(IOSMobileCapabilityType.START_IWDP, true);
             capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, Configuration.launchAppTimeout);
-            capabilities.setCapability(IOSMobileCapabilityType.COMMAND_TIMEOUTS, 15000);
+            capabilities.setCapability(IOSMobileCapabilityType.COMMAND_TIMEOUTS, 30000);
             // ADD CUSTOM CAPABILITIES
             if (!Configuration.addMobileDesiredCapabilities.asMap().isEmpty()) {
                 for (String key : addMobileDesiredCapabilities.asMap().keySet()) {

@@ -55,7 +55,7 @@ public class UIElement extends TestUI implements ElementActions {
         this.accesibilityIdiOS = "";
     }
 
-    private UIElement(String accesibilityId) {
+    public UIElement(String accesibilityId) {
         this.index = 0;
         this.collection = false;
         this.accesibilityId = accesibilityId;
@@ -75,7 +75,10 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement setElement(String accesibilityId) {
-        return new UIElement(accesibilityId);
+        if (accesibilityId.contains(": ")) {
+            return new UIElement(accesibilityId);
+        }
+        return new UIElement("accessibilityId: " + accesibilityId);
     }
 
     public UICollection setCollection(By element) {
@@ -91,25 +94,31 @@ public class UIElement extends TestUI implements ElementActions {
     }
 
     public UIElement setiOSElement(By iOSElement) {
-        return new UIElement(element, SelenideElement, iOSElement,0,false,accesibilityId,accesibilityIdiOS);
+        return new UIElement(element, SelenideElement, iOSElement,0,false,accesibilityId,"");
     }
 
     public UIElement setAndroidElement(By element) {
-        return new UIElement(element, SelenideElement, iOSElement,0,false,accesibilityId,accesibilityIdiOS);
+        return new UIElement(element, SelenideElement, iOSElement,0,false,"",accesibilityIdiOS);
     }
 
     public UIElement setAndroidElement(String accesibilityId) {
-        return new UIElement(null, SelenideElement, iOSElement,0,false,accesibilityId,accesibilityIdiOS);
+        if (accesibilityId.contains(": ")) {
+            return new UIElement(null, SelenideElement, iOSElement,0,false, accesibilityId,accesibilityIdiOS);
+        }
+        return new UIElement(null, SelenideElement, iOSElement,0,false,"accessibilityId: " + accesibilityId,accesibilityIdiOS);
     }
 
     public UIElement setiOSElement(String iOSElementAccId) {
-        return new UIElement(element,SelenideElement,null,0, false,accesibilityId, iOSElementAccId);
+        if (iOSElementAccId.contains(": ")) {
+            return new UIElement(element,SelenideElement,null,0, false,accesibilityId, iOSElementAccId);
+        }
+        return new UIElement(element,SelenideElement,null,0, false,accesibilityId, "accessibilityId: " + iOSElementAccId);
     }
 
     public UIElement click() {
         try {
             if (Configuration.deviceTests) {
-                if (collection) {
+                if (!collection) {
                     waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId));
                 } else {
                     waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId), index);
@@ -128,7 +137,7 @@ public class UIElement extends TestUI implements ElementActions {
     public UIElement doubleClick() {
         try {
             if (Configuration.deviceTests) {
-                if (collection) {
+                if (!collection) {
                     waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId));
                 } else {
                     waitUntilClickable(getAppiumElement(iOSElement, element), getAccesibilityId(accesibilityIdiOS, accesibilityId), index);
@@ -147,10 +156,10 @@ public class UIElement extends TestUI implements ElementActions {
 
     public Dimension getSize() {
         if (Configuration.deviceTests) {
-            if (collection) {
+            if (!collection) {
                 waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId), Configuration.timeout, true);
             } else {
-                waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId), Configuration.timeout, true);
+                waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId),index, Configuration.timeout, true);
             }
             return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getSize();
         } else {
@@ -165,10 +174,10 @@ public class UIElement extends TestUI implements ElementActions {
 
     public Point getLocation() {
         if (Configuration.deviceTests) {
-            if (collection) {
+            if (!collection) {
                 waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId), Configuration.timeout, true);
             } else {
-                waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId), Configuration.timeout, true);
+                waitUntilVisible(getAppiumElement(iOSElement, element),getAccesibilityId(accesibilityIdiOS,accesibilityId),index, Configuration.timeout, true);
             }
             return getElement(accesibilityIdiOS,accesibilityId,iOSElement,element,index,collection).getLocation();
         } else {

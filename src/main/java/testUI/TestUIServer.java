@@ -7,6 +7,7 @@ import io.appium.java_client.service.local.flags.AndroidServerFlag;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import testUI.Utils.AppiumHelps;
+import testUI.Utils.AppiumTimeoutException;
 
 import java.io.File;
 import java.util.List;
@@ -37,10 +38,11 @@ public class TestUIServer {
         builder.usingPort(Integer.parseInt(port));
         builder.withCapabilities(cap);
         builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
-        builder.withArgument(GeneralServerFlag.LOG_LEVEL, serverLogLevel);
+        builder.withArgument(GeneralServerFlag.LOG_LEVEL, "info");
         builder.withArgument(AndroidServerFlag.BOOTSTRAP_PORT_NUMBER, Bootstrap);
         //Start the server with the builder
         TestUIServer.serviceRunning = false;
+        boolean slowResponse = false;
         setService(AppiumDriverLocalService.buildService(builder));
         getServices().get(getServices().size() - 1).start();
         long t= System.currentTimeMillis();
@@ -51,14 +53,28 @@ public class TestUIServer {
                 if (serviceOut.contains("Could not start REST http")) {
                     putLog("Could not start server in port: " + port + "\n Let's try a different one");
                     TestUIServer.serviceRunning = false;
+                    slowResponse = false;
+                    break;
+                } else if (serviceOut.contains("Appium REST http interface listener started")) {
+                    TestUIServer.serviceRunning = true;
+                    slowResponse = false;
                     break;
                 } else {
+                    slowResponse = true;
                     TestUIServer.serviceRunning = true;
                 }
             } else {
+                slowResponse = true;
                 TestUIServer.serviceRunning = true;
             }
             sleep(100);
+        }
+        if (slowResponse) {
+            getServices().get(getServices().size() - 1).stop();
+            throw new AppiumTimeoutException("Appium server took too long to start");
+        }
+        if (serverLogLevel.equals("error")) {
+            getServices().get(getServices().size() - 1).clearOutPutStreams();
         }
         if (!TestUIServer.serviceRunning) {
             getServices().remove(getServices().size() - 1);
@@ -146,8 +162,8 @@ public class TestUIServer {
         }
         int emulators = useEmulators ? getEmulatorName().size() : 0;
         int totalDevices = emulators + connectedDevices - startedEmulators;
-        int ports = 9586 + usePort.size()*100;
-        int bootstrap = 5333 + useBootstrapPort.size()*100;
+        int ports = baseAppiumPort + usePort.size()*100;
+        int bootstrap = baseAppiumBootstrapPort + useBootstrapPort.size()*100;
         int realDevices = totalDevices - emulators;
         String port = String.valueOf(ports);
         String Bootstrap = String.valueOf(bootstrap);
@@ -213,20 +229,21 @@ public class TestUIServer {
     }
 
     public static void stop(int driver) {
-        if (deviceTests) {
-            usePort.remove(driver - 1);
-            useBootstrapPort.remove(driver - 1);
-            try {
-                getDrivers().get(driver - 1).quit();
-            } catch (Exception e) {
-                System.err.println("Could not quit driver, probably already stopped");
+            if (deviceTests) {
+                usePort.remove(driver - 1);
+                useBootstrapPort.remove(driver - 1);
+            if (iOSTesting) {
+                getDrivers().get(driver - 1).close();
+                sleep(500);
             }
+            getDrivers().get(driver - 1).quit();
             removeDriver(driver - 1);
             getServices().get(driver - 1).stop();
             getServices().remove(driver - 1);
             if (getDevices().size() != 0) {
-                stopEmulator(getDevices().get(driver - 1));
-                getDevices().remove(driver - 1);
+                iOSDevices = driver - getDevices().size();
+                stopEmulator(getDevices().get(driver - iOSDevices - 1));
+                getDevices().remove(driver - iOSDevices - 1);
             }
             Configuration.driver = getDrivers().size();
         } else {

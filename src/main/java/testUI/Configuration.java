@@ -15,6 +15,8 @@ public class Configuration extends SelenideConfiguration {
     public static boolean deviceTests = true;
     public static boolean useEmulators = true;
     public static int driver = 1;
+    public static int baseAppiumPort = 9586;
+    public static int baseAppiumBootstrapPort = 5333;
     public static List<String> usePort = new ArrayList<>();
     public static List<String> useBootstrapPort = new ArrayList<>();
     public static boolean useAllure = true;
@@ -27,6 +29,7 @@ public class Configuration extends SelenideConfiguration {
     public static String androidAppPath = "";
     public static String androidVersion = "";
     public static String chromeDriverPath = "";
+    public static boolean installMobileChromeDriver = true;
     public static String appiumUrl = "";
     public static String emulatorName = "";
     public static String xcodeOrgId = "";
@@ -39,7 +42,7 @@ public class Configuration extends SelenideConfiguration {
     public static boolean useNewWDA = true;
     public static String serverLogLevel = "error";
     public static String screenshotPath = "";
-    public static int timeStartAppiumServer = 5;
+    public static int timeStartAppiumServer = 20;
 
     protected static DesiredCapabilities desiredCapabilities;
     protected static int iOSDevices = 0;

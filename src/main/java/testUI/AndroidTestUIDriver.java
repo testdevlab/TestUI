@@ -21,6 +21,9 @@ public class AndroidTestUIDriver {
                 stop(1);
             }
             startServerAndDevice();
+            if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
+                checkAndInstallChromedriver();
+            }
             DesiredCapabilities cap = setAppAndroidCapabilities();
             startFirstAndroidDriver(cap);
             if (!emulatorName.isEmpty()) {
@@ -46,6 +49,9 @@ public class AndroidTestUIDriver {
         deviceTests = true;
         iOSTesting = false;
         startServerAndDevice();
+        if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
+            checkAndInstallChromedriver();
+        }
         DesiredCapabilities cap = setAppAndroidCapabilities();
         startAndroidDriver(cap);
         if (!emulatorName.isEmpty()) {
@@ -65,7 +71,7 @@ public class AndroidTestUIDriver {
                     tryStop(1);
                 }
                 startServerAndDevice();
-                if (getDevices().size() != 0) {
+                if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
                     checkAndInstallChromedriver();
                 }
                 startFirstAndroidBrowserDriver(urlOrRelativeUrl);

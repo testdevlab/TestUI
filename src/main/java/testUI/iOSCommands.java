@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static testUI.UIUtils.putLog;
+
 public class iOSCommands {
     private static Map<String,Map<String,String>> getSimulatorNames() {
         String s;
@@ -35,7 +37,9 @@ public class iOSCommands {
                     iOS.put(versions.get(versions.size() -1), devices);
                     devices = new HashMap<>();
                 }
-                versions.add(line.split("iOS ")[1].split(" ")[0]);
+                if (line.split("iOS ").length >= 2) {
+                    versions.add(line.split("iOS ")[1].split(" ")[0]);
+                }
             }
             if (line.contains("== Devices ==")) {
                 Devices = true;
@@ -109,6 +113,12 @@ public class iOSCommands {
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
                 output.add(s);
+            }
+            Process p2 = Runtime.getRuntime().exec("idevicepair pair " + udid);
+            BufferedReader stdInput2 = new BufferedReader(new
+                    InputStreamReader(p2.getInputStream()));
+            while ((s = stdInput2.readLine()) != null) {
+                putLog(s);
             }
         } catch (IOException e) {
             e.printStackTrace();

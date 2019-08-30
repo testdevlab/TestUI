@@ -10,6 +10,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import testUI.Utils.TestUIException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,6 +20,7 @@ import java.util.List;
 import static com.codeborne.selenide.Selenide.open;
 import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.TestUIDriver.*;
+import static testUI.TestUIServer.stop;
 import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.elements.TestUI.takeScreenshotsAllure;
 
@@ -199,8 +201,7 @@ public class UIUtils {
                 }
                 sleep(500);
                 if (i == 1) {
-                    e.printStackTrace();
-                    throw new Error();
+                    throw new Error(e);
                 }
             }
         }
@@ -226,8 +227,7 @@ public class UIUtils {
                 }
                 sleep(500);
                 if (i == 1) {
-                    e.printStackTrace();
-                    throw new Error();
+                    throw new Error(e);
                 }
             }
         }
@@ -249,8 +249,7 @@ public class UIUtils {
                 System.err.println("Could not create driver! retrying...");
                 sleep(500);
                 if (i == 1) {
-                    System.err.println("Could not create driver! check that the devices are correctly connected and in debug mode");
-                    throw new Error(e);
+                    throw new TestUIException("Could not create driver! check that the devices are correctly connected and in debug mode",e);
                 }
             }
         }
@@ -272,8 +271,7 @@ public class UIUtils {
                 System.err.println("Could not create driver! retrying...");
                 sleep(500);
                 if (i == 1) {
-                    System.err.println("Could not create driver! check that the devices are correctly connected and in debug mode");
-                    throw new Error(e);
+                    throw new TestUIException("Could not create driver! check that the devices are correctly connected and in debug mode",e);
                 }
             }
         }
@@ -290,8 +288,7 @@ public class UIUtils {
                 System.err.println("Could not create driver! retrying...");
                 sleep(500);
                 if (i == 1) {
-                    System.err.println("Could not create driver! check that the devices are correctly connected and in debug mode");
-                    throw new Error(e);
+                    throw new TestUIException("Could not create driver! check that the devices are correctly connected and in debug mode",e);
                 }
             }
         }

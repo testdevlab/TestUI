@@ -1,13 +1,17 @@
 package testUI;
 
+import org.openqa.selenium.Cookie;
+import testUI.Utils.TestUIException;
 import testUI.elements.TestUI;
 import testUI.elements.UIElement;
+
+import java.util.Set;
 
 import static testUI.AndroidTestUIDriver.*;
 import static testUI.Configuration.*;
 import static testUI.IOSTestUIDriver.*;
 import static testUI.NetworkCalls.setNetworkCalls;
-import static testUI.TestUIDriver.getDesiredCapabilities;
+import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.putLog;
 import static testUI.elements.TestUI.setScreenshotTaken;
 import static testUI.elements.UIElement.setStep;
@@ -24,7 +28,7 @@ public class UIOpen {
                             + "\n trying to start the Android app");
                     openApp();
                 } else {
-                    throw new Error("iOSAppPath or bundleId is mandatory field to run iOS apps, here are your iOS values:"
+                    throw new TestUIException("iOSAppPath or bundleId is mandatory field to run iOS apps, here are your iOS values:"
                             + "\niOSAppPath = " + iOSAppPath
                             + "\nbundelId = " + bundleId
                             + "\niOSDeviceName = " + iOSDeviceName
@@ -44,7 +48,7 @@ public class UIOpen {
                             + "\n trying to start the iOS app");
                     openIOSApp();
                 } else {
-                    throw new Error("androidAppPath or appActivity and appPackage are mandatory fields to run Android apps, but their values are:"
+                    throw new TestUIException("androidAppPath or appActivity and appPackage are mandatory fields to run Android apps, but their values are:"
                             + "\nandroidAppPath = " + androidAppPath
                             + "\nappActivity = " + appActivity
                             + "\nappPackage = " + appPackage);
@@ -69,7 +73,7 @@ public class UIOpen {
                             + "\n trying to start the Android app");
                     openNewApp();
                 } else {
-                    throw new Error("iOSAppPath is mandatory fields to run iOS apps, here are your iOS values:"
+                    throw new TestUIException("iOSAppPath is mandatory fields to run iOS apps, here are your iOS values:"
                             + "\niOSAppPath = " + iOSAppPath
                             + "\niOSDeviceName = " + iOSDeviceName
                             + "\niOSVersion = " + iOSVersion);
@@ -87,7 +91,7 @@ public class UIOpen {
                             + "\n trying to start the iOS app");
                     openNewIOSApp();
                 } else {
-                    throw new Error("androidAppPath or appActivity and appPackage are mandatory fields to run Android apps, but their values are:"
+                    throw new TestUIException("androidAppPath or appActivity and appPackage are mandatory fields to run Android apps, but their values are:"
                             + "\nandroidAppPath = " + androidAppPath
                             + "\nappActivity = " + appActivity
                             + "\nappPackage = " + appPackage);
@@ -126,5 +130,23 @@ public class UIOpen {
         }
         setStep(false);
         return TestUI.E("");
+    }
+
+    public static UIElement addCookie(String key, String value) {
+        Cookie cookie = new Cookie(key, value);
+        if (deviceTests) {
+            getDriver().manage().addCookie(cookie);
+        } else {
+            getSelenideDriver().manage().addCookie(cookie);
+        }
+        return TestUI.E("");
+    }
+
+    public static Set<Cookie> getCookies() {
+        if (deviceTests) {
+            return getDriver().manage().getCookies();
+        } else {
+            return getSelenideDriver().manage().getCookies();
+        }
     }
 }
