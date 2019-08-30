@@ -13,20 +13,18 @@ public class AndroidTestUIDriver {
 
     // ANDROID APP AND BROWSER SUPPORT
 
-    public static void openApp() {
-        deviceTests = true;
-        iOSTesting = false;
+    public static void openApp(TestUIConfiguration configuration) {
         if (((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) || getDevices().size() == 0) {
             if (getServices().size() != 0) {
                 stop(1);
             }
-            startServerAndDevice();
-            if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
+            startServerAndDevice(configuration);
+            if (getDevices().size() != 0 && configuration.isInstallMobileChromeDriver()) {
                 checkAndInstallChromedriver();
             }
             DesiredCapabilities cap = setAppAndroidCapabilities();
             startFirstAndroidDriver(cap);
-            if (!emulatorName.isEmpty()) {
+            if (!configuration.getEmulatorName().isEmpty()) {
                 setDevice(getDriver().getCapabilities().asMap().get("deviceUDID").toString(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
                 attachShutDownHookStopEmulator(getServices(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
             }
@@ -34,8 +32,8 @@ public class AndroidTestUIDriver {
         } else {
             driver = 1;
             DesiredCapabilities cap = setAppAndroidCapabilities();
-            if (appiumUrl.isEmpty()) {
-                putAllureParameter("Using Appium port", usePort.get(0));
+            if (configuration.getAppiumUrl().isEmpty()) {
+                putAllureParameter("Using Appium port", getUsePort().get(0));
             } else {
                 putAllureParameter("Using Appium url", appiumUrl);
             }
@@ -45,10 +43,10 @@ public class AndroidTestUIDriver {
         emulatorName = "";
     }
 
-    public static void openNewApp() {
+    public static void openNewApp(TestUIConfiguration configuration) {
         deviceTests = true;
         iOSTesting = false;
-        startServerAndDevice();
+        startServerAndDevice(configuration);
         if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
             checkAndInstallChromedriver();
         }
@@ -62,7 +60,7 @@ public class AndroidTestUIDriver {
         emulatorName = "";
     }
 
-    public static void openBrowser(String urlOrRelativeUrl) {
+    public static void openBrowser(String urlOrRelativeUrl, TestUIConfiguration configuration) {
         iOSTesting = false;
         if (deviceTests) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
@@ -70,7 +68,7 @@ public class AndroidTestUIDriver {
                 if (getServices().size() != 0) {
                     tryStop(1);
                 }
-                startServerAndDevice();
+                startServerAndDevice(configuration);
                 if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
                     checkAndInstallChromedriver();
                 }
@@ -83,7 +81,7 @@ public class AndroidTestUIDriver {
             } else {
                 driver = 1;
                 if (appiumUrl.isEmpty()) {
-                    putAllureParameter("Using Appium port", usePort.get(0));
+                    putAllureParameter("Using Appium port", getUsePort().get(0));
                 } else {
                     putAllureParameter("Using Appium url", appiumUrl);
                 }
@@ -107,11 +105,11 @@ public class AndroidTestUIDriver {
         }
     }
 
-    public static void openNewBrowser(String urlOrRelativeUrl) {
+    public static void openNewBrowser(String urlOrRelativeUrl, TestUIConfiguration configuration) {
         iOSTesting = false;
         if (deviceTests) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
-            startServerAndDevice();
+            startServerAndDevice(configuration);
             if (getDevices().size() >= driver) {
                 checkAndInstallChromedriver();
             }

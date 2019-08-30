@@ -54,8 +54,9 @@ public interface UIElement {
 
     UIElement executeJs(String var1, Object... var2);
 
-    Scrolling scrollTo();
+    SlideActions scrollTo();
 
+    @Deprecated
     UIElement scrollIntoView(boolean upCenter);
 
     UIElement swipe(int XCoordinate, int YCoordinate);

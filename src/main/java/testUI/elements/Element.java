@@ -286,7 +286,7 @@ public class Element extends TestUI implements UIElement {
         return new Element(element, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public Scrolling scrollTo() {
+    public SlideActions scrollTo() {
         return new Scrolling(element, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 

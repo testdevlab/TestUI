@@ -57,8 +57,14 @@ public class ADBUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        f.remove(0);
-        return f;
+        List<String> devices = new ArrayList<>();
+        for (String device : f) {
+            if (!device.isEmpty()) {
+                devices.add(device);
+            }
+        }
+        devices.remove(0);
+        return devices;
     }
 
     public static String getDeviceStatus(String device) {
@@ -146,6 +152,7 @@ public class ADBUtils {
         String s;
         String f = null;
         try {
+            System.out.println(getDevice());
             Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb -s " + getDevice() + " shell dumpsys package com.android.chrome | grep versionName");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));

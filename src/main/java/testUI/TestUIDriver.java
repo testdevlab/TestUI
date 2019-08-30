@@ -24,26 +24,33 @@ import java.util.List;
 import java.util.Map;
 
 import static testUI.ADBUtils.*;
-import static testUI.Configuration.addMobileDesiredCapabilities;
-import static testUI.Configuration.iOSDeviceName;
+import static testUI.Configuration.*;
 import static testUI.UIUtils.*;
 import static testUI.iOSCommands.*;
 
 public class TestUIDriver {
-    private static List<AppiumDriver> driver = new ArrayList<>();
-    private static List<AndroidDriver> AndroidTestUIDriver = new ArrayList<>();
-    private static List<IOSDriver> IOSTestUIDriver = new ArrayList<>();
+    private static ThreadLocal<List<AppiumDriver>> driver = new ThreadLocal<>();
+    private static ThreadLocal<List<AndroidDriver>> AndroidTestUIDriver = new ThreadLocal<>();
+    private static ThreadLocal<List<IOSDriver>> IOSTestUIDriver = new ThreadLocal<>();
     private static Map<String, AppiumDriver> driverNames = new HashMap<>();
 
     public synchronized static UIElement setDriver(AndroidDriver driver) {
-        TestUIDriver.driver.add(driver);
-        TestUIDriver.AndroidTestUIDriver.add(driver);
+        List<AppiumDriver> appiumDrivers = new ArrayList<>(getDrivers());
+        appiumDrivers.add(driver);
+        TestUIDriver.driver.set(appiumDrivers);
+        List<AndroidDriver> androidDrivers = new ArrayList<>(getAndroidDrivers());
+        androidDrivers.add(driver);
+        TestUIDriver.AndroidTestUIDriver.set(androidDrivers);
         return TestUI.E("");
     }
 
     public synchronized static UIElement setDriver(IOSDriver driver) {
-        TestUIDriver.driver.add(driver);
-        TestUIDriver.IOSTestUIDriver.add(driver);
+        List<AppiumDriver> appiumDrivers = new ArrayList<>(getDrivers());
+        appiumDrivers.add(driver);
+        TestUIDriver.driver.set(appiumDrivers);
+        List<IOSDriver> iOSDrivers = new ArrayList<>(getIOSDrivers());
+        iOSDrivers.add(driver);
+        TestUIDriver.IOSTestUIDriver.set(iOSDrivers);
         return TestUI.E("");
     }
 
@@ -61,45 +68,69 @@ public class TestUIDriver {
     }
 
     public synchronized static void setDriver(IOSDriver driver, int driverNumber) {
-        TestUIDriver.IOSTestUIDriver.set(driverNumber, driver);
-        TestUIDriver.driver.set(driverNumber, driver);
+        List<IOSDriver> iOSDrivers = new ArrayList<>(getIOSDrivers());
+        iOSDrivers.set(driverNumber, driver);
+        TestUIDriver.IOSTestUIDriver.set(iOSDrivers);
+        List<AppiumDriver> appiumDrivers = new ArrayList<>(getDrivers());
+        appiumDrivers.set(driverNumber, driver);
+        TestUIDriver.driver.set(appiumDrivers);
     }
 
     public synchronized static void setDriver(AndroidDriver driver, int driverNumber) {
-        TestUIDriver.AndroidTestUIDriver.set(driverNumber, driver);
-        TestUIDriver.driver.set(driverNumber, driver);
+        List<AndroidDriver> androidDrivers = new ArrayList<>(getAndroidDrivers());
+        androidDrivers.set(driverNumber, driver);
+        TestUIDriver.AndroidTestUIDriver.set(androidDrivers);
+        List<AppiumDriver> appiumDrivers = new ArrayList<>(getDrivers());
+        appiumDrivers.set(driverNumber, driver);
+        TestUIDriver.driver.set(appiumDrivers);
     }
 
     public static AndroidDriver getAndroidTestUIDriver() {
-        if (AndroidTestUIDriver.isEmpty() || AndroidTestUIDriver.size() < Configuration.driver) {
+        if (getAndroidDrivers().isEmpty() || getAndroidDrivers().size() < Configuration.driver) {
             throw new NullPointerException("There is no driver bound to the automation, start driver before running test cases! \n" +
-                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + AndroidTestUIDriver.size());
+                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + getAndroidDrivers().size());
         }
-        return AndroidTestUIDriver.get(Configuration.driver - 1);
+        return getAndroidDrivers().get(Configuration.driver - 1);
     }
 
     public static IOSDriver getIOSTestUIDriver() {
-        if (IOSTestUIDriver.isEmpty() || IOSTestUIDriver.size() < Configuration.driver) {
+        if (getIOSDrivers().isEmpty() || getIOSDrivers().size() < Configuration.driver) {
             throw new NullPointerException("There is no driver bound to the automation, start driver before running test cases! \n" +
-                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + IOSTestUIDriver.size());
+                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + getIOSDrivers().size());
         }
-        return IOSTestUIDriver.get(Configuration.driver - 1);
+        return getIOSDrivers().get(Configuration.driver - 1);
     }
 
     public static AppiumDriver getDriver() {
-        if (driver.isEmpty() || driver.size() < Configuration.driver) {
+        if (getDrivers().isEmpty() || getDrivers().size() < Configuration.driver) {
             throw new NullPointerException("There is no driver bound to the automation, start driver before running test cases! \n" +
-                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + driver.size());
+                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + getDrivers().size());
         }
-        return driver.get(Configuration.driver - 1);
+        return getDrivers().get(Configuration.driver - 1);
     }
 
     public static List<AppiumDriver> getDrivers() {
-        return driver;
+        if (driver.get() == null)
+            return new ArrayList<>();
+        return driver.get();
+    }
+
+    public static List<AndroidDriver> getAndroidDrivers() {
+        if (AndroidTestUIDriver.get() == null)
+            return new ArrayList<>();
+        return AndroidTestUIDriver.get();
+    }
+
+    public static List<IOSDriver> getIOSDrivers() {
+        if (IOSTestUIDriver.get() == null)
+            return new ArrayList<>();
+        return IOSTestUIDriver.get();
     }
 
     public static void removeDriver(int driver) {
-        TestUIDriver.driver.remove(driver);
+        List<AppiumDriver> appiumDrivers = new ArrayList<>(getDrivers());
+        appiumDrivers.remove(driver);
+        TestUIDriver.driver.set(appiumDrivers);
     }
 
     private static DesiredCapabilities desiredCapabilities;
@@ -234,7 +265,7 @@ public class TestUIDriver {
                 cap.setCapability("androidInstallPath", appPath);
                 cap.setCapability("app", appPath);
             }
-            int systemPort = Integer.parseInt(Configuration.usePort.get(Configuration.usePort.size() - 1)) + 10;
+            int systemPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 10;
             cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
         } else {
             cap = getDesiredCapabilities();
@@ -284,8 +315,8 @@ public class TestUIDriver {
             } else {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, Configuration.AutomationName);
             }
-            int systemPort = Integer.parseInt(Configuration.usePort.get(Configuration.usePort.size() - 1)) + 10;
-            int chromeDriverPort = Integer.parseInt(Configuration.usePort.get(Configuration.usePort.size() - 1)) + 15;
+            int systemPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 10;
+            int chromeDriverPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 15;
             cap.setCapability("chromeDriverPort", chromeDriverPort);
             cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
             cap.setCapability(MobileCapabilityType.NO_RESET, true);
