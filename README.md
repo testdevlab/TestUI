@@ -1,5 +1,5 @@
 
-![TestUI](ReadmeResources/testui6.png)
+![TestUI](ReadmeResources/testui.jpg)
 
 <br/>
 <br/>
