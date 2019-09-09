@@ -44,7 +44,7 @@ public class Configuration extends SelenideConfiguration {
 
     protected static DesiredCapabilities desiredCapabilities;
     protected static int iOSDevices = 0;
-    protected static String firstEmulatorName = "";
+    protected static ThreadLocal<String> firstEmulatorName = new ThreadLocal<>();
 
     private static ThreadLocal<List<String>> usePort = new ThreadLocal<>();
     private static ThreadLocal<List<String>> useBootstrapPort = new ThreadLocal<>();

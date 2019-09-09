@@ -26,7 +26,7 @@ public class TestUIConfiguration {
     private final static ThreadLocal<String> chromeDriverPath = new ThreadLocal<>();
     private final boolean installMobileChromeDriver = Configuration.installMobileChromeDriver;
     private final String appiumUrl = Configuration.appiumUrl;
-    private final String emulatorName = Configuration.androidDeviceName;
+    private static ThreadLocal<String> emulatorName = new ThreadLocal<>();
     private final String xcodeOrgId = Configuration.xcodeOrgId;
     private final String xcodeSigningId = Configuration.xcodeSigningId;
     private final String UDID = Configuration.UDID;
@@ -43,6 +43,19 @@ public class TestUIConfiguration {
         if (!Configuration.chromeDriverPath.isEmpty()) {
             setChromeDriverPath(Configuration.chromeDriverPath);
         }
+        if (!Configuration.emulatorName.isEmpty()) {
+            setChromeDriverPath(Configuration.emulatorName);
+        }
+    }
+
+    public void setEmulatorName(String path) {
+        emulatorName.set(path);
+    }
+
+    public String getEmulatorName() {
+        if (emulatorName.get() == null)
+            return "";
+        return emulatorName.get();
     }
 
     public void setChromeDriverPath(String path) {
@@ -141,10 +154,6 @@ public class TestUIConfiguration {
 
     public String getiOSAppPath() {
         return iOSAppPath;
-    }
-
-    public String getEmulatorName() {
-        return emulatorName;
     }
 
     public String getAutomationName() {

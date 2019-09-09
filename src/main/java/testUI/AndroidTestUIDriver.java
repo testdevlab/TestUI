@@ -22,7 +22,7 @@ public class AndroidTestUIDriver {
             if (getDevices().size() != 0 && configuration.isInstallMobileChromeDriver()) {
                 checkAndInstallChromedriver();
             }
-            DesiredCapabilities cap = setAppAndroidCapabilities();
+            DesiredCapabilities cap = setAppAndroidCapabilities(configuration);
             startFirstAndroidDriver(cap);
             attachShutDownHook(getServices(), getDrivers());
             if (!configuration.getEmulatorName().isEmpty()) {
@@ -32,7 +32,7 @@ public class AndroidTestUIDriver {
             putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
         } else {
             driver = 1;
-            DesiredCapabilities cap = setAppAndroidCapabilities();
+            DesiredCapabilities cap = setAppAndroidCapabilities(configuration);
             if (configuration.getAppiumUrl().isEmpty()) {
                 putAllureParameter("Using Appium port", getUsePort().get(0));
             } else {
@@ -51,9 +51,9 @@ public class AndroidTestUIDriver {
         if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
             checkAndInstallChromedriver();
         }
-        DesiredCapabilities cap = setAppAndroidCapabilities();
+        DesiredCapabilities cap = setAppAndroidCapabilities(configuration);
         startAndroidDriver(cap);
-        if (!emulatorName.isEmpty()) {
+        if (!configuration.getEmulatorName().isEmpty()) {
             setDevice(getDriver().getCapabilities().asMap().get("deviceUDID").toString(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
             attachShutDownHookStopEmulator(getServices(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
         }
@@ -75,7 +75,7 @@ public class AndroidTestUIDriver {
                 }
                 startFirstAndroidBrowserDriver(urlOrRelativeUrl, configuration);
                 attachShutDownHook(getServices(), getDrivers());
-                if (!emulatorName.isEmpty()) {
+                if (!configuration.getEmulatorName().isEmpty()) {
                     setDevice(getDriver().getCapabilities().asMap().get("deviceUDID").toString(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
                     attachShutDownHookStopEmulator(getServices(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
                 }
@@ -118,7 +118,7 @@ public class AndroidTestUIDriver {
             DesiredCapabilities cap = setAndroidBrowserCapabilities(configuration);
             startBrowserAndroidDriver(cap, urlOrRelativeUrl);
             attachShutDownHook(getServices(), getDrivers());
-            if (!emulatorName.isEmpty()) {
+            if (!configuration.getEmulatorName().isEmpty()) {
                 setDevice(getDriver().getCapabilities().asMap().get("deviceUDID").toString(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
                 attachShutDownHookStopEmulator(getServices(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
             }

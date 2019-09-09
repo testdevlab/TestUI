@@ -104,7 +104,7 @@ public class UIOpen {
         return TestUI.E("");
     }
 
-    public static synchronized UIElement open(String urlOrRelativeUrl) {
+    public static UIElement open(String urlOrRelativeUrl) {
         setNetworkCalls();
         setScreenshotTaken(false);
         if (deviceTests && iOSTesting) {

@@ -224,24 +224,24 @@ public class TestUIDriver {
         return TestUIDriver.desiredCapabilities;
     }
 
-    public static DesiredCapabilities setAppAndroidCapabilities() {
-        if (Configuration.emulatorName.isEmpty() && !getDeviceStatus(getDevice()).equals("device")) {
+    public static DesiredCapabilities setAppAndroidCapabilities(TestUIConfiguration configuration) {
+        if (configuration.getEmulatorName().isEmpty() && !getDeviceStatus(getDevice()).equals("device")) {
             System.err.println("The device status is " + getDeviceStatus(getDevice()) +
                     " to use usb, you must allow usb debugging for this device: " + getDevice());
             throw new Error();
         }
-        getDevModel();
-        String deviceVersion = Configuration.androidVersion.isEmpty() && Configuration.emulatorName.isEmpty() ? getDeviceVersion(getDevice()) :
+        getDevModel(configuration);
+        String deviceVersion = Configuration.androidVersion.isEmpty() && configuration.getEmulatorName().isEmpty() ? getDeviceVersion(getDevice()) :
                 Configuration.androidVersion;
         // Created object of DesiredCapabilities class.
         DesiredCapabilities cap = new DesiredCapabilities();
         if (getDesiredCapabilities() == null) {
-            if (Configuration.emulatorName.isEmpty()) {
+            if (configuration.getEmulatorName().isEmpty()) {
                 cap.setCapability(MobileCapabilityType.DEVICE_NAME, getDevice());
                 cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceVersion);
             } else {
-                cap.setCapability(MobileCapabilityType.DEVICE_NAME, Configuration.emulatorName);
-                cap.setCapability(AndroidMobileCapabilityType.AVD, Configuration.emulatorName);
+                cap.setCapability(MobileCapabilityType.DEVICE_NAME, configuration.getEmulatorName());
+                cap.setCapability(AndroidMobileCapabilityType.AVD, configuration.getEmulatorName());
             }
             cap.setCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION, Configuration.launchAppTimeout);
             if (Configuration.AutomationName.isEmpty()) {
@@ -282,16 +282,16 @@ public class TestUIDriver {
     }
 
     public static DesiredCapabilities setAndroidBrowserCapabilities(TestUIConfiguration configuration) {
-        if (Configuration.emulatorName.isEmpty() && getDevices().size() == 0) {
+        if (configuration.getEmulatorName().isEmpty() && getDevices().size() == 0) {
             throw new Error("There is no device available to run the automation!");
         }
-        if (Configuration.emulatorName.isEmpty() && !getDeviceStatus(getDevice()).equals("device")) {
+        if (configuration.getEmulatorName().isEmpty() && !getDeviceStatus(getDevice()).equals("device")) {
             System.err.println("The device status is " + getDeviceStatus(getDevice()) +
                     " to use usb, you must allow usb debugging for this device: " + getDevice());
             throw new Error();
         }
-        getDevModel();
-        String deviceVersion = Configuration.androidVersion.isEmpty() && Configuration.emulatorName.isEmpty() ? getDeviceVersion(getDevice()) :
+        getDevModel(configuration);
+        String deviceVersion = Configuration.androidVersion.isEmpty() && configuration.getEmulatorName().isEmpty() ? getDeviceVersion(getDevice()) :
                 Configuration.androidVersion;
         String browserFirstLetter = Configuration.browser.subSequence(0, 1).toString().toUpperCase();
         String browser = browserFirstLetter + Configuration.browser.substring(1);
@@ -303,12 +303,12 @@ public class TestUIDriver {
             cap.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, chromePath);
         }
         if (getDesiredCapabilities() == null) {
-            if (Configuration.emulatorName.isEmpty()) {
+            if (configuration.getEmulatorName().isEmpty()) {
                 cap.setCapability(MobileCapabilityType.DEVICE_NAME, getDevice());
                 cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceVersion);
             } else {
-                cap.setCapability(MobileCapabilityType.DEVICE_NAME, Configuration.emulatorName);
-                cap.setCapability(AndroidMobileCapabilityType.AVD, Configuration.emulatorName);
+                cap.setCapability(MobileCapabilityType.DEVICE_NAME, configuration.getEmulatorName());
+                cap.setCapability(AndroidMobileCapabilityType.AVD, configuration.getEmulatorName());
             }
             if (Configuration.AutomationName.isEmpty()) {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
@@ -409,18 +409,18 @@ public class TestUIDriver {
     }
 
 
-    private static void getDevModel() {
+    private static void getDevModel(TestUIConfiguration configuration) {
         String devModel;
-        if (Configuration.emulatorName.isEmpty()) {
+        if (configuration.getEmulatorName().isEmpty()) {
             devModel = (getDeviceName().equals(getDevice()) ? getDeviceModel(getDevice()) : getDeviceName());
         } else {
             if (Configuration.driver == 1) {
-                Configuration.firstEmulatorName = Configuration.emulatorName;
+                Configuration.firstEmulatorName.set(configuration.getEmulatorName());
             }
-            devModel = Configuration.emulatorName;
+            devModel = configuration.getEmulatorName();
         }
-        if (Configuration.driver == 1 && !Configuration.firstEmulatorName.isEmpty()) {
-            putAllureParameter("Device Model", Configuration.firstEmulatorName);
+        if (Configuration.driver == 1 && Configuration.firstEmulatorName.get() != null) {
+            putAllureParameter("Device Model", Configuration.firstEmulatorName.get());
         } else {
             putAllureParameter("Device Model", devModel);
         }

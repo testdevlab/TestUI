@@ -159,7 +159,7 @@ public class TestUIServer {
         }
     }
 
-    protected static void startServerAndDevice(TestUIConfiguration configuration) {
+    protected static synchronized void startServerAndDevice(TestUIConfiguration configuration) {
         checkIfAppPathExists();
         int connectedDevices = getDeviceNames().size();
         int startedEmulators = 0;
@@ -181,7 +181,7 @@ public class TestUIServer {
                 attachShutDownHook(getServices(), getDrivers());
             }
             if (serviceRunning.get() || (!configuration.getAppiumUrl().isEmpty() && getDevices().size() >= device)) {
-                setRunDevice(realDevices, connectedDevices, device);
+                setRunDevice(realDevices, connectedDevices, device, configuration);
                 break;
             }
             port = String.valueOf(Integer.parseInt(port) + 100);
@@ -196,17 +196,17 @@ public class TestUIServer {
         }
     }
 
-    protected static void setRunDevice(int realDevices, int connectedDevices, int device) {
-        if (!iOSTesting) {
-            if (androidDeviceName.isEmpty() && emulatorName.isEmpty()) {
+    protected static void setRunDevice(int realDevices, int connectedDevices, int device, TestUIConfiguration configuration) {
+        if (!configuration.isiOSTesting()) {
+            if (configuration.getAndroidDeviceName().isEmpty() && configuration.getEmulatorName().isEmpty()) {
                 if (connectedDevices <= device) {
-                    if (!useEmulators) {
+                    if (!configuration.isUseEmulators()) {
                         throw new Error("There are not enough devices connected");
                     } else if (getEmulatorName().get(device - realDevices) == null || getEmulatorName().get(device - realDevices).isEmpty()) {
                         throw new Error("There are no emulators to start the automation");
                     }
-                    Configuration.emulatorName = getEmulatorName().get(device - realDevices);
-                    setEmulator(Configuration.emulatorName);
+                    configuration.setEmulatorName(getEmulatorName().get(device - realDevices));
+                    setEmulator(configuration.getEmulatorName());
                     attachShutDownHookStopEmulator(getServices(), getEmulators());
                 } else {
                     if (!getDevices().toString().contains(getDeviceNames().get(device))) {
@@ -214,8 +214,8 @@ public class TestUIServer {
                     }
                 }
             } else {
-                if (emulatorName.isEmpty()) {
-                    setDevice(androidDeviceName, androidDeviceName);
+                if (configuration.getEmulatorName().isEmpty()) {
+                    setDevice(configuration.getAndroidDeviceName(), configuration.getAndroidDeviceName());
                 }
             }
         } else {
@@ -233,7 +233,7 @@ public class TestUIServer {
             setiOSDevice(iOSDeviceName);
         }
         driver = iOSTesting ? getDevices().size() + getIOSDevices().size() : getDevices().size();
-        driver = emulatorName.isEmpty() ? driver : driver + 1;
+        driver = configuration.getEmulatorName().isEmpty() ? driver : driver + 1;
     }
 
     public static void stop(int driver) {

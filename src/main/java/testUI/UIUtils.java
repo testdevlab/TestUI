@@ -46,6 +46,8 @@ public class UIUtils {
     }
 
     protected static List<String> getEmulators() {
+        if(Emulators.get() == null)
+            return new ArrayList<>();
         return Emulators.get();
     }
 
