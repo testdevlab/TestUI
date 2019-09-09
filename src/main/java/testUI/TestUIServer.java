@@ -1,6 +1,8 @@
 package testUI;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.AndroidServerFlag;
@@ -89,8 +91,14 @@ public class TestUIServer {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> stopEmulators(serv, device)));
     }
 
+    private static Thread closeDriverAndServerThread;
+
     protected static void attachShutDownHook(List<AppiumDriverLocalService> serv, List<AppiumDriver> drivers) {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> closeDriverAndServer(serv, drivers)));
+        if (closeDriverAndServerThread != null) {
+            Runtime.getRuntime().removeShutdownHook(closeDriverAndServerThread);
+        }
+        closeDriverAndServerThread = new Thread(() -> closeDriverAndServer(serv, drivers));
+        Runtime.getRuntime().addShutdownHook(closeDriverAndServerThread);
     }
 
     private static void stopEmulators(List<AppiumDriverLocalService> serv, List<String> emulators) {
@@ -153,7 +161,7 @@ public class TestUIServer {
 
     protected static void startServerAndDevice(TestUIConfiguration configuration) {
         checkIfAppPathExists();
-        int connectedDevices = getDeviceNames().size() - 1;
+        int connectedDevices = getDeviceNames().size();
         int startedEmulators = 0;
         for (String devicesNames : getDeviceNames()) {
             if (devicesNames.contains("emulator")) {

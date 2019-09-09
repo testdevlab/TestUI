@@ -10,6 +10,7 @@ import static testUI.UIOpen.open;
 import static testUI.UIOpen.openNew;
 import static testUI.TestUIServer.*;
 import static testUI.TestUIDriver.*;
+import static testUI.UIUtils.clearBrowserData;
 
 public class Hooks {
 
@@ -84,6 +85,7 @@ public class Hooks {
             Allure.getLifecycle().addAttachment("Screenshot", "image/png", "png", screenshot);
             scenario.embed(screenshot, "image/png");
         }
+        clearBrowserData();
     }
 
     @After("@testLaptopAndMobile or @testLaptopBrowser or @testLaptopAndMobileFail")

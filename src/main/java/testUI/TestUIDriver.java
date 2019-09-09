@@ -281,7 +281,7 @@ public class TestUIDriver {
         return cap;
     }
 
-    public static DesiredCapabilities setAndroidBrowserCapabilities() {
+    public static DesiredCapabilities setAndroidBrowserCapabilities(TestUIConfiguration configuration) {
         if (Configuration.emulatorName.isEmpty() && getDevices().size() == 0) {
             throw new Error("There is no device available to run the automation!");
         }
@@ -297,9 +297,9 @@ public class TestUIDriver {
         String browser = browserFirstLetter + Configuration.browser.substring(1);
         // Created object of DesiredCapabilities class.
         DesiredCapabilities cap = new DesiredCapabilities();
-        if (!Configuration.chromeDriverPath.isEmpty()) {
-            String chromePath = Configuration.chromeDriverPath.charAt(0) == '/' ? Configuration.chromeDriverPath :
-                    System.getProperty("user.dir") + "/" + Configuration.chromeDriverPath;
+        if (!configuration.getChromeDriverPath().isEmpty()) {
+            String chromePath = configuration.getChromeDriverPath().charAt(0) == '/' ? configuration.getChromeDriverPath() :
+                    System.getProperty("user.dir") + "/" + configuration.getChromeDriverPath();
             cap.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, chromePath);
         }
         if (getDesiredCapabilities() == null) {

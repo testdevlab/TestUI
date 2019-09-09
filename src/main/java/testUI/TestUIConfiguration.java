@@ -23,7 +23,7 @@ public class TestUIConfiguration {
     private final boolean iOSTesting = Configuration.iOSTesting;
     private final String androidAppPath = Configuration.androidAppPath;
     private final String androidVersion = Configuration.androidVersion;
-    private final String chromeDriverPath = Configuration.chromeDriverPath;
+    private final static ThreadLocal<String> chromeDriverPath = new ThreadLocal<>();
     private final boolean installMobileChromeDriver = Configuration.installMobileChromeDriver;
     private final String appiumUrl = Configuration.appiumUrl;
     private final String emulatorName = Configuration.androidDeviceName;
@@ -38,6 +38,22 @@ public class TestUIConfiguration {
     private final String serverLogLevel = Configuration.serverLogLevel;
     private final String screenshotPath = Configuration.screenshotPath;
     private final int timeStartAppiumServer = Configuration.timeStartAppiumServer;
+
+    public TestUIConfiguration() {
+        if (!Configuration.chromeDriverPath.isEmpty()) {
+            setChromeDriverPath(Configuration.chromeDriverPath);
+        }
+    }
+
+    public void setChromeDriverPath(String path) {
+        chromeDriverPath.set(path);
+    }
+
+    public String getChromeDriverPath() {
+        if (chromeDriverPath.get() == null)
+            return "";
+        return chromeDriverPath.get();
+    }
 
     public int getBaseAppiumBootstrapPort() {
         return baseAppiumBootstrapPort;
@@ -117,10 +133,6 @@ public class TestUIConfiguration {
 
     public String getBrowser() {
         return browser;
-    }
-
-    public String getChromeDriverPath() {
-        return chromeDriverPath;
     }
 
     public String getBundleId() {

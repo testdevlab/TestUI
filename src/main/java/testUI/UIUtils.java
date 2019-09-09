@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.ADBUtils.getDeviceNames;
 import static testUI.Configuration.getUsePort;
@@ -210,18 +210,22 @@ public class UIUtils {
         }
     }
 
-    protected static void startFirstAndroidBrowserDriver(String urlOrRelativeUrl) {
+    protected static void startFirstAndroidBrowserDriver(String urlOrRelativeUrl, TestUIConfiguration configuration) {
         String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + getUsePort().get(0) + "/wd/hub" : Configuration.appiumUrl;
         for (int i = 0; i < 2 ; i++) {
-            DesiredCapabilities cap = setAndroidBrowserCapabilities();
+            DesiredCapabilities cap = setAndroidBrowserCapabilities(configuration);
             try {
                 putLog("Starting appium driver...");
                 if (getDrivers().size() == 0) {
                     setDriver(new AndroidDriver(new URL(url), cap) {
                     });
                 } else {
-                    setDriver(new AndroidDriver(new URL(url), cap) {
-                    }, 0);
+                    if (getDrivers().get(0).isBrowser()) {
+                        getDrivers().get(0).navigate().to(new URL(url));
+                    } else {
+                        setDriver(new AndroidDriver(new URL(url), cap) {
+                        }, 0);
+                    }
                 }
                 Configuration.driver = 1;
                 getDriver().get(urlOrRelativeUrl);
@@ -242,7 +246,6 @@ public class UIUtils {
                 }
             }
         }
-        Configuration.chromeDriverPath = "";
     }
 
     protected static void startBrowserAndroidDriver(DesiredCapabilities desiredCapabilities, String urlOrRelativeUrl) {
@@ -269,7 +272,6 @@ public class UIUtils {
                 }
             }
         }
-        Configuration.chromeDriverPath = "";
     }
 
     protected static void startBrowserIOSDriver(DesiredCapabilities desiredCapabilities, String urlOrRelativeUrl) {
@@ -380,6 +382,16 @@ public class UIUtils {
         }
         if (!assertion) {
             throw new Error(reason);
+        }
+    }
+
+    public static void clearBrowserData() {
+        if (Configuration.deviceTests) {
+            getDriver().manage().deleteAllCookies();
+            executeJs("localStorage.clear();");
+        } else {
+            clearBrowserCookies();
+            clearBrowserLocalStorage();
         }
     }
 }
