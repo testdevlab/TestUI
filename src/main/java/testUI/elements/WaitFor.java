@@ -6,7 +6,7 @@ import testUI.Configuration;
 
 import static testUI.Utils.WaitUntil.*;
 
-public class WaitFor extends ShouldBe implements Asserts {
+public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
     private By AppiumElement;
     private By SelenideElement;
     private By iOSElement;
@@ -46,10 +46,10 @@ public class WaitFor extends ShouldBe implements Asserts {
         } else {
             selenideAssert(Condition.visible, time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public UIElement untilIsEnabled() {
+    public Element untilIsEnabled() {
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilEnable(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId),index, time,
@@ -60,10 +60,10 @@ public class WaitFor extends ShouldBe implements Asserts {
         } else {
             selenideAssert(Condition.enabled, time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public UIElement untilExists() {
+    public Element untilExists() {
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilExist(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId),index, time,
@@ -74,10 +74,10 @@ public class WaitFor extends ShouldBe implements Asserts {
         } else {
             selenideAssert(Condition.exist, time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public UIElement untilHasText(String text) {
+    public Element untilHasText(String text) {
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilContainsText(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), index, time,
@@ -88,10 +88,10 @@ public class WaitFor extends ShouldBe implements Asserts {
         } else {
             selenideAssert(Condition.text(text), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public UIElement untilHasCaseNotSensitiveText(String text) {
+    public Element untilHasCaseNotSensitiveText(String text) {
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilContainsTextNoCaseSensitive(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), index, time,
@@ -102,10 +102,10 @@ public class WaitFor extends ShouldBe implements Asserts {
         } else {
             selenideAssert(Condition.text(text), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public UIElement untilHasValue(String value) {
+    public Element untilHasValue(String value) {
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilHasValue(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), index,
@@ -117,10 +117,10 @@ public class WaitFor extends ShouldBe implements Asserts {
         } else {
             selenideAssert(Condition.value(value), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public UIElement untilNotVisible() {
+    public Element untilNotVisible() {
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilVisible(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId),index, time,
@@ -131,10 +131,10 @@ public class WaitFor extends ShouldBe implements Asserts {
         } else {
             selenideAssert(Condition.not(Condition.visible), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public UIElement untilNotExists() {
+    public Element untilNotExists() {
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilExist(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId),index, time,
@@ -145,10 +145,10 @@ public class WaitFor extends ShouldBe implements Asserts {
         } else {
             selenideAssert(Condition.not(Condition.exist), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public UIElement untilNotEnabled() {
+    public Element untilNotEnabled() {
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilEnable(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId),index, time,
@@ -160,10 +160,10 @@ public class WaitFor extends ShouldBe implements Asserts {
         } else {
             selenideAssert(Condition.not(Condition.enabled), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public UIElement untilHasNotText(String text) {
+    public Element untilHasNotText(String text) {
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilContainsText(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), index, time,
@@ -175,10 +175,10 @@ public class WaitFor extends ShouldBe implements Asserts {
         } else {
             selenideAssert(Condition.not(Condition.text(text)), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public UIElement untilHasNotValue(String value) {
+    public Element untilHasNotValue(String value) {
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilHasValue(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS, accesibilityId), index,
@@ -191,15 +191,15 @@ public class WaitFor extends ShouldBe implements Asserts {
         } else {
             selenideAssert(Condition.not(Condition.text(value)), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public AttributeImp untilHasAttribute(String Attribute) {
+    public Attribute untilHasAttribute(String Attribute) {
         return new AttributeImp(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS, Attribute,
                 time, true);
     }
 
-    public AttributeImp untilNotHasAttribute(String Attribute) {
+    public Attribute untilNotHasAttribute(String Attribute) {
         return new AttributeImp(AppiumElement, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS, Attribute,
                 time, false);
     }

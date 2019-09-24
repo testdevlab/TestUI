@@ -12,7 +12,7 @@ import java.time.Duration;
 import static java.lang.Math.abs;
 import static testUI.TestUIDriver.getDriver;
 
-public class Scrolling extends TestUI {
+public class Scrolling extends TestUI implements SlideActions {
     private By AppiumElement;
     private By iOSElement;
     private By SelenideElement;
@@ -59,7 +59,7 @@ public class Scrolling extends TestUI {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement customSwipeDown(int PixelGap, int numberOfSwipes) {
@@ -80,7 +80,7 @@ public class Scrolling extends TestUI {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement swipeLeft(int PixelGap, int startX, int startY) {
@@ -98,7 +98,7 @@ public class Scrolling extends TestUI {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement swipeRigt(int PixelGap, int startX, int startY) {
@@ -116,7 +116,7 @@ public class Scrolling extends TestUI {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement view(boolean upCenter) {
@@ -131,7 +131,7 @@ public class Scrolling extends TestUI {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement view(String options) {
@@ -146,7 +146,7 @@ public class Scrolling extends TestUI {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement click() {
@@ -162,6 +162,6 @@ public class Scrolling extends TestUI {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
     }
 }

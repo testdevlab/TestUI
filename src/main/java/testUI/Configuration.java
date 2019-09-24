@@ -17,8 +17,6 @@ public class Configuration extends SelenideConfiguration {
     public static int driver = 1;
     public static int baseAppiumPort = 9586;
     public static int baseAppiumBootstrapPort = 5333;
-    public static List<String> usePort = new ArrayList<>();
-    public static List<String> useBootstrapPort = new ArrayList<>();
     public static boolean useAllure = true;
     public static String iOSVersion = "";
     public static int launchAppTimeout = 20000;
@@ -46,7 +44,48 @@ public class Configuration extends SelenideConfiguration {
 
     protected static DesiredCapabilities desiredCapabilities;
     protected static int iOSDevices = 0;
-    protected static String firstEmulatorName = "";
+    protected static ThreadLocal<String> firstEmulatorName = new ThreadLocal<>();
+
+    private static ThreadLocal<List<String>> usePort = new ThreadLocal<>();
+    private static ThreadLocal<List<String>> useBootstrapPort = new ThreadLocal<>();
+
+    public static List<String> getUsePort() {
+        if (usePort.get() == null)
+            return new ArrayList<>();
+        return usePort.get();
+    }
+
+    public static void setUsePort(String port) {
+        List<String> ports = new ArrayList<>(getUsePort());
+        ports.add(port);
+        usePort.set(ports);
+    }
+
+    public static void removeUsePort(int driver) {
+        List<String> ports = new ArrayList<>(getUsePort());
+        if (ports.size() > driver)
+            ports.remove(driver);
+        usePort.set(ports);
+    }
+
+    public static List<String> getUseBootstrapPort() {
+        if (useBootstrapPort.get() == null)
+            return new ArrayList<>();
+        return useBootstrapPort.get();
+    }
+
+    public static void removeUseBootstrapPort(int driver) {
+        List<String> ports = new ArrayList<>(getUseBootstrapPort());
+        if (ports.size() > driver)
+            ports.remove(driver);
+        useBootstrapPort.set(ports);
+    }
+
+    public static void setUseBootstrapPort(String port) {
+        List<String> ports = new ArrayList<>(getUseBootstrapPort());
+        ports.add(port);
+        useBootstrapPort.set(ports);
+    }
 
     public static void putDataCucumber(Scenario scenario) {
         if (Configuration.deviceTests) {

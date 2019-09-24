@@ -15,74 +15,136 @@ import testUI.Utils.TestUIException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 import static testUI.ADBUtils.checkAndInstallChromedriver;
+import static testUI.ADBUtils.getDeviceNames;
+import static testUI.Configuration.getUsePort;
 import static testUI.TestUIDriver.*;
-import static testUI.TestUIServer.stop;
 import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.elements.TestUI.takeScreenshotsAllure;
 
 public class UIUtils {
     private static Logger logger = LoggerFactory.getLogger(UIUtils.class);
-    private volatile static List<AppiumDriverLocalService> service = new ArrayList<>();
-    private static List<String> Device = new ArrayList<>();
-    private static List<String> DeviceName = new ArrayList<>();
-    private static List<String> IOSDevices = new ArrayList<>();
-    private static List<String> Emulators = new ArrayList<>();
+    private volatile static ThreadLocal<List<AppiumDriverLocalService>> service = new ThreadLocal<>();
+    private static ThreadLocal<List<String>> Device = new ThreadLocal<>();
+    private static ThreadLocal<List<String>> DeviceName = new ThreadLocal<>();
+    private static ThreadLocal<List<String>> IOSDevices = new ThreadLocal<>();
+    private static ThreadLocal<List<String>> Emulators = new ThreadLocal<>();
 
-    protected static void setEmulator(String  emulators) {
-        Emulators.add(emulators);
+    protected static void setEmulator(String emulators) {
+        List<String> threadDevs;
+        if (UIUtils.Emulators.get() == null) {
+            threadDevs = new ArrayList<>();
+        } else {
+            threadDevs = new ArrayList<>(UIUtils.Emulators.get());
+        }
+        threadDevs.add(emulators);
+        Emulators.set(threadDevs);
     }
 
     protected static List<String> getEmulators() {
-        return Emulators;
+        if(Emulators.get() == null)
+            return new ArrayList<>();
+        return Emulators.get();
     }
 
     public static void setDevice(String dev, String deviceName) {
-        Device.add(dev);
-        DeviceName.add(deviceName);
+        List<String> threadDevs;
+        if (UIUtils.Device.get() == null) {
+            threadDevs = new ArrayList<>();
+        } else {
+            threadDevs = new ArrayList<>(UIUtils.Device.get());
+        }
+        threadDevs.add(dev);
+        List<String> threadDeviceName;
+        if (UIUtils.DeviceName.get() == null) {
+            threadDeviceName = new ArrayList<>();
+        } else {
+            threadDeviceName = new ArrayList<>(UIUtils.DeviceName.get());
+        }
+        threadDeviceName.add(deviceName);
+        Device.set(threadDevs);
+        DeviceName.set(threadDeviceName);
     }
 
     public static void setiOSDevice(String dev) {
-        IOSDevices.add(dev);
+        List<String> threadDevs;
+        if (UIUtils.IOSDevices.get() == null) {
+            threadDevs = new ArrayList<>();
+        } else {
+            threadDevs = new ArrayList<>(UIUtils.IOSDevices.get());
+        }
+        threadDevs.add(dev);
+        IOSDevices.set(threadDevs);
     }
 
     public static List<String> getIOSDevices() {
-        return IOSDevices;
+        if (IOSDevices.get() == null)
+            return new ArrayList<>();
+        return IOSDevices.get();
     }
 
     protected static List<AppiumDriverLocalService> getServices() {
-        return service;
+        if (service.get() == null)
+            return new ArrayList<>();
+        return service.get();
     }
 
     protected static AppiumDriverLocalService getService(int index) {
-        return service.get(index);
+        return service.get().get(index);
     }
 
     public static void setService(AppiumDriverLocalService service) {
-        UIUtils.service.add(service);
+        List<AppiumDriverLocalService> appiumServices;
+        if (UIUtils.service.get() == null) {
+            appiumServices = new ArrayList<>();
+        } else {
+            appiumServices = new ArrayList<>(UIUtils.service.get());
+        }
+        appiumServices.add(service);
+        UIUtils.service.set(appiumServices);
     }
 
     public static String getDevice() {
-        if (Device.size() >= Configuration.driver) {
-            return Device.get(Configuration.driver - 1);
+        if (Device.get() == null) {
+            putErrorLog("No device has been set!");
+            return "";
+        }
+        if (Device.get().size() >= Configuration.driver) {
+            return Device.get().get(Configuration.driver - 1);
         }
         putErrorLog("No device has been set!");
         return "";
     }
 
     public static String getDeviceName() {
-        return DeviceName.get(Configuration.driver - 1);
+        if (DeviceName.get() == null && DeviceName.get().size() < Configuration.driver) {
+            throw new TestUIException("There is no device set for driver number " + Configuration.driver);
+        }
+        return DeviceName.get().get(Configuration.driver - 1);
     }
 
     public static List<String> getDevicesNames() {
-        return DeviceName;
+        if (DeviceName.get() == null) {
+            return new ArrayList<>();
+        }
+        return DeviceName.get();
     }
 
     public static List<String> getDevices() {
-        return Device;
+        if (Device.get() == null) {
+            return new ArrayList<>();
+        }
+        return Device.get();
+    }
+
+    public static void removeDevice(int device) {
+        List<String> devices = new ArrayList<>(Device.get());
+        devices.remove(device);
+        Device.set(devices);
     }
 
     public static void putLog(String log) {
@@ -123,7 +185,7 @@ public class UIUtils {
     }
 
     protected static void startFirstIOSBrowserDriver(String urlOrRelativeUrl) {
-        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(0) + "/wd/hub" : Configuration.appiumUrl;
+        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + getUsePort().get(0) + "/wd/hub" : Configuration.appiumUrl;
         for (int i = 0; i < 2 ; i++) {
             DesiredCapabilities cap = setIOSCapabilities(true);
             try {
@@ -150,18 +212,22 @@ public class UIUtils {
         }
     }
 
-    protected static void startFirstAndroidBrowserDriver(String urlOrRelativeUrl) {
-        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(0) + "/wd/hub" : Configuration.appiumUrl;
+    protected static void startFirstAndroidBrowserDriver(String urlOrRelativeUrl, TestUIConfiguration configuration) {
+        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + getUsePort().get(0) + "/wd/hub" : Configuration.appiumUrl;
         for (int i = 0; i < 2 ; i++) {
-            DesiredCapabilities cap = setAndroidBrowserCapabilities();
+            DesiredCapabilities cap = setAndroidBrowserCapabilities(configuration);
             try {
                 putLog("Starting appium driver...");
                 if (getDrivers().size() == 0) {
                     setDriver(new AndroidDriver(new URL(url), cap) {
                     });
                 } else {
-                    setDriver(new AndroidDriver(new URL(url), cap) {
-                    }, 0);
+                    if (getDrivers().get(0).isBrowser()) {
+                        getDrivers().get(0).get(url);
+                    } else {
+                        setDriver(new AndroidDriver(new URL(url), cap) {
+                        }, 0);
+                    }
                 }
                 Configuration.driver = 1;
                 getDriver().get(urlOrRelativeUrl);
@@ -171,6 +237,9 @@ public class UIUtils {
             } catch (Exception e) {
                 System.err.println("Could not create driver! retrying...");
                 if (getDevices().size() != 0) {
+                    checkAndInstallChromedriver();
+                } else if (getDevices().size() == 0 && getEmulators().size() != 0 && getDeviceNames().size() != 0) {
+                    setDevice(getDeviceNames().get(getDeviceNames().size() - 1), getEmulators().get(0));
                     checkAndInstallChromedriver();
                 }
                 sleep(500);
@@ -182,7 +251,7 @@ public class UIUtils {
     }
 
     protected static void startBrowserAndroidDriver(DesiredCapabilities desiredCapabilities, String urlOrRelativeUrl) {
-        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(Configuration.usePort.size()-1) + "/wd/hub" :
+        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + getUsePort().get(getUsePort().size()-1) + "/wd/hub" :
                 Configuration.appiumUrl;
         for (int i = 0; i < 2 ; i++) {
             try {
@@ -208,7 +277,7 @@ public class UIUtils {
     }
 
     protected static void startBrowserIOSDriver(DesiredCapabilities desiredCapabilities, String urlOrRelativeUrl) {
-        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(Configuration.usePort.size()-1) + "/wd/hub" :
+        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + getUsePort().get(getUsePort().size()-1) + "/wd/hub" :
                 Configuration.appiumUrl;
         for (int i = 0; i < 2 ; i++) {
             try {
@@ -234,7 +303,7 @@ public class UIUtils {
     }
 
     protected static void startFirstAndroidDriver(DesiredCapabilities desiredCapabilities) {
-        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(0) + "/wd/hub" : Configuration.appiumUrl;
+        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + getUsePort().get(0) + "/wd/hub" : Configuration.appiumUrl;
         for (int i = 0; i < 2 ; i++) {
             try {
                 if (getDrivers().size() == 0) {
@@ -256,7 +325,7 @@ public class UIUtils {
     }
 
     protected static void startFirstIOSDriver(DesiredCapabilities desiredCapabilities) {
-        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(0) + "/wd/hub" : Configuration.appiumUrl;
+        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + getUsePort().get(0) + "/wd/hub" : Configuration.appiumUrl;
         for (int i = 0; i < 2 ; i++) {
             try {
                 if (getDrivers().size() == 0) {
@@ -278,7 +347,7 @@ public class UIUtils {
     }
 
     protected static void startAndroidDriver(DesiredCapabilities desiredCapabilities) {
-        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + Configuration.usePort.get(Configuration.usePort.size()-1) + "/wd/hub" :
+        String url = Configuration.appiumUrl.isEmpty() ? "http://127.0.0.1:" + getUsePort().get(getUsePort().size()-1) + "/wd/hub" :
                 Configuration.appiumUrl;
         for (int i = 0; i < 2 ; i++) {
             try {
@@ -315,6 +384,16 @@ public class UIUtils {
         }
         if (!assertion) {
             throw new Error(reason);
+        }
+    }
+
+    public static void clearBrowserData() {
+        if (Configuration.deviceTests) {
+            getDriver().manage().deleteAllCookies();
+            executeJs("localStorage.clear();");
+        } else {
+            clearBrowserCookies();
+            clearBrowserLocalStorage();
         }
     }
 }

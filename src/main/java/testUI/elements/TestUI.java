@@ -19,30 +19,30 @@ import static com.codeborne.selenide.Selenide.$$;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.UIAssert;
 import static testUI.UIUtils.getDevicesNames;
-import static testUI.elements.UIElement.getStep;
+import static testUI.elements.Element.getStep;
 
 public class TestUI {
 
     public static UIElement E(By element) {
-        return new UIElement(element, element, element, 0, false, "","");
+        return new Element(element, element, element, 0, false, "","");
     }
 
     public static UIElement E(String type, String element) {
-        return new UIElement(type + ": " + element);
+        return new Element(type + ": " + element);
     }
 
 
     public static UIElement E(String accesibilityId) {
         if (accesibilityId.contains(": ")) {
-            return new UIElement(null,null,null,0,false,
+            return new Element(null,null,null,0,false,
                      accesibilityId, accesibilityId);
         }
-        return new UIElement(null,null,null,0,false,
+        return new Element(null,null,null,0,false,
                 "accessibilityId: " + accesibilityId, "accessibilityId: " + accesibilityId);
     }
 
     public static UIElement Ex(String xpath) {
-        return new UIElement(By.xpath(xpath), By.xpath(xpath), By.xpath(xpath),0,false,"","");
+        return new Element(By.xpath(xpath), By.xpath(xpath), By.xpath(xpath),0,false,"","");
     }
 
     protected By getAppiumElement(By iOSElement, By AndroidElement) {
@@ -134,7 +134,7 @@ public class TestUI {
             if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
                 return (MobileElement) getMobileElementList(getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
             }
-            return (MobileElement) getMobileElementList(getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
+            return (MobileElement) getDriver().findElements(getAppiumElement(iOSElement, element)).get(index);
         }
         if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
             return (MobileElement) getMobileElement(getAccesibilityId(accesibilityIdiOS,accesibilityId));

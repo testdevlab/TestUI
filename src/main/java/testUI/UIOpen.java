@@ -14,7 +14,7 @@ import static testUI.NetworkCalls.setNetworkCalls;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.putLog;
 import static testUI.elements.TestUI.setScreenshotTaken;
-import static testUI.elements.UIElement.setStep;
+import static testUI.elements.Element.setStep;
 
 public class UIOpen {
     public static UIElement open() {
@@ -26,7 +26,7 @@ public class UIOpen {
                     putLog("iOSTesting variable is set to true, but while all the Android variables are correctly set, the iOS ones aren't:"
                             + "\niOSAppPath = " + iOSAppPath
                             + "\n trying to start the Android app");
-                    openApp();
+                    openApp(new TestUIConfiguration());
                 } else {
                     throw new TestUIException("iOSAppPath or bundleId is mandatory field to run iOS apps, here are your iOS values:"
                             + "\niOSAppPath = " + iOSAppPath
@@ -36,7 +36,7 @@ public class UIOpen {
                 }
 
             } else {
-                openIOSApp();
+                openIOSApp(new TestUIConfiguration());
             }
         } else {
             if (androidAppPath.isEmpty() && (appActivity.isEmpty() && appPackage.isEmpty()) && getDesiredCapabilities() == null) {
@@ -46,7 +46,7 @@ public class UIOpen {
                             + "\nappActivity = " + appActivity
                             + "\nappPackage = " + appPackage
                             + "\n trying to start the iOS app");
-                    openIOSApp();
+                    openIOSApp(new TestUIConfiguration());
                 } else {
                     throw new TestUIException("androidAppPath or appActivity and appPackage are mandatory fields to run Android apps, but their values are:"
                             + "\nandroidAppPath = " + androidAppPath
@@ -54,7 +54,7 @@ public class UIOpen {
                             + "\nappPackage = " + appPackage);
                 }
             } else {
-                openApp();
+                openApp(new TestUIConfiguration());
             }
         }
         setStep(false);
@@ -71,7 +71,7 @@ public class UIOpen {
                             + "\niOSDeviceName = " + iOSDeviceName
                             + "\niOSVersion = " + iOSVersion
                             + "\n trying to start the Android app");
-                    openNewApp();
+                    openNewApp(new TestUIConfiguration());
                 } else {
                     throw new TestUIException("iOSAppPath is mandatory fields to run iOS apps, here are your iOS values:"
                             + "\niOSAppPath = " + iOSAppPath
@@ -79,7 +79,7 @@ public class UIOpen {
                             + "\niOSVersion = " + iOSVersion);
                 }
             } else {
-                openNewIOSApp();
+                openNewIOSApp(new TestUIConfiguration());
             }
         } else {
             if (androidAppPath.isEmpty() && (appActivity.isEmpty() && appPackage.isEmpty()) && getDesiredCapabilities() == null) {
@@ -89,7 +89,7 @@ public class UIOpen {
                             + "\nappActivity = " + appActivity
                             + "\nappPackage = " + appPackage
                             + "\n trying to start the iOS app");
-                    openNewIOSApp();
+                    openNewIOSApp(new TestUIConfiguration());
                 } else {
                     throw new TestUIException("androidAppPath or appActivity and appPackage are mandatory fields to run Android apps, but their values are:"
                             + "\nandroidAppPath = " + androidAppPath
@@ -97,7 +97,7 @@ public class UIOpen {
                             + "\nappPackage = " + appPackage);
                 }
             } else {
-                openNewApp();
+                openNewApp(new TestUIConfiguration());
             }
         }
         setStep(false);
@@ -108,9 +108,9 @@ public class UIOpen {
         setNetworkCalls();
         setScreenshotTaken(false);
         if (deviceTests && iOSTesting) {
-            openIOSBrowser(urlOrRelativeUrl);
+            openIOSBrowser(urlOrRelativeUrl, new TestUIConfiguration());
         } else {
-            openBrowser(urlOrRelativeUrl);
+            openBrowser(urlOrRelativeUrl, new TestUIConfiguration());
         }
         setStep(false);
         return TestUI.E("");
@@ -124,9 +124,9 @@ public class UIOpen {
     public static UIElement openNew(String urlOrRelativeUrl) {
         setScreenshotTaken(false);
         if (deviceTests && iOSTesting) {
-            openNewIOSBrowser(urlOrRelativeUrl);
+            openNewIOSBrowser(urlOrRelativeUrl, new TestUIConfiguration());
         } else {
-            openNewBrowser(urlOrRelativeUrl);
+            openNewBrowser(urlOrRelativeUrl, new TestUIConfiguration());
         }
         setStep(false);
         return TestUI.E("");

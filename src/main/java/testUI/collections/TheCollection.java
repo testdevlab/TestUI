@@ -1,7 +1,7 @@
 package testUI.collections;
 
 import static testUI.Utils.By.*;
-import static testUI.collections.UICollection.EE;
+import static testUI.collections.TestUI.EE;
 
 public class TheCollection {
 

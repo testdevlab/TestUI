@@ -66,6 +66,6 @@ public class AttributeImp extends TestUI implements testUI.elements.Attribute {
         } else {
             selenideAssert(condition(is, Condition.attribute(Attribute, value)), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS);
     }
 }

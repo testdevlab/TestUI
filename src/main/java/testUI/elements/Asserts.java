@@ -2,7 +2,7 @@ package testUI.elements;
 
 public interface Asserts {
 
-    ShouldBe not();
+    Asserts not();
 
     UIElement visible();
 
@@ -12,37 +12,21 @@ public interface Asserts {
 
     UIElement value(String text);
 
-    AttributeImp attribute(String Attribute);
+    Attribute attribute(String Attribute);
 
     UIElement theAttribute(String Attribute);
-
-    UIElement untilIsVisible();
-
-    UIElement untilIsEnabled();
-
-    UIElement untilExists();
-
-    UIElement untilHasText(String text);
-
-    UIElement untilHasValue(String value);
-
-    UIElement untilNotVisible();
-
-    UIElement untilNotExists();
-
-    UIElement untilNotEnabled();
-
-    UIElement untilHasNotText(String text);
-
-    UIElement untilHasNotValue(String value);
-
-    AttributeImp untilHasAttribute(String Attribute);
-
-    AttributeImp untilNotHasAttribute(String Attribute);
 
     UIElement exactText(String text);
 
     UIElement containNoCaseSensitiveText(String text);
 
     UIElement containText(String text);
+
+    UIElement emptyText();
+
+    UIElement emptyAttribute(String Attribute);
+
+    UIElement currentUrlEqualTo(String expectedUrl);
+
+    UIElement currentUrlContains(String expectedUrl);
 }

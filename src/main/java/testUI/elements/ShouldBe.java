@@ -9,7 +9,7 @@ import static testUI.TestUIDriver.getSelenideDriver;
 import static testUI.UIUtils.UIAssert;
 import static testUI.Utils.WaitUntil.*;
 
-public class ShouldBe extends TestUI {
+public class ShouldBe extends TestUI implements Asserts {
     private By AppiumElement;
     private By SelenideElement;
     private By iOSElement;
@@ -45,7 +45,7 @@ public class ShouldBe extends TestUI {
         return Condition.not(condition);
     }
 
-    public ShouldBe not(){
+    public Asserts not(){
         return new ShouldBe(AppiumElement,SelenideElement, iOSElement,index, collection, accesibilityId,accesibilityIdiOS,5, false);
     }
 
@@ -61,7 +61,7 @@ public class ShouldBe extends TestUI {
         } else {
             selenideAssert(condition(is, Condition.visible), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement enabled() {
@@ -75,7 +75,7 @@ public class ShouldBe extends TestUI {
         } else {
             selenideAssert(condition(is, Condition.enabled), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement exists() {
@@ -89,7 +89,7 @@ public class ShouldBe extends TestUI {
         } else {
             selenideAssert(condition(is, Condition.exist), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement containText(String text) {
@@ -104,7 +104,7 @@ public class ShouldBe extends TestUI {
         } else {
             selenideAssert(condition(is, Condition.textCaseSensitive(text)), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement exactText(String text) {
@@ -119,7 +119,7 @@ public class ShouldBe extends TestUI {
         } else {
             selenideAssert(condition(is, Condition.exactText(text)), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement containNoCaseSensitiveText(String text) {
@@ -134,7 +134,7 @@ public class ShouldBe extends TestUI {
         } else {
             selenideAssert(condition(is, Condition.text(text)), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement value(String text) {
@@ -149,10 +149,10 @@ public class ShouldBe extends TestUI {
         } else {
             selenideAssert(condition(is, Condition.value(text)), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
-    public AttributeImp attribute(String Attribute) {
+    public Attribute attribute(String Attribute) {
         return new AttributeImp(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS, Attribute,
                 time,
                 is);
@@ -169,7 +169,7 @@ public class ShouldBe extends TestUI {
         } else {
             selenideAssert(condition(is, Condition.attribute(Attribute)), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement emptyText() {
@@ -183,7 +183,7 @@ public class ShouldBe extends TestUI {
         } else {
             selenideAssert(condition(is, Condition.empty), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement emptyAttribute(String Attribute) {
@@ -197,7 +197,7 @@ public class ShouldBe extends TestUI {
         } else {
             selenideAssert(condition(is, Condition.attribute(Attribute,"")), time, SelenideElement, index, collection);
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
 
@@ -209,7 +209,7 @@ public class ShouldBe extends TestUI {
             UIAssert("The url is not as expected\n" + "Expected: "+ expectedUrl +
                     "\n But was: " + getSelenideDriver().getCurrentUrl(), getSelenideDriver().getCurrentUrl().equals(expectedUrl));
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 
     public UIElement currentUrlContains(String expectedUrl) {
@@ -220,6 +220,6 @@ public class ShouldBe extends TestUI {
             UIAssert("The url is not as expected\n" + "Expected: "+ expectedUrl +
                     "\n But was: " + getSelenideDriver().getCurrentUrl(), getSelenideDriver().getCurrentUrl().contains(expectedUrl));
         }
-        return new UIElement(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
     }
 }
