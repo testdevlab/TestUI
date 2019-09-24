@@ -17,7 +17,7 @@ import static testUI.elements.TestUI.setScreenshotTaken;
 import static testUI.elements.Element.setStep;
 
 public class UIOpen {
-    public static synchronized UIElement open() {
+    public static UIElement open() {
         setNetworkCalls();
         setScreenshotTaken(false);
         if (iOSTesting) {
@@ -61,7 +61,7 @@ public class UIOpen {
         return TestUI.E("");
     }
 
-    public static synchronized UIElement openNew() {
+    public static UIElement openNew() {
         setScreenshotTaken(false);
         if (iOSTesting) {
             if (iOSAppPath.isEmpty() && bundleId.isEmpty() && getDesiredCapabilities() == null) {

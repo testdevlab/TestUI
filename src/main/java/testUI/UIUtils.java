@@ -223,7 +223,7 @@ public class UIUtils {
                     });
                 } else {
                     if (getDrivers().get(0).isBrowser()) {
-                        getDrivers().get(0).navigate().to(new URL(url));
+                        getDrivers().get(0).get(url);
                     } else {
                         setDriver(new AndroidDriver(new URL(url), cap) {
                         }, 0);
