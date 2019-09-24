@@ -24,26 +24,33 @@ import java.util.List;
 import java.util.Map;
 
 import static testUI.ADBUtils.*;
-import static testUI.Configuration.addMobileDesiredCapabilities;
-import static testUI.Configuration.iOSDeviceName;
+import static testUI.Configuration.*;
 import static testUI.UIUtils.*;
 import static testUI.iOSCommands.*;
 
 public class TestUIDriver {
-    private static List<AppiumDriver> driver = new ArrayList<>();
-    private static List<AndroidDriver> AndroidTestUIDriver = new ArrayList<>();
-    private static List<IOSDriver> IOSTestUIDriver = new ArrayList<>();
+    private static ThreadLocal<List<AppiumDriver>> driver = new ThreadLocal<>();
+    private static ThreadLocal<List<AndroidDriver>> AndroidTestUIDriver = new ThreadLocal<>();
+    private static ThreadLocal<List<IOSDriver>> IOSTestUIDriver = new ThreadLocal<>();
     private static Map<String, AppiumDriver> driverNames = new HashMap<>();
 
     public synchronized static UIElement setDriver(AndroidDriver driver) {
-        TestUIDriver.driver.add(driver);
-        TestUIDriver.AndroidTestUIDriver.add(driver);
+        List<AppiumDriver> appiumDrivers = new ArrayList<>(getDrivers());
+        appiumDrivers.add(driver);
+        TestUIDriver.driver.set(appiumDrivers);
+        List<AndroidDriver> androidDrivers = new ArrayList<>(getAndroidDrivers());
+        androidDrivers.add(driver);
+        TestUIDriver.AndroidTestUIDriver.set(androidDrivers);
         return TestUI.E("");
     }
 
     public synchronized static UIElement setDriver(IOSDriver driver) {
-        TestUIDriver.driver.add(driver);
-        TestUIDriver.IOSTestUIDriver.add(driver);
+        List<AppiumDriver> appiumDrivers = new ArrayList<>(getDrivers());
+        appiumDrivers.add(driver);
+        TestUIDriver.driver.set(appiumDrivers);
+        List<IOSDriver> iOSDrivers = new ArrayList<>(getIOSDrivers());
+        iOSDrivers.add(driver);
+        TestUIDriver.IOSTestUIDriver.set(iOSDrivers);
         return TestUI.E("");
     }
 
@@ -61,45 +68,69 @@ public class TestUIDriver {
     }
 
     public synchronized static void setDriver(IOSDriver driver, int driverNumber) {
-        TestUIDriver.IOSTestUIDriver.set(driverNumber, driver);
-        TestUIDriver.driver.set(driverNumber, driver);
+        List<IOSDriver> iOSDrivers = new ArrayList<>(getIOSDrivers());
+        iOSDrivers.set(driverNumber, driver);
+        TestUIDriver.IOSTestUIDriver.set(iOSDrivers);
+        List<AppiumDriver> appiumDrivers = new ArrayList<>(getDrivers());
+        appiumDrivers.set(driverNumber, driver);
+        TestUIDriver.driver.set(appiumDrivers);
     }
 
     public synchronized static void setDriver(AndroidDriver driver, int driverNumber) {
-        TestUIDriver.AndroidTestUIDriver.set(driverNumber, driver);
-        TestUIDriver.driver.set(driverNumber, driver);
+        List<AndroidDriver> androidDrivers = new ArrayList<>(getAndroidDrivers());
+        androidDrivers.set(driverNumber, driver);
+        TestUIDriver.AndroidTestUIDriver.set(androidDrivers);
+        List<AppiumDriver> appiumDrivers = new ArrayList<>(getDrivers());
+        appiumDrivers.set(driverNumber, driver);
+        TestUIDriver.driver.set(appiumDrivers);
     }
 
     public static AndroidDriver getAndroidTestUIDriver() {
-        if (AndroidTestUIDriver.isEmpty() || AndroidTestUIDriver.size() < Configuration.driver) {
+        if (getAndroidDrivers().isEmpty() || getAndroidDrivers().size() < Configuration.driver) {
             throw new NullPointerException("There is no driver bound to the automation, start driver before running test cases! \n" +
-                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + AndroidTestUIDriver.size());
+                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + getAndroidDrivers().size());
         }
-        return AndroidTestUIDriver.get(Configuration.driver - 1);
+        return getAndroidDrivers().get(Configuration.driver - 1);
     }
 
     public static IOSDriver getIOSTestUIDriver() {
-        if (IOSTestUIDriver.isEmpty() || IOSTestUIDriver.size() < Configuration.driver) {
+        if (getIOSDrivers().isEmpty() || getIOSDrivers().size() < Configuration.driver) {
             throw new NullPointerException("There is no driver bound to the automation, start driver before running test cases! \n" +
-                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + IOSTestUIDriver.size());
+                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + getIOSDrivers().size());
         }
-        return IOSTestUIDriver.get(Configuration.driver - 1);
+        return getIOSDrivers().get(Configuration.driver - 1);
     }
 
     public static AppiumDriver getDriver() {
-        if (driver.isEmpty() || driver.size() < Configuration.driver) {
+        if (getDrivers().isEmpty() || getDrivers().size() < Configuration.driver) {
             throw new NullPointerException("There is no driver bound to the automation, start driver before running test cases! \n" +
-                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + driver.size());
+                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + getDrivers().size());
         }
-        return driver.get(Configuration.driver - 1);
+        return getDrivers().get(Configuration.driver - 1);
     }
 
     public static List<AppiumDriver> getDrivers() {
-        return driver;
+        if (driver.get() == null)
+            return new ArrayList<>();
+        return driver.get();
+    }
+
+    public static List<AndroidDriver> getAndroidDrivers() {
+        if (AndroidTestUIDriver.get() == null)
+            return new ArrayList<>();
+        return AndroidTestUIDriver.get();
+    }
+
+    public static List<IOSDriver> getIOSDrivers() {
+        if (IOSTestUIDriver.get() == null)
+            return new ArrayList<>();
+        return IOSTestUIDriver.get();
     }
 
     public static void removeDriver(int driver) {
-        TestUIDriver.driver.remove(driver);
+        List<AppiumDriver> appiumDrivers = new ArrayList<>(getDrivers());
+        appiumDrivers.remove(driver);
+        TestUIDriver.driver.set(appiumDrivers);
     }
 
     private static DesiredCapabilities desiredCapabilities;
@@ -193,24 +224,24 @@ public class TestUIDriver {
         return TestUIDriver.desiredCapabilities;
     }
 
-    public static DesiredCapabilities setAppAndroidCapabilities() {
-        if (Configuration.emulatorName.isEmpty() && !getDeviceStatus(getDevice()).equals("device")) {
+    public static DesiredCapabilities setAppAndroidCapabilities(TestUIConfiguration configuration) {
+        if (configuration.getEmulatorName().isEmpty() && !getDeviceStatus(getDevice()).equals("device")) {
             System.err.println("The device status is " + getDeviceStatus(getDevice()) +
                     " to use usb, you must allow usb debugging for this device: " + getDevice());
             throw new Error();
         }
-        getDevModel();
-        String deviceVersion = Configuration.androidVersion.isEmpty() && Configuration.emulatorName.isEmpty() ? getDeviceVersion(getDevice()) :
+        getDevModel(configuration);
+        String deviceVersion = Configuration.androidVersion.isEmpty() && configuration.getEmulatorName().isEmpty() ? getDeviceVersion(getDevice()) :
                 Configuration.androidVersion;
         // Created object of DesiredCapabilities class.
         DesiredCapabilities cap = new DesiredCapabilities();
         if (getDesiredCapabilities() == null) {
-            if (Configuration.emulatorName.isEmpty()) {
+            if (configuration.getEmulatorName().isEmpty()) {
                 cap.setCapability(MobileCapabilityType.DEVICE_NAME, getDevice());
                 cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceVersion);
             } else {
-                cap.setCapability(MobileCapabilityType.DEVICE_NAME, Configuration.emulatorName);
-                cap.setCapability(AndroidMobileCapabilityType.AVD, Configuration.emulatorName);
+                cap.setCapability(MobileCapabilityType.DEVICE_NAME, configuration.getEmulatorName());
+                cap.setCapability(AndroidMobileCapabilityType.AVD, configuration.getEmulatorName());
             }
             cap.setCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION, Configuration.launchAppTimeout);
             if (Configuration.AutomationName.isEmpty()) {
@@ -234,7 +265,7 @@ public class TestUIDriver {
                 cap.setCapability("androidInstallPath", appPath);
                 cap.setCapability("app", appPath);
             }
-            int systemPort = Integer.parseInt(Configuration.usePort.get(Configuration.usePort.size() - 1)) + 10;
+            int systemPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 10;
             cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
         } else {
             cap = getDesiredCapabilities();
@@ -250,42 +281,42 @@ public class TestUIDriver {
         return cap;
     }
 
-    public static DesiredCapabilities setAndroidBrowserCapabilities() {
-        if (Configuration.emulatorName.isEmpty() && getDevices().size() == 0) {
+    public static DesiredCapabilities setAndroidBrowserCapabilities(TestUIConfiguration configuration) {
+        if (configuration.getEmulatorName().isEmpty() && getDevices().size() == 0) {
             throw new Error("There is no device available to run the automation!");
         }
-        if (Configuration.emulatorName.isEmpty() && !getDeviceStatus(getDevice()).equals("device")) {
+        if (configuration.getEmulatorName().isEmpty() && !getDeviceStatus(getDevice()).equals("device")) {
             System.err.println("The device status is " + getDeviceStatus(getDevice()) +
                     " to use usb, you must allow usb debugging for this device: " + getDevice());
             throw new Error();
         }
-        getDevModel();
-        String deviceVersion = Configuration.androidVersion.isEmpty() && Configuration.emulatorName.isEmpty() ? getDeviceVersion(getDevice()) :
+        getDevModel(configuration);
+        String deviceVersion = Configuration.androidVersion.isEmpty() && configuration.getEmulatorName().isEmpty() ? getDeviceVersion(getDevice()) :
                 Configuration.androidVersion;
         String browserFirstLetter = Configuration.browser.subSequence(0, 1).toString().toUpperCase();
         String browser = browserFirstLetter + Configuration.browser.substring(1);
         // Created object of DesiredCapabilities class.
         DesiredCapabilities cap = new DesiredCapabilities();
-        if (!Configuration.chromeDriverPath.isEmpty()) {
-            String chromePath = Configuration.chromeDriverPath.charAt(0) == '/' ? Configuration.chromeDriverPath :
-                    System.getProperty("user.dir") + "/" + Configuration.chromeDriverPath;
+        if (!configuration.getChromeDriverPath().isEmpty()) {
+            String chromePath = configuration.getChromeDriverPath().charAt(0) == '/' ? configuration.getChromeDriverPath() :
+                    System.getProperty("user.dir") + "/" + configuration.getChromeDriverPath();
             cap.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, chromePath);
         }
         if (getDesiredCapabilities() == null) {
-            if (Configuration.emulatorName.isEmpty()) {
+            if (configuration.getEmulatorName().isEmpty()) {
                 cap.setCapability(MobileCapabilityType.DEVICE_NAME, getDevice());
                 cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceVersion);
             } else {
-                cap.setCapability(MobileCapabilityType.DEVICE_NAME, Configuration.emulatorName);
-                cap.setCapability(AndroidMobileCapabilityType.AVD, Configuration.emulatorName);
+                cap.setCapability(MobileCapabilityType.DEVICE_NAME, configuration.getEmulatorName());
+                cap.setCapability(AndroidMobileCapabilityType.AVD, configuration.getEmulatorName());
             }
             if (Configuration.AutomationName.isEmpty()) {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
             } else {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, Configuration.AutomationName);
             }
-            int systemPort = Integer.parseInt(Configuration.usePort.get(Configuration.usePort.size() - 1)) + 10;
-            int chromeDriverPort = Integer.parseInt(Configuration.usePort.get(Configuration.usePort.size() - 1)) + 15;
+            int systemPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 10;
+            int chromeDriverPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 15;
             cap.setCapability("chromeDriverPort", chromeDriverPort);
             cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
             cap.setCapability(MobileCapabilityType.NO_RESET, true);
@@ -378,18 +409,18 @@ public class TestUIDriver {
     }
 
 
-    private static void getDevModel() {
+    private static void getDevModel(TestUIConfiguration configuration) {
         String devModel;
-        if (Configuration.emulatorName.isEmpty()) {
+        if (configuration.getEmulatorName().isEmpty()) {
             devModel = (getDeviceName().equals(getDevice()) ? getDeviceModel(getDevice()) : getDeviceName());
         } else {
             if (Configuration.driver == 1) {
-                Configuration.firstEmulatorName = Configuration.emulatorName;
+                Configuration.firstEmulatorName.set(configuration.getEmulatorName());
             }
-            devModel = Configuration.emulatorName;
+            devModel = configuration.getEmulatorName();
         }
-        if (Configuration.driver == 1 && !Configuration.firstEmulatorName.isEmpty()) {
-            putAllureParameter("Device Model", Configuration.firstEmulatorName);
+        if (Configuration.driver == 1 && Configuration.firstEmulatorName.get() != null) {
+            putAllureParameter("Device Model", Configuration.firstEmulatorName.get());
         } else {
             putAllureParameter("Device Model", devModel);
         }

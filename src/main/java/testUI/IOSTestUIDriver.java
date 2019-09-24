@@ -12,7 +12,7 @@ public class IOSTestUIDriver {
 
     // NOW IOS APP AND BROWSER
 
-    public static void openIOSApp() {
+    public static void openIOSApp(TestUIConfiguration configuration) {
         deviceTests = true;
         iOSTesting = true;
         iOSDevices++;
@@ -20,13 +20,13 @@ public class IOSTestUIDriver {
             if (getServices().size() != 0) {
                 stop(1);
             }
-            startServerAndDevice();
+            startServerAndDevice(configuration);
             DesiredCapabilities cap = setIOSCapabilities(false);
             startFirstIOSDriver(cap);
         } else {
             DesiredCapabilities cap = setIOSCapabilities(false);
             if (appiumUrl.isEmpty()) {
-                putAllureParameter("Using Appium port", usePort.get(0));
+                putAllureParameter("Using Appium port", getUsePort().get(0));
             } else {
                 putAllureParameter("Using Appium url", appiumUrl);
             }
@@ -34,22 +34,22 @@ public class IOSTestUIDriver {
         }
     }
 
-    public static void openNewIOSApp() {
+    public static void openNewIOSApp(TestUIConfiguration configuration) {
         deviceTests = true;
         iOSTesting = true;
         iOSDevices++;
         if (getServices().size() == 0 || !getServices().get(0).isRunning()) {
-            startServerAndDevice();
+            startServerAndDevice(configuration);
             DesiredCapabilities cap = setIOSCapabilities(false);
             startFirstIOSDriver(cap);
         } else {
             DesiredCapabilities cap = setIOSCapabilities(false);
-            putAllureParameter("Using Appium port", usePort.get(0));
+            putAllureParameter("Using Appium port", getUsePort().get(0));
             startFirstIOSDriver(cap);
         }
     }
 
-    public static void openIOSBrowser(String urlOrRelativeUrl) {
+    public static void openIOSBrowser(String urlOrRelativeUrl, TestUIConfiguration configuration) {
         deviceTests = true;
         iOSTesting = true;
         urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
@@ -58,11 +58,11 @@ public class IOSTestUIDriver {
                 stop(1);
             }
             iOSDevices++;
-            startServerAndDevice();
+            startServerAndDevice(configuration);
             startFirstIOSBrowserDriver(urlOrRelativeUrl);
         } else {
             if (appiumUrl.isEmpty()) {
-                putAllureParameter("Using Appium port", usePort.get(0));
+                putAllureParameter("Using Appium port", getUsePort().get(0));
             } else {
                 putAllureParameter("Using Appium url", appiumUrl);
             }
@@ -72,13 +72,13 @@ public class IOSTestUIDriver {
     }
 
 
-    public static void openNewIOSBrowser(String urlOrRelativeUrl) {
+    public static void openNewIOSBrowser(String urlOrRelativeUrl, TestUIConfiguration configuration) {
         deviceTests = true;
         iOSTesting = true;
         iOSDevices++;
         urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
         if (getServices().size() == 0 || !getServices().get(0).isRunning()) {
-            startServerAndDevice();
+            startServerAndDevice(configuration);
             DesiredCapabilities cap = setIOSCapabilities(true);
             startBrowserIOSDriver(cap, urlOrRelativeUrl);
         } else {

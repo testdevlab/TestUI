@@ -12,7 +12,7 @@ import java.time.Duration;
 import static java.lang.Math.abs;
 import static testUI.TestUIDriver.getDriver;
 
-public class Scrolling extends TestUI {
+public class Scrolling extends TestUI implements SlideActions {
     private By AppiumElement;
     private By iOSElement;
     private By SelenideElement;

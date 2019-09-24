@@ -57,8 +57,14 @@ public class ADBUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        f.remove(0);
-        return f;
+        List<String> devices = new ArrayList<>();
+        for (String device : f) {
+            if (!device.isEmpty()) {
+                devices.add(device);
+            }
+        }
+        devices.remove(0);
+        return devices;
     }
 
     public static String getDeviceStatus(String device) {
@@ -146,6 +152,7 @@ public class ADBUtils {
         String s;
         String f = null;
         try {
+            TestUIConfiguration configuration = new TestUIConfiguration();
             Process p = Runtime.getRuntime().exec(androidHome + platformTools + "adb -s " + getDevice() + " shell dumpsys package com.android.chrome | grep versionName");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
@@ -164,14 +171,14 @@ public class ADBUtils {
             String chromedriverVersion = getChromedriverVersion(chromeVersion);
             String ActualVersion = returnChromeDriverVersion();
             String chromedriverPath = getChromeDriverPath();
-            if (!Configuration.chromeDriverPath.isEmpty()) {
+            if (!configuration.getChromeDriverPath().isEmpty()) {
                 putLog("Detected Chrome driver already specified for this device");
             } else if (ActualVersion.contains(chromedriverVersion) || chromedriverVersion.equals("NOT")) {
                 putLog("Detected Chrome version = " + chromeVersion + " matches with the actual chromedriver: " + ActualVersion);
             } else if (!doesFileExists(chromedriverPath)) {
                 putLog("Detected Chrome version = " + chromeVersion + " but the Appium ChromeDriver is unknown, maybe you should check the appium " +
                         "installation or run npm install appium -g");
-            } else if (getTargetDirectory()) {
+            } else if (getTargetDirectory(configuration)) {
                 putLog("Detected Chrome driver already installed for this device, placed in target directory");
             } else {
                 putLog("Detected Chrome version = " + chromeVersion + ". Installing the ChromeDriver: " + chromedriverVersion);
@@ -184,7 +191,7 @@ public class ADBUtils {
                         chromedriverCustomPath = "/" + s.split(" /")[1].split(" successfully put in place")[0];
                     }
                 }
-                Configuration.chromeDriverPath = copyFileToCustomFolder(chromedriverCustomPath);
+                configuration.setChromeDriverPath(copyFileToCustomFolder(chromedriverCustomPath));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -233,13 +240,13 @@ public class ADBUtils {
         return destinationPath;
     }
 
-    private static boolean getTargetDirectory() {
+    private static boolean getTargetDirectory(TestUIConfiguration configuration) {
         File targetClassesDir = new File(ADBUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         File targetDir = targetClassesDir.getParentFile();
         String destinationPath =  targetDir + "/chromedriver" + getDevice();
         File tmpDir = new File(destinationPath);
         if (tmpDir.exists()) {
-            Configuration.chromeDriverPath = destinationPath;
+            configuration.setChromeDriverPath(destinationPath);
         }
         return tmpDir.exists();
     }

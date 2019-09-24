@@ -17,7 +17,7 @@ public class TestAndroid {
         open("https://www.google.com");
 //        getAndroidTestUIDriver().toggleWifi();
 //        getAndroidTestUIDriver().toggleWifi();
-        EE(byId("SIvCob")).findByText("Google").click();
+        EE(byId("SIvCob")).findByText("Google").scrollTo().click();
         googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
                 .given("Check search input visible and set value").waitFor(5).untilIsVisible().then().setValueJs("TestUI")
                 .shouldHave().not().emptyAttribute("value");
