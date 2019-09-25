@@ -15,7 +15,6 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import testUI.elements.TestUI;
-import testUI.elements.Element;
 import testUI.elements.UIElement;
 
 import java.util.ArrayList;
@@ -23,16 +22,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static testUI.ADBUtils.*;
 import static testUI.Configuration.*;
 import static testUI.UIUtils.*;
-import static testUI.iOSCommands.*;
+import static testUI.IOSCommands.*;
 
 public class TestUIDriver {
     private static ThreadLocal<List<AppiumDriver>> driver = new ThreadLocal<>();
     private static ThreadLocal<List<AndroidDriver>> AndroidTestUIDriver = new ThreadLocal<>();
     private static ThreadLocal<List<IOSDriver>> IOSTestUIDriver = new ThreadLocal<>();
     private static Map<String, AppiumDriver> driverNames = new HashMap<>();
+    private static ADBUtils adbUtils = new ADBUtils();
 
     public synchronized static UIElement setDriver(AndroidDriver driver) {
         List<AppiumDriver> appiumDrivers = new ArrayList<>(getDrivers());
@@ -59,7 +58,7 @@ public class TestUIDriver {
         return TestUI.E("");
     }
 
-    public  static void setDriver(AppiumDriver driver, String deviceName) {
+    public static void setDriver(AppiumDriver driver, String deviceName) {
         driverNames.put(deviceName, driver);
     }
 
@@ -142,7 +141,8 @@ public class TestUIDriver {
     public static byte[] takeScreenshot() {
         if (Configuration.deviceTests) {
             if (getDrivers().size() != 0) {
-                Configuration.driver = Configuration.driver > getDrivers().size() ? getDrivers().size() : Configuration.driver;
+                Configuration.driver = Configuration.driver > getDrivers().size() ?
+                        getDrivers().size() : Configuration.driver;
                 return ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
             } else {
                 return new byte[1];
@@ -225,14 +225,15 @@ public class TestUIDriver {
     }
 
     public static DesiredCapabilities setAppAndroidCapabilities(TestUIConfiguration configuration) {
-        if (configuration.getEmulatorName().isEmpty() && !getDeviceStatus(getDevice()).equals("device")) {
-            System.err.println("The device status is " + getDeviceStatus(getDevice()) +
+        if (configuration.getEmulatorName().isEmpty() && !adbUtils.getDeviceStatus(getDevice()).equals("device")) {
+            System.err.println("The device status is " + adbUtils.getDeviceStatus(getDevice()) +
                     " to use usb, you must allow usb debugging for this device: " + getDevice());
             throw new Error();
         }
         getDevModel(configuration);
-        String deviceVersion = Configuration.androidVersion.isEmpty() && configuration.getEmulatorName().isEmpty() ? getDeviceVersion(getDevice()) :
-                Configuration.androidVersion;
+        String deviceVersion = Configuration.androidVersion.isEmpty() &&
+                configuration.getEmulatorName().isEmpty() ?
+                adbUtils.getDeviceVersion(getDevice()) : Configuration.androidVersion;
         // Created object of DesiredCapabilities class.
         DesiredCapabilities cap = new DesiredCapabilities();
         if (getDesiredCapabilities() == null) {
@@ -259,7 +260,7 @@ public class TestUIDriver {
                 cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, Configuration.appActivity);
                 cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, Configuration.appPackage);
             }
-            if (!Configuration.androidAppPath.isEmpty()){
+            if (!Configuration.androidAppPath.isEmpty()) {
                 String appPath = Configuration.androidAppPath.charAt(0) == '/' ? Configuration.androidAppPath :
                         System.getProperty("user.dir") + "/" + Configuration.androidAppPath;
                 cap.setCapability("androidInstallPath", appPath);
@@ -285,13 +286,15 @@ public class TestUIDriver {
         if (configuration.getEmulatorName().isEmpty() && getDevices().size() == 0) {
             throw new Error("There is no device available to run the automation!");
         }
-        if (configuration.getEmulatorName().isEmpty() && !getDeviceStatus(getDevice()).equals("device")) {
-            System.err.println("The device status is " + getDeviceStatus(getDevice()) +
+        if (configuration.getEmulatorName().isEmpty() && !adbUtils.getDeviceStatus(getDevice()).equals("device")) {
+            System.err.println("The device status is " + adbUtils.getDeviceStatus(getDevice()) +
                     " to use usb, you must allow usb debugging for this device: " + getDevice());
             throw new Error();
         }
         getDevModel(configuration);
-        String deviceVersion = Configuration.androidVersion.isEmpty() && configuration.getEmulatorName().isEmpty() ? getDeviceVersion(getDevice()) :
+        String deviceVersion = Configuration.androidVersion.isEmpty() &&
+                configuration.getEmulatorName().isEmpty() ?
+                adbUtils.getDeviceVersion(getDevice()) :
                 Configuration.androidVersion;
         String browserFirstLetter = Configuration.browser.subSequence(0, 1).toString().toUpperCase();
         String browser = browserFirstLetter + Configuration.browser.substring(1);
@@ -339,17 +342,18 @@ public class TestUIDriver {
 
     public static DesiredCapabilities setIOSCapabilities(boolean browser) {
         DesiredCapabilities capabilities = new DesiredCapabilities();
+        IOSCommands iosCommands = new IOSCommands();
         if (getDesiredCapabilities() == null) {
             // CHECK IF DEVICE SPECIFIED
             if (Configuration.iOSDeviceName.isEmpty()) {
                 if (Configuration.UDID.isEmpty()) {
-                    Map<String, String> sampleIOSDevice = getSampleDevice();
+                    Map<String, String> sampleIOSDevice = iosCommands.getSampleDevice();
                     Configuration.iOSDeviceName = sampleIOSDevice.get("name");
                     Configuration.iOSVersion = sampleIOSDevice.get("version");
                     Configuration.UDID = sampleIOSDevice.get("udid");
                 } else {
-                    Configuration.iOSDeviceName = getIOSName(Configuration.UDID);
-                    Configuration.iOSVersion = getIOSVersion(Configuration.UDID);
+                    Configuration.iOSDeviceName = iosCommands.getIOSName(Configuration.UDID);
+                    Configuration.iOSVersion = iosCommands.getIOSVersion(Configuration.UDID);
                 }
                 capabilities.setCapability("udid", Configuration.UDID);
             } else {
@@ -412,7 +416,8 @@ public class TestUIDriver {
     private static void getDevModel(TestUIConfiguration configuration) {
         String devModel;
         if (configuration.getEmulatorName().isEmpty()) {
-            devModel = (getDeviceName().equals(getDevice()) ? getDeviceModel(getDevice()) : getDeviceName());
+            devModel = (getDeviceName().equals(getDevice()) ?
+                    adbUtils.getDeviceModel(getDevice()) : getDeviceName());
         } else {
             if (Configuration.driver == 1) {
                 Configuration.firstEmulatorName.set(configuration.getEmulatorName());

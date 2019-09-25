@@ -24,21 +24,42 @@ import static testUI.elements.Element.getStep;
 public class TestUI {
 
     public static UIElement E(By element) {
-        return new Element(element, element, element, 0, false, "","");
+        return new Element(
+                element,
+                element,
+                element,
+                0,
+                false,
+                "",
+                ""
+        );
     }
 
     public static UIElement E(String type, String element) {
-        return new Element(type + ": " + element);
+        return new Element(
+                type + ": " + element);
     }
 
 
     public static UIElement E(String accesibilityId) {
         if (accesibilityId.contains(": ")) {
-            return new Element(null,null,null,0,false,
-                     accesibilityId, accesibilityId);
+            return new Element(
+                    null,
+                    null,
+                    null,
+                    0,false,
+                     accesibilityId,
+                    accesibilityId
+            );
         }
-        return new Element(null,null,null,0,false,
-                "accessibilityId: " + accesibilityId, "accessibilityId: " + accesibilityId);
+        return new Element(
+                null,
+                null,
+                null,
+                0,
+                false,
+                "accessibilityId: " + accesibilityId,
+                "accessibilityId: " + accesibilityId);
     }
 
     public static UIElement Ex(String xpath) {

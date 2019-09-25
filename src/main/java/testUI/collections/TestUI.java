@@ -27,23 +27,55 @@ public class TestUI implements UICollection {
     private String accesibilityIdiOS;
 
     public static UICollection EE(By element) {
-        return new TestUI(element, element, element, 0, "","");
+        return new TestUI(
+                element,
+                element,
+                element,
+                0,
+                "",
+                ""
+        );
     }
 
     public static UICollection EE(String accessibilityId) {
         if (accessibilityId.contains(": ")) {
-            return new TestUI(null, null, null, 0, accessibilityId ,
-                    accessibilityId);
+            return new TestUI(
+                    null,
+                    null,
+                    null,
+                    0,
+                    accessibilityId ,
+                    accessibilityId
+            );
         }
-        return new TestUI(null, null, null, 0,"accessibilityId: " + accessibilityId ,
-                "accessibilityId: " + accessibilityId);
+        return new TestUI(
+                null,
+                null,
+                null,
+                0,
+                "accessibilityId: " + accessibilityId ,
+                "accessibilityId: " + accessibilityId
+        );
     }
 
     public static UICollection EEx(String xpath) {
-        return new TestUI(By.xpath(xpath), By.xpath(xpath), By.xpath(xpath), 0, "","");
+        return new TestUI(
+                By.xpath(xpath),
+                By.xpath(xpath),
+                By.xpath(xpath),
+                0,
+                "",
+                ""
+        );
     }
 
-    protected TestUI(By element, By SelenideElement, By iOSElement, int index, String accessibilityId, String accessibilityIdaOS) {
+    protected TestUI(
+            By element,
+            By SelenideElement,
+            By iOSElement,
+            int index,
+            String accessibilityId,
+            String accessibilityIdaOS) {
         this.element = element;
         this.index = index;
         this.SelenideElement = SelenideElement;
@@ -53,29 +85,77 @@ public class TestUI implements UICollection {
     }
 
     public UICollection setSelenideCollection(By SelenideElement) {
-        return new TestUI(element, SelenideElement, element, index, accesibilityId,accesibilityIdiOS);
+        return new TestUI(
+                element,
+                SelenideElement,
+                element,
+                index,
+                accesibilityId,
+                accesibilityIdiOS
+        );
     }
 
     public UICollection setIOSCollection(By iOSElement) {
-        return new TestUI(element, SelenideElement, iOSElement, index, accesibilityId, accesibilityIdiOS);
+        return new TestUI(
+                element,
+                SelenideElement,
+                iOSElement,
+                index,
+                accesibilityId,
+                accesibilityIdiOS
+        );
     }
 
     public UICollection setIOSCollection(String accessibilityIdiOS) {
         if (accessibilityIdiOS.contains(": ")) {
-            return new TestUI(element, SelenideElement, null, index, accesibilityId, accessibilityIdiOS);
+            return new TestUI(
+                    element,
+                    SelenideElement,
+                    null,
+                    index,
+                    accesibilityId,
+                    accessibilityIdiOS);
         }
-        return new TestUI(element, SelenideElement, null, index, accesibilityId, "accessibilityId: " + accessibilityIdiOS);
+        return new TestUI(
+                element,
+                SelenideElement,
+                null,
+                index,
+                accesibilityId,
+                "accessibilityId: " + accessibilityIdiOS
+        );
     }
 
     public UICollection setAndroidCollection(By element) {
-        return new TestUI(element, SelenideElement, iOSElement, index, "", accesibilityIdiOS);
+        return new TestUI(
+                element,
+                SelenideElement,
+                iOSElement,
+                index,
+                "",
+                accesibilityIdiOS
+        );
     }
 
     public UICollection setAndroidCollection(String accessibilityId) {
         if (accessibilityId.contains(": ")) {
-            return new TestUI(null, SelenideElement, iOSElement, index, accessibilityId, accesibilityIdiOS);
+            return new TestUI(
+                    null,
+                    SelenideElement,
+                    iOSElement,
+                    index,
+                    accessibilityId,
+                    accesibilityIdiOS
+            );
         }
-        return new TestUI(null, SelenideElement, iOSElement, index, "accessibilityId: " + accessibilityId, accesibilityIdiOS);
+        return new TestUI(
+                null,
+                SelenideElement,
+                iOSElement,
+                index,
+                "accessibilityId: " + accessibilityId,
+                accesibilityIdiOS
+        );
     }
 
     public ElementsCollection getSelenideCollection() {
@@ -98,19 +178,28 @@ public class TestUI implements UICollection {
         if (!getAccessibilityId().isEmpty() && !getAccessibilityId().split(": ")[0].isEmpty()) {
             switch (getAccessibilityId().split(": ")[0]) {
                 case "accessibilityId":
-                    return getDriver().findElementsByAccessibilityId(getAccessibilityId().split(": ")[1]);
+                    return getDriver().
+                            findElementsByAccessibilityId(getAccessibilityId().split(": ")[1]);
                 case "className":
-                    return getDriver().findElementsByClassName(getAccessibilityId().split(": ")[1]);
+                    return getDriver().
+                            findElementsByClassName(getAccessibilityId().split(": ")[1]);
                 case "androidUIAutomator":
-                    return getAndroidTestUIDriver().findElementsByAndroidUIAutomator(getAccessibilityId().split(": ")[1]);
+                    return getAndroidTestUIDriver().
+                            findElementsByAndroidUIAutomator(getAccessibilityId().split(": ")[1]);
                 case "predicate":
-                    return getIOSTestUIDriver().findElementsByIosNsPredicate(getAccessibilityId().split(": ")[1]);
+                    return getIOSTestUIDriver().
+                            findElementsByIosNsPredicate(getAccessibilityId().split(": ")[1]);
                 case "classChain":
-                    return getIOSTestUIDriver().findElementsByIosClassChain(getAccessibilityId().split(": ")[1]);
+                    return getIOSTestUIDriver().
+                            findElementsByIosClassChain(getAccessibilityId().split(": ")[1]);
                 case "name":
-                    return getDriver().findElementsByName(getAccessibilityId().split(": ")[1]);
+                    return getDriver().
+                            findElementsByName(getAccessibilityId().split(": ")[1]);
                 default:
-                    UIAssert("The type of locator is not valid! " + getAccessibilityId().split(": ")[0], false);
+                    UIAssert("The type of locator is not valid! " +
+                            getAccessibilityId().split(": ")[0],
+                            false
+                    );
                     return new ArrayList();
             }
         }
@@ -131,11 +220,27 @@ public class TestUI implements UICollection {
     }
 
     public UIElement get(int i) {
-        return new Element(element, SelenideElement, iOSElement, i, true, accesibilityId, accesibilityIdiOS);
+        return new Element(
+                element,
+                SelenideElement,
+                iOSElement,
+                i,
+                true,
+                accesibilityId,
+                accesibilityIdiOS
+        );
     }
 
     public UIElement first() {
-        return new Element(element, SelenideElement, iOSElement, 0, true, accesibilityId,accesibilityIdiOS);
+        return new Element(
+                element,
+                SelenideElement,
+                iOSElement,
+                0,
+                true,
+                accesibilityId,
+                accesibilityIdiOS
+        );
     }
 
     public int size() {
@@ -179,7 +284,15 @@ public class TestUI implements UICollection {
             while(System.currentTimeMillis() < end) {
                 for (int i = 0; i < size(); i++) {
                     if (visible(getAppiumElement(), getAccessibilityId(), i)) {
-                        return new Element(element, SelenideElement, iOSElement, i, true, accesibilityId, accesibilityIdiOS);
+                        return new Element(
+                                element,
+                                SelenideElement,
+                                iOSElement,
+                                i,
+                                true,
+                                accesibilityId,
+                                accesibilityIdiOS
+                        );
                     }
                 }
             }
@@ -188,14 +301,26 @@ public class TestUI implements UICollection {
             long end = t+(Configuration.timeout * 1000);
             while(System.currentTimeMillis() < end) {
                 for (int i = 0; i < size(); i++) {
-                    if ($$(SelenideElement).get(i).is(com.codeborne.selenide.Condition.visible)) {
-                        return new Element(element, SelenideElement, iOSElement, i, true, accesibilityId, accesibilityIdiOS);
+                    if ($$(SelenideElement).get(i)
+                            .is(com.codeborne.selenide.Condition.visible)) {
+                        return new Element(
+                                element,
+                                SelenideElement,
+                                iOSElement,
+                                i,
+                                true,
+                                accesibilityId,
+                                accesibilityIdiOS
+                        );
                     }
                 }
             }
         }
         takeScreenshotsAllure();
-        throw new TestUIException("No visible element with this selector: " + element.toString());
+        throw new TestUIException(
+                "No visible element with this selector: " +
+                        element.toString()
+        );
     }
 
     public UIElement findByText(String text) {
@@ -205,7 +330,15 @@ public class TestUI implements UICollection {
             while(System.currentTimeMillis() < end) {
                 for (int i = 0; i < size(); i++) {
                     if (containsText(getAppiumElement(), getAccessibilityId(), i, text)) {
-                        return new Element(element, SelenideElement, iOSElement, i, true, accesibilityId, accesibilityIdiOS);
+                        return new Element(
+                                element,
+                                SelenideElement,
+                                iOSElement,
+                                i,
+                                true,
+                                accesibilityId,
+                                accesibilityIdiOS
+                        );
                     }
                 }
             }
@@ -214,14 +347,28 @@ public class TestUI implements UICollection {
             long end = t+(Configuration.timeout * 1000);
             while(System.currentTimeMillis() < end) {
                 for (int i = 0; i < size(); i++) {
-                    if ($$(SelenideElement).get(i).is(com.codeborne.selenide.Condition.text(text))) {
-                        return new Element(element, SelenideElement, iOSElement, i, true, accesibilityId, accesibilityIdiOS);
+                    if ($$(SelenideElement).get(i)
+                            .is(com.codeborne.selenide.Condition.text(text))) {
+                        return new Element(
+                                element,
+                                SelenideElement,
+                                iOSElement,
+                                i,
+                                true,
+                                accesibilityId,
+                                accesibilityIdiOS
+                        );
                     }
                 }
             }
         }
         takeScreenshotsAllure();
-        throw new TestUIException("No visible element with that text '" + text + "' and this selector: " + element.toString());
+        throw new TestUIException(
+                "No visible element with that text '" +
+                        text +
+                        "' and this selector: " +
+                        element.toString()
+        );
     }
 
     public UIElement findByEnabled() {
@@ -231,7 +378,15 @@ public class TestUI implements UICollection {
             while(System.currentTimeMillis() < end) {
                 for (int i = 0; i < size(); i++) {
                     if (enable(getAppiumElement(), getAccessibilityId(), i)) {
-                        return new Element(element, SelenideElement, iOSElement, i, true, accesibilityId, accesibilityIdiOS);
+                        return new Element(
+                                element,
+                                SelenideElement,
+                                iOSElement,
+                                i,
+                                true,
+                                accesibilityId,
+                                accesibilityIdiOS
+                        );
                     }
                 }
             }
@@ -240,13 +395,25 @@ public class TestUI implements UICollection {
             long end = t+(Configuration.timeout * 1000);
             while(System.currentTimeMillis() < end) {
                 for (int i = 0; i < size(); i++) {
-                    if ($$(SelenideElement).get(i).is(com.codeborne.selenide.Condition.enabled)) {
-                        return new Element(element, SelenideElement, iOSElement, i, true, accesibilityId, accesibilityIdiOS);
+                    if ($$(SelenideElement).get(i).
+                            is(com.codeborne.selenide.Condition.enabled)) {
+                        return new Element(
+                                element,
+                                SelenideElement,
+                                iOSElement,
+                                i,
+                                true,
+                                accesibilityId,
+                                accesibilityIdiOS
+                        );
                     }
                 }
             }
         }
         takeScreenshotsAllure();
-        throw new TestUIException("No enabled element with this selector: " + element.toString());
+        throw new TestUIException(
+                "No enabled element with this selector: " +
+                        element.toString()
+        );
     }
 }

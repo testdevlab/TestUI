@@ -3,33 +3,34 @@ package testUI;
 import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.Configuration.*;
 import static testUI.TestUIDriver.*;
 import static testUI.TestUIServer.*;
 import static testUI.UIUtils.*;
 
 public class AndroidTestUIDriver {
+    private ADBUtils adbUtils = new ADBUtils();
 
     // ANDROID APP AND BROWSER SUPPORT
 
-    public static void openApp(TestUIConfiguration configuration) {
-        if (((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) || getDevices().size() == 0) {
+    public void openApp(TestUIConfiguration configuration) {
+        if (((getServices().size() == 0 || !getServices().get(0).isRunning()) &&
+                desiredCapabilities == null) || getDevices().size() == 0) {
             if (getServices().size() != 0) {
                 stop(1);
             }
             startServerAndDevice(configuration);
             if (getDevices().size() != 0 && configuration.isInstallMobileChromeDriver()) {
-                checkAndInstallChromedriver();
+                adbUtils.checkAndInstallChromedriver();
             }
             DesiredCapabilities cap = setAppAndroidCapabilities(configuration);
             startFirstAndroidDriver(cap);
             attachShutDownHook(getServices(), getDrivers());
-            if (!configuration.getEmulatorName().isEmpty()) {
-                setDevice(getDriver().getCapabilities().asMap().get("deviceUDID").toString(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
-                attachShutDownHookStopEmulator(getServices(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
-            }
-            putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
+            setEmulatorIfNeeded(configuration);
+            putAllureParameter(
+                    "Version",
+                    getDriver().getCapabilities().asMap().get("platformVersion").toString()
+            );
         } else {
             driver = 1;
             DesiredCapabilities cap = setAppAndroidCapabilities(configuration);
@@ -39,93 +40,114 @@ public class AndroidTestUIDriver {
                 putAllureParameter("Using Appium url", appiumUrl);
             }
             startFirstAndroidDriver(cap);
-            putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
+            putAllureParameter(
+                    "Version",
+                    getDriver().getCapabilities().asMap().get("platformVersion").toString()
+            );
         }
-        emulatorName = "";
+        Configuration.emulatorName = "";
     }
 
-    public static void openNewApp(TestUIConfiguration configuration) {
-        deviceTests = true;
-        iOSTesting = false;
+    public void openNewApp(TestUIConfiguration configuration) {
+        Configuration.deviceTests = true;
+        Configuration.iOSTesting = false;
         startServerAndDevice(configuration);
         if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
-            checkAndInstallChromedriver();
+            adbUtils.checkAndInstallChromedriver();
         }
         DesiredCapabilities cap = setAppAndroidCapabilities(configuration);
         startAndroidDriver(cap);
-        if (!configuration.getEmulatorName().isEmpty()) {
-            setDevice(getDriver().getCapabilities().asMap().get("deviceUDID").toString(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
-            attachShutDownHookStopEmulator(getServices(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
-        }
-        putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
-        emulatorName = "";
+        setEmulatorIfNeeded(configuration);
+        putAllureParameter(
+                "Version",
+                getDriver().getCapabilities().asMap().get("platformVersion").toString()
+        );
+        Configuration.emulatorName = "";
     }
 
-    public static void openBrowser(String urlOrRelativeUrl, TestUIConfiguration configuration) {
-        iOSTesting = false;
-        if (deviceTests) {
+    public void openBrowser(String urlOrRelativeUrl, TestUIConfiguration configuration) {
+        Configuration.iOSTesting = false;
+        if (Configuration.deviceTests) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
-            if (((getServices().size() == 0 || !getServices().get(0).isRunning()) && desiredCapabilities == null) || getDevices().size() == 0) {
+            if (((getServices().size() == 0 ||
+                    !getServices().get(0).isRunning()) && desiredCapabilities == null) ||
+                    getDevices().size() == 0) {
                 if (getServices().size() != 0) {
                     tryStop(1);
                 }
                 startServerAndDevice(configuration);
                 if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
-                    checkAndInstallChromedriver();
+                    adbUtils.checkAndInstallChromedriver();
                 }
                 startFirstAndroidBrowserDriver(urlOrRelativeUrl, configuration);
                 attachShutDownHook(getServices(), getDrivers());
-                if (!configuration.getEmulatorName().isEmpty()) {
-                    setDevice(getDriver().getCapabilities().asMap().get("deviceUDID").toString(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
-                    attachShutDownHookStopEmulator(getServices(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
-                }
-                putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
+                setEmulatorIfNeeded(configuration);
+                putAllureParameter(
+                        "Version",
+                        getDriver().getCapabilities().asMap().get("platformVersion").toString()
+                );
             } else {
-                driver = 1;
-                if (appiumUrl.isEmpty()) {
+                Configuration.driver = 1;
+                if (Configuration.appiumUrl.isEmpty()) {
                     putAllureParameter("Using Appium port", getUsePort().get(0));
                 } else {
-                    putAllureParameter("Using Appium url", appiumUrl);
+                    putAllureParameter("Using Appium url", Configuration.appiumUrl);
                 }
                 startFirstAndroidBrowserDriver(urlOrRelativeUrl, configuration);
-                putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
+                putAllureParameter(
+                        "Version",
+                        getDriver().getCapabilities().asMap().get("platformVersion").toString()
+                );
             }
         } else {
             startSelenideDriver(urlOrRelativeUrl);
         }
-        emulatorName = "";
-        putAllureParameter("Browser", browser);
+        Configuration.emulatorName = "";
+        putAllureParameter("Browser", Configuration.browser);
     }
 
-    protected static void navigateURL(String urlOrRelativeUrl) {
-        iOSTesting = false;
-        urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
-        if (deviceTests) {
+    protected void navigateURL(String urlOrRelativeUrl) {
+        Configuration.iOSTesting = false;
+        urlOrRelativeUrl = Configuration.baseUrl + urlOrRelativeUrl;
+        if (Configuration.deviceTests) {
             getDriver().get(urlOrRelativeUrl);
         } else {
             WebDriverRunner.getWebDriver().navigate().to(urlOrRelativeUrl);
         }
     }
 
-    public static void openNewBrowser(String urlOrRelativeUrl, TestUIConfiguration configuration) {
-        iOSTesting = false;
-        if (deviceTests) {
+    public void openNewBrowser(String urlOrRelativeUrl, TestUIConfiguration configuration) {
+        Configuration.iOSTesting = false;
+        if (Configuration.deviceTests) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
             startServerAndDevice(configuration);
-            if (getDevices().size() >= driver) {
-                checkAndInstallChromedriver();
+            if (getDevices().size() >= Configuration.driver) {
+                adbUtils.checkAndInstallChromedriver();
             }
             DesiredCapabilities cap = setAndroidBrowserCapabilities(configuration);
             startBrowserAndroidDriver(cap, urlOrRelativeUrl);
             attachShutDownHook(getServices(), getDrivers());
-            if (!configuration.getEmulatorName().isEmpty()) {
-                setDevice(getDriver().getCapabilities().asMap().get("deviceUDID").toString(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
-                attachShutDownHookStopEmulator(getServices(), getDriver().getCapabilities().asMap().get("deviceUDID").toString());
-            }
-            putAllureParameter("Version", getDriver().getCapabilities().asMap().get("platformVersion").toString());
+            setEmulatorIfNeeded(configuration);
+            putAllureParameter(
+                    "Version",
+                    getDriver().getCapabilities().asMap().get("platformVersion").toString()
+            );
         } else {
             startSelenideDriver(urlOrRelativeUrl);
         }
-        putAllureParameter("Browser", browser);
+        putAllureParameter("Browser", Configuration.browser);
+    }
+
+    private void setEmulatorIfNeeded(TestUIConfiguration configuration) {
+        if (!configuration.getEmulatorName().isEmpty()) {
+            setDevice(
+                    getDriver().getCapabilities().asMap().get("deviceUDID").toString(),
+                    getDriver().getCapabilities().asMap().get("deviceUDID").toString()
+            );
+            attachShutDownHookStopEmulator(
+                    getServices(),
+                    getDriver().getCapabilities().asMap().get("deviceUDID").toString()
+            );
+        }
     }
 }

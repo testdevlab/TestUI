@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pages.GoogleLandingPage;
+import testUI.ADBUtils;
 import testUI.Configuration;
 
 import static testUI.ADBUtils.checkAndInstallChromedriver;
@@ -124,7 +125,8 @@ public class TestBrowser {
 
     @Test
     public void test() {
+        ADBUtils adbUtils = new ADBUtils();
         setDevice("emulator-5554", "emulator-5554");
-        checkAndInstallChromedriver();
+        adbUtils.checkAndInstallChromedriver();
     }
 }

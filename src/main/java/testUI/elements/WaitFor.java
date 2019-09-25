@@ -24,7 +24,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
                       String accesibilityId,
                       String accesibilityIdiOS,
                       int time) {
-        super(AppiumElement, SelenideElement,iOSElement, index, collection,accesibilityId,accesibilityIdiOS,time,true);
+        super(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS, time, true);
         this.AppiumElement = AppiumElement;
         this.SelenideElement = SelenideElement;
         this.iOSElement = iOSElement;
@@ -35,172 +35,337 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         this.collection = collection;
     }
 
+    private Element getElementObject() {
+        return new Element(
+                AppiumElement,
+                SelenideElement,
+                iOSElement,
+                index,
+                collection,
+                accesibilityId,
+                accesibilityIdiOS
+        );
+    }
+
     public UIElement untilIsVisible() {
         if (Configuration.deviceTests) {
             if (collection) {
-                waitUntilVisible(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId),index, time,
-                        true);
+                waitUntilVisible(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        index,
+                        time,
+                        true
+                );
             } else {
-                waitUntilVisible(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, true);
+                waitUntilVisible(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        time,
+                        true
+                );
             }
         } else {
             selenideAssert(Condition.visible, time, SelenideElement, index, collection);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public Element untilIsEnabled() {
         if (Configuration.deviceTests) {
             if (collection) {
-                waitUntilEnable(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId),index, time,
-                        true);
+                waitUntilEnable(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        index,
+                        time,
+                        true
+                );
             } else {
-                waitUntilEnable(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, true);
+                waitUntilEnable(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        time,
+                        true
+                );
             }
         } else {
             selenideAssert(Condition.enabled, time, SelenideElement, index, collection);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public Element untilExists() {
         if (Configuration.deviceTests) {
             if (collection) {
-                waitUntilExist(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId),index, time,
-                        true);
+                waitUntilExist(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        index,
+                        time,
+                        true
+                );
             } else {
-                waitUntilExist(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, true);
+                waitUntilExist(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        time,
+                        true
+                );
             }
         } else {
             selenideAssert(Condition.exist, time, SelenideElement, index, collection);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public Element untilHasText(String text) {
         if (Configuration.deviceTests) {
             if (collection) {
-                waitUntilContainsText(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), index, time,
-                        text, true);
+                waitUntilContainsText(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        index,
+                        time,
+                        text,
+                        true
+                );
             } else {
-                waitUntilContainsText(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, text, true);
+                waitUntilContainsText(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        time,
+                        text,
+                        true
+                );
             }
         } else {
             selenideAssert(Condition.text(text), time, SelenideElement, index, collection);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public Element untilHasCaseNotSensitiveText(String text) {
         if (Configuration.deviceTests) {
             if (collection) {
-                waitUntilContainsTextNoCaseSensitive(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), index, time,
-                        text, true);
+                waitUntilContainsTextNoCaseSensitive(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        index,
+                        time,
+                        text,
+                        true
+                );
             } else {
-                waitUntilContainsTextNoCaseSensitive(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, text, true);
+                waitUntilContainsTextNoCaseSensitive(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        time,
+                        text,
+                        true
+                );
             }
         } else {
             selenideAssert(Condition.text(text), time, SelenideElement, index, collection);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public Element untilHasValue(String value) {
         if (Configuration.deviceTests) {
             if (collection) {
-                waitUntilHasValue(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), index,
+                waitUntilHasValue(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        index,
                         time,
-                        value, true);
+                        value,
+                        true
+                );
             } else {
-                waitUntilHasValue(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, value, true);
+                waitUntilHasValue(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        time,
+                        value,
+                        true
+                );
             }
         } else {
             selenideAssert(Condition.value(value), time, SelenideElement, index, collection);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public Element untilNotVisible() {
         if (Configuration.deviceTests) {
             if (collection) {
-                waitUntilVisible(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId),index, time,
-                        false);
+                waitUntilVisible(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        index,
+                        time,
+                        false
+                );
             } else {
-                waitUntilVisible(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, false);
+                waitUntilVisible(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        time,
+                        false
+                );
             }
         } else {
             selenideAssert(Condition.not(Condition.visible), time, SelenideElement, index, collection);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public Element untilNotExists() {
         if (Configuration.deviceTests) {
             if (collection) {
-                waitUntilExist(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId),index, time,
+                waitUntilExist(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        index,
+                        time,
                         false);
             } else {
-                waitUntilExist(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, false);
+                waitUntilExist(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        time,
+                        false
+                );
             }
         } else {
             selenideAssert(Condition.not(Condition.exist), time, SelenideElement, index, collection);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public Element untilNotEnabled() {
         if (Configuration.deviceTests) {
             if (collection) {
-                waitUntilEnable(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId),index, time,
-                        false);
+                waitUntilEnable(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        index,
+                        time,
+                        false
+                );
             } else {
-                waitUntilEnable(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, false);
+                waitUntilEnable(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        time,
+                        false
+                );
             }
-            waitUntilEnable(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, false);
+            waitUntilEnable(
+                    getAppiumElement(iOSElement, AppiumElement),
+                    getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                    time,
+                    false
+            );
         } else {
-            selenideAssert(Condition.not(Condition.enabled), time, SelenideElement, index, collection);
+            selenideAssert(
+                    Condition.not(Condition.enabled),
+                    time,
+                    SelenideElement,
+                    index,
+                    collection
+            );
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public Element untilHasNotText(String text) {
         if (Configuration.deviceTests) {
             if (collection) {
-                waitUntilContainsText(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), index, time,
-                        text, false);
+                waitUntilContainsText(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        index,
+                        time,
+                        text,
+                        false
+                );
 
             } else {
-                waitUntilContainsText(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, text, false);
+                waitUntilContainsText(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        time,
+                        text,
+                        false
+                );
             }
         } else {
-            selenideAssert(Condition.not(Condition.text(text)), time, SelenideElement, index, collection);
+            selenideAssert(
+                    Condition.not(Condition.text(text)),
+                    time,
+                    SelenideElement,
+                    index,
+                    collection
+            );
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public Element untilHasNotValue(String value) {
         if (Configuration.deviceTests) {
             if (collection) {
-                waitUntilHasValue(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS, accesibilityId), index,
+                waitUntilHasValue(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        index,
                         time,
                         value,
-                        false);
+                        false
+                );
             } else {
-                waitUntilHasValue(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS,accesibilityId), time, value, false);
+                waitUntilHasValue(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        time,
+                        value,
+                        false
+                );
             }
         } else {
             selenideAssert(Condition.not(Condition.text(value)), time, SelenideElement, index, collection);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement,index,collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public Attribute untilHasAttribute(String Attribute) {
-        return new AttributeImp(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS, Attribute,
-                time, true);
+        return new AttributeImp(
+                AppiumElement,
+                SelenideElement,
+                iOSElement,
+                index,
+                collection,
+                accesibilityId,
+                accesibilityIdiOS,
+                Attribute,
+                time,
+                true
+        );
     }
 
     public Attribute untilNotHasAttribute(String Attribute) {
-        return new AttributeImp(AppiumElement, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS, Attribute,
-                time, false);
+        return new AttributeImp(
+                AppiumElement,
+                SelenideElement,
+                iOSElement,
+                index,
+                collection,
+                accesibilityId,
+                accesibilityIdiOS,
+                Attribute,
+                time,
+                false
+        );
     }
 }

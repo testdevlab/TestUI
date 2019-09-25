@@ -47,25 +47,59 @@ public class AttributeImp extends TestUI implements testUI.elements.Attribute {
     }
 
     public AttributeImp not() {
-        return new AttributeImp(AppiumElement, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS, Attribute,
-                time,false);
+        return new AttributeImp(
+                AppiumElement,
+                SelenideElement,
+                iOSElement,
+                index,
+                collection,
+                accesibilityId,
+                accesibilityIdiOS,
+                Attribute,
+                time,
+                false
+        );
     }
 
     public UIElement equalTo(String value) {
         if (Configuration.deviceTests) {
             if (collection) {
-                waitUntilHasAttribute(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS, accesibilityId),
-                        index, time,
-                        Attribute, value
-                        , is);
+                waitUntilHasAttribute(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        index,
+                        time,
+                        Attribute,
+                        value,
+                        is
+                );
             } else {
-                waitUntilHasAttribute(getAppiumElement(iOSElement, AppiumElement), getAccesibilityId(accesibilityIdiOS, accesibilityId), time,
-                        Attribute, value
-                        , is);
+                waitUntilHasAttribute(
+                        getAppiumElement(iOSElement, AppiumElement),
+                        getAccesibilityId(accesibilityIdiOS, accesibilityId),
+                        time,
+                        Attribute,
+                        value,
+                        is
+                );
             }
         } else {
-            selenideAssert(condition(is, Condition.attribute(Attribute, value)), time, SelenideElement, index, collection);
+            selenideAssert(
+                    condition(is, Condition.attribute(Attribute, value)),
+                    time,
+                    SelenideElement,
+                    index,
+                    collection
+            );
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement,index, collection, accesibilityId, accesibilityIdiOS);
+        return new Element(
+                AppiumElement,
+                SelenideElement,
+                iOSElement,
+                index,
+                collection,
+                accesibilityId,
+                accesibilityIdiOS
+        );
     }
 }

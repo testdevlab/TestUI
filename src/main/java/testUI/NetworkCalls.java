@@ -30,13 +30,19 @@ public class NetworkCalls {
     private List<JSONObject> filteredCalls;
     private List<Map<String, String>> callHar;
     private boolean severalFilters;
+    private static Proxy seleniumProxy;
 
-    private NetworkCalls(List<List<JSONObject>> calls, List<JSONObject> filteredCalls, List<Map<String, String>> callHar, boolean severalFilters) {
+    private NetworkCalls(List<List<JSONObject>> calls,
+                         List<JSONObject> filteredCalls,
+                         List<Map<String, String>> callHar,
+                         boolean severalFilters) {
         this.calls = calls;
         this.filteredCalls = filteredCalls;
         this.callHar = callHar;
         this.severalFilters = severalFilters;
     }
+
+    public NetworkCalls(){}
 
     private static BrowserMobProxy proxy;
 
@@ -49,9 +55,7 @@ public class NetworkCalls {
         proxy = null;
     }
 
-    private static Proxy seleniumProxy;
-
-    public static void setNetworkCalls() {
+    public void setNetworkCalls() {
         if (Configuration.logNetworkCalls) {
             if (Configuration.remote == null || Configuration.remote.isEmpty()) {
                 if (proxy == null || !proxy.isStarted()) {
@@ -77,11 +81,11 @@ public class NetworkCalls {
         }
     }
 
-    public static Proxy getSeleniumProxy() {
+    public Proxy getSeleniumProxy() {
         return seleniumProxy;
     }
 
-    public static NetworkCalls getNetworkCalls() {
+    public NetworkCalls getNetworkCalls() {
         List<List<JSONObject>> calls = new ArrayList<>();
         List<Map<String, String>> callHar = new ArrayList<>();
         if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
@@ -94,12 +98,18 @@ public class NetworkCalls {
                             requests.getJSONObject("request").has("url")) {
                         call.put("URL", requests.getJSONObject("request").getString("url"));
                         if (requests.getJSONObject("request").has("status")) {
-                            call.put("Status", String.valueOf(requests.getJSONObject("request").getInt("status")));
+                            call.put(
+                                    "Status",
+                                    String.valueOf(requests.getJSONObject("request").getInt("status"))
+                            );
                         } else {
                             call.put("Status", "0");
                         }
                         if (requests.getJSONObject("request").has("headers")) {
-                            call.put("RequestHeaders", requests.getJSONObject("request").getJSONObject("headers").toString());
+                            call.put(
+                                    "RequestHeaders",
+                                    requests.getJSONObject("request").getJSONObject("headers").toString()
+                            );
                         } else {
                             call.put("RequestHeaders", "");
                         }
@@ -107,12 +117,18 @@ public class NetworkCalls {
                             requests.getJSONObject("response").has("url")) {
                         call.put("URL", requests.getJSONObject("response").getString("url"));
                         if (requests.getJSONObject("response").has("status")) {
-                            call.put("Status", String.valueOf(requests.getJSONObject("response").getInt("status")));
+                            call.put(
+                                    "Status",
+                                    String.valueOf(requests.getJSONObject("response").getInt("status"))
+                            );
                         } else {
                             call.put("Status", "0");
                         }
                         if (requests.getJSONObject("response").has("headers")) {
-                            call.put("ResponseHeaders", requests.getJSONObject("response").getJSONObject("headers").toString());
+                            call.put(
+                                    "ResponseHeaders",
+                                    requests.getJSONObject("response").getJSONObject("headers").toString()
+                            );
                         } else {
                             call.put("RequestHeaders", "");
                         }
@@ -125,12 +141,18 @@ public class NetworkCalls {
                             requests.getJSONObject("redirectResponse").has("url")) {
                         call.put("URL", requests.getJSONObject("redirectResponse").getString("url"));
                         if (requests.getJSONObject("redirectResponse").has("status")) {
-                            call.put("Status", String.valueOf(requests.getJSONObject("redirectResponse").getInt("status")));
+                            call.put(
+                                    "Status",
+                                    String.valueOf(requests.getJSONObject("redirectResponse").getInt("status"))
+                            );
                         } else {
                             call.put("Status", "0");
                         }
                         if (requests.getJSONObject("redirectResponse").has("headers")) {
-                            call.put("ResponseHeaders", requests.getJSONObject("redirectResponse").getJSONObject("headers").toString());
+                            call.put(
+                                    "ResponseHeaders",
+                                    requests.getJSONObject("redirectResponse").getJSONObject("headers").toString()
+                            );
                         } else {
                             call.put("ResponseHeaders", "");
                         }
@@ -150,7 +172,8 @@ public class NetworkCalls {
                 call.put("Status", String.valueOf(entry.getResponse().getStatus()));
                 call.put("RequestHeaders", entry.getRequest().getHeaders().toString());
                 call.put("ResponseHeaders", entry.getResponse().getHeaders().toString());
-                String payload = entry.getResponse().getContent().getText() == null ? "" : entry.getResponse().getContent().getText();
+                String payload = entry.getResponse().getContent().getText() == null ?
+                        "" : entry.getResponse().getContent().getText();
                 call.put("Payload", payload);
                 if (entry.getResponse().getStatus() >= 300) {
                     call.put("Response: ", String.valueOf(entry.getResponse().getContent().getText()));
@@ -161,7 +184,7 @@ public class NetworkCalls {
         return new NetworkCalls(calls, new ArrayList<>(), callHar, false);
     }
 
-    public static NetworkCalls getLastNetworkCalls(int lastX) {
+    public NetworkCalls getLastNetworkCalls(int lastX) {
         List<List<JSONObject>> calls = new ArrayList<>();
         List<Map<String, String>> callHar = new ArrayList<>();
         if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
@@ -183,16 +206,28 @@ public class NetworkCalls {
                                 call.put("Status", requests.getJSONObject("request").getString("status"));
                             }
                             if (requests.getJSONObject("request").has("headers")) {
-                                call.put("RequestHeaders", requests.getJSONObject("request").getJSONObject("headers").toString());
+                                call.put(
+                                        "RequestHeaders",
+                                        requests.getJSONObject("request").getJSONObject("headers").toString()
+                                );
                             }
                         } else if (requests.has("response") &&
                                 requests.getJSONObject("response").has("url")) {
-                            call.put("URL", requests.getJSONObject("response").getString("url"));
+                            call.put(
+                                    "URL",
+                                    requests.getJSONObject("response").getString("url")
+                            );
                             if (requests.getJSONObject("response").has("status")) {
-                                call.put("Status", String.valueOf(requests.getJSONObject("response").getInt("status")));
+                                call.put(
+                                        "Status",
+                                        String.valueOf(requests.getJSONObject("response").getInt("status"))
+                                );
                             }
                             if (requests.getJSONObject("response").has("headers")) {
-                                call.put("ResponseHeaders", requests.getJSONObject("response").getJSONObject("headers").toString());
+                                call.put(
+                                        "ResponseHeaders",
+                                        requests.getJSONObject("response").getJSONObject("headers").toString()
+                                );
                             }
                         }
                         if (!call.isEmpty()) {
@@ -213,7 +248,8 @@ public class NetworkCalls {
                 call.put("Status", String.valueOf(entryList.get(j).getResponse().getStatus()));
                 call.put("RequestHeaders", entryList.get(j).getRequest().getHeaders().toString());
                 call.put("ResponseHeaders", entryList.get(j).getResponse().getHeaders().toString());
-                String payload = entryList.get(j).getResponse().getContent().getText() == null ? "" : entryList.get(j).getResponse().getContent().getText();
+                String payload = entryList.get(j).getResponse().getContent().getText() == null ?
+                        "" : entryList.get(j).getResponse().getContent().getText();
                 call.put("Payload", payload);
                 if (entryList.get(j).getResponse().getStatus() >= 300) {
                     call.put("Response: ", String.valueOf(entryList.get(j).getResponse().getContent().getText()));
@@ -362,11 +398,21 @@ public class NetworkCalls {
 
 
     public NetworkCalls and() {
-        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, true);
+        return new NetworkCalls(
+                this.calls,
+                this.filteredCalls,
+                this.callHar,
+                true
+        );
     }
 
     public NetworkCalls or() {
-        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, false);
+        return new NetworkCalls(
+                this.calls,
+                this.filteredCalls,
+                this.callHar,
+                false
+        );
     }
 
     public NetworkCalls assertStatusCode(int statusCode) {
@@ -374,9 +420,15 @@ public class NetworkCalls {
             if (responses.getInt("statusCode") != statusCode
                     && responses.getInt("statusCode") != 0) {
                 if (Configuration.useAllure) {
-                    Allure.addAttachment("Assert Status Code", "Status code should be " + statusCode + " but was "
-                            + responses.getInt("statusCode") + "\n Response: \n" +
-                            responses);
+                    Allure.addAttachment(
+                            "Assert Status Code",
+                            "Status code should be " +
+                                    statusCode +
+                                    " but was " +
+                                    responses.getInt("statusCode") +
+                                    "\n Response: \n" +
+                                    responses
+                    );
                 }
                 throw new Error("Status code should be " + statusCode + " but was "
                         + responses.getInt("statusCode") + "\n Response: \n" +
@@ -392,13 +444,28 @@ public class NetworkCalls {
                     responses.getInt("statusCode") > statusCode2)
                     && responses.getInt("statusCode") != 0) {
                 if (Configuration.useAllure) {
-                    Allure.addAttachment("Assert Status Code", "Status code should be between " + statusCode + " and " + statusCode2 + " but was "
-                            + responses.getInt("statusCode") + "\n Response: \n" +
-                            responses);
+                    Allure.addAttachment(
+                            "Assert Status Code",
+                            "Status code should be between " +
+                                    statusCode +
+                                    " and " +
+                                    statusCode2 +
+                                    " but was " +
+                                    responses.getInt("statusCode") +
+                                    "\n Response: \n" +
+                                    responses
+                    );
                 }
-                throw new Error("Status code should be between " + statusCode + " and " + statusCode2 + " but was "
-                        + responses.getInt("statusCode") + "\n Response: \n" +
-                        responses);
+                throw new Error(
+                        "Status code should be between " +
+                                statusCode +
+                                " and " +
+                                statusCode2 +
+                                " but was " +
+                                responses.getInt("statusCode") +
+                                "\n Response: \n" +
+                                responses
+                );
             }
         }
         return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
@@ -408,19 +475,43 @@ public class NetworkCalls {
     public NetworkCalls assertResponseHeader(String Header, String Value) {
         boolean found = false;
         for (JSONObject responses : this.filteredCalls) {
-            if (responses.has("ResponseHeaders") && !responses.getString("ResponseHeaders").toLowerCase().contains(Value.toLowerCase())) {
+            if (responses.has("ResponseHeaders") &&
+                    !responses.getString("ResponseHeaders").toLowerCase().contains(Value.toLowerCase())) {
                 if (Configuration.useAllure) {
-                    Allure.addAttachment("Assert Headers", "The headers should contain '" + Header + "' Equal to '" + Value + " but is: \n " +
-                            responses.getString("ResponseHeaders") + "\n Response: \n" + responses);
+                    Allure.addAttachment(
+                            "Assert Headers",
+                            "The headers should contain '" +
+                                    Header +
+                                    "' Equal to '" +
+                                    Value +
+                                    " but is: \n " +
+                                    responses.getString("ResponseHeaders") +
+                                    "\n Response: \n" +
+                                    responses
+                    );
                 }
-                throw new Error("The headers should contain '" + Header + "' Equal to '" + Value + " but is: \n " +
-                        responses.getString("ResponseHeaders") + "\n Response: \n" + responses);
-            } else if (responses.has("ResponseHeaders") && responses.getString("ResponseHeaders").contains(Value)) {
+                throw new Error(
+                        "The headers should contain '" +
+                                Header +
+                                "' Equal to '" +
+                                Value +
+                                " but is: \n " +
+                                responses.getString("ResponseHeaders") +
+                                "\n Response: \n" +
+                                responses
+                );
+            } else if (responses.has("ResponseHeaders") &&
+                    responses.getString("ResponseHeaders").contains(Value)) {
                 found = true;
             }
         }
         if (!found) {
-            throw new Error("There were no calls with those response headers: '" + Header + "' equal to '" + Value + "'");
+            throw new Error(
+                    "There were no calls with those response headers: '" +
+                            Header +
+                            "' equal to '" +
+                            Value + "'"
+            );
         }
         return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
