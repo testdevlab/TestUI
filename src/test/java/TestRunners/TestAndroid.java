@@ -19,9 +19,11 @@ public class TestAndroid {
 //        getAndroidTestUIDriver().toggleWifi();
         EE(byId("SIvCob")).findByText("Google").scrollTo().click();
         googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
-                .given("Check search input visible and set value").waitFor(5).untilIsVisible().then().setValueJs("TestUI")
+                .given("Check search input visible and set value").waitFor(5)
+                .untilIsVisible().then().setValueJs("TestUI")
                 .shouldHave().not().emptyAttribute("value");
-        googleLandingPage.getGoogleSearch().then("Check that search button visible").waitFor(10).untilIsVisible()
+        googleLandingPage.getGoogleSearch().then("Check that search button visible")
+                .waitFor(10).untilIsVisible()
                 .and("Click on search button").click();
     }
 
@@ -30,8 +32,10 @@ public class TestAndroid {
     public void testAndroidBrowser2() {
         open("https://www.google.com");
         googleLandingPage.getGoogleSearchInput()
-                .given("Check search input visible and set value").waitFor(5).untilIsVisible().then().sendKeys("TestUI");
-        googleLandingPage.getGoogleSearch().then("Check that search button visible").waitFor(10).untilIsVisible()
+                .given("Check search input visible and set value").waitFor(5)
+                .untilIsVisible().then().sendKeys("TestUI");
+        googleLandingPage.getGoogleSearch().then("Check that search button visible")
+                .waitFor(10).untilIsVisible()
                 .and("Click on search button").click();
     }
 }

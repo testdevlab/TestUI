@@ -21,7 +21,8 @@ public class TestJUnit {
         Configuration.androidAppPath = "1188.apk";
         open();
         landingPage.getCatering().given().waitFor(10).untilIsVisible().then().click();
-        landingPage.getNearMeCollection().get(1).then().waitFor(5).untilIsVisible().and().click();
+        landingPage.getNearMeCollection().get(1).then().waitFor(5).untilIsVisible()
+                .and().click();
         System.out.println(landingPage.getSuggestedCollection().findByVisible().and().getText());
     }
 
@@ -41,7 +42,9 @@ public class TestJUnit {
     public void testIOSApp() {
         Configuration.iOSTesting = true;
         Configuration.iOSVersion = "12.2";
-        Configuration.iOSAppPath = "/Users/alvarolasernalopez/Documents/Automation/testapp/build/Release-iphonesimulator/testapp.app";
+        Configuration.iOSAppPath
+                = "/Users/alvarolasernalopez/Documents/Automation/" +
+                "testapp/build/Release-iphonesimulator/testapp.app";
         Configuration.iOSDeviceName = "iPhone 6";
         open();
     }
@@ -60,7 +63,8 @@ public class TestJUnit {
                 .and().shouldHave().value("email@email.com")
                 .and().shouldHave().attribute("value").not().equalTo("whatever");
         facebookLandingPage.getSafariFacebookEmailInput()
-                .then().waitFor(5).untilHasAttribute("value").equalTo("email@email.com");
+                .then().waitFor(5)
+                .untilHasAttribute("value").equalTo("email@email.com");
         facebookLandingPage.getSafariFacebookPasswordInput()
                 .given().sendKeys("password")
                 .then().shouldHave().value("password")

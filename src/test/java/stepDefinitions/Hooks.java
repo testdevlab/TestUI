@@ -56,7 +56,9 @@ public class Hooks {
     public void beforeIOSApp() {
         Configuration.iOSTesting = true;
         Configuration.iOSVersion = "12.2";
-        Configuration.iOSAppPath = "/Users/alvarolasernalopez/Documents/Automation/testapp/build/Release-iphonesimulator/testapp.app";
+        Configuration.iOSAppPath
+                = "/Users/alvarolasernalopez/Documents/Automation/" +
+                "testapp/build/Release-iphonesimulator/testapp.app";
         Configuration.iOSDeviceName = "iPhone 6";
         Configuration.updatedWDABundleId = "";
         Configuration.UDID = "";
@@ -82,7 +84,9 @@ public class Hooks {
     public void takeScreenshotAfterFailure(Scenario scenario){
         if(scenario.isFailed()){
             byte[] screenshot = takeScreenshot();
-            Allure.getLifecycle().addAttachment("Screenshot", "image/png", "png", screenshot);
+            Allure.getLifecycle()
+                    .addAttachment(
+                            "Screenshot", "image/png", "png", screenshot);
             scenario.embed(screenshot, "image/png");
         }
         clearBrowserData();

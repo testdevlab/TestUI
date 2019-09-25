@@ -8,12 +8,10 @@ import pages.GoogleLandingPage;
 import testUI.ADBUtils;
 import testUI.Configuration;
 
-import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.TestUIDriver.setDriver;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
-import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
 
 public class TestBrowser {
