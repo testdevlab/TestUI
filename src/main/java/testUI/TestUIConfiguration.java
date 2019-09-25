@@ -32,7 +32,8 @@ public class TestUIConfiguration {
     private final String UDID = Configuration.UDID;
     private final String bundleId = Configuration.bundleId;
     private final String updatedWDABundleId = Configuration.updatedWDABundleId;
-    private final DesiredCapabilities addMobileDesiredCapabilities = Configuration.addMobileDesiredCapabilities;
+    private final DesiredCapabilities addMobileDesiredCapabilities =
+            Configuration.addMobileDesiredCapabilities;
     private final String AutomationName = Configuration.AutomationName;
     private final boolean useNewWDA = Configuration.useNewWDA;
     private final String serverLogLevel = Configuration.serverLogLevel;

@@ -86,24 +86,39 @@ public class TestUIDriver {
 
     public static AndroidDriver getAndroidTestUIDriver() {
         if (getAndroidDrivers().isEmpty() || getAndroidDrivers().size() < Configuration.driver) {
-            throw new NullPointerException("There is no driver bound to the automation, start driver before running test cases! \n" +
-                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + getAndroidDrivers().size());
+            throw new NullPointerException(
+                    "There is no driver bound to the automation, "
+                            + "start driver before running test cases! \n"
+                            + "Configuration.driver is set to "
+                            + Configuration.driver
+                            + " and the number of drivers is only "
+                            + getAndroidDrivers().size());
         }
         return getAndroidDrivers().get(Configuration.driver - 1);
     }
 
     public static IOSDriver getIOSTestUIDriver() {
         if (getIOSDrivers().isEmpty() || getIOSDrivers().size() < Configuration.driver) {
-            throw new NullPointerException("There is no driver bound to the automation, start driver before running test cases! \n" +
-                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + getIOSDrivers().size());
+            throw new NullPointerException(
+                    "There is no driver bound to the automation, "
+                            + "start driver before running test cases! \n"
+                            + "Configuration.driver is set to "
+                            + Configuration.driver
+                            + " and the number of drivers is only "
+                            + getIOSDrivers().size());
         }
         return getIOSDrivers().get(Configuration.driver - 1);
     }
 
     public static AppiumDriver getDriver() {
         if (getDrivers().isEmpty() || getDrivers().size() < Configuration.driver) {
-            throw new NullPointerException("There is no driver bound to the automation, start driver before running test cases! \n" +
-                    "Configuration.driver is set to " + Configuration.driver + " and the number of drivers is only " + getDrivers().size());
+            throw new NullPointerException(
+                    "There is no driver bound to the automation, "
+                            + "start driver before running test cases! \n"
+                            + "Configuration.driver is set to "
+                            + Configuration.driver
+                            + " and the number of drivers is only "
+                            + getDrivers().size());
         }
         return getDrivers().get(Configuration.driver - 1);
     }
@@ -186,7 +201,8 @@ public class TestUIDriver {
             }
         }
         if (includeAllure) {
-            screenshots.forEach((k, v) -> Allure.getLifecycle().addAttachment(k, "image/png", "png", v));
+            screenshots.forEach((k, v) -> Allure.getLifecycle().addAttachment(
+                    k, "image/png", "png", v));
         }
         Configuration.deviceTests = test;
         return screenshots;
@@ -225,7 +241,8 @@ public class TestUIDriver {
     }
 
     public static DesiredCapabilities setAppAndroidCapabilities(TestUIConfiguration configuration) {
-        if (configuration.getEmulatorName().isEmpty() && !adbUtils.getDeviceStatus(getDevice()).equals("device")) {
+        if (configuration.getEmulatorName().isEmpty()
+                && !adbUtils.getDeviceStatus(getDevice()).equals("device")) {
             System.err.println("The device status is " + adbUtils.getDeviceStatus(getDevice()) +
                     " to use usb, you must allow usb debugging for this device: " + getDevice());
             throw new Error();
@@ -241,28 +258,34 @@ public class TestUIDriver {
                 cap.setCapability(MobileCapabilityType.DEVICE_NAME, getDevice());
                 cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceVersion);
             } else {
-                cap.setCapability(MobileCapabilityType.DEVICE_NAME, configuration.getEmulatorName());
+                cap.setCapability(MobileCapabilityType.DEVICE_NAME,
+                        configuration.getEmulatorName());
                 cap.setCapability(AndroidMobileCapabilityType.AVD, configuration.getEmulatorName());
             }
-            cap.setCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION, Configuration.launchAppTimeout);
+            cap.setCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION,
+                    Configuration.launchAppTimeout);
             if (Configuration.AutomationName.isEmpty()) {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
             } else {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, Configuration.AutomationName);
             }
             if (!Configuration.chromeDriverPath.isEmpty()) {
-                String chromePath = Configuration.chromeDriverPath.charAt(0) == '/' ? Configuration.chromeDriverPath :
-                        System.getProperty("user.dir") + "/" + Configuration.chromeDriverPath;
+                String chromePath = Configuration.chromeDriverPath.charAt(0) == '/'
+                        ? Configuration.chromeDriverPath
+                        : System.getProperty("user.dir") + "/" + Configuration.chromeDriverPath;
                 cap.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, chromePath);
             }
             cap.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
             if (!Configuration.appActivity.isEmpty() && !Configuration.appPackage.isEmpty()) {
-                cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, Configuration.appActivity);
-                cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, Configuration.appPackage);
+                cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY,
+                        Configuration.appActivity);
+                cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE,
+                        Configuration.appPackage);
             }
             if (!Configuration.androidAppPath.isEmpty()) {
-                String appPath = Configuration.androidAppPath.charAt(0) == '/' ? Configuration.androidAppPath :
-                        System.getProperty("user.dir") + "/" + Configuration.androidAppPath;
+                String appPath = Configuration.androidAppPath.charAt(0) == '/'
+                        ? Configuration.androidAppPath
+                        : System.getProperty("user.dir") + "/" + Configuration.androidAppPath;
                 cap.setCapability("androidInstallPath", appPath);
                 cap.setCapability("app", appPath);
             }
@@ -282,11 +305,13 @@ public class TestUIDriver {
         return cap;
     }
 
-    public static DesiredCapabilities setAndroidBrowserCapabilities(TestUIConfiguration configuration) {
+    public static DesiredCapabilities setAndroidBrowserCapabilities(
+            TestUIConfiguration configuration) {
         if (configuration.getEmulatorName().isEmpty() && getDevices().size() == 0) {
             throw new Error("There is no device available to run the automation!");
         }
-        if (configuration.getEmulatorName().isEmpty() && !adbUtils.getDeviceStatus(getDevice()).equals("device")) {
+        if (configuration.getEmulatorName().isEmpty()
+                && !adbUtils.getDeviceStatus(getDevice()).equals("device")) {
             System.err.println("The device status is " + adbUtils.getDeviceStatus(getDevice()) +
                     " to use usb, you must allow usb debugging for this device: " + getDevice());
             throw new Error();
@@ -301,8 +326,9 @@ public class TestUIDriver {
         // Created object of DesiredCapabilities class.
         DesiredCapabilities cap = new DesiredCapabilities();
         if (!configuration.getChromeDriverPath().isEmpty()) {
-            String chromePath = configuration.getChromeDriverPath().charAt(0) == '/' ? configuration.getChromeDriverPath() :
-                    System.getProperty("user.dir") + "/" + configuration.getChromeDriverPath();
+            String chromePath = configuration.getChromeDriverPath().charAt(0) == '/'
+                    ? configuration.getChromeDriverPath()
+                    : System.getProperty("user.dir") + "/" + configuration.getChromeDriverPath();
             cap.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, chromePath);
         }
         if (getDesiredCapabilities() == null) {
@@ -310,13 +336,15 @@ public class TestUIDriver {
                 cap.setCapability(MobileCapabilityType.DEVICE_NAME, getDevice());
                 cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceVersion);
             } else {
-                cap.setCapability(MobileCapabilityType.DEVICE_NAME, configuration.getEmulatorName());
+                cap.setCapability(MobileCapabilityType.DEVICE_NAME,
+                        configuration.getEmulatorName());
                 cap.setCapability(AndroidMobileCapabilityType.AVD, configuration.getEmulatorName());
             }
             if (Configuration.AutomationName.isEmpty()) {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
             } else {
-                cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, Configuration.AutomationName);
+                cap.setCapability(MobileCapabilityType.AUTOMATION_NAME,
+                        Configuration.AutomationName);
             }
             int systemPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 10;
             int chromeDriverPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 15;
@@ -368,33 +396,43 @@ public class TestUIDriver {
             }
             // BROWSER OR APP
             if (browser) {
-                capabilities.setCapability(MobileCapabilityType.AUTO_WEBVIEW, true);
-                capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
+                capabilities.setCapability(MobileCapabilityType.AUTO_WEBVIEW,
+                        true);
+                capabilities.setCapability(MobileCapabilityType.BROWSER_NAME,
+                        MobileBrowserType.SAFARI);
             } else if (!Configuration.iOSAppPath.isEmpty()) {
-                String appPath = Configuration.iOSAppPath.charAt(0) == '/' ? Configuration.iOSAppPath :
-                        System.getProperty("user.dir") + "/" + Configuration.iOSAppPath;
+                String appPath = Configuration.iOSAppPath.charAt(0) == '/'
+                        ? Configuration.iOSAppPath
+                        : System.getProperty("user.dir") + "/" + Configuration.iOSAppPath;
                 capabilities.setCapability(MobileCapabilityType.APP, appPath);
             }
             // IN CASE OF REAL DEVICE
             if (!Configuration.xcodeOrgId.isEmpty()) {
-                capabilities.setCapability(IOSMobileCapabilityType.XCODE_ORG_ID, Configuration.xcodeOrgId);
-                capabilities.setCapability(IOSMobileCapabilityType.XCODE_SIGNING_ID, Configuration.xcodeSigningId);
+                capabilities.setCapability(IOSMobileCapabilityType.XCODE_ORG_ID,
+                        Configuration.xcodeOrgId);
+                capabilities.setCapability(IOSMobileCapabilityType.XCODE_SIGNING_ID,
+                        Configuration.xcodeSigningId);
             }
             if (!Configuration.updatedWDABundleId.isEmpty()) {
-                capabilities.setCapability("updatedWDABundleId", Configuration.updatedWDABundleId);
+                capabilities.setCapability("updatedWDABundleId",
+                        Configuration.updatedWDABundleId);
             }
             if (!Configuration.bundleId.isEmpty()) {
                 capabilities.setCapability("bundleId", Configuration.bundleId);
             }
             // DEFAULT THINGS
             capabilities.setCapability(MobileCapabilityType.NO_RESET, false);
-            capabilities.setCapability(IOSMobileCapabilityType.USE_NEW_WDA, Configuration.useNewWDA);
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, Configuration.iOSDeviceName);
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, Configuration.iOSVersion);
+            capabilities.setCapability(IOSMobileCapabilityType.USE_NEW_WDA,
+                    Configuration.useNewWDA);
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
+                    Configuration.iOSDeviceName);
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
+                    Configuration.iOSVersion);
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.IOS);
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
             capabilities.setCapability(IOSMobileCapabilityType.START_IWDP, true);
-            capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, Configuration.launchAppTimeout);
+            capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
+                    Configuration.launchAppTimeout);
             capabilities.setCapability(IOSMobileCapabilityType.COMMAND_TIMEOUTS, 30000);
             // ADD CUSTOM CAPABILITIES
             if (!Configuration.addMobileDesiredCapabilities.asMap().isEmpty()) {

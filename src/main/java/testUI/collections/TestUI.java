@@ -175,17 +175,20 @@ public class TestUI implements UICollection {
     }
 
     private List getElementList() {
-        if (!getAccessibilityId().isEmpty() && !getAccessibilityId().split(": ")[0].isEmpty()) {
+        if (!getAccessibilityId().isEmpty()
+                && !getAccessibilityId().split(": ")[0].isEmpty()) {
             switch (getAccessibilityId().split(": ")[0]) {
                 case "accessibilityId":
                     return getDriver().
-                            findElementsByAccessibilityId(getAccessibilityId().split(": ")[1]);
+                            findElementsByAccessibilityId(
+                                    getAccessibilityId().split(": ")[1]);
                 case "className":
                     return getDriver().
                             findElementsByClassName(getAccessibilityId().split(": ")[1]);
                 case "androidUIAutomator":
                     return getAndroidTestUIDriver().
-                            findElementsByAndroidUIAutomator(getAccessibilityId().split(": ")[1]);
+                            findElementsByAndroidUIAutomator(
+                                    getAccessibilityId().split(": ")[1]);
                 case "predicate":
                     return getIOSTestUIDriver().
                             findElementsByIosNsPredicate(getAccessibilityId().split(": ")[1]);

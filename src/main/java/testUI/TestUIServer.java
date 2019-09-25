@@ -190,7 +190,8 @@ public class TestUIServer {
         int emulators = configuration.isUseEmulators() ? adbUtils.getEmulatorName().size() : 0;
         int totalDevices = emulators + connectedDevices - startedEmulators;
         int ports = configuration.getBaseAppiumPort() + getUsePort().size() * 100;
-        int bootstrap = configuration.getBaseAppiumBootstrapPort() + getUseBootstrapPort().size() * 100;
+        int bootstrap = configuration.getBaseAppiumBootstrapPort()
+                + getUseBootstrapPort().size() * 100;
         int realDevices = totalDevices - emulators;
         String port = String.valueOf(ports);
         String Bootstrap = String.valueOf(bootstrap);
@@ -210,7 +211,8 @@ public class TestUIServer {
         if (configuration.getAppiumUrl().isEmpty()) {
             setUsePort(port);
             setUseBootstrapPort(Bootstrap);
-            putAllureParameter("Using Appium port", getUsePort().get(getUsePort().size() - 1));
+            putAllureParameter("Using Appium port", getUsePort()
+                    .get(getUsePort().size() - 1));
         } else {
             putAllureParameter("Using Appium url", appiumUrl);
         }
@@ -231,7 +233,8 @@ public class TestUIServer {
                             adbUtils.getEmulatorName().get(device - realDevices).isEmpty()) {
                         throw new Error("There are no emulators to start the automation");
                     }
-                    configuration.setEmulatorName(adbUtils.getEmulatorName().get(device - realDevices));
+                    configuration.setEmulatorName(adbUtils.getEmulatorName()
+                            .get(device - realDevices));
                     setEmulator(configuration.getEmulatorName());
                     attachShutDownHookStopEmulator(getServices(), getEmulators());
                 } else {

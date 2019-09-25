@@ -24,7 +24,15 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
                       String accesibilityId,
                       String accesibilityIdiOS,
                       int time) {
-        super(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS, time, true);
+        super(AppiumElement,
+                SelenideElement,
+                iOSElement,
+                index,
+                collection,
+                accesibilityId,
+                accesibilityIdiOS,
+                time,
+                true);
         this.AppiumElement = AppiumElement;
         this.SelenideElement = SelenideElement;
         this.iOSElement = iOSElement;
@@ -216,7 +224,8 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
                 );
             }
         } else {
-            selenideAssert(Condition.not(Condition.visible), time, SelenideElement, index, collection);
+            selenideAssert(Condition.not(Condition.visible),
+                    time, SelenideElement, index, collection);
         }
         return getElementObject();
     }
@@ -239,7 +248,8 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
                 );
             }
         } else {
-            selenideAssert(Condition.not(Condition.exist), time, SelenideElement, index, collection);
+            selenideAssert(Condition.not(Condition.exist), time,
+                    SelenideElement, index, collection);
         }
         return getElementObject();
     }
@@ -334,7 +344,8 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
                 );
             }
         } else {
-            selenideAssert(Condition.not(Condition.text(value)), time, SelenideElement, index, collection);
+            selenideAssert(Condition.not(Condition.text(value)),
+                    time, SelenideElement, index, collection);
         }
         return getElementObject();
     }

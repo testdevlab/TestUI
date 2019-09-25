@@ -53,8 +53,7 @@ public class ShouldBe extends TestUI implements Asserts {
                 index,
                 collection,
                 accesibilityId,
-                accesibilityIdiOS
-        );
+                accesibilityIdiOS);
     }
 
     public Asserts not() {
@@ -67,8 +66,7 @@ public class ShouldBe extends TestUI implements Asserts {
                 accesibilityId,
                 accesibilityIdiOS,
                 5,
-                false
-        );
+                false);
     }
 
     public UIElement visible() {
@@ -79,15 +77,13 @@ public class ShouldBe extends TestUI implements Asserts {
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         index,
                         time,
-                        is
-                );
+                        is);
             } else {
                 waitUntilVisible(
                         getAppiumElement(iOSElement, AppiumElement),
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         time,
-                        is
-                );
+                        is);
             }
         } else {
             selenideAssert(
@@ -95,8 +91,7 @@ public class ShouldBe extends TestUI implements Asserts {
                     time,
                     SelenideElement,
                     index,
-                    collection
-            );
+                    collection);
         }
         return getElementObject();
     }
@@ -109,15 +104,13 @@ public class ShouldBe extends TestUI implements Asserts {
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         index,
                         time,
-                        is
-                );
+                        is);
             } else {
                 waitUntilEnable(
                         getAppiumElement(iOSElement, AppiumElement),
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         time,
-                        is
-                );
+                        is);
             }
         } else {
             selenideAssert(condition(is, Condition.enabled), time, SelenideElement, index, collection);
@@ -133,15 +126,13 @@ public class ShouldBe extends TestUI implements Asserts {
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         index,
                         time,
-                        is
-                );
+                        is);
             } else {
                 waitUntilExist(
                         getAppiumElement(iOSElement, AppiumElement),
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         time,
-                        is
-                );
+                        is);
             }
         } else {
             selenideAssert(condition(is, Condition.exist), time, SelenideElement, index, collection);
@@ -158,16 +149,14 @@ public class ShouldBe extends TestUI implements Asserts {
                         index,
                         time,
                         text,
-                        is
-                );
+                        is);
             } else {
                 waitUntilContainsText(
                         getAppiumElement(iOSElement, AppiumElement),
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         time,
                         text,
-                        is
-                );
+                        is);
             }
         } else {
             selenideAssert(condition(is, Condition.textCaseSensitive(text)), time, SelenideElement, index, collection);
@@ -184,16 +173,14 @@ public class ShouldBe extends TestUI implements Asserts {
                         index,
                         time,
                         text,
-                        is
-                );
+                        is);
             } else {
                 waitUntilExactText(
                         getAppiumElement(iOSElement, AppiumElement),
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         time,
                         text,
-                        is
-                );
+                        is);
             }
         } else {
             selenideAssert(condition(is, Condition.exactText(text)), time, SelenideElement, index, collection);
@@ -210,16 +197,14 @@ public class ShouldBe extends TestUI implements Asserts {
                         index,
                         time,
                         text,
-                        is
-                );
+                        is);
             } else {
                 waitUntilContainsTextNoCaseSensitive(
                         getAppiumElement(iOSElement, AppiumElement),
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         time,
                         text,
-                        is
-                );
+                        is);
             }
         } else {
             selenideAssert(condition(is, Condition.text(text)), time, SelenideElement, index, collection);
@@ -236,16 +221,14 @@ public class ShouldBe extends TestUI implements Asserts {
                         index,
                         time,
                         text,
-                        is
-                );
+                        is);
             } else {
                 waitUntilHasValue(
                         getAppiumElement(iOSElement, AppiumElement),
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         time,
                         text,
-                        is
-                );
+                        is);
             }
         } else {
             selenideAssert(condition(is, Condition.value(text)), time, SelenideElement, index, collection);
@@ -264,8 +247,7 @@ public class ShouldBe extends TestUI implements Asserts {
                 accesibilityIdiOS,
                 Attribute,
                 time,
-                is
-        );
+                is);
     }
 
     public UIElement theAttribute(String Attribute) {
@@ -277,16 +259,14 @@ public class ShouldBe extends TestUI implements Asserts {
                         index,
                         time,
                         Attribute,
-                        is
-                );
+                        is);
             } else {
                 waitUntilHasAttribute(
                         getAppiumElement(iOSElement, AppiumElement),
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         time,
                         Attribute,
-                        is
-                );
+                        is);
             }
         } else {
             selenideAssert(
@@ -294,8 +274,7 @@ public class ShouldBe extends TestUI implements Asserts {
                     time,
                     SelenideElement,
                     index,
-                    collection
-            );
+                    collection);
         }
         return getElementObject();
     }
@@ -308,15 +287,13 @@ public class ShouldBe extends TestUI implements Asserts {
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         index,
                         time,
-                        is
-                );
+                        is);
             } else {
                 waitUntilEmptyText(
                         getAppiumElement(iOSElement, AppiumElement),
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         time,
-                        is
-                );
+                        is);
             }
         } else {
             selenideAssert(condition(is, Condition.empty), time, SelenideElement, index, collection);
@@ -333,16 +310,14 @@ public class ShouldBe extends TestUI implements Asserts {
                         index,
                         time,
                         Attribute,
-                        is
-                );
+                        is);
             } else {
                 waitUntilEmptyAttribute(
                         getAppiumElement(iOSElement, AppiumElement),
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         time,
                         Attribute,
-                        is
-                );
+                        is);
             }
         } else {
             selenideAssert(
@@ -350,8 +325,7 @@ public class ShouldBe extends TestUI implements Asserts {
                     time,
                     SelenideElement,
                     index,
-                    collection
-            );
+                    collection);
         }
         return getElementObject();
     }
@@ -365,8 +339,7 @@ public class ShouldBe extends TestUI implements Asserts {
                             expectedUrl +
                             "\n But was: " +
                             getDriver().getCurrentUrl(),
-                    getDriver().getCurrentUrl().equals(expectedUrl)
-            );
+                    getDriver().getCurrentUrl().equals(expectedUrl));
         } else {
             UIAssert(
                     "The url is not as expected\n" +
@@ -374,8 +347,7 @@ public class ShouldBe extends TestUI implements Asserts {
                             expectedUrl +
                             "\n But was: " +
                             getSelenideDriver().getCurrentUrl(),
-                    getSelenideDriver().getCurrentUrl().equals(expectedUrl)
-            );
+                    getSelenideDriver().getCurrentUrl().equals(expectedUrl));
         }
         return getElementObject();
     }
@@ -387,16 +359,14 @@ public class ShouldBe extends TestUI implements Asserts {
                             expectedUrl +
                             "\n But was: " +
                             getDriver().getCurrentUrl(),
-                    getDriver().getCurrentUrl().contains(expectedUrl)
-            );
+                    getDriver().getCurrentUrl().contains(expectedUrl));
         } else {
             UIAssert("The url is not as expected\n" +
                             "Expected: " +
                             expectedUrl +
                             "\n But was: " +
                             getSelenideDriver().getCurrentUrl(),
-                    getSelenideDriver().getCurrentUrl().contains(expectedUrl)
-            );
+                    getSelenideDriver().getCurrentUrl().contains(expectedUrl));
         }
         return getElementObject();
     }

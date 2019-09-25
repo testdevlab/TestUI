@@ -45,8 +45,7 @@ public class Scrolling extends TestUI implements SlideActions {
                 index,
                 collection,
                 accesibilityId,
-                accesibilityIdiOS
-        );
+                accesibilityIdiOS);
     }
 
     public UIElement customSwipeUp(int PixelGap, int numberOfSwipes) {
@@ -154,9 +153,7 @@ public class Scrolling extends TestUI implements SlideActions {
                                 iOSElement,
                                 AppiumElement,
                                 index,
-                                collection
-                        )
-                );
+                                collection));
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(upCenter);
             }
@@ -178,9 +175,7 @@ public class Scrolling extends TestUI implements SlideActions {
                                 iOSElement,
                                 AppiumElement,
                                 index,
-                                collection
-                        )
-                );
+                                collection));
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(options);
             }
@@ -215,8 +210,9 @@ public class Scrolling extends TestUI implements SlideActions {
                         collection).click();
             } else {
                 getSelenide(SelenideElement, index, collection).
-                        scrollIntoView("{behavior: \"smooth\", block: \"center\", inline: \"nearest\"}").
-                        click();
+                        scrollIntoView(
+                                "{behavior: \"smooth\", block: \"center\", inline: \"nearest\"}")
+                        .click();
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();

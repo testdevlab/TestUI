@@ -24,19 +24,23 @@ public class UIOpen {
         setScreenshotTaken(false);
         if (iOSTesting) {
             if (iOSAppPath.isEmpty() && bundleId.isEmpty() && getDesiredCapabilities() == null) {
-                if (!androidAppPath.isEmpty() || (!appActivity.isEmpty() && !appPackage.isEmpty())) {
-                    putLog("iOSTesting variable is set to true, but while all the Android variables " +
-                            "are correctly set, the iOS ones aren't:"
-                            + "\niOSAppPath = " + iOSAppPath
-                            + "\n trying to start the Android app");
+                if (!androidAppPath.isEmpty()
+                        || (!appActivity.isEmpty() && !appPackage.isEmpty())) {
+                    putLog(
+                            "iOSTesting variable is set to true, "
+                                    + "but while all the Android variables "
+                                    + "are correctly set, the iOS ones aren't:"
+                                    + "\niOSAppPath = " + iOSAppPath
+                                    + "\n trying to start the Android app");
                     androidTestUIDriver.openApp(new TestUIConfiguration());
                 } else {
-                    throw new TestUIException("iOSAppPath or bundleId is mandatory field to run iOS apps, " +
-                            "here are your iOS values:"
-                            + "\niOSAppPath = " + iOSAppPath
-                            + "\nbundelId = " + bundleId
-                            + "\niOSDeviceName = " + iOSDeviceName
-                            + "\niOSVersion = " + iOSVersion);
+                    throw new TestUIException(
+                            "iOSAppPath or bundleId is mandatory field to run iOS apps, "
+                                    + "here are your iOS values:"
+                                    + "\niOSAppPath = " + iOSAppPath
+                                    + "\nbundelId = " + bundleId
+                                    + "\niOSDeviceName = " + iOSDeviceName
+                                    + "\niOSVersion = " + iOSVersion);
                 }
 
             } else {
@@ -44,21 +48,24 @@ public class UIOpen {
             }
         } else {
             if (androidAppPath.isEmpty() &&
-                    (appActivity.isEmpty() && appPackage.isEmpty()) && getDesiredCapabilities() == null) {
+                    (appActivity.isEmpty() && appPackage.isEmpty())
+                    && getDesiredCapabilities() == null) {
                 if (!iOSAppPath.isEmpty()) {
-                    putLog("iOSTesting variable is set to false, but while all the iOS variables are correctly " +
-                            "set, the android ones aren't:"
+                    putLog("iOSTesting variable is set to false, " +
+                            "but while all the iOS variables are correctly "
+                            + "set, the android ones aren't:"
                             + "\nandroidAppPath = " + androidAppPath
                             + "\nappActivity = " + appActivity
                             + "\nappPackage = " + appPackage
                             + "\n trying to start the iOS app");
                     iOSTestUIDriver.openIOSApp(new TestUIConfiguration());
                 } else {
-                    throw new TestUIException("androidAppPath or appActivity and appPackage are " +
-                            "mandatory fields to run Android apps, but their values are:"
-                            + "\nandroidAppPath = " + androidAppPath
-                            + "\nappActivity = " + appActivity
-                            + "\nappPackage = " + appPackage);
+                    throw new TestUIException(
+                            "androidAppPath or appActivity and appPackage are "
+                                    + "mandatory fields to run Android apps, but their values are:"
+                                    + "\nandroidAppPath = " + androidAppPath
+                                    + "\nappActivity = " + appActivity
+                                    + "\nappPackage = " + appPackage);
                 }
             } else {
                 androidTestUIDriver.openApp(new TestUIConfiguration());
@@ -72,41 +79,47 @@ public class UIOpen {
         setScreenshotTaken(false);
         if (iOSTesting) {
             if (iOSAppPath.isEmpty() && bundleId.isEmpty() && getDesiredCapabilities() == null) {
-                if (!androidAppPath.isEmpty() && (!appActivity.isEmpty() && !appPackage.isEmpty())) {
-                    putLog("iOSTesting variable is set to true, but while all the Android variables are " +
-                            "correctly set, the iOS ones aren't:"
+                if (!androidAppPath.isEmpty()
+                        && (!appActivity.isEmpty() && !appPackage.isEmpty())) {
+                    putLog("iOSTesting variable is set to true, "
+                            + "but while all the Android variables are "
+                            + "correctly set, the iOS ones aren't:"
                             + "\niOSAppPath = " + iOSAppPath
                             + "\niOSDeviceName = " + iOSDeviceName
                             + "\niOSVersion = " + iOSVersion
                             + "\n trying to start the Android app");
                     androidTestUIDriver.openNewApp(new TestUIConfiguration());
                 } else {
-                    throw new TestUIException("iOSAppPath is mandatory fields to run iOS apps, here are your " +
-                            "iOS values:"
-                            + "\niOSAppPath = " + iOSAppPath
-                            + "\niOSDeviceName = " + iOSDeviceName
-                            + "\niOSVersion = " + iOSVersion);
+                    throw new TestUIException(
+                            "iOSAppPath is mandatory fields to run iOS apps, here are your "
+                                    + "iOS values:"
+                                    + "\niOSAppPath = " + iOSAppPath
+                                    + "\niOSDeviceName = " + iOSDeviceName
+                                    + "\niOSVersion = " + iOSVersion);
                 }
             } else {
                 iOSTestUIDriver.openNewIOSApp(new TestUIConfiguration());
             }
         } else {
             if (androidAppPath.isEmpty() &&
-                    (appActivity.isEmpty() && appPackage.isEmpty()) && getDesiredCapabilities() == null) {
+                    (appActivity.isEmpty() && appPackage.isEmpty())
+                    && getDesiredCapabilities() == null) {
                 if (!iOSAppPath.isEmpty()) {
-                    putLog("iOSTesting variable is set to false, but while all the iOS variables are " +
-                            "correctly set, the android ones aren't:"
+                    putLog("iOSTesting variable is set to false, "
+                            + "but while all the iOS variables are "
+                            + "correctly set, the android ones aren't:"
                             + "\nandroidAppPath = " + androidAppPath
                             + "\nappActivity = " + appActivity
                             + "\nappPackage = " + appPackage
                             + "\n trying to start the iOS app");
                     iOSTestUIDriver.openNewIOSApp(new TestUIConfiguration());
                 } else {
-                    throw new TestUIException("androidAppPath or appActivity and appPackage are " +
-                            "mandatory fields to run Android apps, but their values are:"
-                            + "\nandroidAppPath = " + androidAppPath
-                            + "\nappActivity = " + appActivity
-                            + "\nappPackage = " + appPackage);
+                    throw new TestUIException(
+                            "androidAppPath or appActivity and appPackage are "
+                                    + "mandatory fields to run Android apps, but their values are:"
+                                    + "\nandroidAppPath = " + androidAppPath
+                                    + "\nappActivity = " + appActivity
+                                    + "\nappPackage = " + appPackage);
                 }
             } else {
                 androidTestUIDriver.openNewApp(new TestUIConfiguration());

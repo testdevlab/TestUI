@@ -36,10 +36,9 @@ public class ADBUtils {
         try {
             String s;
             Process p = Runtime.getRuntime().exec(
-                    androidHome +
-                            platformTools +
-                            "adb start-server"
-            );
+                    androidHome
+                            + platformTools
+                            + "adb start-server");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
@@ -60,8 +59,7 @@ public class ADBUtils {
             Process p = Runtime.getRuntime().exec(
                     androidHome +
                             platformTools +
-                            "adb devices"
-            );
+                            "adb devices");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
@@ -87,8 +85,7 @@ public class ADBUtils {
             Process p = Runtime.getRuntime().exec(
                     androidHome +
                             platformTools +
-                            "adb devices"
-            );
+                            "adb devices");
 
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
@@ -99,10 +96,9 @@ public class ADBUtils {
 
         } catch (IOException e) {
             System.err.println(
-                    "Something went wrong when trying to " +
-                            "retrieve the status of the device... " +
-                            "will try to establish connection anyway"
-            );
+                    "Something went wrong when trying to "
+                            + "retrieve the status of the device... "
+                            + "will try to establish connection anyway");
         }
         return "device";
     }
@@ -156,12 +152,11 @@ public class ADBUtils {
         String f = null;
         try {
             Process p = Runtime.getRuntime().exec(
-                    androidHome +
-                            platformTools +
-                            "adb -s " +
-                            device +
-                            " shell getprop ro.product.model"
-            );
+                    androidHome
+                            + platformTools
+                            + "adb -s "
+                            + device
+                            + " shell getprop ro.product.model");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
@@ -179,12 +174,11 @@ public class ADBUtils {
             putLog("Stopping emulator for device: " + emulator
                     + "\n adb -s " + emulator + " emu kill");
             Runtime.getRuntime().exec(
-                    androidHome +
-                            platformTools +
-                            "adb -s " +
-                            emulator +
-                            " emu kill"
-            );
+                    androidHome
+                            + platformTools
+                            + "adb -s "
+                            + emulator
+                            + " emu kill");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -197,12 +191,11 @@ public class ADBUtils {
         try {
             TestUIConfiguration configuration = new TestUIConfiguration();
             Process p = Runtime.getRuntime().exec(
-                    androidHome +
-                            platformTools +
-                            "adb -s " +
-                            getDevice() +
-                            " shell dumpsys package com.android.chrome | grep versionName"
-            );
+                    androidHome
+                            + platformTools
+                            + "adb -s "
+                            + getDevice()
+                            + " shell dumpsys package com.android.chrome | grep versionName");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
@@ -222,38 +215,35 @@ public class ADBUtils {
             String chromedriverPath = getChromeDriverPath();
             if (!configuration.getChromeDriverPath().isEmpty()) {
                 putLog("Detected Chrome driver already specified for this device");
-            } else if (ActualVersion.contains(chromedriverVersion) || chromedriverVersion.equals("NOT")) {
+            } else if (ActualVersion.contains(chromedriverVersion)
+                    || chromedriverVersion.equals("NOT")) {
                 putLog(
-                        "Detected Chrome version = " +
-                                chromeVersion +
-                                " matches with the actual chromedriver: " +
-                                ActualVersion
-                );
+                        "Detected Chrome version = "
+                                + chromeVersion
+                                + " matches with the actual chromedriver: "
+                                + ActualVersion);
             } else if (!doesFileExists(chromedriverPath)) {
                 putLog(
-                        "Detected Chrome version = " +
-                                chromeVersion +
-                                " but the Appium ChromeDriver is unknown, maybe you should check the appium " +
-                                "installation or run npm install appium -g"
-                );
+                        "Detected Chrome version = "
+                                + chromeVersion
+                                + " but the Appium ChromeDriver is unknown, "
+                                + "maybe you should check the appium "
+                                + "installation or run npm install appium -g");
             } else if (getTargetDirectory(configuration)) {
                 putLog(
-                        "Detected Chrome driver already installed " +
-                                "for this device, placed in target directory"
-                );
+                        "Detected Chrome driver already installed "
+                                + "for this device, placed in target directory");
             } else {
                 putLog(
-                        "Detected Chrome version = " +
-                                chromeVersion +
-                                ". Installing the ChromeDriver: " +
-                                chromedriverVersion
-                );
+                        "Detected Chrome version = "
+                                + chromeVersion
+                                + ". Installing the ChromeDriver: "
+                                + chromedriverVersion);
                 String chromedriverCustomPath = "";
                 Process p2 = Runtime.getRuntime().exec(
-                        "npm install appium-chromedriver -g --chromedriver_version=\"" +
-                                chromedriverVersion +
-                                "\""
-                );
+                        "npm install appium-chromedriver -g --chromedriver_version=\""
+                                + chromedriverVersion
+                                + "\"");
                 BufferedReader stdInput2 = new BufferedReader(new
                         InputStreamReader(p2.getInputStream()));
                 while ((s = stdInput2.readLine()) != null) {

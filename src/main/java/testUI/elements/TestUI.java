@@ -63,7 +63,14 @@ public class TestUI {
     }
 
     public static UIElement Ex(String xpath) {
-        return new Element(By.xpath(xpath), By.xpath(xpath), By.xpath(xpath),0,false,"","");
+        return new Element(
+                By.xpath(xpath),
+                By.xpath(xpath),
+                By.xpath(xpath),
+                0,
+                false,
+                "",
+                "");
     }
 
     protected By getAppiumElement(By iOSElement, By AndroidElement) {
@@ -97,15 +104,21 @@ public class TestUI {
             case "className":
                 return getDriver().findElementsByClassName(locator.split(": ")[1]);
             case "androidUIAutomator":
-                return getAndroidTestUIDriver().findElementsByAndroidUIAutomator(locator.split(": ")[1]);
+                return getAndroidTestUIDriver()
+                        .findElementsByAndroidUIAutomator(locator.split(": ")[1]);
             case "predicate":
-                return getIOSTestUIDriver().findElementsByIosNsPredicate(locator.split(": ")[1]);
+                return getIOSTestUIDriver()
+                        .findElementsByIosNsPredicate(locator.split(": ")[1]);
             case "classChain":
-                return getIOSTestUIDriver().findElementsByIosClassChain(locator.split(": ")[1]);
+                return getIOSTestUIDriver()
+                        .findElementsByIosClassChain(locator.split(": ")[1]);
             case "name":
                 return getDriver().findElementsByName(locator.split(": ")[1]);
             default:
-                UIAssert("The type of locator is not valid! " + locator.split(": ")[0], false);
+                UIAssert(
+                        "The type of locator is not valid! "
+                                + locator.split(": ")[0],
+                        false);
                 return new ArrayList();
         }
     }
@@ -117,30 +130,44 @@ public class TestUI {
             case "className":
                 return getDriver().findElementByClassName(locator.split(": ")[1]);
             case "androidUIAutomator":
-                return getAndroidTestUIDriver().findElementByAndroidUIAutomator(locator.split(": ")[1]);
+                return getAndroidTestUIDriver()
+                        .findElementByAndroidUIAutomator(locator.split(": ")[1]);
             case "predicate":
-                return getIOSTestUIDriver().findElementByIosNsPredicate(locator.split(": ")[1]);
+                return getIOSTestUIDriver()
+                        .findElementByIosNsPredicate(locator.split(": ")[1]);
             case "classChain":
-                return getIOSTestUIDriver().findElementByIosClassChain(locator.split(": ")[1]);
+                return getIOSTestUIDriver()
+                        .findElementByIosClassChain(locator.split(": ")[1]);
             case "name":
                 return getDriver().findElementByName(locator.split(": ")[1]);
             default:
-                UIAssert("The type of locator is not valid! " + locator.split(": ")[0], false);
+                UIAssert(
+                        "The type of locator is not valid! "
+                                + locator.split(": ")[0],
+                        false);
                 return getDriver().findElementByName("");
         }
     }
 
-    protected MobileElement getElement(String accesibilityIdiOS, String accesibilityId,By iOSElement, By element, int index,
-                                       boolean collection) {
+    protected MobileElement getElement(
+            String accesibilityIdiOS,
+            String accesibilityId,
+            By iOSElement,
+            By element,
+            int index,
+            boolean collection) {
         try {
             if (collection) {
                 if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-                    return (MobileElement) getMobileElementList(getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
+                    return (MobileElement) getMobileElementList(
+                            getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
                 }
-                return (MobileElement) getDriver().findElements(getAppiumElement(iOSElement, element)).get(index);
+                return (MobileElement) getDriver().findElements(
+                        getAppiumElement(iOSElement, element)).get(index);
             }
             if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-                return (MobileElement) getMobileElement(getAccesibilityId(accesibilityIdiOS,accesibilityId));
+                return (MobileElement) getMobileElement(
+                        getAccesibilityId(accesibilityIdiOS,accesibilityId));
             }
             return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
         } catch (Throwable e) {
@@ -149,16 +176,24 @@ public class TestUI {
         }
     }
 
-    protected MobileElement getElementWithoutException(String accesibilityIdiOS, String accesibilityId,By iOSElement, By element, int index,
-                                       boolean collection) {
+    protected MobileElement getElementWithoutException(
+            String accesibilityIdiOS,
+            String accesibilityId,
+            By iOSElement,
+            By element,
+            int index,
+            boolean collection) {
         if (collection) {
             if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-                return (MobileElement) getMobileElementList(getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
+                return (MobileElement) getMobileElementList(
+                        getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
             }
-            return (MobileElement) getDriver().findElements(getAppiumElement(iOSElement, element)).get(index);
+            return (MobileElement) getDriver().findElements(
+                    getAppiumElement(iOSElement, element)).get(index);
         }
         if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-            return (MobileElement) getMobileElement(getAccesibilityId(accesibilityIdiOS,accesibilityId));
+            return (MobileElement) getMobileElement(
+                    getAccesibilityId(accesibilityIdiOS,accesibilityId));
         }
         return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
     }
@@ -169,7 +204,11 @@ public class TestUI {
         return $(element);
     }
 
-    protected void selenideAssert(Condition condition, int time, By SelenideElement, int index, boolean collection) {
+    protected void selenideAssert(Condition condition,
+                                  int time,
+                                  By SelenideElement,
+                                  int index,
+                                  boolean collection) {
         try {
             getSelenide(SelenideElement,index, collection).waitUntil(condition, time * 1000);
         } catch (Throwable e) {
@@ -194,13 +233,21 @@ public class TestUI {
             for (int in = 0; in < getDrivers().size(); in++) {
                 byte[] screenshot = TestUIDriver.takeScreenshot(in);
                 String deviceName = getDevicesNames().size() > in ? getDevicesNames().get(in) : "";
-                Allure.getLifecycle().addAttachment("Screenshot Mobile " + deviceName, "image/png", "png", screenshot);
+                Allure.getLifecycle().addAttachment(
+                        "Screenshot Mobile " + deviceName,
+                        "image/png",
+                        "png",
+                        screenshot);
             }
             Configuration.deviceTests = false;
             if (WebDriverRunner.driver().hasWebDriverStarted()) {
                 try {
                     byte[] screenshot = TestUIDriver.takeScreenshot();
-                    Allure.getLifecycle().addAttachment("Screenshot Laptop Browser", "image/png", "png", screenshot);
+                    Allure.getLifecycle().addAttachment(
+                            "Screenshot Laptop Browser",
+                            "image/png",
+                            "png",
+                            screenshot);
                 } catch (Exception ex) {
                     System.err.println("Could not take a screenshot in the laptop browser...");
                 }

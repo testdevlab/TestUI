@@ -229,8 +229,10 @@ public class Element extends TestUI implements UIElement {
                             index
                     );
                 }
-                getElement(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection).click();
-                getElement(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection).click();
+                getElement(accesibilityIdiOS, accesibilityId,
+                        iOSElement, element, index, collection).click();
+                getElement(accesibilityIdiOS, accesibilityId,
+                        iOSElement, element, index, collection).click();
             } else {
                 getSelenide(SelenideElement, index, collection).doubleClick();
             }
@@ -259,7 +261,8 @@ public class Element extends TestUI implements UIElement {
                         true
                 );
             }
-            return getElement(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection).getSize();
+            return getElement(accesibilityIdiOS, accesibilityId,
+                    iOSElement, element, index, collection).getSize();
         } else {
             try {
                 return getSelenide(SelenideElement, index, collection).getSize();
@@ -288,7 +291,8 @@ public class Element extends TestUI implements UIElement {
                         true
                 );
             }
-            return getElement(accesibilityIdiOS, accesibilityId, iOSElement, element, index, collection).getLocation();
+            return getElement(accesibilityIdiOS, accesibilityId,
+                    iOSElement, element, index, collection).getLocation();
         } else {
             try {
                 return getSelenide(SelenideElement, index, collection).getLocation();
@@ -753,7 +757,8 @@ public class Element extends TestUI implements UIElement {
                         getDrivers().size() : Configuration.driver;
                 File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
                 try {
-                    FileUtils.copyFile(scrFile, new File(Configuration.screenshotPath + path));
+                    FileUtils.copyFile(scrFile, new File(
+                            Configuration.screenshotPath + path));
                 } catch (IOException e) {
                     System.err.println("Could not save the screenshot");
                 }
@@ -761,7 +766,8 @@ public class Element extends TestUI implements UIElement {
         } else {
             File scrFile = ((TakesScreenshot) getSelenideDriver()).getScreenshotAs(OutputType.FILE);
             try {
-                FileUtils.copyFile(scrFile, new File(Configuration.screenshotPath + path));
+                FileUtils.copyFile(scrFile, new File(
+                        Configuration.screenshotPath + path));
             } catch (IOException e) {
                 System.err.println("Could not save the screenshot");
             }

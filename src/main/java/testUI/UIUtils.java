@@ -26,7 +26,8 @@ import static testUI.elements.TestUI.takeScreenshotsAllure;
 public class UIUtils {
     private static Logger logger = LoggerFactory.getLogger(UIUtils.class);
 
-    private volatile static ThreadLocal<List<AppiumDriverLocalService>> service = new ThreadLocal<>();
+    private volatile static ThreadLocal<List<AppiumDriverLocalService>> service
+            = new ThreadLocal<>();
     private static ThreadLocal<List<String>> Device = new ThreadLocal<>();
     private static ThreadLocal<List<String>> DeviceName = new ThreadLocal<>();
     private static ThreadLocal<List<String>> IOSDevices = new ThreadLocal<>();
@@ -171,30 +172,28 @@ public class UIUtils {
         com.codeborne.selenide.Configuration.baseUrl = Configuration.baseUrl;
         com.codeborne.selenide.Configuration.startMaximized = Configuration.startMaximized;
         com.codeborne.selenide.Configuration.browser = Configuration.browser;
-        com.codeborne.selenide.Configuration.browserBinary =
-                Configuration.browserBinary.isEmpty() ?
-                        defaults.browserBinary() : Configuration.browserBinary;
-        com.codeborne.selenide.Configuration.browserCapabilities =
-                Configuration.selenideBrowserCapabilities == null ?
-                        defaults.browserCapabilities() :
-                        Configuration.selenideBrowserCapabilities;
-        com.codeborne.selenide.Configuration.assertionMode =
-                Configuration.assertionMode == null ?
-                        defaults.assertionMode() : Configuration.assertionMode;
-        com.codeborne.selenide.Configuration.browserVersion =
-                Configuration.browserVersion.isEmpty() ?
-                        defaults.browserVersion() : Configuration.browserVersion;
-        com.codeborne.selenide.Configuration.browserSize =
-                Configuration.browserSize.isEmpty() ?
-                        defaults.browserSize() : Configuration.browserSize;
-        com.codeborne.selenide.Configuration.fastSetValue =
-                Configuration.fastSetValue;
-        com.codeborne.selenide.Configuration.remote =
-                Configuration.remote.isEmpty() ?
-                        defaults.remote() : Configuration.remote;
-        com.codeborne.selenide.Configuration.browserPosition =
-                Configuration.browserPosition.isEmpty() ?
-                        defaults.browserPosition() : Configuration.browserPosition;
+        com.codeborne.selenide.Configuration.browserBinary
+                = Configuration.browserBinary.isEmpty()
+                ? defaults.browserBinary() : Configuration.browserBinary;
+        com.codeborne.selenide.Configuration.browserCapabilities
+                = Configuration.selenideBrowserCapabilities == null
+                ? defaults.browserCapabilities()
+                : Configuration.selenideBrowserCapabilities;
+        com.codeborne.selenide.Configuration.assertionMode
+                = Configuration.assertionMode == null
+                ? defaults.assertionMode() : Configuration.assertionMode;
+        com.codeborne.selenide.Configuration.browserVersion
+                = Configuration.browserVersion.isEmpty()
+                ? defaults.browserVersion() : Configuration.browserVersion;
+        com.codeborne.selenide.Configuration.browserSize
+                = Configuration.browserSize.isEmpty()
+                ? defaults.browserSize() : Configuration.browserSize;
+        com.codeborne.selenide.Configuration.fastSetValue = Configuration.fastSetValue;
+        com.codeborne.selenide.Configuration.remote
+                = Configuration.remote.isEmpty() ? defaults.remote() : Configuration.remote;
+        com.codeborne.selenide.Configuration.browserPosition
+                = Configuration.browserPosition.isEmpty()
+                ? defaults.browserPosition() : Configuration.browserPosition;
     }
 
     protected static void startSelenideDriver(String urlOrRelativeUrl) {
@@ -277,14 +276,14 @@ public class UIUtils {
         }
     }
 
-    protected static void startBrowserAndroidDriver(DesiredCapabilities desiredCapabilities, String urlOrRelativeUrl) {
+    protected static void startBrowserAndroidDriver(
+            DesiredCapabilities desiredCapabilities, String urlOrRelativeUrl) {
         String url = Configuration.appiumUrl.isEmpty() ?
                 "http://127.0.0.1:" + getUsePort().get(getUsePort().size() - 1) + "/wd/hub" :
                 Configuration.appiumUrl;
         for (int i = 0; i < 2; i++) {
             try {
-                setDriver(new AndroidDriver(new URL(url),
-                        desiredCapabilities) {
+                setDriver(new AndroidDriver(new URL(url), desiredCapabilities) {
                 });
                 Configuration.driver = getDrivers().size();
                 getDriver().get(urlOrRelativeUrl);
@@ -304,14 +303,14 @@ public class UIUtils {
         }
     }
 
-    protected static void startBrowserIOSDriver(DesiredCapabilities desiredCapabilities, String urlOrRelativeUrl) {
+    protected static void startBrowserIOSDriver(
+            DesiredCapabilities desiredCapabilities, String urlOrRelativeUrl) {
         String url = Configuration.appiumUrl.isEmpty() ?
                 "http://127.0.0.1:" + getUsePort().get(getUsePort().size() - 1) + "/wd/hub" :
                 Configuration.appiumUrl;
         for (int i = 0; i < 2; i++) {
             try {
-                setDriver(new IOSDriver(new URL(url),
-                        desiredCapabilities) {
+                setDriver(new IOSDriver(new URL(url), desiredCapabilities) {
                 });
                 Configuration.driver = getDrivers().size();
                 getDriver().get(urlOrRelativeUrl);
@@ -397,10 +396,10 @@ public class UIUtils {
                 System.err.println("Could not create driver! retrying...");
                 sleep(500);
                 if (i == 1) {
-                    throw new TestUIException("Could not create driver! check that the devices are " +
-                            "correctly connected and in debug mode",
-                            e
-                    );
+                    throw new TestUIException(
+                            "Could not create driver! check that the devices are "
+                                    + "correctly connected and in debug mode",
+                            e);
                 }
             }
         }
