@@ -1,4 +1,6 @@
-package testUI;
+package testUI.IOSUtils;
+
+import testUI.Utils.TestUIException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,8 +35,7 @@ public class IOSCommands {
             if (Devices && line.contains("iPhone")) {
                 devices.put(
                         line.split(" \\(")[0].split("    ")[1],
-                        line.split("\\(")[1].split("\\)")[0]
-                );
+                        line.split("\\(")[1].split("\\)")[0]);
             } else if (Devices && line.contains("iOS")) {
                 if (versions.size() != 0 && devices.size() != 0) {
                     iOS.put(versions.get(versions.size() - 1), devices);
@@ -115,20 +116,18 @@ public class IOSCommands {
         String s;
         List<String> output = new ArrayList<>();
         try {
-            Process p = Runtime.getRuntime().exec(
-                    "ideviceinfo -u " +
-                            udid +
-                            " -k DeviceName"
-            );
+            Process p = Runtime.getRuntime().exec("ideviceinfo -u "
+                    + udid + " -k DeviceName");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
                 output.add(s);
+                if (s.contains("No device found")) {
+                    throw new TestUIException("");
+                }
             }
             Process p2 = Runtime.getRuntime().exec(
-                    "idevicepair pair " +
-                            udid
-            );
+                    "idevicepair pair " + udid);
             BufferedReader stdInput2 = new BufferedReader(new
                     InputStreamReader(p2.getInputStream()));
             while ((s = stdInput2.readLine()) != null) {

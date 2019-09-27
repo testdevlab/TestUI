@@ -1,6 +1,7 @@
-package testUI;
+package testUI.AndroidUtils;
 
 import org.apache.commons.io.FileUtils;
+import testUI.TestUIConfiguration;
 
 import java.io.BufferedReader;
 import java.io.File;

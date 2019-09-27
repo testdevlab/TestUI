@@ -1,22 +1,25 @@
-package testUI;
+package testUI.AndroidUtils;
 
 import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import testUI.Configuration;
+import testUI.TestUIConfiguration;
+import testUI.TestUIServer;
 
-import static testUI.Configuration.*;
+import static testUI.AndroidUtils.AndroidCapabilities.setAndroidBrowserCapabilities;
+import static testUI.AndroidUtils.AndroidCapabilities.setAppAndroidCapabilities;
+import static testUI.AndroidUtils.AndroidTestUIDriver.*;
 import static testUI.TestUIDriver.*;
-import static testUI.TestUIServer.*;
-import static testUI.UIUtils.*;
 
-public class AndroidTestUIDriver {
+public class AndroidOpen extends TestUIServer {
     private ADBUtils adbUtils = new ADBUtils();
 
     // ANDROID APP AND BROWSER SUPPORT
 
     public void openApp(TestUIConfiguration configuration) {
-        if (((getServices().size() == 0 || !getServices().get(0).isRunning())
+        if (((getAppiumServices().size() == 0 || !getAppiumServices().get(0).isRunning())
                 && desiredCapabilities == null) || getDevices().size() == 0) {
-            if (getServices().size() != 0) {
+            if (getAppiumServices().size() != 0) {
                 stop(1);
             }
             startServerAndDevice(configuration);
@@ -25,7 +28,7 @@ public class AndroidTestUIDriver {
             }
             DesiredCapabilities cap = setAppAndroidCapabilities(configuration);
             startFirstAndroidDriver(cap);
-            attachShutDownHook(getServices(), getDrivers());
+            attachShutDownHook(getAppiumServices(), getDrivers());
             setEmulatorIfNeeded(configuration);
             putAllureParameter(
                     "Version",
@@ -69,18 +72,18 @@ public class AndroidTestUIDriver {
         Configuration.iOSTesting = false;
         if (Configuration.deviceTests) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
-            if (((getServices().size() == 0 ||
-                    !getServices().get(0).isRunning()) && desiredCapabilities == null) ||
+            if (((getAppiumServices().size() == 0 ||
+                    !getAppiumServices().get(0).isRunning()) && desiredCapabilities == null) ||
                     getDevices().size() == 0) {
-                if (getServices().size() != 0) {
+                if (getAppiumServices().size() != 0) {
                     tryStop(1);
                 }
                 startServerAndDevice(configuration);
-                if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
-                    adbUtils.checkAndInstallChromedriver();
-                }
+//                if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
+//                    adbUtils.checkAndInstallChromedriver();
+//                }
                 startFirstAndroidBrowserDriver(urlOrRelativeUrl, configuration);
-                attachShutDownHook(getServices(), getDrivers());
+                attachShutDownHook(getAppiumServices(), getDrivers());
                 setEmulatorIfNeeded(configuration);
                 putAllureParameter(
                         "Version",
@@ -106,7 +109,7 @@ public class AndroidTestUIDriver {
         putAllureParameter("Browser", Configuration.browser);
     }
 
-    protected void navigateURL(String urlOrRelativeUrl) {
+    public void navigateURL(String urlOrRelativeUrl) {
         Configuration.iOSTesting = false;
         urlOrRelativeUrl = Configuration.baseUrl + urlOrRelativeUrl;
         if (Configuration.deviceTests) {
@@ -126,7 +129,7 @@ public class AndroidTestUIDriver {
             }
             DesiredCapabilities cap = setAndroidBrowserCapabilities(configuration);
             startBrowserAndroidDriver(cap, urlOrRelativeUrl);
-            attachShutDownHook(getServices(), getDrivers());
+            attachShutDownHook(getAppiumServices(), getDrivers());
             setEmulatorIfNeeded(configuration);
             putAllureParameter(
                     "Version",
@@ -145,7 +148,7 @@ public class AndroidTestUIDriver {
                     getDriver().getCapabilities().asMap().get("deviceUDID").toString()
             );
             attachShutDownHookStopEmulator(
-                    getServices(),
+                    getAppiumServices(),
                     getDriver().getCapabilities().asMap().get("deviceUDID").toString()
             );
         }

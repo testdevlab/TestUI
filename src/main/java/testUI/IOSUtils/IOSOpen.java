@@ -1,13 +1,16 @@
-package testUI;
+package testUI.IOSUtils;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
+import testUI.Configuration;
+import testUI.TestUIConfiguration;
 
-import static testUI.TestUIDriver.setIOSCapabilities;
+import static testUI.IOSUtils.IOCapabilities.setIOSCapabilities;
+import static testUI.IOSUtils.IOSTestUIDriver.*;
 import static testUI.TestUIServer.startServerAndDevice;
 import static testUI.TestUIServer.stop;
 import static testUI.UIUtils.*;
 
-public class IOSTestUIDriver {
+public class IOSOpen extends Configuration {
 
     // NOW IOS APP AND BROWSER
 
@@ -15,9 +18,9 @@ public class IOSTestUIDriver {
         Configuration.deviceTests = true;
         Configuration.iOSTesting = true;
         Configuration.iOSDevices++;
-        if (((getServices().size() == 0 || getServices().get(0).isRunning()) &&
+        if (((getAppiumServices().size() == 0 || getAppiumServices().get(0).isRunning()) &&
                 Configuration.desiredCapabilities == null) || getIOSDevices().size() == 0) {
-            if (getServices().size() != 0) {
+            if (getAppiumServices().size() != 0) {
                 stop(1);
             }
             startServerAndDevice(configuration);
@@ -38,7 +41,7 @@ public class IOSTestUIDriver {
         Configuration.deviceTests = true;
         Configuration.iOSTesting = true;
         Configuration.iOSDevices++;
-        if (getServices().size() == 0 || !getServices().get(0).isRunning()) {
+        if (getAppiumServices().size() == 0 || !getAppiumServices().get(0).isRunning()) {
             startServerAndDevice(configuration);
             DesiredCapabilities cap = setIOSCapabilities(false);
             startFirstIOSDriver(cap);
@@ -53,9 +56,9 @@ public class IOSTestUIDriver {
         Configuration.deviceTests = true;
         Configuration.iOSTesting = true;
         urlOrRelativeUrl = Configuration.baseUrl + urlOrRelativeUrl;
-        if (((getServices().size() == 0 || !getServices().get(0).isRunning()) &&
+        if (((getAppiumServices().size() == 0 || !getAppiumServices().get(0).isRunning()) &&
                 Configuration.desiredCapabilities == null) || getIOSDevices().size() == 0) {
-            if (getServices().size() != 0) {
+            if (getAppiumServices().size() != 0) {
                 stop(1);
             }
             Configuration.iOSDevices++;
@@ -78,7 +81,7 @@ public class IOSTestUIDriver {
         Configuration.iOSTesting = true;
         Configuration.iOSDevices++;
         urlOrRelativeUrl = Configuration.baseUrl + urlOrRelativeUrl;
-        if (getServices().size() == 0 || !getServices().get(0).isRunning()) {
+        if (getAppiumServices().size() == 0 || !getAppiumServices().get(0).isRunning()) {
             startServerAndDevice(configuration);
             DesiredCapabilities cap = setIOSCapabilities(true);
             startBrowserIOSDriver(cap, urlOrRelativeUrl);

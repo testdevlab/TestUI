@@ -1,6 +1,8 @@
 package testUI;
 
 import org.openqa.selenium.Cookie;
+import testUI.AndroidUtils.AndroidOpen;
+import testUI.IOSUtils.IOSOpen;
 import testUI.Utils.TestUIException;
 import testUI.elements.TestUI;
 import testUI.elements.UIElement;
@@ -15,8 +17,8 @@ import static testUI.elements.Element.setStep;
 
 public class UIOpen {
 
-    private static AndroidTestUIDriver androidTestUIDriver = new AndroidTestUIDriver();
-    private static IOSTestUIDriver iOSTestUIDriver = new IOSTestUIDriver();
+    private static AndroidOpen androidTestUIDriver = new AndroidOpen();
+    private static IOSOpen iOSTestUIOpen = new IOSOpen();
     private static NetworkCalls networkCalls = new NetworkCalls();
 
     public static UIElement open() {
@@ -44,7 +46,7 @@ public class UIOpen {
                 }
 
             } else {
-                iOSTestUIDriver.openIOSApp(new TestUIConfiguration());
+                iOSTestUIOpen.openIOSApp(new TestUIConfiguration());
             }
         } else {
             if (androidAppPath.isEmpty() &&
@@ -58,7 +60,7 @@ public class UIOpen {
                             + "\nappActivity = " + appActivity
                             + "\nappPackage = " + appPackage
                             + "\n trying to start the iOS app");
-                    iOSTestUIDriver.openIOSApp(new TestUIConfiguration());
+                    iOSTestUIOpen.openIOSApp(new TestUIConfiguration());
                 } else {
                     throw new TestUIException(
                             "androidAppPath or appActivity and appPackage are "
@@ -98,7 +100,7 @@ public class UIOpen {
                                     + "\niOSVersion = " + iOSVersion);
                 }
             } else {
-                iOSTestUIDriver.openNewIOSApp(new TestUIConfiguration());
+                iOSTestUIOpen.openNewIOSApp(new TestUIConfiguration());
             }
         } else {
             if (androidAppPath.isEmpty() &&
@@ -112,7 +114,7 @@ public class UIOpen {
                             + "\nappActivity = " + appActivity
                             + "\nappPackage = " + appPackage
                             + "\n trying to start the iOS app");
-                    iOSTestUIDriver.openNewIOSApp(new TestUIConfiguration());
+                    iOSTestUIOpen.openNewIOSApp(new TestUIConfiguration());
                 } else {
                     throw new TestUIException(
                             "androidAppPath or appActivity and appPackage are "
@@ -133,7 +135,7 @@ public class UIOpen {
         networkCalls.setNetworkCalls();
         setScreenshotTaken(false);
         if (deviceTests && iOSTesting) {
-            iOSTestUIDriver.openIOSBrowser(urlOrRelativeUrl, new TestUIConfiguration());
+            iOSTestUIOpen.openIOSBrowser(urlOrRelativeUrl, new TestUIConfiguration());
         } else {
             androidTestUIDriver.openBrowser(urlOrRelativeUrl, new TestUIConfiguration());
         }
@@ -149,7 +151,7 @@ public class UIOpen {
     public static UIElement openNew(String urlOrRelativeUrl) {
         setScreenshotTaken(false);
         if (deviceTests && iOSTesting) {
-            iOSTestUIDriver.openNewIOSBrowser(urlOrRelativeUrl, new TestUIConfiguration());
+            iOSTestUIOpen.openNewIOSBrowser(urlOrRelativeUrl, new TestUIConfiguration());
         } else {
             androidTestUIDriver.openNewBrowser(urlOrRelativeUrl, new TestUIConfiguration());
         }

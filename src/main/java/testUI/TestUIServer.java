@@ -6,6 +6,8 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.AndroidServerFlag;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import testUI.AndroidUtils.ADBUtils;
+import testUI.IOSUtils.IOSCommands;
 import testUI.Utils.AppiumHelps;
 import testUI.Utils.AppiumTimeoutException;
 
@@ -21,7 +23,7 @@ import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.*;
 import static testUI.Utils.AppiumHelps.sleep;
 
-public class TestUIServer {
+public class TestUIServer extends UIUtils {
     private static ThreadLocal<Boolean> serviceRunning = new ThreadLocal<>();
     private static ADBUtils adbUtils = new ADBUtils();
 
@@ -46,11 +48,11 @@ public class TestUIServer {
         TestUIServer.serviceRunning.set(false);
         boolean slowResponse = false;
         setService(AppiumDriverLocalService.buildService(builder));
-        getServices().get(getServices().size() - 1).start();
+        getAppiumServices().get(getAppiumServices().size() - 1).start();
         long t = System.currentTimeMillis();
         long end = t + (configuration.getTimeStartAppiumServer() * 1000);
         while (System.currentTimeMillis() < end) {
-            String serviceOut = getServices().get(getServices().size() - 1).getStdOut();
+            String serviceOut = getAppiumServices().get(getAppiumServices().size() - 1).getStdOut();
             if (serviceOut != null) {
                 if (serviceOut.contains("Could not start REST http")) {
                     putLog("Could not start server in port: " +
@@ -76,14 +78,14 @@ public class TestUIServer {
             sleep(100);
         }
         if (slowResponse) {
-            getServices().get(getServices().size() - 1).stop();
+            getAppiumServices().get(getAppiumServices().size() - 1).stop();
             throw new AppiumTimeoutException("Appium server took too long to start");
         }
         if (configuration.getServerLogLevel().equals("error")) {
-            getServices().get(getServices().size() - 1).clearOutPutStreams();
+            getAppiumServices().get(getAppiumServices().size() - 1).clearOutPutStreams();
         }
         if (!TestUIServer.serviceRunning.get()) {
-            getServices().remove(getServices().size() - 1);
+            getAppiumServices().remove(getAppiumServices().size() - 1);
         }
     }
 
@@ -178,7 +180,7 @@ public class TestUIServer {
         }
     }
 
-    protected static synchronized void startServerAndDevice(TestUIConfiguration configuration) {
+    public static synchronized void startServerAndDevice(TestUIConfiguration configuration) {
         checkIfAppPathExists();
         int connectedDevices = adbUtils.getDeviceNames().size();
         int startedEmulators = 0;
@@ -198,7 +200,7 @@ public class TestUIServer {
         for (int device = getUsePort().size(); device < totalDevices + iOSDevices; device++) {
             if (configuration.getAppiumUrl().isEmpty()) {
                 startServer(port, Bootstrap, configuration);
-                attachShutDownHook(getServices(), getDrivers());
+                attachShutDownHook(getAppiumServices(), getDrivers());
             }
             if (serviceRunning.get() || (!configuration.getAppiumUrl().isEmpty() &&
                     getDevices().size() >= device)) {
@@ -236,7 +238,7 @@ public class TestUIServer {
                     configuration.setEmulatorName(adbUtils.getEmulatorName()
                             .get(device - realDevices));
                     setEmulator(configuration.getEmulatorName());
-                    attachShutDownHookStopEmulator(getServices(), getEmulators());
+                    attachShutDownHookStopEmulator(getAppiumServices(), getEmulators());
                 } else {
                     if (!getDevices().toString().contains(adbUtils.getDeviceNames().get(device))) {
                         setDevice(
@@ -283,8 +285,8 @@ public class TestUIServer {
             }
             getDrivers().get(driver - 1).quit();
             removeDriver(driver - 1);
-            getServices().get(driver - 1).stop();
-            getServices().remove(driver - 1);
+            getAppiumServices().get(driver - 1).stop();
+            getAppiumServices().remove(driver - 1);
             if (getDevices().size() != 0) {
                 iOSDevices = driver - getDevices().size();
                 adbUtils.stopEmulator(getDevices().get(driver - iOSDevices - 1));
@@ -328,9 +330,9 @@ public class TestUIServer {
                 putLog("could not remove driver");
             }
             try {
-                if (getServices().size() == driver) {
-                    getServices().get(driver - 1).stop();
-                    getServices().remove(driver - 1);
+                if (getAppiumServices().size() == driver) {
+                    getAppiumServices().get(driver - 1).stop();
+                    getAppiumServices().remove(driver - 1);
                 }
             } catch (Exception e) {
                 putLog("Could not remove services");
@@ -368,8 +370,8 @@ public class TestUIServer {
             }
             getDrivers().get(driver - 1).quit();
             removeDriver(driver - 1);
-            getServices().get(driver - 1).stop();
-            getServices().remove(driver - 1);
+            getAppiumServices().get(driver - 1).stop();
+            getAppiumServices().remove(driver - 1);
             if (getDevices().size() != 0) {
                 iOSDevices = driver - getDevices().size();
                 adbUtils.stopEmulator(getDevices().get(driver - iOSDevices - 1));
