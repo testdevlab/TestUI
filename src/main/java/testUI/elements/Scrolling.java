@@ -37,6 +37,17 @@ public class Scrolling extends TestUI implements SlideActions {
         this.collection = collection;
     }
 
+    private Element getElementObject() {
+        return new Element(
+                AppiumElement,
+                SelenideElement,
+                iOSElement,
+                index,
+                collection,
+                accesibilityId,
+                accesibilityIdiOS);
+    }
+
     public UIElement customSwipeUp(int PixelGap, int numberOfSwipes) {
         try {
             if (Configuration.deviceTests) {
@@ -49,8 +60,11 @@ public class Scrolling extends TestUI implements SlideActions {
                         endY = 100;
                         startY = endY + PixelGap;
                     }
-                    action.press(PointOption.point(40, startY)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(300)))
-                            .moveTo(PointOption.point(40, endY)).release().perform();
+                    action.press(
+                            PointOption.point(40, startY)
+                    ).waitAction(
+                            WaitOptions.waitOptions(Duration.ofMillis(300))
+                    ).moveTo(PointOption.point(40, endY)).release().perform();
                 }
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
@@ -59,7 +73,7 @@ public class Scrolling extends TestUI implements SlideActions {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public UIElement customSwipeDown(int PixelGap, int numberOfSwipes) {
@@ -70,8 +84,11 @@ public class Scrolling extends TestUI implements SlideActions {
                     int startY = 500;
                     PixelGap = abs(PixelGap);
                     int endY = 500 + PixelGap;
-                    action.press(PointOption.point(40, startY)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(300)))
-                            .moveTo(PointOption.point(40, endY)).release().perform();
+                    action.press(
+                            PointOption.point(40, startY)
+                    ).waitAction(
+                            WaitOptions.waitOptions(Duration.ofMillis(300))
+                    ).moveTo(PointOption.point(40, endY)).release().perform();
                 }
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
@@ -80,7 +97,7 @@ public class Scrolling extends TestUI implements SlideActions {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public UIElement swipeLeft(int PixelGap, int startX, int startY) {
@@ -89,8 +106,11 @@ public class Scrolling extends TestUI implements SlideActions {
                 TouchAction action = new TouchAction(getDriver());
                 PixelGap = abs(PixelGap);
                 int endX = startX - PixelGap;
-                action.press(PointOption.point(startX, startY)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(300)))
-                        .moveTo(PointOption.point(endX, startY)).release().perform();
+                action.press(
+                        PointOption.point(startX, startY)
+                ).waitAction(
+                        WaitOptions.waitOptions(Duration.ofMillis(300))
+                ).moveTo(PointOption.point(endX, startY)).release().perform();
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
             }
@@ -98,7 +118,7 @@ public class Scrolling extends TestUI implements SlideActions {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public UIElement swipeRigt(int PixelGap, int startX, int startY) {
@@ -107,8 +127,11 @@ public class Scrolling extends TestUI implements SlideActions {
                 TouchAction action = new TouchAction(getDriver());
                 PixelGap = abs(PixelGap);
                 int endX = startX + PixelGap;
-                action.press(PointOption.point(startX, startY)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(300)))
-                        .moveTo(PointOption.point(endX, startY)).release().perform();
+                action.press(
+                        PointOption.point(startX, startY)
+                ).waitAction(
+                        WaitOptions.waitOptions(Duration.ofMillis(300))
+                ).moveTo(PointOption.point(endX, startY)).release().perform();
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
             }
@@ -116,14 +139,21 @@ public class Scrolling extends TestUI implements SlideActions {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public UIElement view(boolean upCenter) {
         try {
             if (Configuration.deviceTests) {
-                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(" + upCenter + ");",
-                        getElementWithoutException(accesibilityIdiOS, accesibilityId, iOSElement, AppiumElement, index, collection));
+                ((JavascriptExecutor) getDriver()).executeScript(
+                        "arguments[0].scrollIntoView(" + upCenter + ");",
+                        getElementWithoutException(
+                                accesibilityIdiOS,
+                                accesibilityId,
+                                iOSElement,
+                                AppiumElement,
+                                index,
+                                collection));
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(upCenter);
             }
@@ -131,14 +161,21 @@ public class Scrolling extends TestUI implements SlideActions {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public UIElement view(String options) {
         try {
             if (Configuration.deviceTests) {
-                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(" + options + ");",
-                        getElementWithoutException(accesibilityIdiOS, accesibilityId, iOSElement, AppiumElement, index, collection));
+                ((JavascriptExecutor) getDriver()).executeScript(
+                        "arguments[0].scrollIntoView(" + options + ");",
+                        getElementWithoutException(
+                                accesibilityIdiOS,
+                                accesibilityId,
+                                iOSElement,
+                                AppiumElement,
+                                index,
+                                collection));
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(options);
             }
@@ -146,22 +183,41 @@ public class Scrolling extends TestUI implements SlideActions {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 
     public UIElement click() {
         try {
             if (Configuration.deviceTests) {
-                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView({behavior: \"smooth\", block: \"center\", inline: \"nearest\"});",
-                        getElementWithoutException(accesibilityIdiOS, accesibilityId, iOSElement, AppiumElement, index, collection));
-                getElement(accesibilityIdiOS, accesibilityId, iOSElement, AppiumElement, index, collection).click();
+                ((JavascriptExecutor) getDriver()).executeScript(
+                        "arguments[0].scrollIntoView(" +
+                                "{behavior: \"smooth\", block: \"center\", inline: \"nearest\"});",
+                        getElementWithoutException(
+                                accesibilityIdiOS,
+                                accesibilityId,
+                                iOSElement,
+                                AppiumElement,
+                                index,
+                                collection
+                        )
+                );
+                getElement(
+                        accesibilityIdiOS,
+                        accesibilityId,
+                        iOSElement,
+                        AppiumElement,
+                        index,
+                        collection).click();
             } else {
-                getSelenide(SelenideElement, index, collection).scrollIntoView("{behavior: \"smooth\", block: \"center\", inline: \"nearest\"}").click();
+                getSelenide(SelenideElement, index, collection).
+                        scrollIntoView(
+                                "{behavior: \"smooth\", block: \"center\", inline: \"nearest\"}")
+                        .click();
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
             throw new Error(e);
         }
-        return new Element(AppiumElement, SelenideElement, iOSElement, index, collection, accesibilityId, accesibilityIdiOS);
+        return getElementObject();
     }
 }

@@ -28,7 +28,8 @@ public class TestIOS {
                 .and().shouldHave().value("email@email.com")
                 .and().shouldHave().attribute("value").not().equalTo("whatever");
         facebookLandingPage.getSafariFacebookEmailInput()
-                .then().waitFor(5).untilHasAttribute("value").equalTo("email@email.com");
+                .then().waitFor(5).untilHasAttribute("value")
+                .equalTo("email@email.com");
         facebookLandingPage.getSafariFacebookPasswordInput()
                 .given().sendKeys("password")
                 .then().shouldHave().value("password")

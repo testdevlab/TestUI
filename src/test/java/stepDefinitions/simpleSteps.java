@@ -26,14 +26,17 @@ public class simpleSteps {
 
     @When("I click on near me")
     public void iClickOnNearMe(){
-        landingPage.getNearMeCollection().get(1).then().waitFor(5).untilIsVisible().and().click();
+        landingPage.getNearMeCollection().get(1)
+                .then().waitFor(5).untilIsVisible().and().click();
     }
 
     @Then("I click on suggested")
     public void iClickOnSuggested(){
         System.out.println(landingPage.getSuggestedCollection().size());
-        landingPage.getSuggestedCollection().get(0).given().shouldHave().containText("Suggest").then().click();
-        landingPage.getSuggestedCollection().get(0).given().shouldHave().containNoCaseSensitiveText("suggest").then().click();
+        landingPage.getSuggestedCollection().get(0)
+                .given().shouldHave().containText("Suggest").then().click();
+        landingPage.getSuggestedCollection().get(0)
+                .given().shouldHave().containNoCaseSensitiveText("suggest").then().click();
         System.out.println(landingPage.getSuggestedCollection().findByVisible().and().getText());
     }
 
@@ -41,7 +44,8 @@ public class simpleSteps {
     public void iClickOnMap(){
         landingPage.getMap().and().click();
         landingPage.getFakeElement().shouldBe().not().visible();
-        // THIS is a example of elements or collections that you rather not having in a Java Page Object
+        // THIS is a example of elements or collections
+        // that you rather not having in a Java Page Object
         theElement().withText("Suggested").shouldBe().visible();
         given().aCollection().withText("Suggested").get(0).shouldBe().visible();
     }
@@ -49,8 +53,10 @@ public class simpleSteps {
 
     @When("I search for {word} in Google")
     public void iClickOnGoogleSearching(String search){
-        googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible().then().sendKeys(search);
-        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click();
+        googleLandingPage.getGoogleSearchInput().given().waitFor(5)
+                .untilIsVisible().then().sendKeys(search);
+        googleLandingPage.getGoogleSearch().given().waitFor(10)
+                .untilIsVisible().then().click();
         sleep(2000);
     }
 
@@ -66,7 +72,8 @@ public class simpleSteps {
                 .then().sendKeys(search)
                 .and().should().containText("fakeText");
         // Tailored assert that takes screenshot on failure:
-        UIAssert("Fail assert", googleLandingPage.getGoogleSearchInput().getText().equals("fakeText"));
+        UIAssert("Fail assert",
+                googleLandingPage.getGoogleSearchInput().getText().equals("fakeText"));
     }
 
     @Given("I am using {word} browser")

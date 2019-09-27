@@ -5,6 +5,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class SelenideConfiguration {
 
+    // TODO: Make all the conf available
 //    public static long pollingInterval;
 //    public static boolean holdBrowserOpen;
 //    public static boolean reopenBrowserOnFail;

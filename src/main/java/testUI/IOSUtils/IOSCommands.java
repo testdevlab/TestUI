@@ -1,4 +1,6 @@
-package testUI;
+package testUI.IOSUtils;
+
+import testUI.Utils.TestUIException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,13 +12,13 @@ import java.util.Map;
 
 import static testUI.UIUtils.putLog;
 
-public class iOSCommands {
-    private static Map<String,Map<String,String>> getSimulatorNames() {
+public class IOSCommands {
+    private Map<String, Map<String, String>> getSimulatorNames() {
         String s;
         List<String> output = new ArrayList<>();
         List<String> versions = new ArrayList<>();
-        Map<String,String> devices = new HashMap<>();
-        Map<String,Map<String,String>> iOS = new HashMap<>();
+        Map<String, String> devices = new HashMap<>();
+        Map<String, Map<String, String>> iOS = new HashMap<>();
         try {
             Process p = Runtime.getRuntime().exec("xcrun simctl list");
 
@@ -31,10 +33,12 @@ public class iOSCommands {
         boolean Devices = false;
         for (String line : output) {
             if (Devices && line.contains("iPhone")) {
-                devices.put(line.split(" \\(")[0].split("    ")[1], line.split("\\(")[1].split("\\)")[0]);
+                devices.put(
+                        line.split(" \\(")[0].split("    ")[1],
+                        line.split("\\(")[1].split("\\)")[0]);
             } else if (Devices && line.contains("iOS")) {
                 if (versions.size() != 0 && devices.size() != 0) {
-                    iOS.put(versions.get(versions.size() -1), devices);
+                    iOS.put(versions.get(versions.size() - 1), devices);
                     devices = new HashMap<>();
                 }
                 if (line.split("iOS ").length >= 2) {
@@ -44,14 +48,14 @@ public class iOSCommands {
             if (line.contains("== Devices ==")) {
                 Devices = true;
             } else if (line.contains("== Device Pairs ==")) {
-                iOS.put(versions.get(versions.size() -1), devices);
+                iOS.put(versions.get(versions.size() - 1), devices);
                 Devices = false;
             }
         }
         return iOS;
     }
 
-    private static List<String> getDeviceUDIDs() {
+    private List<String> getDeviceUDIDs() {
         String s;
         List<String> output = new ArrayList<>();
         try {
@@ -67,9 +71,9 @@ public class iOSCommands {
         return output;
     }
 
-    private static Map<String,String> getSampleSimulator() {
-        Map<String,Map<String,String>> simulators = getSimulatorNames();
-        Map<String,String> sample = new HashMap<>();
+    private Map<String, String> getSampleSimulator() {
+        Map<String, Map<String, String>> simulators = getSimulatorNames();
+        Map<String, String> sample = new HashMap<>();
         String version = "";
         String name = "";
         String udid = "";
@@ -88,11 +92,15 @@ public class iOSCommands {
         return sample;
     }
 
-    public static String getIOSVersion(String udid){
+    public String getIOSVersion(String udid) {
         String s;
         List<String> output = new ArrayList<>();
         try {
-            Process p = Runtime.getRuntime().exec("ideviceinfo -u " + udid + " -k ProductVersion");
+            Process p = Runtime.getRuntime().exec(
+                    "ideviceinfo -u " +
+                            udid +
+                            " -k ProductVersion"
+            );
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
@@ -104,17 +112,22 @@ public class iOSCommands {
         return output.get(0);
     }
 
-    public static String getIOSName(String udid){
+    public String getIOSName(String udid) {
         String s;
         List<String> output = new ArrayList<>();
         try {
-            Process p = Runtime.getRuntime().exec("ideviceinfo -u " + udid + " -k DeviceName");
+            Process p = Runtime.getRuntime().exec("ideviceinfo -u "
+                    + udid + " -k DeviceName");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
             while ((s = stdInput.readLine()) != null) {
                 output.add(s);
+                if (s.contains("No device found")) {
+                    throw new TestUIException("");
+                }
             }
-            Process p2 = Runtime.getRuntime().exec("idevicepair pair " + udid);
+            Process p2 = Runtime.getRuntime().exec(
+                    "idevicepair pair " + udid);
             BufferedReader stdInput2 = new BufferedReader(new
                     InputStreamReader(p2.getInputStream()));
             while ((s = stdInput2.readLine()) != null) {
@@ -127,11 +140,11 @@ public class iOSCommands {
     }
 
 
-    public static Map<String,String> getSampleDevice() {
+    public Map<String, String> getSampleDevice() {
         if (getDeviceUDIDs().isEmpty()) {
             return getSampleSimulator();
         } else {
-            Map<String,String> sample = new HashMap<>();
+            Map<String, String> sample = new HashMap<>();
             sample.put("version", getIOSVersion(getDeviceUDIDs().get(0)));
             sample.put("name", getIOSName(getDeviceUDIDs().get(0)));
             sample.put("udid", getDeviceUDIDs().get(0));

@@ -2,7 +2,6 @@ package testUI.Utils;
 
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
@@ -30,7 +29,7 @@ public class AppiumHelps {
     public static boolean exists(By element, String accessibilityId, int index) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((MobileElement)getDriver().findElements(element).get(index)).isDisplayed();
+                return ((MobileElement) getDriver().findElements(element).get(index)).isDisplayed();
             return ((MobileElement) getMobileElementList(accessibilityId).get(index)).isDisplayed();
         } catch (WebDriverException e) {
             if (e.getMessage().contains("Unable to locate element")) {
@@ -94,8 +93,10 @@ public class AppiumHelps {
     public static boolean value(By element, String accessibilityId, int index, String text) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((MobileElement)getDriver().findElements(element).get(index)).getAttribute("value").equals(text);
-            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).getAttribute("value").equals(text);
+                return ((MobileElement) getDriver().findElements(element).get(index)).
+                        getAttribute("value").equals(text);
+            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).
+                    getAttribute("value").equals(text);
         } catch (Exception var4) {
             return false;
         }
@@ -104,8 +105,10 @@ public class AppiumHelps {
     public static boolean attribute(By element, String accessibilityId, int index, String Attribute, String text) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((MobileElement)getDriver().findElements(element).get(index)).getAttribute(Attribute).equals(text);
-            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).getAttribute(Attribute).equals(text);
+                return ((MobileElement) getDriver().findElements(element).get(index)).
+                        getAttribute(Attribute).equals(text);
+            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).
+                    getAttribute(Attribute).equals(text);
         } catch (Exception var4) {
             return false;
         }
@@ -114,8 +117,10 @@ public class AppiumHelps {
     public static boolean attribute(By element, String accessibilityId, int index, String Attribute) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((MobileElement)getDriver().findElements(element).get(index)).getAttribute(Attribute) != null;
-            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).getAttribute(Attribute) != null;
+                return ((MobileElement) getDriver().findElements(element).get(index)).
+                        getAttribute(Attribute) != null;
+            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).
+                    getAttribute(Attribute) != null;
         } catch (Exception var4) {
             return false;
         }
@@ -124,10 +129,14 @@ public class AppiumHelps {
     public static boolean emptyAttribute(By element, String accessibilityId, int index, String Attribute) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((MobileElement)getDriver().findElements(element).get(index)).getAttribute(Attribute) == null ||
-                        ((MobileElement)getDriver().findElements(element).get(index)).getAttribute(Attribute).isEmpty();
-            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).getAttribute(Attribute) == null ||
-                    ((MobileElement) getMobileElementList(accessibilityId).get(index)).getAttribute(Attribute).isEmpty();
+                return ((MobileElement) getDriver().findElements(element).get(index)).
+                        getAttribute(Attribute) == null ||
+                        ((MobileElement) getDriver().findElements(element).get(index)).
+                                getAttribute(Attribute).isEmpty();
+            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).
+                    getAttribute(Attribute) == null ||
+                    ((MobileElement) getMobileElementList(accessibilityId).get(index)).
+                            getAttribute(Attribute).isEmpty();
         } catch (Exception var4) {
             return false;
         }
@@ -168,8 +177,10 @@ public class AppiumHelps {
     public static boolean equalsText(By element, String accessibilityId, int index, String text) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((MobileElement)getDriver().findElements(element).get(index)).getText().contains(text);
-            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).getText().contains(text);
+                return ((MobileElement) getDriver().findElements(element).get(index)).
+                        getText().contains(text);
+            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).
+                    getText().contains(text);
         } catch (Exception var4) {
             return false;
         }
@@ -178,8 +189,10 @@ public class AppiumHelps {
     public static boolean emptyText(By element, String accessibilityId, int index) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((MobileElement)getDriver().findElements(element).get(index)).getText().isEmpty();
-            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).getText().isEmpty();
+                return ((MobileElement) getDriver().findElements(element).get(index)).
+                        getText().isEmpty();
+            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).
+                    getText().isEmpty();
         } catch (Exception var4) {
             return false;
         }
@@ -215,31 +228,46 @@ public class AppiumHelps {
         }
     }
 
-    public static boolean containsText(By element, String accessibilityId, int index, String text) {
+    public static boolean containsText(By element,
+                                       String accessibilityId,
+                                       int index,
+                                       String text) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((MobileElement) getDriver().findElements(element).get(index)).getText().contains(text);
-            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).getText().contains(text);
+                return ((MobileElement) getDriver().findElements(element).get(index)).
+                        getText().contains(text);
+            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).
+                    getText().contains(text);
         } catch (Exception var4) {
             return false;
         }
     }
 
-    public static boolean containsTextNoCaseSensitive(By element, String accessibilityId, String text) {
+    public static boolean containsTextNoCaseSensitive(By element,
+                                                      String accessibilityId,
+                                                      String text) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return getDriver().findElement(element).getText().toLowerCase().contains(text.toLowerCase());
-            return getMobileElement(accessibilityId).getText().toLowerCase().contains(text.toLowerCase());
+                return getDriver().findElement(element).
+                        getText().toLowerCase().contains(text.toLowerCase());
+            return getMobileElement(accessibilityId).
+                    getText().toLowerCase().contains(text.toLowerCase());
         } catch (Exception var4) {
             return false;
         }
     }
 
-    public static boolean containsTextNoCaseSensitive(By element, String accessibilityId, int index, String text) {
+    public static boolean containsTextNoCaseSensitive(
+            By element,
+            String accessibilityId,
+            int index,
+            String text) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((MobileElement) getDriver().findElements(element).get(index)).getText().toLowerCase().contains(text.toLowerCase());
-            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).getText().toLowerCase().contains(text.toLowerCase());
+                return ((MobileElement) getDriver().findElements(element).get(index)).
+                        getText().toLowerCase().contains(text.toLowerCase());
+            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).
+                    getText().toLowerCase().contains(text.toLowerCase());
         } catch (Exception var4) {
             return false;
         }
@@ -269,7 +297,10 @@ public class AppiumHelps {
             case "name":
                 return getDriver().findElementsByName(locator.split(": ")[1]);
             default:
-                UIAssert("The type of locator is not valid! " + locator.split(": ")[0], false);
+                UIAssert("The type of locator is not valid! " +
+                                locator.split(": ")[0],
+                        false
+                );
                 return new ArrayList();
         }
     }
@@ -289,8 +320,12 @@ public class AppiumHelps {
             case "name":
                 return getDriver().findElementByName(locator.split(": ")[1]);
             default:
-                UIAssert("The type of locator is not valid! " + locator.split(": ")[0], false);
-                return getAndroidTestUIDriver().findElement("","");
+                UIAssert(
+                        "The type of locator is not valid! " +
+                                locator.split(": ")[0],
+                        false
+                );
+                return getAndroidTestUIDriver().findElement("", "");
         }
     }
 }

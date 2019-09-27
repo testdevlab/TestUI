@@ -5,14 +5,13 @@ import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pages.GoogleLandingPage;
+import testUI.AndroidUtils.ADBUtils;
 import testUI.Configuration;
 
-import static testUI.ADBUtils.checkAndInstallChromedriver;
 import static testUI.TestUIDriver.setDriver;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
-import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
 
 public class TestBrowser {
@@ -27,11 +26,14 @@ public class TestBrowser {
         Configuration.deviceTests = false;
         Configuration.browser = "chrome";
         open("https://www.google.com");
-        googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
-        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
+        googleLandingPage.getGoogleSearchInput().given()
+                .waitFor(5).untilIsVisible();
+        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
+                .getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
         googleLandingPage.getGoogleSearch().shouldHave().not().emptyText();
-        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
+        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible()
+                .then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
                 ".png");
     }
 
@@ -40,20 +42,25 @@ public class TestBrowser {
     public void testDesktopBrowserSafari() {
         Configuration.deviceTests = false;
         Configuration.browser = "safari";
+        Configuration.serverLogLevel = "all";
         open("https://www.google.com");
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
-        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
+        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
+                .getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
         googleLandingPage.getGoogleSearch().shouldHave().not().emptyText();
-        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
+        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible()
+                .then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
                 ".png");
         stop();
         open("https://www.google.com");
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
-        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
+        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
+                .getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
         googleLandingPage.getGoogleSearch().shouldHave().not().emptyText();
-        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
+        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible()
+                .then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
                 ".png");
     }
 
@@ -66,13 +73,18 @@ public class TestBrowser {
         Configuration.browser = "chrome";
         Configuration.remote = "http://localhost:4444/wd/hub";
         open("https://www.google.com")
-                .getNetworkCalls().logAllCalls().filterByExactUrl("https://www.google.com/").logFilteredCalls()
+                .getNetworkCalls().logAllCalls().filterByExactUrl("https://www.google.com/")
+                .logFilteredCalls()
                 .and()
-                .filterByUrl("https://www.google.com/").assertFilteredCallExists().logFilteredCalls().assertStatusCode(200).assertResponseHeader("Content-Type", "text/html; charset=UTF-8");
+                .filterByUrl("https://www.google.com/").assertFilteredCallExists()
+                .logFilteredCalls().assertStatusCode(200)
+                .assertResponseHeader("Content-Type", "text/html; charset=UTF-8");
 
         stop();
         open("https://www.google.com")
-                .getLastNetworkCalls(100).logAllCalls().filterByUrl("https://www.google.com/").logFilteredCalls().assertFilteredCallExists();
+                .getLastNetworkCalls(100).logAllCalls()
+                .filterByUrl("https://www.google.com/").logFilteredCalls()
+                .assertFilteredCallExists();
         stop();
     }
 
@@ -83,11 +95,14 @@ public class TestBrowser {
         open("https://www.google.com");
         Configuration.browser = "chrome";
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
-        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
+        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
+                .getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
-        googleLandingPage.getGoogleSearch().shouldHave().not().emptyText().shouldHave().currentUrlEqualTo("https://www.google.com/")
+        googleLandingPage.getGoogleSearch().shouldHave().not().emptyText().shouldHave()
+                .currentUrlEqualTo("https://www.google.com/")
                 .shouldHave().currentUrlContains("https://www.google");
-        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible().then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
+        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible()
+                .then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
                 ".png");
 
         stop();
@@ -100,7 +115,8 @@ public class TestBrowser {
         stop();
         open("https://www.google.com");
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
-        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput().getSelenideElement().getWrappedElement());
+        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
+                .getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
         googleLandingPage.getGoogleSearch().shouldHave().not().emptyText();
         stop();
@@ -124,7 +140,8 @@ public class TestBrowser {
 
     @Test
     public void test() {
+        ADBUtils adbUtils = new ADBUtils();
         setDevice("emulator-5554", "emulator-5554");
-        checkAndInstallChromedriver();
+        adbUtils.checkAndInstallChromedriver();
     }
 }

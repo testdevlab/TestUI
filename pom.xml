@@ -124,8 +124,17 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
             <snapshots />
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
     <dependencies>
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>7.2.0</version>
+        </dependency>
         <dependency>
             <groupId>net.lightbody.bmp</groupId>
             <artifactId>browsermob-core</artifactId>
@@ -139,12 +148,7 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>5.2.3</version> <!-- Use 4.12.2 if does not work in 5.X.X-->
-        </dependency>
-        <dependency>
-            <groupId>io.appium</groupId>
-            <artifactId>java-client</artifactId>
-            <version>7.0.0</version>
+            <version>5.3.1</version> <!-- Use 4.12.2 if does not work in 5.X.X-->
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

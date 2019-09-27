@@ -10,6 +10,8 @@ public interface WaitAsserts {
 
     UIElement untilHasText(String text);
 
+    Element untilHasCaseNotSensitiveText(String text);
+
     UIElement untilHasValue(String value);
 
     UIElement untilNotVisible();
