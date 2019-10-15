@@ -197,7 +197,10 @@ public class TestUIServer extends UIUtils {
         int realDevices = totalDevices - emulators;
         String port = String.valueOf(ports);
         String Bootstrap = String.valueOf(bootstrap);
-        for (int device = getUsePort().size(); device < totalDevices + iOSDevices; device++) {
+        if (configuration.isiOSTesting()) {
+            totalDevices = totalDevices + 10;
+        }
+        for (int device = getUsePort().size(); device < totalDevices; device++) {
             if (configuration.getAppiumUrl().isEmpty()) {
                 startServer(port, Bootstrap, configuration);
                 attachShutDownHook(getAppiumServices(), getDrivers());
@@ -259,7 +262,7 @@ public class TestUIServer extends UIUtils {
             if (iOSDeviceName.isEmpty()) {
                 IOSCommands iosCommands = new IOSCommands();
                 if (UDID.isEmpty()) {
-                    Map<String, String> sampleIOSDevice = iosCommands.getSampleDevice();
+                    Map<String, String> sampleIOSDevice = iosCommands.getSampleDevice(device);
                     iOSDeviceName = sampleIOSDevice.get("name");
                     iOSVersion = sampleIOSDevice.get("version");
                     UDID = sampleIOSDevice.get("udid");

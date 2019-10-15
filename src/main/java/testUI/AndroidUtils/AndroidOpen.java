@@ -79,9 +79,9 @@ public class AndroidOpen extends TestUIServer {
                     tryStop(1);
                 }
                 startServerAndDevice(configuration);
-//                if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
-//                    adbUtils.checkAndInstallChromedriver();
-//                }
+                if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
+                    adbUtils.checkAndInstallChromedriver();
+                }
                 startFirstAndroidBrowserDriver(urlOrRelativeUrl, configuration);
                 attachShutDownHook(getAppiumServices(), getDrivers());
                 setEmulatorIfNeeded(configuration);

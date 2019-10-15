@@ -140,14 +140,14 @@ public class IOSCommands {
     }
 
 
-    public Map<String, String> getSampleDevice() {
-        if (getDeviceUDIDs().isEmpty()) {
+    public Map<String, String> getSampleDevice(int number) {
+        if (getDeviceUDIDs().isEmpty() || getDeviceUDIDs().size() <= number) {
             return getSampleSimulator();
         } else {
             Map<String, String> sample = new HashMap<>();
-            sample.put("version", getIOSVersion(getDeviceUDIDs().get(0)));
-            sample.put("name", getIOSName(getDeviceUDIDs().get(0)));
-            sample.put("udid", getDeviceUDIDs().get(0));
+            sample.put("version", getIOSVersion(getDeviceUDIDs().get(number)));
+            sample.put("name", getIOSName(getDeviceUDIDs().get(number)));
+            sample.put("udid", getDeviceUDIDs().get(number));
             return sample;
         }
     }
