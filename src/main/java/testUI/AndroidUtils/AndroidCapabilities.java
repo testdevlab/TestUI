@@ -3,6 +3,7 @@ package testUI.AndroidUtils;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import testUI.Configuration;
 import testUI.TestUIConfiguration;
@@ -128,6 +129,9 @@ public class AndroidCapabilities extends Configuration {
             cap.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
             cap.setCapability(MobileCapabilityType.BROWSER_NAME, browser);
             cap.setCapability(AndroidMobileCapabilityType.NATIVE_WEB_SCREENSHOT, true);
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.setExperimentalOption("w3c", false);
+            cap.merge(chromeOptions);
         } else {
             cap = getDesiredCapabilities();
         }

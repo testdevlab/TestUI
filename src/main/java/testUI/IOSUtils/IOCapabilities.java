@@ -68,6 +68,8 @@ public class IOCapabilities extends Configuration {
                 capabilities.setCapability("bundleId", Configuration.bundleId);
             }
             // DEFAULT THINGS
+            int wdaLocalPort = 8100 + 20 * (getUsePort().size() - 1);
+            capabilities.setCapability(IOSMobileCapabilityType.WDA_LOCAL_PORT, wdaLocalPort);
             capabilities.setCapability(MobileCapabilityType.NO_RESET, false);
             capabilities.setCapability(IOSMobileCapabilityType.USE_NEW_WDA,
                     Configuration.useNewWDA);
