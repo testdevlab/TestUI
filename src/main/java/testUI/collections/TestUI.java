@@ -198,6 +198,14 @@ public class TestUI implements UICollection {
                 case "name":
                     return getDriver().
                             findElementsByName(getAccessibilityId().split(": ")[1]);
+                case "xpath":
+                    return getDriver()
+                            .findElementsByXPath(getAccessibilityId().split(": ")[1]);
+                case "id":
+                    return getDriver().findElementsById(getAccessibilityId().split(": ")[1]);
+                case "css":
+                    return getDriver()
+                            .findElementsByCssSelector(getAccessibilityId().split(": ")[1]);
                 default:
                     UIAssert("The type of locator is not valid! " +
                             getAccessibilityId().split(": ")[0],

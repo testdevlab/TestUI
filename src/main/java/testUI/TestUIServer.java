@@ -190,16 +190,26 @@ public class TestUIServer extends UIUtils {
             }
         }
         int emulators = configuration.isUseEmulators() ? adbUtils.getEmulatorName().size() : 0;
-        int totalDevices = emulators + connectedDevices - startedEmulators;
-        int ports = configuration.getBaseAppiumPort() + getUsePort().size() * 100;
-        int bootstrap = configuration.getBaseAppiumBootstrapPort()
-                + getUseBootstrapPort().size() * 100;
-        int realDevices = totalDevices - emulators;
+        int totalDevices;
+        int ports;
+        int bootstrap;
+        int realDevices;
+        if (configuration.isiOSTesting()) {
+            ports = configuration.getBaseAppiumPort() + getUsePort().size() * 100 + 5;
+            bootstrap = configuration.getBaseAppiumBootstrapPort() +
+                    getUseBootstrapPort().size() * 100;
+            totalDevices = 10;
+            realDevices = 0;
+
+        } else {
+            ports = configuration.getBaseAppiumPort() + getUsePort().size() * 100;
+            bootstrap = configuration.getBaseAppiumBootstrapPort() +
+                    getUseBootstrapPort().size() * 100;
+            totalDevices = emulators + connectedDevices - startedEmulators;
+            realDevices = totalDevices - emulators;
+        }
         String port = String.valueOf(ports);
         String Bootstrap = String.valueOf(bootstrap);
-        if (configuration.isiOSTesting()) {
-            totalDevices = totalDevices + 10;
-        }
         for (int device = getUsePort().size(); device < totalDevices; device++) {
             if (configuration.getAppiumUrl().isEmpty()) {
                 startServer(port, Bootstrap, configuration);
@@ -273,8 +283,7 @@ public class TestUIServer extends UIUtils {
             }
             setiOSDevice(iOSDeviceName);
         }
-        driver = iOSTesting ?
-                getDevices().size() + getIOSDevices().size() : getDevices().size();
+        driver = iOSTesting ? getDevices().size() + getIOSDevices().size() : getDevices().size();
         driver = configuration.getEmulatorName().isEmpty() ? driver : driver + 1;
     }
 

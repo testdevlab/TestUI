@@ -114,6 +114,12 @@ public class TestUI {
                         .findElementsByIosClassChain(locator.split(": ")[1]);
             case "name":
                 return getDriver().findElementsByName(locator.split(": ")[1]);
+            case "xpath":
+                return getDriver().findElementsByXPath(locator.split(": ")[1]);
+            case "id":
+                return getDriver().findElementsById(locator.split(": ")[1]);
+            case "css":
+                return getDriver().findElementsByCssSelector(locator.split(": ")[1]);
             default:
                 UIAssert(
                         "The type of locator is not valid! "
@@ -140,6 +146,12 @@ public class TestUI {
                         .findElementByIosClassChain(locator.split(": ")[1]);
             case "name":
                 return getDriver().findElementByName(locator.split(": ")[1]);
+            case "xpath":
+                return getDriver().findElementByXPath(locator.split(": ")[1]);
+            case "id":
+                return getDriver().findElementById(locator.split(": ")[1]);
+            case "css":
+                return getDriver().findElementByCssSelector(locator.split(": ")[1]);
             default:
                 UIAssert(
                         "The type of locator is not valid! "

@@ -78,9 +78,11 @@ public class AndroidTestUIDriver extends AndroidOpen {
             DesiredCapabilities cap = setAndroidBrowserCapabilities(configuration);
             try {
                 putLog("Starting appium driver...");
+                Configuration.driver = 1;
                 if (getDrivers().size() == 0) {
                     setDriver(new AndroidDriver(new URL(url), cap) {
                     });
+                    getDriver().get(urlOrRelativeUrl);
                 } else {
                     if (getDrivers().get(0).isBrowser()) {
                         getDrivers().get(0).get(urlOrRelativeUrl);
@@ -89,8 +91,6 @@ public class AndroidTestUIDriver extends AndroidOpen {
                         }, 0);
                     }
                 }
-                Configuration.driver = 1;
-                getDriver().get(urlOrRelativeUrl);
                 break;
             } catch (MalformedURLException e) {
                 e.printStackTrace();

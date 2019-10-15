@@ -67,6 +67,18 @@ public class By {
         return "className: " + value;
     }
 
+    public static String byMobileXpath(String value) {
+        return "xpath: " + value;
+    }
+
+    public static String byMobileId(String value) {
+        return "id: " + value;
+    }
+
+    public static String byMobileCss(String value) {
+        return "css: " + value;
+    }
+
     public static String byMobileName(String value) {
         return "name: " + value;
     }
