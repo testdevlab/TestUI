@@ -3,8 +3,6 @@ package TestRunners;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import pages.FacebookLandingPage;
-import pages.GoogleLandingPage;
-import pages.LandingPage;
 import testUI.Configuration;
 
 import static testUI.TestUIDriver.getIOSTestUIDriver;

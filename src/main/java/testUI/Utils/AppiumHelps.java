@@ -311,33 +311,33 @@ public class AppiumHelps {
         }
     }
 
-    private static WebElement getMobileElement(String locator) {
+    private static MobileElement getMobileElement(String locator) {
         switch (locator.split(": ")[0]) {
             case "accessibilityId":
-                return getDriver().findElementByAccessibilityId(locator.split(": ")[1]);
+                return (MobileElement) getDriver().findElementByAccessibilityId(locator.split(": ")[1]);
             case "className":
-                return getDriver().findElementByClassName(locator.split(": ")[1]);
+                return (MobileElement) getDriver().findElementByClassName(locator.split(": ")[1]);
             case "androidUIAutomator":
-                return getAndroidTestUIDriver().findElementByAndroidUIAutomator(locator.split(": ")[1]);
+                return (MobileElement) getAndroidTestUIDriver().findElementByAndroidUIAutomator(locator.split(": ")[1]);
             case "predicate":
-                return getIOSTestUIDriver().findElementByIosNsPredicate(locator.split(": ")[1]);
+                return (MobileElement) getIOSTestUIDriver().findElementByIosNsPredicate(locator.split(": ")[1]);
             case "classChain":
-                return getIOSTestUIDriver().findElementByIosClassChain(locator.split(": ")[1]);
+                return (MobileElement) getIOSTestUIDriver().findElementByIosClassChain(locator.split(": ")[1]);
             case "name":
-                return getDriver().findElementByName(locator.split(": ")[1]);
+                return (MobileElement) getDriver().findElementByName(locator.split(": ")[1]);
             case "xpath":
-                return getDriver().findElementByXPath(locator.split(": ")[1]);
+                return (MobileElement) getIOSTestUIDriver().findElementByXPath(locator.split(": ")[1]);
             case "id":
-                return getDriver().findElementById(locator.split(": ")[1]);
+                return (MobileElement) getDriver().findElementById(locator.split(": ")[1]);
             case "css":
-                return getDriver().findElementByCssSelector(locator.split(": ")[1]);
+                return (MobileElement) getDriver().findElementByCssSelector(locator.split(": ")[1]);
             default:
                 UIAssert(
                         "The type of locator is not valid! " +
                                 locator.split(": ")[0],
                         false
                 );
-                return getAndroidTestUIDriver().findElement("", "");
+                return (MobileElement) getAndroidTestUIDriver().findElement("", "");
         }
     }
 }

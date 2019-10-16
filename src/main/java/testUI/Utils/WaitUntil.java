@@ -127,7 +127,8 @@ public class WaitUntil {
         long end = t + (Configuration.timeout * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
-            if ((enable(element, accessibility) || Configuration.iOSTesting) && visible(element, accessibility)) {
+            if ((Configuration.iOSTesting || enable(element, accessibility)) && visible(element,
+                    accessibility)) {
                 found = true;
                 break;
             }
