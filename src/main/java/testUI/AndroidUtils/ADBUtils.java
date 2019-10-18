@@ -19,11 +19,14 @@ public class ADBUtils {
     private static String platformTools = "/platform-tools/";
     private static String emulatorFolder = "/emulator/";
     private static final String MAC_CHROME_DRIVER =
-            "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/mac/chromedriver";
+            "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/mac" +
+                    "/chromedriver";
     private static final String LNX_CHROME_DRIVER =
-            "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/linux/chromedriver";
+            "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver" +
+                    "/linux/chromedriver";
     private static final String WIN_CHROME_DRIVER =
-            "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/win/chromedriver";
+            "\\node_modules\\appium\\node_modules\\appium-chromedriver\\chromedriver\\win" +
+                    "\\chromedriver";
 
     private static void setPathAndCheckAdbServer() {
         if (System.getenv("ANDROID_HOME") != null) {
@@ -284,8 +287,24 @@ public class ADBUtils {
         } else if (Platform.contains("linux")) {
             return LNX_CHROME_DRIVER;
         } else {
-            return WIN_CHROME_DRIVER;
+            return getWinNPMPath() + WIN_CHROME_DRIVER;
         }
+    }
+
+    private static String getWinNPMPath() {
+        String s;
+        String path = "";
+        try {
+            Process p3 = Runtime.getRuntime().exec("npm bin -g");
+            BufferedReader stdInput3 = new BufferedReader(new
+                    InputStreamReader(p3.getInputStream()));
+            while ((s = stdInput3.readLine()) != null) {
+                path = s;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return path;
     }
 
     private static String copyFileToCustomFolder(String originalPath) {

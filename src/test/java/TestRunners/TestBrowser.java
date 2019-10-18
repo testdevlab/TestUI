@@ -142,6 +142,6 @@ public class TestBrowser {
     public void test() {
         ADBUtils adbUtils = new ADBUtils();
         setDevice("emulator-5554", "emulator-5554");
-        adbUtils.checkAndInstallChromedriver();
+        adbUtils.getChromeDriverPath();
     }
 }
