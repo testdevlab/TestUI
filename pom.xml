@@ -148,7 +148,7 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>5.3.1</version> <!-- Use 4.12.2 if does not work in 5.X.X-->
+            <version>5.4.0</version> <!-- Use 4.12.2 if does not work in 5.X.X-->
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
