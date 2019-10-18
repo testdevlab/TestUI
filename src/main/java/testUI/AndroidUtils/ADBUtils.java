@@ -295,7 +295,7 @@ public class ADBUtils {
         String s;
         String path = "";
         try {
-            Process p3 = Runtime.getRuntime().exec("npm bin -g");
+            Process p3 = Runtime.getRuntime().exec("npm.cmd bin -g");
             BufferedReader stdInput3 = new BufferedReader(new
                     InputStreamReader(p3.getInputStream()));
             while ((s = stdInput3.readLine()) != null) {
