@@ -27,6 +27,8 @@ public class ADBUtils {
     private static final String WIN_CHROME_DRIVER =
             "\\node_modules\\appium\\node_modules\\appium-chromedriver\\chromedriver\\win" +
                     "\\chromedriver";
+    private final String NPM_WIN = "npm.cmd";
+    private final String NPM_LIN_MAC = "npm.cmd";
 
     private static void setPathAndCheckAdbServer() {
         if (System.getenv("ANDROID_HOME") != null) {
@@ -194,11 +196,8 @@ public class ADBUtils {
         String f = null;
         try {
             TestUIConfiguration configuration = new TestUIConfiguration();
-            Process p = Runtime.getRuntime().exec(
-                    androidHome
-                            + platformTools
-                            + "adb -s "
-                            + getDevice()
+            Process p = Runtime.getRuntime().exec(androidHome + platformTools
+                            + "adb -s " + getDevice()
                             + " shell dumpsys package com.android.chrome | grep versionName");
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
@@ -214,56 +213,48 @@ public class ADBUtils {
             } else {
                 chromeVersion = "";
             }
-            String chromedriverVersion = getChromedriverVersion(chromeVersion);
+            String chromeDriverVersion = getChromedriverVersion(chromeVersion);
             String ActualVersion = returnChromeDriverVersion();
-            String chromedriverPath = getChromeDriverPath();
+            String chromeDriverPath = getChromeDriverPath();
             if (!configuration.getChromeDriverPath().isEmpty()) {
                 putLog("Detected Chrome driver already specified for this device");
-            } else if (ActualVersion.contains(chromedriverVersion)
-                    || chromedriverVersion.equals("NOT")) {
-                putLog(
-                        "Detected Chrome version = "
-                                + chromeVersion
+            } else if (ActualVersion.contains(chromeDriverVersion)
+                    || chromeDriverVersion.equals("NOT")) {
+                putLog("Detected Chrome version = " + chromeVersion
                                 + " matches with the actual chromedriver: "
                                 + ActualVersion);
-            } else if (!doesFileExists(chromedriverPath)) {
-                putLog(
-                        "Detected Chrome version = "
-                                + chromeVersion
+            } else if (!doesFileExists(chromeDriverPath)) {
+                putLog("Detected Chrome version = " + chromeVersion
                                 + " but the Appium ChromeDriver is unknown, "
                                 + "maybe you should check the appium "
                                 + "installation or run npm install appium -g");
             } else if (getTargetDirectory(configuration)) {
-                putLog(
-                        "Detected Chrome driver already installed "
-                                + "for this device, placed in target directory");
+                putLog("Detected Chrome driver already installed "
+                        + "for this device, placed in target directory");
             } else {
-                putLog(
-                        "Detected Chrome version = "
-                                + chromeVersion
+                putLog("Detected Chrome version = " + chromeVersion
                                 + ". Installing the ChromeDriver: "
-                                + chromedriverVersion);
-                String chromedriverCustomPath = "";
-                Process p2 = Runtime.getRuntime().exec(
-                        "npm install appium-chromedriver -g --chromedriver_version=\""
-                                + chromedriverVersion
-                                + "\"");
+                                + chromeDriverVersion);
+                String chromeDriverCustomPath = "";
+                Process p2 = Runtime.getRuntime().exec(getNPMCmd()
+                                + " install appium-chromedriver -g --chromedriver_version=\""
+                                + chromeDriverVersion + "\"");
                 BufferedReader stdInput2 = new BufferedReader(new
                         InputStreamReader(p2.getInputStream()));
                 while ((s = stdInput2.readLine()) != null) {
                     if (s.contains("successfully put in place")) {
-                        chromedriverCustomPath = "/" +
+                        chromeDriverCustomPath = "/" +
                                 s.split(" /")[1].split(" successfully put in place")[0];
                     }
                 }
-                configuration.setChromeDriverPath(copyFileToCustomFolder(chromedriverCustomPath));
+                configuration.setChromeDriverPath(copyFileToCustomFolder(chromeDriverCustomPath));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static String returnChromeDriverVersion() {
+    private String returnChromeDriverVersion() {
         String s;
         String ActualVersion = "";
         try {
@@ -280,7 +271,7 @@ public class ADBUtils {
         return ActualVersion;
     }
 
-    private static String getChromeDriverPath() {
+    private String getChromeDriverPath() {
         String Platform = System.getProperty("os.name").toLowerCase();
         if (Platform.contains("mac")) {
             return MAC_CHROME_DRIVER;
@@ -291,11 +282,18 @@ public class ADBUtils {
         }
     }
 
-    private static String getWinNPMPath() {
+    private String getNPMCmd() {
+        String Platform = System.getProperty("os.name").toLowerCase();
+        if (Platform.contains("mac") || Platform.contains("linux"))
+            return NPM_LIN_MAC;
+        return NPM_WIN;
+    }
+
+    private String getWinNPMPath() {
         String s;
         String path = "";
         try {
-            Process p3 = Runtime.getRuntime().exec("npm.cmd bin -g");
+            Process p3 = Runtime.getRuntime().exec(getNPMCmd() + " bin -g");
             BufferedReader stdInput3 = new BufferedReader(new
                     InputStreamReader(p3.getInputStream()));
             while ((s = stdInput3.readLine()) != null) {
@@ -343,6 +341,8 @@ public class ADBUtils {
 
     private static String getChromedriverVersion(String chromeVersion) {
         switch (chromeVersion.split("\\.")[0]) {
+            case "78":
+                return "78.0.3904.11";
             case "77":
                 return "77.0.3865.10";
             case "76":
@@ -354,31 +354,21 @@ public class ADBUtils {
             case "73":
                 return "2.46";
             case "72":
-                return "2.44";
             case "71":
-                return "2.44";
             case "70":
-                return "2.44";
             case "69":
                 return "2.44";
             case "68":
-                return "2.40";
             case "67":
-                return "2.40";
             case "66":
                 return "2.40";
             case "65":
-                return "2.35";
             case "64":
-                return "2.35";
             case "63":
-                return "2.35";
             case "62":
                 return "2.35";
             case "61":
-                return "2.32";
             case "60":
-                return "2.32";
             case "59":
                 return "2.32";
             default:
