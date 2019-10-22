@@ -28,7 +28,7 @@ public class ADBUtils {
             "\\node_modules\\appium\\node_modules\\appium-chromedriver\\chromedriver\\win" +
                     "\\chromedriver";
     private final String NPM_WIN = "npm.cmd";
-    private final String NPM_LIN_MAC = "npm.cmd";
+    private final String NPM_LIN_MAC = "npm";
 
     private static void setPathAndCheckAdbServer() {
         if (System.getenv("ANDROID_HOME") != null) {
