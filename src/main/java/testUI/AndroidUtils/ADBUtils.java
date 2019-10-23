@@ -26,7 +26,7 @@ public class ADBUtils {
                     "/linux/chromedriver";
     private static final String WIN_CHROME_DRIVER =
             "\\node_modules\\appium\\node_modules\\appium-chromedriver\\chromedriver\\win" +
-                    "\\chromedriver";
+                    "\\chromedriver.exe";
     private final String NPM_WIN = "npm.cmd";
     private final String NPM_LIN_MAC = "npm";
 
@@ -243,8 +243,14 @@ public class ADBUtils {
                         InputStreamReader(p2.getInputStream()));
                 while ((s = stdInput2.readLine()) != null) {
                     if (s.contains("successfully put in place")) {
-                        chromeDriverCustomPath = "/" +
-                                s.split(" /")[1].split(" successfully put in place")[0];
+                        String Platform = System.getProperty("os.name").toLowerCase();
+                        if (Platform.contains("win")) {
+                            chromeDriverCustomPath = "C:" +
+                                    s.split("C:")[1].split(" successfully put in place")[0];
+                        } else {
+                            chromeDriverCustomPath = "/" +
+                                    s.split(" /")[1].split(" successfully put in place")[0];
+                        }
                     }
                 }
                 configuration.setChromeDriverPath(copyFileToCustomFolder(chromeDriverCustomPath));
