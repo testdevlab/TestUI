@@ -338,7 +338,13 @@ public class ADBUtils {
                 ADBUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath()
         );
         File targetDir = targetClassesDir.getParentFile();
-        String destinationPath = targetDir + "/chromedriver" + getDevice();
+        String destinationPath;
+        String Platform = System.getProperty("os.name").toLowerCase();
+        if (Platform.contains("mac") || Platform.contains("linux")) {
+            destinationPath = targetDir + "/chromedriver" + getDevice();
+        } else {
+            destinationPath = targetDir + "\\chromedriver" + getDevice() + ".exe";
+        }
         File tmpDir = new File(destinationPath);
         if (tmpDir.exists()) {
             configuration.setChromeDriverPath(destinationPath);
