@@ -101,9 +101,11 @@ public class AndroidCapabilities extends Configuration {
         // Created object of DesiredCapabilities class.
         DesiredCapabilities cap = new DesiredCapabilities();
         if (!configuration.getChromeDriverPath().isEmpty()) {
-            String chromePath = configuration.getChromeDriverPath().charAt(0) == '/'
+            String slash = System.getProperty("os.name").toLowerCase().contains("w") ? "\\" : "/";
+            String chromePath = configuration.getChromeDriverPath().charAt(0) == '/' ||
+                    configuration.getChromeDriverPath().startsWith("C:\\")
                     ? configuration.getChromeDriverPath()
-                    : System.getProperty("user.dir") + "/" + configuration.getChromeDriverPath();
+                    : System.getProperty("user.dir") + slash + configuration.getChromeDriverPath();
             cap.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, chromePath);
         }
         if (getDesiredCapabilities() == null) {
