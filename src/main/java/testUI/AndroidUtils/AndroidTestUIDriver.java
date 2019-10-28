@@ -89,6 +89,7 @@ public class AndroidTestUIDriver extends AndroidOpen {
                     } else {
                         setDriver(new AndroidDriver(new URL(url), cap) {
                         }, 0);
+                        getDriver().get(urlOrRelativeUrl);
                     }
                 }
                 break;
