@@ -84,7 +84,7 @@ public class AndroidTestUIDriver extends AndroidOpen {
                     });
                     getDriver().get(urlOrRelativeUrl);
                 } else {
-                    if (getDrivers().get(0).isBrowser()) {
+                    if (getDrivers().get(0).isBrowser() && !Configuration.cleanStart) {
                         getDrivers().get(0).get(urlOrRelativeUrl);
                     } else {
                         setDriver(new AndroidDriver(new URL(url), cap) {

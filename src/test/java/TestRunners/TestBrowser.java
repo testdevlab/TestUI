@@ -8,6 +8,7 @@ import pages.GoogleLandingPage;
 import testUI.AndroidUtils.ADBUtils;
 import testUI.Configuration;
 
+import static testUI.TestUIDriver.getSelenideDriver;
 import static testUI.TestUIDriver.setDriver;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
@@ -26,6 +27,8 @@ public class TestBrowser {
         Configuration.deviceTests = false;
         Configuration.browser = "chrome";
         open("https://www.google.com");
+        UIAssert("the url is not correct",
+                getSelenideDriver().getCurrentUrl().equals("https://www.google.com/"));
         googleLandingPage.getGoogleSearchInput().given()
                 .waitFor(5).untilIsVisible();
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()

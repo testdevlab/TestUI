@@ -52,12 +52,9 @@ public class IOSTestUIDriver {
             try {
                 putLog("Starting appium driver...");
                 if (getDrivers().size() == 0) {
-                    TestUIDriver.setDriver(
-                            new IOSDriver(new URL(url), cap) {});
+                    TestUIDriver.setDriver(new IOSDriver(new URL(url), cap) {});
                 } else {
-                    TestUIDriver.setDriver(
-                            new IOSDriver(
-                                    new URL(url), cap) {}, 0);
+                    TestUIDriver.setDriver(new IOSDriver(new URL(url), cap) {}, 0);
                 }
                 Configuration.driver = 1;
                 getDriver().get(urlOrRelativeUrl);
