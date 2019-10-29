@@ -779,6 +779,10 @@ public class Element extends TestUI implements UIElement {
         return new NetworkCalls().getNetworkCalls();
     }
 
+    public void getBrowserLogs() {
+        new NetworkCalls().getBrowserLogs();
+    }
+
     public NetworkCalls getLastNetworkCalls(int LastX) {
         return new NetworkCalls().getLastNetworkCalls(LastX);
     }

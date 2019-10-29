@@ -93,6 +93,8 @@ public interface UIElement {
 
     NetworkCalls getNetworkCalls();
 
+    void getBrowserLogs();
+
     NetworkCalls getLastNetworkCalls(int LastX);
 
     UIElement and();

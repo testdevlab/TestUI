@@ -7,12 +7,14 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import pages.GoogleLandingPage;
 import testUI.AndroidUtils.ADBUtils;
 import testUI.Configuration;
+import testUI.NetworkCalls;
 
 import static testUI.TestUIDriver.getSelenideDriver;
 import static testUI.TestUIDriver.setDriver;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
+import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
 
 public class TestBrowser {
@@ -139,6 +141,27 @@ public class TestBrowser {
                 .and("I send keys").setValueJs("password")
                 .then("I find the submit").setElement(byCssSelector("[type=\"submit\"]"))
                 .and("I click on it").click();
+    }
+
+    @Test
+    @DisplayName("Laptop browser test case")
+    public void testDesktopBrowserLogs() {
+        Configuration.browserLogs = true;
+        Configuration.deviceTests = false;
+        Configuration.useAllure = false;
+        Configuration.remote = "http://localhost:4444/wd/hub";
+        Configuration.browser = "chrome";
+        open("https://loadero.com/login")
+                .given("I set element").setElement(byCssSelector("#username"))
+                .and("I check if visible").waitFor(5).untilIsVisible()
+                .and("I send keys").setValueJs("\\uD83D\\uDE00")
+                .given("I set element").setElement(byCssSelector("#password"))
+                .and("I check if visible").waitFor(5).untilIsVisible()
+                .and("I send keys").setValueJs("password")
+                .then("I find the submit").setElement(byCssSelector("type=\"submit\"]"))
+                .and("I click on it").click();
+        sleep(5000);
+        System.out.println( new NetworkCalls().getBrowserLogs());
     }
 
     @Test

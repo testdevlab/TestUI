@@ -16,6 +16,7 @@ import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static testUI.Configuration.useAllure;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.UIAssert;
 import static testUI.UIUtils.getDevicesNames;
@@ -236,7 +237,7 @@ public class TestUI {
     }
 
     public static void takeScreenshotsAllure() {
-        if (!screenshotTaken) {
+        if (!screenshotTaken && useAllure) {
             if (getStep()) {
                 Allure.step("Previous Step Failed!", Status.FAILED);
             }

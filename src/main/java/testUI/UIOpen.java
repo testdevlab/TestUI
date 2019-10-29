@@ -22,7 +22,7 @@ public class UIOpen {
     private static NetworkCalls networkCalls = new NetworkCalls();
 
     public static UIElement open() {
-        networkCalls.setNetworkCalls();
+        networkCalls.setLogs();
         setScreenshotTaken(false);
         if (iOSTesting) {
             if (iOSAppPath.isEmpty() && bundleId.isEmpty() && getDesiredCapabilities() == null) {
@@ -132,7 +132,7 @@ public class UIOpen {
     }
 
     public static UIElement open(String urlOrRelativeUrl) {
-        networkCalls.setNetworkCalls();
+        networkCalls.setLogs();
         setScreenshotTaken(false);
         if (deviceTests && iOSTesting) {
             iOSTestUIOpen.openIOSBrowser(urlOrRelativeUrl, new TestUIConfiguration());

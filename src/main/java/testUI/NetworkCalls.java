@@ -15,10 +15,8 @@ import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.logging.Level;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -56,7 +54,8 @@ public class NetworkCalls {
         proxy = null;
     }
 
-    public void setNetworkCalls() {
+    public void setLogs() {
+        LoggingPreferences logPrefs = new LoggingPreferences();
         if (Configuration.logNetworkCalls) {
             if (Configuration.remote == null || Configuration.remote.isEmpty()) {
                 if (proxy == null || !proxy.isStarted()) {
@@ -77,8 +76,12 @@ public class NetworkCalls {
                     proxy.newHar("Proxy");
                 }
             }
-            LoggingPreferences logPrefs = new LoggingPreferences();
             logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
+        }
+        if (Configuration.browserLogs) {
+            logPrefs.enable(LogType.BROWSER, Level.ALL);
+        }
+        if (Configuration.browserLogs || Configuration.logNetworkCalls) {
             Configuration.selenideBrowserCapabilities.setCapability("goog:loggingPrefs", logPrefs);
             Configuration.selenideBrowserCapabilities.setCapability(
                     CapabilityType.LOGGING_PREFS, logPrefs);
@@ -177,24 +180,43 @@ public class NetworkCalls {
                 putLog("The PERFORMANCE logs are not supported for this browser");
             }
         } else {
-            Har har = getProxy().getHar();
-            for (HarEntry entry : har.getLog().getEntries()) {
-                Map<String, String> call = new HashMap<>();
-                call.put("URL", entry.getRequest().getUrl());
-                call.put("Status", String.valueOf(entry.getResponse().getStatus()));
-                call.put("RequestHeaders", entry.getRequest().getHeaders().toString());
-                call.put("ResponseHeaders", entry.getResponse().getHeaders().toString());
-                String payload = entry.getResponse().getContent().getText() == null ?
-                        "" : entry.getResponse().getContent().getText();
-                call.put("Payload", payload);
-                if (entry.getResponse().getStatus() >= 300) {
-                    call.put("Response: ", String.valueOf(entry.getResponse().getContent()
-                            .getText()));
+            if (getProxy() != null) {
+                Har har = getProxy().getHar();
+                for (HarEntry entry : har.getLog().getEntries()) {
+                    Map<String, String> call = new HashMap<>();
+                    call.put("URL", entry.getRequest().getUrl());
+                    call.put("Status", String.valueOf(entry.getResponse().getStatus()));
+                    call.put("RequestHeaders", entry.getRequest().getHeaders().toString());
+                    call.put("ResponseHeaders", entry.getResponse().getHeaders().toString());
+                    String payload = entry.getResponse().getContent().getText() == null ?
+                            "" : entry.getResponse().getContent().getText();
+                    call.put("Payload", payload);
+                    if (entry.getResponse().getStatus() >= 300) {
+                        call.put("Response: ", String.valueOf(entry.getResponse().getContent()
+                                .getText()));
+                    }
+                    callHar.add(call);
                 }
-                callHar.add(call);
             }
         }
         return new NetworkCalls(calls, new ArrayList<>(), callHar, false);
+    }
+
+    public List<String> getBrowserLogs() {
+        List<String> browserLogs = new ArrayList<>();
+        try {
+            for (LogEntry log : getWebDriver().manage().logs().get(LogType.BROWSER)) {
+                Date date = new Date(log.getTimestamp());
+                SimpleDateFormat jdf = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss.SSS");
+
+                browserLogs.add(
+                        "[" + log.getLevel() + "] " + jdf.format(date) + ": " + log.getMessage()
+                );
+            }
+        } catch (UnsupportedCommandException e) {
+            putLog("The BROWSER logs are not supported for this browser");
+        }
+        return browserLogs;
     }
 
     public NetworkCalls getLastNetworkCalls(int lastX) {
