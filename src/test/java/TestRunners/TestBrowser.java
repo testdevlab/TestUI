@@ -1,5 +1,6 @@
 package TestRunners;
 
+import io.netty.handler.logging.LogLevel;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -23,8 +24,9 @@ public class TestBrowser {
     @Test
     @DisplayName("Laptop browser test case")
     public void testDesktopBrowser() {
-        Configuration.logNetworkCalls = true;
+//        Configuration.logNetworkCalls = true;
         Configuration.deviceTests = false;
+        Configuration.testUILogLevel = LogLevel.DEBUG;
         Configuration.browser = "chrome";
         open("https://www.google.com");
         UIAssert("the url is not correct",

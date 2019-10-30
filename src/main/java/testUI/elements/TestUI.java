@@ -6,6 +6,7 @@ import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.MobileElement;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
+import org.aspectj.weaver.ast.And;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import testUI.Configuration;
@@ -78,6 +79,17 @@ public class TestUI {
         if (Configuration.iOSTesting)
             return iOSElement;
         return AndroidElement;
+    }
+
+    protected String  getStringElement(String accesibilityIdiOS, String accesibilityId,
+                                       By iOSElement, By AndroidElement, By SelenideElement) {
+        if (Configuration.deviceTests) {
+            if (getLocator(accesibilityIdiOS,accesibilityId).isEmpty())
+                return getAppiumElement(iOSElement, AndroidElement).toString();
+            return getLocator(accesibilityIdiOS,accesibilityId);
+        } else {
+            return SelenideElement.toString();
+        }
     }
 
     protected String getLocator(String accesibilityIdiOS, String accesibilityId) {
