@@ -174,7 +174,7 @@ public class UIOpen {
         } else {
             getSelenideDriver().manage().addCookie(cookie);
         }
-        putLogDebug("adding cooky -> " + key + ":" + value);
+        putLogDebug("adding cookie -> " + key + ":" + value);
         return TestUI.E("");
     }
 
