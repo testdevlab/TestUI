@@ -16,6 +16,7 @@ import java.io.IOException;
 import static testUI.TestUIDriver.*;
 import static testUI.UIOpen.navigate;
 import static testUI.Utils.AppiumHelps.*;
+import static testUI.Utils.Logger.putLogDebug;
 import static testUI.Utils.WaitUntil.waitUntilClickable;
 import static testUI.Utils.WaitUntil.waitUntilVisible;
 import static testUI.collections.TestUI.EE;
@@ -183,6 +184,9 @@ public class Element extends TestUI implements UIElement {
     }
 
     public UIElement click() {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                element, SelenideElement);
         try {
             if (Configuration.deviceTests) {
                 if (!collection) {
@@ -211,10 +215,16 @@ public class Element extends TestUI implements UIElement {
             takeScreenshotsAllure();
             throw new Error(e);
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Element '" + stringElement + "' was clicked after " + finalTime +
+                " ms");
         return getElementObject();
     }
 
     public UIElement doubleClick() {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                element, SelenideElement);
         try {
             if (Configuration.deviceTests) {
                 if (!collection) {
@@ -240,6 +250,9 @@ public class Element extends TestUI implements UIElement {
             takeScreenshotsAllure();
             throw new Error(e);
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Element '" + stringElement + "' was double clicked after " + finalTime +
+                " ms");
         return getElementObject();
     }
 
@@ -335,6 +348,9 @@ public class Element extends TestUI implements UIElement {
     }
 
     public UIElement sendKeys(CharSequence charSequence) {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                element, SelenideElement);
         try {
             if (Configuration.deviceTests) {
                 getElement(
@@ -354,10 +370,16 @@ public class Element extends TestUI implements UIElement {
             takeScreenshotsAllure();
             throw new Error(e);
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Send keys '" + charSequence + "' to element '" + stringElement +
+                " after " + finalTime + " ms");
         return getElementObject();
     }
 
     public UIElement setValueJs(String value) {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                element, SelenideElement);
         click();
         try {
             if (Configuration.deviceTests) {
@@ -382,10 +404,16 @@ public class Element extends TestUI implements UIElement {
             takeScreenshotsAllure();
             throw new Error(e);
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Set value '" + value + "' to element '" + stringElement +
+                " after " + finalTime + " ms");
         return getElementObject();
     }
 
     public UIElement setValueJs(String value, boolean clickBeforeSetValue) {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                element, SelenideElement);
         if (clickBeforeSetValue) {
             click();
         }
@@ -412,10 +440,16 @@ public class Element extends TestUI implements UIElement {
             takeScreenshotsAllure();
             throw new Error(e);
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Set value '" + value + "' to element '" + stringElement +
+                " after " + finalTime + " ms");
         return getElementObject();
     }
 
     public UIElement executeJsOverElement(String JsScript) {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                element, SelenideElement);
         try {
             if (Configuration.deviceTests) {
                 ((JavascriptExecutor) getDriver()).executeScript(
@@ -438,6 +472,9 @@ public class Element extends TestUI implements UIElement {
             takeScreenshotsAllure();
             throw new Error(e);
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Executed JS '" + JsScript + "' over element '" + stringElement +
+                " after " + finalTime + " ms");
         return getElementObject();
     }
 
@@ -777,6 +814,10 @@ public class Element extends TestUI implements UIElement {
 
     public NetworkCalls getNetworkCalls() {
         return new NetworkCalls().getNetworkCalls();
+    }
+
+    public void getBrowserLogs() {
+        new NetworkCalls().getBrowserLogs();
     }
 
     public NetworkCalls getLastNetworkCalls(int LastX) {

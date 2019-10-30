@@ -1,6 +1,7 @@
 package testUI;
 
 import cucumber.api.Scenario;
+import io.netty.handler.logging.LogLevel;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class Configuration extends SelenideConfiguration {
     public static String screenshotPath = "";
     public static int timeStartAppiumServer = 20;
     public static boolean cleanStart = true;
+    public static LogLevel testUILogLevel = LogLevel.ERROR;
 
     protected static DesiredCapabilities desiredCapabilities;
     protected static int iOSDevices = 0;

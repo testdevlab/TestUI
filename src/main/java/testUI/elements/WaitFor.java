@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 import testUI.Configuration;
 
+import static testUI.Utils.Logger.putLogDebug;
 import static testUI.Utils.WaitUntil.*;
 
 public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
@@ -56,6 +57,9 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
     }
 
     public UIElement untilIsVisible() {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                AppiumElement, SelenideElement);
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilVisible(
@@ -76,10 +80,16 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         } else {
             selenideAssert(Condition.visible, time, SelenideElement, index, collection);
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Element '" + stringElement + "' was visible after " + finalTime +
+                " ms");
         return getElementObject();
     }
 
     public Element untilIsEnabled() {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                AppiumElement, SelenideElement);
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilEnable(
@@ -100,10 +110,16 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         } else {
             selenideAssert(Condition.enabled, time, SelenideElement, index, collection);
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Element '" + stringElement + "' was enabled after " + finalTime +
+                " ms");
         return getElementObject();
     }
 
     public Element untilExists() {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                AppiumElement, SelenideElement);
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilExist(
@@ -124,10 +140,16 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         } else {
             selenideAssert(Condition.exist, time, SelenideElement, index, collection);
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Element '" + stringElement + "' exists after " + finalTime +
+                " ms");
         return getElementObject();
     }
 
     public Element untilHasText(String text) {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                AppiumElement, SelenideElement);
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilContainsText(
@@ -150,10 +172,16 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         } else {
             selenideAssert(Condition.text(text), time, SelenideElement, index, collection);
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Element '" + stringElement + "' has text '" + text + "' after "
+                + finalTime + " ms");
         return getElementObject();
     }
 
     public Element untilHasCaseNotSensitiveText(String text) {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                AppiumElement, SelenideElement);
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilContainsTextNoCaseSensitive(
@@ -176,10 +204,16 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         } else {
             selenideAssert(Condition.text(text), time, SelenideElement, index, collection);
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Element '" + stringElement + "' has text '" + text + "' after "
+                + finalTime + " ms");
         return getElementObject();
     }
 
     public Element untilHasValue(String value) {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                AppiumElement, SelenideElement);
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilHasValue(
@@ -202,10 +236,16 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         } else {
             selenideAssert(Condition.value(value), time, SelenideElement, index, collection);
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Element '" + stringElement + "' has value '" + value + "' after "
+                + finalTime + " ms");
         return getElementObject();
     }
 
     public Element untilNotVisible() {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                AppiumElement, SelenideElement);
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilVisible(
@@ -213,24 +253,29 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         index,
                         time,
-                        false
-                );
+                        false);
             } else {
                 waitUntilVisible(
                         getAppiumElement(iOSElement, AppiumElement),
                         getAccesibilityId(accesibilityIdiOS, accesibilityId),
                         time,
-                        false
-                );
+                        false);
             }
         } else {
             selenideAssert(Condition.not(Condition.visible),
                     time, SelenideElement, index, collection);
+
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Element '" + stringElement + "' is not visible after "
+                + finalTime + " ms");
         return getElementObject();
     }
 
     public Element untilNotExists() {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                AppiumElement, SelenideElement);
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilExist(
@@ -251,10 +296,16 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
             selenideAssert(Condition.not(Condition.exist), time,
                     SelenideElement, index, collection);
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Element '" + stringElement + "' not exists after "
+                + finalTime + " ms");
         return getElementObject();
     }
 
     public Element untilNotEnabled() {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                AppiumElement, SelenideElement);
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilEnable(
@@ -287,10 +338,16 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
                     collection
             );
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Element '" + stringElement + "' is not enabled after "
+                + finalTime + " ms");
         return getElementObject();
     }
 
     public Element untilHasNotText(String text) {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                AppiumElement, SelenideElement);
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilContainsText(
@@ -320,10 +377,16 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
                     collection
             );
         }
+        long finalTime = System.currentTimeMillis() - t;
+        putLogDebug("Element '" + stringElement + "' has no text '" + text + "' after "
+                + finalTime + " ms");
         return getElementObject();
     }
 
     public Element untilHasNotValue(String value) {
+        long t = System.currentTimeMillis();
+        String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
+                AppiumElement, SelenideElement);
         if (Configuration.deviceTests) {
             if (collection) {
                 waitUntilHasValue(
@@ -347,6 +410,9 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
             selenideAssert(Condition.not(Condition.text(value)),
                     time, SelenideElement, index, collection);
         }
+        long finishTime = (System.currentTimeMillis() - t);
+        putLogDebug("Element '" + stringElement + "' has no value '" + value + "' after "
+                + finishTime + " ms");
         return getElementObject();
     }
 

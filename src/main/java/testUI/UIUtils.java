@@ -5,19 +5,19 @@ import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.JavascriptExecutor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import testUI.Utils.TestUIException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static com.codeborne.selenide.Selenide.*;
 import static testUI.TestUIDriver.*;
+import static testUI.Utils.Logger.putLogInfo;
 import static testUI.elements.TestUI.takeScreenshotsAllure;
 
 public class UIUtils extends Configuration {
-    private static Logger logger = LoggerFactory.getLogger(UIUtils.class);
+    private static Logger logger = Logger.getLogger(UIUtils.class.getName());
 
     private volatile static ThreadLocal<List<AppiumDriverLocalService>> service
             = new ThreadLocal<>();
@@ -143,15 +143,15 @@ public class UIUtils extends Configuration {
     }
 
     public static void putLog(String log) {
-        logger.info(log);
+        putLogInfo(log);
     }
 
     public static void putErrorLog(String log) {
-        logger.error(log);
+        logger.severe(log);
     }
 
     public static void putAllureParameter(String name, String log) {
-        logger.info(name + " " + log);
+        putLog(name + " " + log);
         if (Configuration.useAllure) {
             Allure.parameter(name, log);
         }
