@@ -13,6 +13,7 @@ import static testUI.Configuration.*;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.putLog;
 import static testUI.Utils.Logger.putLogDebug;
+import static testUI.Utils.Performance.setTime;
 import static testUI.elements.TestUI.setScreenshotTaken;
 import static testUI.elements.Element.setStep;
 
@@ -135,12 +136,15 @@ public class UIOpen {
     public static UIElement open(String urlOrRelativeUrl) {
         networkCalls.setLogs();
         setScreenshotTaken(false);
+        long t = System.currentTimeMillis();
         if (deviceTests && iOSTesting) {
             iOSTestUIOpen.openIOSBrowser(urlOrRelativeUrl, new TestUIConfiguration());
         } else {
             androidTestUIDriver.openBrowser(urlOrRelativeUrl, new TestUIConfiguration());
         }
-        putLogDebug("open url -> " + urlOrRelativeUrl);
+        long finalTime = System.currentTimeMillis() - t;
+        setTime(finalTime);
+        putLogDebug("open url -> " + urlOrRelativeUrl + " after " + finalTime + " ms");
         setStep(false);
         return TestUI.E("");
     }

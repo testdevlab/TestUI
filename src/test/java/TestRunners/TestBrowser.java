@@ -14,6 +14,7 @@ import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
 import static testUI.Utils.By.*;
+import static testUI.Utils.Performance.logAverageTime;
 
 public class TestBrowser {
     private GoogleLandingPage googleLandingPage = new GoogleLandingPage();
@@ -37,6 +38,7 @@ public class TestBrowser {
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible()
                 .then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
                 ".png");
+        logAverageTime();
     }
 
     @Test

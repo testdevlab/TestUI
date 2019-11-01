@@ -7,6 +7,7 @@ import testUI.Configuration;
 
 import static testUI.UIOpen.open;
 import static testUI.Utils.By.byMobileCss;
+import static testUI.Utils.Performance.logAverageTime;
 import static testUI.elements.TestUI.E;
 
 public class TestAndroid {
@@ -40,6 +41,7 @@ public class TestAndroid {
         googleLandingPage.getGoogleSearch().then("Check that search button visible")
                 .waitFor(10).untilIsVisible()
                 .and("Click on search button").click();
+        logAverageTime();
     }
 
     @Test
