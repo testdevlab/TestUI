@@ -5,7 +5,7 @@ import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
-import testUI.NetworkCalls;
+import testUI.BrowserLogs;
 import testUI.collections.UICollection;
 
 public interface UIElement {
@@ -91,11 +91,11 @@ public interface UIElement {
 
     UIElement saveScreenshot(String path);
 
-    NetworkCalls getNetworkCalls();
+    BrowserLogs getNetworkCalls();
 
     void getBrowserLogs();
 
-    NetworkCalls getLastNetworkCalls(int LastX);
+    BrowserLogs getLastNetworkCalls(int LastX);
 
     UIElement and();
 

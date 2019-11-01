@@ -228,7 +228,7 @@ public class ADBUtils {
                                 + " but the Appium ChromeDriver is unknown, "
                                 + "maybe you should check the appium "
                                 + "installation or run npm install appium -g");
-            } else if (getTargetDirectory(configuration)) {
+            } else if (getTargetDirectory(configuration, chromeVersion.split("\\.")[0])) {
                 putLog("Detected Chrome driver already installed "
                         + "for this device, placed in target directory");
             } else {
@@ -253,7 +253,8 @@ public class ADBUtils {
                         }
                     }
                 }
-                configuration.setChromeDriverPath(copyFileToCustomFolder(chromeDriverCustomPath));
+                configuration.setChromeDriverPath(copyFileToCustomFolder(chromeDriverCustomPath,
+                        chromeVersion.split("\\.")[0]));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -311,7 +312,7 @@ public class ADBUtils {
         return path;
     }
 
-    private static String copyFileToCustomFolder(String originalPath) {
+    private static String copyFileToCustomFolder(String originalPath, String chromeVersion) {
         File targetClassesDir = new File(
                 ADBUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath()
         );
@@ -319,9 +320,9 @@ public class ADBUtils {
         String destinationPath;
         String Platform = System.getProperty("os.name").toLowerCase();
         if (Platform.contains("mac") || Platform.contains("linux")) {
-            destinationPath = targetDir + "/chromedriver" + getDevice();
+            destinationPath = targetDir + "/chromedriver" + chromeVersion;
         } else {
-            destinationPath = targetDir + "\\chromedriver" + getDevice() + ".exe";
+            destinationPath = targetDir + "\\chromedriver" + chromeVersion + ".exe";
         }
         try {
             FileUtils.moveFile(
@@ -333,7 +334,8 @@ public class ADBUtils {
         return destinationPath;
     }
 
-    private static boolean getTargetDirectory(TestUIConfiguration configuration) {
+    private static boolean getTargetDirectory(TestUIConfiguration configuration,
+                                              String chromeVersion) {
         File targetClassesDir = new File(
                 ADBUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath()
         );
@@ -341,9 +343,9 @@ public class ADBUtils {
         String destinationPath;
         String Platform = System.getProperty("os.name").toLowerCase();
         if (Platform.contains("mac") || Platform.contains("linux")) {
-            destinationPath = targetDir + "/chromedriver" + getDevice();
+            destinationPath = targetDir + "/chromedriver" + chromeVersion;
         } else {
-            destinationPath = targetDir + "\\chromedriver" + getDevice() + ".exe";
+            destinationPath = targetDir + "\\chromedriver" + chromeVersion + ".exe";
         }
         File tmpDir = new File(destinationPath);
         if (tmpDir.exists()) {

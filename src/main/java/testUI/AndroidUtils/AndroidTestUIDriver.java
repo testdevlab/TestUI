@@ -97,18 +97,16 @@ public class AndroidTestUIDriver extends AndroidOpen {
                 e.printStackTrace();
             } catch (Exception e) {
                 System.err.println("Could not create driver! retrying...");
-                if (getDevices().size() != 0) {
+                if (getDevices().size() != 0 && appiumUrl.isEmpty()) {
                     adbUtils.checkAndInstallChromedriver();
-                } else if (getDevices().size() == 0 &&
-                        getEmulators().size() != 0 &&
-                        adbUtils.getDeviceNames().size() != 0) {
+                } else if (getDevices().size() == 0 && getEmulators().size() != 0 &&
+                        adbUtils.getDeviceNames().size() != 0 && appiumUrl.isEmpty()) {
                     setDevice(
                             adbUtils.getDeviceNames().get(adbUtils.getDeviceNames().size() - 1),
                             getEmulators().get(0)
                     );
                     adbUtils.checkAndInstallChromedriver();
                 }
-                sleep(500);
                 if (i == 1) {
                     throw new Error(e);
                 }

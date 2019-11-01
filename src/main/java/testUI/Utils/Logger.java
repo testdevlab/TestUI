@@ -22,7 +22,7 @@ public class Logger {
                 Configuration.testUILogLevel == LogLevel.DEBUG) {
             Date date = new Date();
             SimpleDateFormat jdf = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss.SSS");
-            System.out.println(ANSI_GREEN + "[INFO] " + jdf.format(date) + ": " + log + ANSI_RESET);
+            System.out.println(ANSI_PURPLE + "[INFO] " + jdf.format(date) + ": " + log + ANSI_RESET);
         }
     }
 
@@ -30,7 +30,13 @@ public class Logger {
         if (Configuration.testUILogLevel == LogLevel.DEBUG) {
             Date date = new Date();
             SimpleDateFormat jdf = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss.SSS");
-            System.out.println(ANSI_GREEN + "[DEBUG] " + jdf.format(date) + ": " + log + ANSI_RESET);
+            System.out.println(ANSI_PURPLE + "[DEBUG] " + jdf.format(date) + ": " + log + ANSI_RESET);
         }
+    }
+
+    public static void putLogError(String log) {
+            Date date = new Date();
+            SimpleDateFormat jdf = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss.SSS");
+            System.out.println(ANSI_RED + "[ERROR] " + jdf.format(date) + ": " + log + ANSI_RESET);
     }
 }

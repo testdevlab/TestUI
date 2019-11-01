@@ -8,10 +8,6 @@ import testUI.elements.TestUI;
 import testUI.elements.UIElement;
 
 import java.util.Set;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import static testUI.Configuration.*;
 import static testUI.TestUIDriver.*;
@@ -24,7 +20,7 @@ public class UIOpen {
 
     private static AndroidOpen androidTestUIDriver = new AndroidOpen();
     private static IOSOpen iOSTestUIOpen = new IOSOpen();
-    private static NetworkCalls networkCalls = new NetworkCalls();
+    private static BrowserLogs networkCalls = new BrowserLogs();
 
     public static UIElement open() {
         networkCalls.setLogs();

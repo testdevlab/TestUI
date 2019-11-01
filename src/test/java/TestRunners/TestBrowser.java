@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pages.GoogleLandingPage;
-import testUI.AndroidUtils.ADBUtils;
 import testUI.Configuration;
 
 import static testUI.TestUIDriver.getSelenideDriver;
@@ -18,8 +17,6 @@ import static testUI.Utils.By.*;
 
 public class TestBrowser {
     private GoogleLandingPage googleLandingPage = new GoogleLandingPage();
-
-
 
     @Test
     @DisplayName("Laptop browser test case")
@@ -131,7 +128,10 @@ public class TestBrowser {
     @DisplayName("Laptop browser test case one line code")
     public void testAndroidBrowserOneLine() {
         Configuration.deviceTests = false;
-        Configuration.browser = "chrome";
+        Configuration.useAllure = false;
+        Configuration.browser = "firefox";
+        Configuration.testUILogLevel = LogLevel.DEBUG;
+        Configuration.browserLogs = true;
         open("https://loadero.com/login")
                 .given("I set element").setElement(byCssSelector("#username"))
                 .and("I check if visible").waitFor(5).untilIsVisible()
@@ -141,12 +141,5 @@ public class TestBrowser {
                 .and("I send keys").setValueJs("password")
                 .then("I find the submit").setElement(byCssSelector("[type=\"submit\"]"))
                 .and("I click on it").click();
-    }
-
-    @Test
-    public void test() {
-        ADBUtils adbUtils = new ADBUtils();
-        setDevice("emulator-5554", "emulator-5554");
-        adbUtils.checkAndInstallChromedriver();
     }
 }

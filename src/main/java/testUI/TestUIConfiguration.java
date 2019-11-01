@@ -44,7 +44,7 @@ public class TestUIConfiguration {
             setChromeDriverPath(Configuration.chromeDriverPath);
         }
         if (!Configuration.emulatorName.isEmpty()) {
-            setChromeDriverPath(Configuration.emulatorName);
+            setChromeDriverPath("");
         }
     }
 

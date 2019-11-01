@@ -7,7 +7,7 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.touch.TouchActions;
 import testUI.Configuration;
-import testUI.NetworkCalls;
+import testUI.BrowserLogs;
 import testUI.collections.UICollection;
 
 import java.io.File;
@@ -812,16 +812,16 @@ public class Element extends TestUI implements UIElement {
         return getElementObject();
     }
 
-    public NetworkCalls getNetworkCalls() {
-        return new NetworkCalls().getNetworkCalls();
+    public BrowserLogs getNetworkCalls() {
+        return new BrowserLogs().getNetworkCalls();
     }
 
     public void getBrowserLogs() {
-        new NetworkCalls().getBrowserLogs();
+        new BrowserLogs().getBrowserLogs();
     }
 
-    public NetworkCalls getLastNetworkCalls(int LastX) {
-        return new NetworkCalls().getLastNetworkCalls(LastX);
+    public BrowserLogs getLastNetworkCalls(int LastX) {
+        return new BrowserLogs().getLastNetworkCalls(LastX);
     }
 
     public UIElement and() {
