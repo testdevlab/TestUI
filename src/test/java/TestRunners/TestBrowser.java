@@ -14,6 +14,7 @@ import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
 import static testUI.Utils.By.*;
+import static testUI.Utils.Performance.getListOfCommandsTime;
 import static testUI.Utils.Performance.logAverageTime;
 
 public class TestBrowser {
@@ -22,7 +23,6 @@ public class TestBrowser {
     @Test
     @DisplayName("Laptop browser test case")
     public void testDesktopBrowser() {
-//        Configuration.logNetworkCalls = true;
         Configuration.deviceTests = false;
         Configuration.testUILogLevel = LogLevel.DEBUG;
         Configuration.browser = "chrome";
@@ -39,6 +39,7 @@ public class TestBrowser {
                 .then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
                 ".png");
         logAverageTime();
+        System.out.println(getListOfCommandsTime());
     }
 
     @Test

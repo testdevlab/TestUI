@@ -1,12 +1,15 @@
 package TestRunners;
 
+import io.netty.handler.logging.LogLevel;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
+import testUI.Utils.CliTestUI;
 
 import static testUI.UIOpen.open;
 import static testUI.Utils.By.byMobileCss;
+import static testUI.Utils.Performance.getListOfCommandsTime;
 import static testUI.Utils.Performance.logAverageTime;
 import static testUI.elements.TestUI.E;
 
@@ -16,6 +19,7 @@ public class TestAndroid {
     @Test
     @DisplayName("Android browser test case")
     public void testAndroidBrowser() {
+        Configuration.testUILogLevel = LogLevel.DEBUG;
         open("https://www.google.com");
         E(byMobileCss("#SIvCob")).click();
         googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
@@ -30,8 +34,9 @@ public class TestAndroid {
     @Test
     @DisplayName("Android browser test case remote")
     public void testAndroidBrowserRemote() {
+        Configuration.testUILogLevel = LogLevel.DEBUG;
         Configuration.appiumUrl = "http://127.0.0.1:4723/wd/hub";
-        Configuration.emulatorName = "Nexus_5X_API_27";
+        Configuration.androidDeviceName = "emulator-5554";
         open("https://www.google.com");
         E(byMobileCss("#SIvCob")).click();
         googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
@@ -42,13 +47,29 @@ public class TestAndroid {
                 .waitFor(10).untilIsVisible()
                 .and("Click on search button").click();
         logAverageTime();
+        System.out.println(getListOfCommandsTime());
     }
 
     @Test
     @DisplayName("Android browser test case")
     public void testAndroidBrowser2() {
+        Configuration.testUILogLevel = LogLevel.DEBUG;
         Configuration.appiumUrl = "";
         Configuration.androidDeviceName = "";
+        open("https://www.google.com");
+        googleLandingPage.getGoogleSearchInput()
+                .given("Check search input visible and set value").waitFor(5)
+                .untilIsVisible().then().sendKeys("TestUI");
+        googleLandingPage.getGoogleSearch().then("Check that search button visible")
+                .waitFor(10).untilIsVisible()
+                .and("Click on search button").click();
+    }
+
+    @Test
+    @DisplayName("Test cli testUI")
+    public void testCliTestUI() {
+        CliTestUI cliTestUI = new CliTestUI();
+        cliTestUI.setAppiumRemoteConfiguration("http://localhost:8080");
         open("https://www.google.com");
         googleLandingPage.getGoogleSearchInput()
                 .given("Check search input visible and set value").waitFor(5)

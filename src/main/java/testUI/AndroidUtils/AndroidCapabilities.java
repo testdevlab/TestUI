@@ -100,10 +100,13 @@ public class AndroidCapabilities extends Configuration {
                     Configuration.androidVersion;
         } else {
             if (configuration.getEmulatorName().isEmpty() && getDevices().size() == 0) {
-                if (Configuration.emulatorName.isEmpty()) {
+                if (!Configuration.emulatorName.isEmpty()) {
+                    configuration.setEmulatorName(Configuration.emulatorName);
+                } else if (!Configuration.androidDeviceName.isEmpty()) {
+                    setDevice(Configuration.androidDeviceName, Configuration.androidDeviceName);
+                } else {
                     throw new Error("There is no device available to run the automation!");
                 }
-                configuration.setEmulatorName(Configuration.emulatorName);
             }
         }
         // Created object of DesiredCapabilities class.
