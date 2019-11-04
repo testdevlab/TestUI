@@ -82,22 +82,33 @@ public class AndroidCapabilities extends Configuration {
 
     public static DesiredCapabilities setAndroidBrowserCapabilities(
             TestUIConfiguration configuration) {
-        if (configuration.getEmulatorName().isEmpty() && getDevices().size() == 0) {
-            throw new Error("There is no device available to run the automation!");
+        String deviceVersion = "";
+        if (Configuration.appiumUrl.isEmpty()) {
+            if (configuration.getEmulatorName().isEmpty() && getDevices().size() == 0) {
+                throw new Error("There is no device available to run the automation!");
+            }
+            if (configuration.getEmulatorName().isEmpty()
+                    && !adbUtils.getDeviceStatus(getDevice()).equals("device")) {
+                System.err.println("The device status is " + adbUtils.getDeviceStatus(getDevice()) +
+                        " to use usb, you must allow usb debugging for this device: " + getDevice());
+                throw new Error();
+            }
+            getDevModel(configuration);
+            deviceVersion = Configuration.androidVersion.isEmpty() &&
+                    configuration.getEmulatorName().isEmpty() ?
+                    adbUtils.getDeviceVersion(getDevice()) :
+                    Configuration.androidVersion;
+        } else {
+            if (configuration.getEmulatorName().isEmpty() && getDevices().size() == 0) {
+                if (!Configuration.emulatorName.isEmpty()) {
+                    configuration.setEmulatorName(Configuration.emulatorName);
+                } else if (!Configuration.androidDeviceName.isEmpty()) {
+                    setDevice(Configuration.androidDeviceName, Configuration.androidDeviceName);
+                } else {
+                    throw new Error("There is no device available to run the automation!");
+                }
+            }
         }
-        if (configuration.getEmulatorName().isEmpty()
-                && !adbUtils.getDeviceStatus(getDevice()).equals("device")) {
-            System.err.println("The device status is " + adbUtils.getDeviceStatus(getDevice()) +
-                    " to use usb, you must allow usb debugging for this device: " + getDevice());
-            throw new Error();
-        }
-        getDevModel(configuration);
-        String deviceVersion = Configuration.androidVersion.isEmpty() &&
-                configuration.getEmulatorName().isEmpty() ?
-                adbUtils.getDeviceVersion(getDevice()) :
-                Configuration.androidVersion;
-        String browserFirstLetter = Configuration.browser.subSequence(0, 1).toString().toUpperCase();
-        String browser = browserFirstLetter + Configuration.browser.substring(1);
         // Created object of DesiredCapabilities class.
         DesiredCapabilities cap = new DesiredCapabilities();
         if (!configuration.getChromeDriverPath().isEmpty()) {
@@ -110,7 +121,9 @@ public class AndroidCapabilities extends Configuration {
         }
         if (getDesiredCapabilities() == null) {
             if (configuration.getEmulatorName().isEmpty()) {
-                cap.setCapability(MobileCapabilityType.DEVICE_NAME, getDevice());
+                String deviceName = configuration.getAndroidDeviceName().isEmpty() ? getDevice()
+                        : configuration.getAndroidDeviceName();
+                cap.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
                 cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceVersion);
             } else {
                 cap.setCapability(MobileCapabilityType.DEVICE_NAME,
@@ -123,13 +136,15 @@ public class AndroidCapabilities extends Configuration {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME,
                         Configuration.AutomationName);
             }
-            int systemPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 10;
-            int chromeDriverPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 15;
-            cap.setCapability("chromeDriverPort", chromeDriverPort);
-            cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
+            if (configuration.getAppiumUrl().isEmpty()) {
+                int systemPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 10;
+                int chromeDriverPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 15;
+                cap.setCapability("chromeDriverPort", chromeDriverPort);
+                cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
+            }
             cap.setCapability(MobileCapabilityType.NO_RESET, true);
             cap.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
-            cap.setCapability(MobileCapabilityType.BROWSER_NAME, browser);
+            cap.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
             cap.setCapability(AndroidMobileCapabilityType.NATIVE_WEB_SCREENSHOT, true);
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.setExperimentalOption("w3c", false);

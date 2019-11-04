@@ -18,7 +18,8 @@ public class AndroidOpen extends TestUIServer {
 
     public void openApp(TestUIConfiguration configuration) {
         if (((getAppiumServices().size() == 0 || !getAppiumServices().get(0).isRunning())
-                && desiredCapabilities == null) || getDevices().size() == 0) {
+                && desiredCapabilities == null) || getDevices().size() == 0
+                && configuration.getAppiumUrl().isEmpty()) {
             if (getAppiumServices().size() != 0) {
                 stop(1);
             }
@@ -72,9 +73,9 @@ public class AndroidOpen extends TestUIServer {
         Configuration.iOSTesting = false;
         if (Configuration.deviceTests) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
-            if (((getAppiumServices().size() == 0 ||
+            if ((((getAppiumServices().size() == 0 ||
                     !getAppiumServices().get(0).isRunning()) && desiredCapabilities == null) ||
-                    getDevices().size() == 0) {
+                    getDevices().size() == 0) && configuration.getAppiumUrl().isEmpty()) {
                 if (getAppiumServices().size() != 0) {
                     tryStop(1);
                 }
@@ -102,11 +103,12 @@ public class AndroidOpen extends TestUIServer {
                         getDriver().getCapabilities().asMap().get("platformVersion").toString()
                 );
             }
+            putAllureParameter("Browser", "Chrome");
         } else {
             startSelenideDriver(urlOrRelativeUrl);
+            putAllureParameter("Browser", Configuration.browser);
         }
         Configuration.emulatorName = "";
-        putAllureParameter("Browser", Configuration.browser);
     }
 
     public void navigateURL(String urlOrRelativeUrl) {

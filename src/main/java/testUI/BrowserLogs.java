@@ -10,6 +10,7 @@ import net.lightbody.bmp.proxy.CaptureType;
 import org.json.JSONObject;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.UnsupportedCommandException;
+import org.openqa.selenium.json.JsonException;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
@@ -21,8 +22,9 @@ import java.util.logging.Level;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static testUI.UIUtils.putLog;
+import static testUI.Utils.Logger.putLogError;
 
-public class NetworkCalls {
+public class BrowserLogs {
 
     private List<List<JSONObject>> calls;
     private List<JSONObject> filteredCalls;
@@ -30,17 +32,17 @@ public class NetworkCalls {
     private boolean severalFilters;
     private static Proxy seleniumProxy;
 
-    private NetworkCalls(List<List<JSONObject>> calls,
-                         List<JSONObject> filteredCalls,
-                         List<Map<String, String>> callHar,
-                         boolean severalFilters) {
+    private BrowserLogs(List<List<JSONObject>> calls,
+                        List<JSONObject> filteredCalls,
+                        List<Map<String, String>> callHar,
+                        boolean severalFilters) {
         this.calls = calls;
         this.filteredCalls = filteredCalls;
         this.callHar = callHar;
         this.severalFilters = severalFilters;
     }
 
-    public NetworkCalls() {
+    public BrowserLogs() {
     }
 
     private static BrowserMobProxy proxy;
@@ -92,7 +94,7 @@ public class NetworkCalls {
         return seleniumProxy;
     }
 
-    public NetworkCalls getNetworkCalls() {
+    public BrowserLogs getNetworkCalls() {
         List<List<JSONObject>> calls = new ArrayList<>();
         List<Map<String, String>> callHar = new ArrayList<>();
         if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
@@ -199,7 +201,7 @@ public class NetworkCalls {
                 }
             }
         }
-        return new NetworkCalls(calls, new ArrayList<>(), callHar, false);
+        return new BrowserLogs(calls, new ArrayList<>(), callHar, false);
     }
 
     public List<String> getBrowserLogs() {
@@ -214,12 +216,15 @@ public class NetworkCalls {
                 );
             }
         } catch (UnsupportedCommandException e) {
-            putLog("The BROWSER logs are not supported for this browser");
+            putLogError("The BROWSER logs are not supported for this browser");
+        } catch (JsonException e) {
+            putLogError("Error parsing the BROWSER logs: \n");
+            e.printStackTrace();
         }
         return browserLogs;
     }
 
-    public NetworkCalls getLastNetworkCalls(int lastX) {
+    public BrowserLogs getLastNetworkCalls(int lastX) {
         List<List<JSONObject>> calls = new ArrayList<>();
         List<Map<String, String>> callHar = new ArrayList<>();
         if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
@@ -297,10 +302,10 @@ public class NetworkCalls {
                 callHar.add(call);
             }
         }
-        return new NetworkCalls(calls, new ArrayList<>(), callHar, false);
+        return new BrowserLogs(calls, new ArrayList<>(), callHar, false);
     }
 
-    public NetworkCalls filterByUrl(String url) {
+    public BrowserLogs filterByUrl(String url) {
         List<JSONObject> calls = new ArrayList<>();
         if (!this.severalFilters) {
             for (Map<String, String> call : this.callHar) {
@@ -339,10 +344,10 @@ public class NetworkCalls {
                 }
             }
         }
-        return new NetworkCalls(this.calls, calls, this.callHar, this.severalFilters);
+        return new BrowserLogs(this.calls, calls, this.callHar, this.severalFilters);
     }
 
-    public NetworkCalls filterByExactUrl(String url) {
+    public BrowserLogs filterByExactUrl(String url) {
         List<JSONObject> calls = new ArrayList<>();
         if (!this.severalFilters) {
             for (Map<String, String> call : this.callHar) {
@@ -381,10 +386,10 @@ public class NetworkCalls {
                 }
             }
         }
-        return new NetworkCalls(this.calls, calls, this.callHar, this.severalFilters);
+        return new BrowserLogs(this.calls, calls, this.callHar, this.severalFilters);
     }
 
-    public NetworkCalls filterByHeader(String header, String value) {
+    public BrowserLogs filterByHeader(String header, String value) {
         List<JSONObject> calls = new ArrayList<>();
         if (!this.severalFilters) {
             for (Map<String, String> call : this.callHar) {
@@ -435,12 +440,12 @@ public class NetworkCalls {
                 }
             }
         }
-        return new NetworkCalls(this.calls, calls, this.callHar, this.severalFilters);
+        return new BrowserLogs(this.calls, calls, this.callHar, this.severalFilters);
     }
 
 
-    public NetworkCalls and() {
-        return new NetworkCalls(
+    public BrowserLogs and() {
+        return new BrowserLogs(
                 this.calls,
                 this.filteredCalls,
                 this.callHar,
@@ -448,8 +453,8 @@ public class NetworkCalls {
         );
     }
 
-    public NetworkCalls or() {
-        return new NetworkCalls(
+    public BrowserLogs or() {
+        return new BrowserLogs(
                 this.calls,
                 this.filteredCalls,
                 this.callHar,
@@ -457,7 +462,7 @@ public class NetworkCalls {
         );
     }
 
-    public NetworkCalls assertStatusCode(int statusCode) {
+    public BrowserLogs assertStatusCode(int statusCode) {
         for (JSONObject responses : this.filteredCalls) {
             if (responses.getInt("statusCode") != statusCode
                     && responses.getInt("statusCode") != 0) {
@@ -477,10 +482,10 @@ public class NetworkCalls {
                         responses);
             }
         }
-        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
+        return new BrowserLogs(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
 
-    public NetworkCalls assertStatusCode(int statusCode, int statusCode2) {
+    public BrowserLogs assertStatusCode(int statusCode, int statusCode2) {
         for (JSONObject responses : this.filteredCalls) {
             if ((responses.getInt("statusCode") < statusCode ||
                     responses.getInt("statusCode") > statusCode2)
@@ -510,11 +515,11 @@ public class NetworkCalls {
                 );
             }
         }
-        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
+        return new BrowserLogs(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
 
 
-    public NetworkCalls assertResponseHeader(String Header, String Value) {
+    public BrowserLogs assertResponseHeader(String Header, String Value) {
         boolean found = false;
         for (JSONObject responses : this.filteredCalls) {
             if (responses.has("ResponseHeaders") &&
@@ -556,33 +561,33 @@ public class NetworkCalls {
                             Value + "'"
             );
         }
-        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
+        return new BrowserLogs(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
 
-    public NetworkCalls assertFilteredCallExists() {
+    public BrowserLogs assertFilteredCallExists() {
         if (this.filteredCalls.size() == 0) {
             throw new Error("There are no network calls with the filter parameters included!");
         }
-        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
+        return new BrowserLogs(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
 
     public List<JSONObject> extractFiltered() {
         return this.filteredCalls;
     }
 
-    public NetworkCalls logFilteredCalls() {
+    public BrowserLogs logFilteredCalls() {
         if (Configuration.useAllure) {
             Allure.addAttachment("Filtered Calls", this.filteredCalls.toString());
         }
         putLog(this.filteredCalls.toString());
-        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
+        return new BrowserLogs(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
 
-    public NetworkCalls logAllCalls() {
+    public BrowserLogs logAllCalls() {
         if (Configuration.useAllure) {
             Allure.addAttachment("Calls", this.callHar.toString());
         }
         putLog(this.callHar.toString());
-        return new NetworkCalls(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
+        return new BrowserLogs(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
 }

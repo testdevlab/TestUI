@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pages.GoogleLandingPage;
-import testUI.AndroidUtils.ADBUtils;
 import testUI.Configuration;
 
 import static testUI.TestUIDriver.getSelenideDriver;
@@ -15,16 +14,15 @@ import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
 import static testUI.Utils.By.*;
+import static testUI.Utils.Performance.getListOfCommandsTime;
+import static testUI.Utils.Performance.logAverageTime;
 
 public class TestBrowser {
     private GoogleLandingPage googleLandingPage = new GoogleLandingPage();
 
-
-
     @Test
     @DisplayName("Laptop browser test case")
     public void testDesktopBrowser() {
-//        Configuration.logNetworkCalls = true;
         Configuration.deviceTests = false;
         Configuration.testUILogLevel = LogLevel.DEBUG;
         Configuration.browser = "chrome";
@@ -40,6 +38,8 @@ public class TestBrowser {
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible()
                 .then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
                 ".png");
+        logAverageTime();
+        System.out.println(getListOfCommandsTime());
     }
 
     @Test
@@ -131,7 +131,10 @@ public class TestBrowser {
     @DisplayName("Laptop browser test case one line code")
     public void testAndroidBrowserOneLine() {
         Configuration.deviceTests = false;
-        Configuration.browser = "chrome";
+        Configuration.useAllure = false;
+        Configuration.browser = "firefox";
+        Configuration.testUILogLevel = LogLevel.DEBUG;
+        Configuration.browserLogs = true;
         open("https://loadero.com/login")
                 .given("I set element").setElement(byCssSelector("#username"))
                 .and("I check if visible").waitFor(5).untilIsVisible()
@@ -141,12 +144,5 @@ public class TestBrowser {
                 .and("I send keys").setValueJs("password")
                 .then("I find the submit").setElement(byCssSelector("[type=\"submit\"]"))
                 .and("I click on it").click();
-    }
-
-    @Test
-    public void test() {
-        ADBUtils adbUtils = new ADBUtils();
-        setDevice("emulator-5554", "emulator-5554");
-        adbUtils.checkAndInstallChromedriver();
     }
 }

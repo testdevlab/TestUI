@@ -16,18 +16,12 @@ public class Hooks {
 
     @Before("@testApp") // ANDROID APP
     public void beforeApp() {
-//        Configuration.appActivity = "lv.lattelecombpo.yellowpages.MainActivity";
-//        Configuration.appPackage = "lv.lattelecombpo.yellowpages";
         Configuration.androidAppPath = "1188.apk";
-        //Configuration.androidDeviceName = "ce0617165c13ab2e027e";
         open();
     }
 
     @Before("@testBrowser") // ANDROID CHROME BROWSER
     public void beforeBrowser() {
-        //Configuration.chromeDriverPath = "chromedriver";
-        //Configuration.appiumUrl = "http://127.0.0.1:4724/wd/hub"; // Custom appium url
-        //Configuration.emulatorName = "Nexus_5X_API_26";
         open("https://www.google.com");
     }
 
@@ -62,9 +56,6 @@ public class Hooks {
         Configuration.iOSDeviceName = "iPhone 6";
         Configuration.updatedWDABundleId = "";
         Configuration.UDID = "";
-//        DesiredCapabilities capabilities = new DesiredCapabilities();
-//        capabilities.setCapability("Something", "something");
-//        Configuration.addMobileDesiredCapabilities = capabilities;
         open();
     }
 

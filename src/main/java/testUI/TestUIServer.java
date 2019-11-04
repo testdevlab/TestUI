@@ -16,11 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.close;
-import static testUI.Configuration.*;
-import static testUI.NetworkCalls.getProxy;
-import static testUI.NetworkCalls.stopProxy;
+import static testUI.BrowserLogs.getProxy;
+import static testUI.BrowserLogs.stopProxy;
 import static testUI.TestUIDriver.*;
-import static testUI.UIUtils.*;
 import static testUI.Utils.AppiumHelps.sleep;
 
 public class TestUIServer extends UIUtils {
