@@ -107,6 +107,9 @@ public class AndroidCapabilities extends Configuration {
                 } else {
                     throw new Error("There is no device available to run the automation!");
                 }
+                if (!Configuration.androidVersion.isEmpty()) {
+                    deviceVersion = Configuration.androidVersion;
+                }
             }
         }
         // Created object of DesiredCapabilities class.
@@ -123,6 +126,9 @@ public class AndroidCapabilities extends Configuration {
             if (configuration.getEmulatorName().isEmpty()) {
                 String deviceName = configuration.getAndroidDeviceName().isEmpty() ? getDevice()
                         : configuration.getAndroidDeviceName();
+                if (deviceVersion.isEmpty()) {
+                    deviceVersion = Configuration.androidVersion;
+                }
                 cap.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
                 cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceVersion);
             } else {
@@ -140,6 +146,12 @@ public class AndroidCapabilities extends Configuration {
                 int systemPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 10;
                 int chromeDriverPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 15;
                 cap.setCapability("chromeDriverPort", chromeDriverPort);
+                cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
+            }
+            if (Configuration.chromeDriverPort != 0) {
+                cap.setCapability("chromeDriverPort", chromeDriverPort);
+            }
+            if (Configuration.systemPort != 0) {
                 cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
             }
             cap.setCapability(MobileCapabilityType.NO_RESET, true);

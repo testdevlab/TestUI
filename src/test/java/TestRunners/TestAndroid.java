@@ -7,6 +7,7 @@ import pages.GoogleLandingPage;
 import testUI.Configuration;
 import testUI.Utils.CliTestUI;
 
+import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.Utils.By.byMobileCss;
 import static testUI.Utils.Performance.getListOfCommandsTime;
@@ -19,6 +20,17 @@ public class TestAndroid {
     @Test
     @DisplayName("Android browser test case")
     public void testAndroidBrowser() {
+        Configuration.testUILogLevel = LogLevel.DEBUG;
+        open("https://www.google.com");
+        E(byMobileCss("#SIvCob")).click();
+        googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
+                .given("Check search input visible and set value").waitFor(5)
+                .untilIsVisible().then().setValueJs("TestUI")
+                .shouldHave().not().emptyAttribute("value");
+        googleLandingPage.getGoogleSearch().then("Check that search button visible")
+                .waitFor(1).untilIsVisible()
+                .and("Click on search button").click();
+        stop();
         Configuration.testUILogLevel = LogLevel.DEBUG;
         open("https://www.google.com");
         E(byMobileCss("#SIvCob")).click();

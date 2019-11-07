@@ -15,6 +15,7 @@ import static testUI.TestUIDriver.*;
 import static testUI.TestUIDriver.getDriver;
 import static testUI.UIUtils.putLog;
 import static testUI.Utils.AppiumHelps.sleep;
+import static testUI.Utils.Logger.putLogError;
 
 public class IOSTestUIDriver {
     protected static void startFirstIOSDriver(DesiredCapabilities desiredCapabilities) {
@@ -32,7 +33,7 @@ public class IOSTestUIDriver {
                 }
                 break;
             } catch (Exception e) {
-                System.err.println("Could not create driver! retrying...");
+                putLogError("Could not create driver! retrying...");
                 sleep(500);
                 if (i == 1) {
                     throw new TestUIException(
@@ -62,7 +63,7 @@ public class IOSTestUIDriver {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (Exception e) {
-                System.err.println("Could not create driver! retrying...");
+                putLogError("Could not create driver! retrying...");
                 sleep(500);
                 if (i == 1) {
                     throw new Error(e);
@@ -86,7 +87,7 @@ public class IOSTestUIDriver {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (Exception e) {
-                System.err.println("Could not create driver! retrying...");
+                putLogError("Could not create driver! retrying...");
                 sleep(500);
                 if (i == 1) {
                     throw new Error(e);
