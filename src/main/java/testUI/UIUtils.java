@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import static com.codeborne.selenide.Selenide.*;
 import static testUI.TestUIDriver.*;
 import static testUI.Utils.Logger.putLogInfo;
+import static testUI.Utils.Logger.putLogWarn;
 import static testUI.elements.TestUI.takeScreenshotsAllure;
 
 public class UIUtils extends Configuration {
@@ -35,6 +36,12 @@ public class UIUtils extends Configuration {
         }
         threadDevs.add(emulators);
         Emulators.set(threadDevs);
+    }
+
+    public static void removeEmulator(int emulator) {
+        List<String> devices = new ArrayList<>(Emulators.get());
+        devices.remove(emulator);
+        Emulators.set(devices);
     }
 
     protected static List<String> getEmulators() {
@@ -102,13 +109,13 @@ public class UIUtils extends Configuration {
 
     public static String getDevice() {
         if (Device.get() == null) {
-            putErrorLog("No device has been set!");
+            putLogWarn("No device has been set!");
             return "";
         }
         if (Device.get().size() >= Configuration.driver) {
             return Device.get().get(Configuration.driver - 1);
         }
-        putErrorLog("No device has been set!");
+        putLogWarn("No device has been set!");
         return "";
     }
 
@@ -144,10 +151,6 @@ public class UIUtils extends Configuration {
 
     public static void putLog(String log) {
         putLogInfo(log);
-    }
-
-    public static void putErrorLog(String log) {
-        logger.severe(log);
     }
 
     public static void putAllureParameter(String name, String log) {

@@ -1,5 +1,6 @@
 package testUI.AndroidUtils;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import testUI.Configuration;
@@ -84,14 +85,16 @@ public class AndroidTestUIDriver extends AndroidOpen {
                     });
                     getDriver().get(urlOrRelativeUrl);
                 } else {
-                    if (getDrivers().get(0).isBrowser() && !Configuration.cleanStart) {
+                    if (!Configuration.cleanStart && getDrivers().get(0).isBrowser()) {
                         getDrivers().get(0).get(urlOrRelativeUrl);
                     } else {
+                        getDrivers().get(0).quit();
                         setDriver(new AndroidDriver(new URL(url), cap) {
                         }, 0);
-                        getDriver().get(urlOrRelativeUrl);
+                        getDrivers().get(0).get(urlOrRelativeUrl);
                     }
                 }
+                attachShutDownHookStopDriver(getDriver());
                 break;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -139,5 +142,11 @@ public class AndroidTestUIDriver extends AndroidOpen {
                 }
             }
         }
+    }
+
+    private static void attachShutDownHookStopDriver(AppiumDriver driver) {
+        Runtime.getRuntime().addShutdownHook(
+                new Thread(driver::quit)
+        );
     }
 }

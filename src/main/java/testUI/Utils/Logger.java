@@ -39,4 +39,10 @@ public class Logger {
             SimpleDateFormat jdf = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss.SSS");
             System.out.println(ANSI_RED + "[ERROR] " + jdf.format(date) + ": " + log + ANSI_RESET);
     }
+
+    public static void putLogWarn(String log) {
+        Date date = new Date();
+        SimpleDateFormat jdf = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss.SSS");
+        System.out.println(ANSI_YELLOW + "[WARN] " + jdf.format(date) + ": " + log + ANSI_RESET);
+    }
 }

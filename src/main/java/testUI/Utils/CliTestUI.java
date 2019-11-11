@@ -27,13 +27,18 @@ public class CliTestUI {
     public void setAppiumRemoteConfiguration(String CliServerURL) {
         HttpPost post = new HttpPost(CliServerURL + "/appium");
         Appium appium = new Appium();
-
+        if (!Configuration.appiumUrl.isEmpty()) {
+            return;
+        }
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             CloseableHttpResponse response = httpClient.execute(post);
             JSONObject json = new JSONObject(EntityUtils.toString(response.getEntity()));
             appium.appiumURL = json.getString("url");
             appium.deviceName = json.getString("deviceName");
+            Configuration.androidVersion = json.getString("version");
+            Configuration.systemPort = json.getInt("port") + 100;
+            Configuration.chromeDriverPort = json.getInt("port") + 101;
             Configuration.appiumUrl = appium.appiumURL;
             Configuration.androidDeviceName = appium.deviceName;
             Configuration.deviceTests = true;
@@ -60,6 +65,7 @@ public class CliTestUI {
                     "server: \n" + e.toString());
         } finally {
             close();
+
         }
     }
 

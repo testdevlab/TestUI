@@ -44,6 +44,8 @@ public class Configuration extends SelenideConfiguration {
     public static int timeStartAppiumServer = 20;
     public static boolean cleanStart = true;
     public static LogLevel testUILogLevel = LogLevel.INFO;
+    public static int chromeDriverPort = 0;
+    public static int systemPort = 0;
 
     protected static DesiredCapabilities desiredCapabilities;
     protected static int iOSDevices = 0;

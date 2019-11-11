@@ -76,7 +76,7 @@ public class WaitUntil {
             int Seconds,
             boolean isVisible) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (visible(element, accessibility) == isVisible) {
@@ -85,12 +85,11 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element),
                 accessibility,
-                "is not visible after " +
-                        Seconds +
-                        " seconds!",
+                "is not visible after " + time + " ms!",
                 found
         );
     }
@@ -102,7 +101,7 @@ public class WaitUntil {
             int Seconds,
             boolean isVisible) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (visible(element, accesibility, index) == isVisible) {
@@ -111,20 +110,19 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element) +
                         "[" + index + "]",
                 accesibility,
-                "is not visible after " +
-                        Seconds +
-                        " seconds!",
+                "is not visible after " + time + " ms!",
                 found
         );
     }
 
     public static void waitUntilClickable(org.openqa.selenium.By element, String accessibility) {
         long t = System.currentTimeMillis();
-        long end = t + (Configuration.timeout * 1000);
+        long end = t + (long)(Configuration.timeout * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if ((Configuration.iOSTesting || enable(element, accessibility)) && visible(element,
@@ -134,12 +132,11 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element),
                 accessibility,
-                "' is not clickable after "
-                        + Configuration.timeout +
-                        " seconds!",
+                "' is not clickable after " + time + " ms!",
                 found
         );
     }
@@ -149,7 +146,7 @@ public class WaitUntil {
             String accessibility,
             int index) {
         long t = System.currentTimeMillis();
-        long end = t + (Configuration.timeout * 1000);
+        long end = t + (long)(Configuration.timeout * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (enable(element, accessibility, index) && visible(element, accessibility, index)) {
@@ -158,12 +155,11 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element),
                 accessibility,
-                "' is not clickable after " +
-                        Configuration.timeout +
-                        " seconds!",
+                "' is not clickable after " + time + " ms!",
                 found
         );
     }
@@ -174,7 +170,7 @@ public class WaitUntil {
             int Seconds,
             boolean isEnabled) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (enable(element, accessibility) == isEnabled) {
@@ -183,12 +179,11 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element),
                 accessibility,
-                "' is not enabled after " +
-                        Seconds +
-                        " seconds!",
+                "' is not enabled after " + time + " ms!",
                 found
         );
     }
@@ -200,7 +195,7 @@ public class WaitUntil {
             int Seconds,
             boolean isEnabled) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (enable(element, accessibility, index) == isEnabled) {
@@ -209,13 +204,12 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element) +
                         "[" + index + "]",
                 accessibility,
-                "is not enabled after " +
-                        Seconds +
-                        " seconds!",
+                "is not enabled after " + time + " ms!",
                 found
         );
     }
@@ -226,7 +220,7 @@ public class WaitUntil {
             int Seconds,
             boolean Exist) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (exists(element, accessibility) == Exist) {
@@ -235,12 +229,11 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element),
                 accessibility,
-                "' not exists after " +
-                        Seconds +
-                        " seconds!",
+                "' not exists after " + time + " ms!",
                 found
         );
     }
@@ -252,7 +245,7 @@ public class WaitUntil {
             int Seconds,
             boolean exists) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (exists(element, accessibility, index) == exists) {
@@ -261,13 +254,12 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element) +
                         "[" + index + "]",
                 accessibility,
-                "not exists after " +
-                        Seconds +
-                        " seconds!",
+                "not exists after " + time + " ms!",
                 found
         );
     }
@@ -279,7 +271,7 @@ public class WaitUntil {
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (containsText(element, accessibility, text) == hasText) {
@@ -288,14 +280,13 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element),
                 accessibility,
                 "has not containText '" +
                         text +
-                        "' after " +
-                        Seconds +
-                        " seconds!",
+                        "' after " + time + " ms!",
                 found
         );
     }
@@ -308,7 +299,7 @@ public class WaitUntil {
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (containsText(element, accessibility, index, text) == hasText) {
@@ -317,9 +308,10 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(getElementString(element) + "[" + index + "]", accessibility,
                 "with containText '" + text + "' is not visible after "
-                        + Seconds + " seconds!", found);
+                        + time + " ms!", found);
     }
 
     public static void waitUntilContainsTextNoCaseSensitive(
@@ -329,7 +321,7 @@ public class WaitUntil {
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (containsTextNoCaseSensitive(element, accessibility, text) == hasText) {
@@ -338,13 +330,11 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element),
                 accessibility,
-                "has not containText '" +
-                        text + "' after " +
-                        Seconds +
-                        " seconds!",
+                "has not containText '" + text + "' after " + time + " ms!",
                 found
         );
     }
@@ -357,7 +347,7 @@ public class WaitUntil {
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (containsTextNoCaseSensitive(element, accessibility, index, text) == hasText) {
@@ -366,15 +356,12 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element) +
                         "[" + index + "]",
                 accessibility,
-                "with containText '" +
-                        text +
-                        "' is not visible after " +
-                        Seconds +
-                        " seconds!",
+                "with containText '" + text + "' is not visible after " + time + " ms!",
                 found
         );
     }
@@ -386,7 +373,7 @@ public class WaitUntil {
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (equalsText(element, accessibility, text) == hasText) {
@@ -395,14 +382,11 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element),
                 accessibility,
-                "has not containText '" +
-                        text +
-                        "' after " +
-                        Seconds +
-                        " seconds!",
+                "has not containText '" + text + "' after " + time + " ms!",
                 found
         );
     }
@@ -413,7 +397,7 @@ public class WaitUntil {
             int Seconds,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (emptyText(element, accessibility) == hasText) {
@@ -422,12 +406,11 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element),
                 accessibility,
-                "should be empty or is not visible after " +
-                        Seconds +
-                        " seconds!",
+                "should be empty or is not visible after " + time + " ms!",
                 found
         );
     }
@@ -440,7 +423,7 @@ public class WaitUntil {
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (equalsText(element, accessibility, index, text) == hasText) {
@@ -449,15 +432,11 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
-                getElementString(element) +
-                        "[" + index + "]",
+                getElementString(element) + "[" + index + "]",
                 accessibility,
-                "with containText '" +
-                        text +
-                        "' is not visible after " +
-                        Seconds +
-                        " seconds!",
+                "with containText '" + text + "' is not visible after " + time + " ms!",
                 found
         );
     }
@@ -469,7 +448,7 @@ public class WaitUntil {
             int Seconds,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (emptyText(element, accessibility, index) == hasText) {
@@ -478,13 +457,11 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
-                getElementString(element) +
-                        "[" + index + "]",
+                getElementString(element) + "[" + index + "]",
                 accessibility,
-                "with should be empty text or is not visible after " +
-                        Seconds +
-                        " seconds!",
+                "with should be empty text or is not visible after " + Seconds + " ms!",
                 found
         );
     }
@@ -496,7 +473,7 @@ public class WaitUntil {
             String text,
             boolean hasValue) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (value(element, accessibility, text) == hasValue) {
@@ -505,14 +482,11 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element),
                 accessibility,
-                "has not value '" +
-                        text +
-                        "' after " +
-                        Seconds +
-                        " seconds!",
+                "has not value '" + text + "' after " + time + " ms!",
                 found
         );
     }
@@ -525,7 +499,7 @@ public class WaitUntil {
             String text,
             boolean hasValue) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (value(element, accessibility, index, text) == hasValue) {
@@ -534,15 +508,11 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
-                getElementString(element) +
-                        "[" + index + "]",
+                getElementString(element) + "[" + index + "]",
                 accessibility,
-                "with value '" +
-                        text +
-                        "is not visible after" +
-                        Seconds +
-                        " seconds!",
+                "with value '" + text + "is not visible after" + time + " ms!",
                 found
         );
     }
@@ -556,7 +526,7 @@ public class WaitUntil {
             String value,
             boolean hasValue) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (attribute(element, accessibility, index, Attribute, value) == hasValue) {
@@ -565,17 +535,13 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element) +
                         "[" + index + "]",
                 accessibility,
                 "has no attribute '" +
-                        Attribute +
-                        "' with value '" +
-                        value +
-                        "' after " +
-                        Seconds +
-                        " seconds!",
+                        Attribute + "' with value '" + value + "' after " + time + " ms!",
                 found
         );
     }
@@ -588,7 +554,7 @@ public class WaitUntil {
             String Attribute,
             boolean hasAttribute) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (attribute(element, accessibility, index, Attribute) == hasAttribute) {
@@ -597,15 +563,12 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element) +
                         "[" + index + "]",
                 accessibility,
-                "has no attribute '" +
-                        Attribute +
-                        "' after " +
-                        Seconds + " " +
-                        "seconds!",
+                "has no attribute '" + Attribute + "' after " + time + " ms!",
                 found
         );
     }
@@ -618,7 +581,7 @@ public class WaitUntil {
             String Attribute,
             boolean hasAttribute) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (emptyAttribute(element, accessibility, index, Attribute) == hasAttribute) {
@@ -627,13 +590,13 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element) +
                         "[" + index + "]",
                 accessibility,
                 "should have attribute '" +
-                        Attribute +
-                        "' empty or null!",
+                        Attribute + "' empty or null after " + time + " ms!",
                 found
         );
     }
@@ -646,7 +609,7 @@ public class WaitUntil {
             String value,
             boolean is) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (attribute(element, accessibility, Attribute, value) == is) {
@@ -655,6 +618,7 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element),
                 accessibility,
@@ -662,7 +626,7 @@ public class WaitUntil {
                         Attribute +
                         "' with value '" +
                         value +
-                        "'!",
+                        "' after " + time + " ms!",
                 found
         );
     }
@@ -674,7 +638,7 @@ public class WaitUntil {
             String Attribute,
             boolean hasAttribute) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (attribute(element, accessibility, Attribute) == hasAttribute) {
@@ -683,11 +647,12 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element),
                 accessibility,
                 "has no attribute '" +
-                        Attribute + "'!",
+                        Attribute + "' after " + time + " ms!",
                 found
         );
     }
@@ -699,7 +664,7 @@ public class WaitUntil {
             String Attribute,
             boolean hasAttribute) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000);
+        long end = t + (long)(Seconds * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (emptyAttribute(element, accessibility, Attribute) == hasAttribute) {
@@ -708,12 +673,13 @@ public class WaitUntil {
             }
             sleep(200);
         }
+        long time = System.currentTimeMillis() - t;
         assertFunction(
                 getElementString(element),
                 accessibility,
                 "should have attribute '" +
                         Attribute +
-                        "' empty or null!",
+                        "' empty or null after " + time + " ms!",
                 found
         );
     }
