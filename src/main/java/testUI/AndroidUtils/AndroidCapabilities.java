@@ -158,9 +158,11 @@ public class AndroidCapabilities extends Configuration {
             cap.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
             cap.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
             cap.setCapability(AndroidMobileCapabilityType.NATIVE_WEB_SCREENSHOT, true);
-            ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.setExperimentalOption("w3c", false);
-            cap.merge(chromeOptions);
+            if (!Configuration.useW3C) {
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.setExperimentalOption("w3c", false);
+                cap.merge(chromeOptions);
+            }
         } else {
             cap = getDesiredCapabilities();
         }

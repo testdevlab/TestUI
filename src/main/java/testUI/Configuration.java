@@ -19,6 +19,7 @@ public class Configuration extends SelenideConfiguration {
     public static int baseAppiumPort = 9586;
     public static int baseAppiumBootstrapPort = 5333;
     public static boolean useAllure = false;
+    public static boolean useW3C = false;
     public static String iOSVersion = "";
     public static int launchAppTimeout = 20000;
     public static String iOSAppPath = "";
@@ -46,6 +47,7 @@ public class Configuration extends SelenideConfiguration {
     public static LogLevel testUILogLevel = LogLevel.INFO;
     public static int chromeDriverPort = 0;
     public static int systemPort = 0;
+    public static int wdaPort = 0;
 
     protected static DesiredCapabilities desiredCapabilities;
     protected static int iOSDevices = 0;
