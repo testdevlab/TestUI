@@ -65,7 +65,7 @@ public class ShouldBe extends TestUI implements Asserts {
                 collection,
                 accesibilityId,
                 accesibilityIdiOS,
-                5,
+                Configuration.timeout,
                 false);
     }
 

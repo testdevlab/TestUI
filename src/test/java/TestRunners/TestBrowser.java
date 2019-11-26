@@ -36,7 +36,8 @@ public class TestBrowser {
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
         googleLandingPage.getGoogleSearch().shouldHave().not().emptyText();
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible()
-                .then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
+                .then().saveScreenshot("/Users/alvarolasernalopez/Documents" +
+                "/screen" +
                 ".png");
         logAverageTime();
         System.out.println(getListOfCommandsTime());

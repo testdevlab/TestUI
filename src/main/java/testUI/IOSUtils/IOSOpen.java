@@ -15,10 +15,9 @@ public class IOSOpen extends Configuration {
     // NOW IOS APP AND BROWSER
 
     public void openIOSApp(TestUIConfiguration configuration) {
-        Configuration.deviceTests = true;
-        Configuration.iOSTesting = true;
         Configuration.iOSDevices++;
-        if (((getAppiumServices().size() == 0 || getAppiumServices().get(0).isRunning()) &&
+        if (Configuration.appiumUrl.isEmpty() &&
+                ((getAppiumServices().size() == 0 || getAppiumServices().get(0).isRunning()) &&
                 Configuration.desiredCapabilities == null) || getIOSDevices().size() == 0) {
             if (getAppiumServices().size() != 0) {
                 stop(1);
@@ -56,8 +55,9 @@ public class IOSOpen extends Configuration {
         Configuration.deviceTests = true;
         Configuration.iOSTesting = true;
         urlOrRelativeUrl = Configuration.baseUrl + urlOrRelativeUrl;
-        if (((getAppiumServices().size() == 0 || !getAppiumServices().get(0).isRunning()) &&
-                Configuration.desiredCapabilities == null) || getIOSDevices().size() == 0) {
+        if (Configuration.appiumUrl.isEmpty() &&
+                (((getAppiumServices().size() == 0 || !getAppiumServices().get(0).isRunning()) &&
+                Configuration.desiredCapabilities == null) || getIOSDevices().size() == 0)) {
             if (getAppiumServices().size() != 0) {
                 stop(1);
             }

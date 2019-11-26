@@ -14,6 +14,7 @@ import static testUI.AndroidUtils.AndroidCapabilities.setAndroidBrowserCapabilit
 import static testUI.TestUIDriver.*;
 import static testUI.TestUIDriver.getDriver;
 import static testUI.Utils.AppiumHelps.sleep;
+import static testUI.Utils.Logger.putLogInfo;
 
 public class AndroidTestUIDriver extends AndroidOpen {
     private static ADBUtils adbUtils = new ADBUtils();
@@ -146,7 +147,15 @@ public class AndroidTestUIDriver extends AndroidOpen {
 
     private static void attachShutDownHookStopDriver(AppiumDriver driver) {
         Runtime.getRuntime().addShutdownHook(
-                new Thread(driver::quit)
+                new Thread(() -> quitDriver(driver))
         );
+    }
+
+    private static void quitDriver(AppiumDriver driver) {
+        try {
+            driver.quit();
+        } catch (Exception e) {
+            putLogInfo("driver already stopped");
+        }
     }
 }

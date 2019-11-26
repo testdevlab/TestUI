@@ -67,7 +67,7 @@
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
-                    <forkCount>2</forkCount>
+                    <forkCount>3</forkCount>
 <!--                    <parallel>methods</parallel>-->
 <!--                    <useUnlimitedThreads>true</useUnlimitedThreads>-->
                     <properties>

@@ -14,43 +14,26 @@ import static testUI.UIUtils.*;
 import static testUI.UIUtils.putAllureParameter;
 
 public class IOCapabilities extends Configuration {
+    private static IOSCommands iosCommands = new IOSCommands();
 
     public static DesiredCapabilities setIOSCapabilities(boolean browser) {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        IOSCommands iosCommands = new IOSCommands();
+        DesiredCapabilities capabilities;
+
         if (getDesiredCapabilities() == null) {
             // CHECK IF DEVICE SPECIFIED
-            if (Configuration.iOSDeviceName.isEmpty()) {
-                if (Configuration.UDID.isEmpty()) {
-                    Map<String, String> sampleIOSDevice = iosCommands.getSampleDevice(0);
-                    Configuration.iOSDeviceName = sampleIOSDevice.get("name");
-                    Configuration.iOSVersion = sampleIOSDevice.get("version");
-                    Configuration.UDID = sampleIOSDevice.get("udid");
-                } else {
-                    Configuration.iOSDeviceName = iosCommands.getIOSName(Configuration.UDID);
-                    Configuration.iOSVersion = iosCommands.getIOSVersion(Configuration.UDID);
-                }
-                capabilities.setCapability("udid", Configuration.UDID);
-            } else {
-                if (Configuration.UDID.isEmpty()) {
-                    capabilities.setCapability("udid", "auto");
-                } else {
-                    capabilities.setCapability("udid", Configuration.UDID);
-                }
-            }
+            capabilities = getIOSDevice();
             if (!getIOSDevices().toString().contains(iOSDeviceName)) {
                 setiOSDevice(iOSDeviceName);
             }
             // BROWSER OR APP
             if (browser) {
-                capabilities.setCapability(MobileCapabilityType.AUTO_WEBVIEW,
-                        true);
+                capabilities.setCapability(MobileCapabilityType.AUTO_WEBVIEW, true);
                 capabilities.setCapability(MobileCapabilityType.BROWSER_NAME,
                         MobileBrowserType.SAFARI);
             } else if (!Configuration.iOSAppPath.isEmpty()) {
-                String appPath = Configuration.iOSAppPath.charAt(0) == '/'
-                        ? Configuration.iOSAppPath
-                        : System.getProperty("user.dir") + "/" + Configuration.iOSAppPath;
+                String appPath = Configuration.iOSAppPath.charAt(0) == '/' ?
+                        Configuration.iOSAppPath :
+                        System.getProperty("user.dir") + "/" + Configuration.iOSAppPath;
                 capabilities.setCapability(MobileCapabilityType.APP, appPath);
             }
             // IN CASE OF REAL DEVICE
@@ -68,17 +51,18 @@ public class IOCapabilities extends Configuration {
                 capabilities.setCapability("bundleId", Configuration.bundleId);
             }
             // DEFAULT THINGS
-            int wdaLocalPort =
-                    8100 + 20 * (Integer.valueOf(getUsePort().get(getUsePort().size()-1)) -
-                            Configuration.baseAppiumPort)/100;
+            int wdaLocalPort;
+            if (Configuration.appiumUrl.isEmpty()) {
+                wdaLocalPort =
+                        8100 + 20 * (Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) -
+                                Configuration.baseAppiumPort) / 100;
+            } else {
+                wdaLocalPort = Configuration.wdaPort;
+            }
             capabilities.setCapability(IOSMobileCapabilityType.WDA_LOCAL_PORT, wdaLocalPort);
             capabilities.setCapability(MobileCapabilityType.NO_RESET, false);
             capabilities.setCapability(IOSMobileCapabilityType.USE_NEW_WDA,
                     Configuration.useNewWDA);
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
-                    Configuration.iOSDeviceName);
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
-                    Configuration.iOSVersion);
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.IOS);
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
             capabilities.setCapability(IOSMobileCapabilityType.START_IWDP, true);
@@ -98,6 +82,43 @@ public class IOCapabilities extends Configuration {
         Configuration.desiredCapabilities = capabilities;
         putAllureParameter("Device Model", Configuration.iOSDeviceName);
         putAllureParameter("Version", Configuration.iOSVersion);
+        return capabilities;
+    }
+
+
+    private static DesiredCapabilities getIOSDevice() {
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        if (Configuration.appiumUrl.isEmpty()) {
+            if (Configuration.iOSDeviceName.isEmpty()) {
+                if (Configuration.UDID.isEmpty()) {
+                    Map<String, String> sampleIOSDevice = iosCommands.getSampleDevice(0);
+                    Configuration.iOSDeviceName = sampleIOSDevice.get("name");
+                    Configuration.iOSVersion = sampleIOSDevice.get("version");
+                    Configuration.UDID = sampleIOSDevice.get("udid");
+                } else {
+                    Configuration.iOSDeviceName = iosCommands.getIOSName(Configuration.UDID);
+                    Configuration.iOSVersion = iosCommands.getIOSVersion(Configuration.UDID);
+                }
+                capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
+                        Configuration.iOSDeviceName);
+                capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
+                        Configuration.iOSVersion);
+                capabilities.setCapability("udid", Configuration.UDID);
+            } else {
+                if (Configuration.UDID.isEmpty()) {
+                    capabilities.setCapability("udid", "auto");
+                } else {
+                    capabilities.setCapability("udid", Configuration.UDID);
+                }
+            }
+        } else {
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
+                    Configuration.iOSDeviceName);
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
+                    Configuration.iOSVersion);
+            capabilities.setCapability("udid", Configuration.UDID);
+        }
+
         return capabilities;
     }
 }

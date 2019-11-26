@@ -5,8 +5,9 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
-import testUI.Utils.CliTestUI;
+import testUI.Utils.GridTestUI;
 
+import static com.codeborne.selenide.Selenide.sleep;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.Utils.By.byMobileCss;
@@ -67,8 +68,8 @@ public class TestAndroidRemote {
     @Test
     @DisplayName("Test cli testUI")
     public void testCliTestUI() {
-        CliTestUI cliTestUI = new CliTestUI();
-        cliTestUI.setAppiumRemoteConfiguration("http://localhost:8080");
+        GridTestUI gridTestUI = new GridTestUI();
+        gridTestUI.setAppiumAndroidConfiguration("http://localhost:8000");
         open("https://www.google.com");
         googleLandingPage.getGoogleSearchInput()
                 .given("Check search input visible and set value").waitFor(5)

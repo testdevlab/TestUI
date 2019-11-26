@@ -8,3 +8,5 @@ allure-results
 *.apk
 chromedriver
 *.ipa
+
+src/test/java/TestRunners/TestParallel*
