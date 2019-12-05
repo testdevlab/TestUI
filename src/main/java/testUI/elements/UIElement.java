@@ -56,9 +56,6 @@ public interface UIElement {
 
     SlideActions scrollTo();
 
-    @Deprecated
-    UIElement scrollIntoView(boolean upCenter);
-
     UIElement swipe(int XCoordinate, int YCoordinate);
 
     UIElement swipeRight();

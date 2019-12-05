@@ -50,7 +50,7 @@ public class Scrolling extends TestUI implements SlideActions {
 
     public UIElement customSwipeUp(int PixelGap, int numberOfSwipes) {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 for (int i = 0; i < numberOfSwipes; i++) {
                     TouchAction action = new TouchAction(getDriver());
                     int startY = 500;
@@ -78,7 +78,7 @@ public class Scrolling extends TestUI implements SlideActions {
 
     public UIElement customSwipeDown(int PixelGap, int numberOfSwipes) {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 for (int i = 0; i < numberOfSwipes; i++) {
                     TouchAction action = new TouchAction(getDriver());
                     int startY = 500;
@@ -102,7 +102,7 @@ public class Scrolling extends TestUI implements SlideActions {
 
     public UIElement swipeLeft(int PixelGap, int startX, int startY) {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 TouchAction action = new TouchAction(getDriver());
                 PixelGap = abs(PixelGap);
                 int endX = startX - PixelGap;
@@ -123,7 +123,7 @@ public class Scrolling extends TestUI implements SlideActions {
 
     public UIElement swipeRigt(int PixelGap, int startX, int startY) {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 TouchAction action = new TouchAction(getDriver());
                 PixelGap = abs(PixelGap);
                 int endX = startX + PixelGap;
@@ -144,7 +144,7 @@ public class Scrolling extends TestUI implements SlideActions {
 
     public UIElement view(boolean upCenter) {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 ((JavascriptExecutor) getDriver()).executeScript(
                         "arguments[0].scrollIntoView(" + upCenter + ");",
                         getElementWithoutException(
@@ -166,7 +166,7 @@ public class Scrolling extends TestUI implements SlideActions {
 
     public UIElement view(String options) {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 ((JavascriptExecutor) getDriver()).executeScript(
                         "arguments[0].scrollIntoView(" + options + ");",
                         getElementWithoutException(
@@ -188,7 +188,7 @@ public class Scrolling extends TestUI implements SlideActions {
 
     public UIElement click() {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 ((JavascriptExecutor) getDriver()).executeScript(
                         "arguments[0].scrollIntoView(" +
                                 "{behavior: \"smooth\", block: \"center\", inline: \"nearest\"});",

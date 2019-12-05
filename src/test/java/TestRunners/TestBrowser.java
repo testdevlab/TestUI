@@ -24,7 +24,7 @@ public class TestBrowser {
     @Test
     @DisplayName("Laptop browser test case")
     public void testDesktopBrowser() {
-        Configuration.deviceTests = false;
+        Configuration.automationType = DESKTOP_PLATFORM;
         Configuration.testUILogLevel = LogLevel.DEBUG;
         Configuration.browser = "chrome";
         open("https://www.google.com");
@@ -47,7 +47,7 @@ public class TestBrowser {
     @Test
     @DisplayName("Laptop browser test case")
     public void testDesktopBrowserSafari() {
-        Configuration.deviceTests = false;
+        Configuration.automationType = DESKTOP_PLATFORM;
         Configuration.browser = "safari";
         Configuration.serverLogLevel = "all";
         open("https://www.google.com");
@@ -75,7 +75,7 @@ public class TestBrowser {
     @Test
     @DisplayName("Laptop browser test case, assert status code")
     public void testDesktopBrowserStatusCode() {
-        Configuration.deviceTests = false;
+        Configuration.automationType = DESKTOP_PLATFORM;
         Configuration.logNetworkCalls = true;
         Configuration.browser = "chrome";
         Configuration.remote = "http://localhost:4444/wd/hub";
@@ -98,7 +98,7 @@ public class TestBrowser {
     @Test
     @DisplayName("Laptop browser test case")
     public void testDesktopCustomDriverBrowser() {
-        Configuration.deviceTests = false;
+        Configuration.automationType = DESKTOP_PLATFORM;
         open("https://www.google.com");
         Configuration.browser = "chrome";
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
@@ -132,11 +132,13 @@ public class TestBrowser {
     @Test
     @DisplayName("Laptop browser test case one line code")
     public void testAndroidBrowserOneLine() {
-        Configuration.deviceTests = false;
+        Configuration.automationType = DESKTOP_PLATFORM;
         Configuration.useAllure = false;
         Configuration.browser = "chrome";
         GridTestUI gridTestUI = new GridTestUI();
-        gridTestUI.setSeleniumConfiguration("http://alvaro:password@10.2.5.202:8000");
+        gridTestUI.setServerURL("http://alvaro:password@10.2.5.202:8000")
+                .setPlatform("linux")
+                .setConfiguration();
         Configuration.testUILogLevel = LogLevel.DEBUG;
 //        Configuration.browserLogs = true;
         open("https://loadero.com/login")

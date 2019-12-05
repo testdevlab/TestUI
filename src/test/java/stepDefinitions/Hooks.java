@@ -27,7 +27,7 @@ public class Hooks {
 
     @Before("@testLaptopBrowser") // BROWSER, YOU CAN CHOOSE BROWSER WITH Configuration.browser VARIABLE
     public void beforeLaptopBrowser() {
-        Configuration.deviceTests = false;
+        Configuration.automationType = Configuration.DESKTOP_PLATFORM;
         Configuration.startMaximized = true;
         open("https://www.google.com");
     }
@@ -35,20 +35,20 @@ public class Hooks {
     @Before("@testLaptopAndMobile") // BROWSER LAPTOP AND ANDROID BROWSER
     public void beforeLaptopBrowserAndMobile() {
         open("https://www.google.com");
-        Configuration.deviceTests = false;
+        Configuration.automationType = Configuration.DESKTOP_PLATFORM;
         openNew("https://www.google.com");
     }
 
     @Before("@testLaptopAndMobileFail") // BROWSER LAPTOP AND ANDROID BROWSER
     public void beforeLaptopBrowserAndMobileFail() {
         open("https://www.google.com");
-        Configuration.deviceTests = false;
+        Configuration.automationType = Configuration.DESKTOP_PLATFORM;
         openNew("https://www.google.com");
     }
 
     @Before("@IOS")
     public void beforeIOSApp() {
-        Configuration.iOSTesting = true;
+        Configuration.automationType = Configuration.IOS_PLATFORM;
         Configuration.iOSVersion = "12.2";
         Configuration.iOSAppPath
                 = "/Users/alvarolasernalopez/Documents/Automation/" +
@@ -61,13 +61,13 @@ public class Hooks {
 
     @Before("@IOSBrowser")
     public void beforeIOSBrowser() {
-        Configuration.iOSTesting = true;
+        Configuration.automationType = Configuration.IOS_PLATFORM;
         open("https://www.facebook.com");
     }
 
     @Before("@IOSBrowserFail")
     public void beforeIOSBrowserFail() {
-        Configuration.iOSTesting = true;
+        Configuration.automationType = Configuration.IOS_PLATFORM;
         open("https://www.google.com");
     }
 
@@ -85,7 +85,7 @@ public class Hooks {
 
     @After("@testLaptopAndMobile or @testLaptopBrowser or @testLaptopAndMobileFail")
     public void afterLaptopAndMobile(){
-        Configuration.deviceTests = false;
+        Configuration.automationType = Configuration.DESKTOP_PLATFORM;
         stop();
     }
 }

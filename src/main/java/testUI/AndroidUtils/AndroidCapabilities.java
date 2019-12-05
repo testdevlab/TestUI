@@ -39,10 +39,11 @@ public class AndroidCapabilities extends Configuration {
             }
             cap.setCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION,
                     Configuration.launchAppTimeout);
-            if (Configuration.AutomationName.isEmpty()) {
+            if (Configuration.automationName.isEmpty()) {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
             } else {
-                cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, Configuration.AutomationName);
+                cap.setCapability(MobileCapabilityType.AUTOMATION_NAME,
+                        Configuration.automationName);
             }
             if (!Configuration.chromeDriverPath.isEmpty()) {
                 String chromePath = Configuration.chromeDriverPath.charAt(0) == '/'
@@ -125,11 +126,11 @@ public class AndroidCapabilities extends Configuration {
             } else {
                 cap.setCapability(AndroidMobileCapabilityType.AVD, configuration.getEmulatorName());
             }
-            if (Configuration.AutomationName.isEmpty()) {
+            if (Configuration.automationName.isEmpty()) {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
             } else {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME,
-                        Configuration.AutomationName);
+                        Configuration.automationName);
             }
             if (configuration.getAppiumUrl().isEmpty()) {
                 int systemPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 10;

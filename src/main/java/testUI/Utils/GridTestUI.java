@@ -1,7 +1,6 @@
 package testUI.Utils;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
@@ -9,6 +8,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.CapabilityType;
@@ -17,7 +17,6 @@ import testUI.Configuration;
 import java.io.IOException;
 
 import static testUI.Configuration.browser;
-import static testUI.SelenideConfiguration.remote;
 import static testUI.UIUtils.putAllureParameter;
 
 public class GridTestUI {
@@ -30,6 +29,10 @@ public class GridTestUI {
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
     private static String browserName = "";
     private static String platformName = "";
+    private static boolean mobile = false;
+
+    public final String IOS_PLATFORM = "ios";
+    public final String ANDROID_PLATFORM = "android";
 
     public boolean isUsingGrid() {
         return usingGrid;
@@ -48,74 +51,6 @@ public class GridTestUI {
             httpClient.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void setSeleniumConfiguration(String CliServerURL) {
-        cliServerURL = CliServerURL;
-        usingGrid = true;
-        HttpPost post = new HttpPost(CliServerURL + "/session");
-        String postBody = "{\"selenium\":{\"browser\": \"" + Configuration.browser + "\"}}";
-        if (remote.isEmpty()) {
-            try {
-                CloseableHttpClient httpClient = HttpClients.createDefault();
-                StringEntity requestEntity = new StringEntity(postBody, ContentType.APPLICATION_JSON);
-                post.setEntity(requestEntity);
-                CloseableHttpResponse response = httpClient.execute(post);
-                JSONObject json = new JSONObject(EntityUtils.toString(response.getEntity()));
-
-                Configuration.remote = json.getString("proxyURL");
-                if (getPlatform(json) != null) {
-                    Configuration.selenideBrowserCapabilities.setCapability(
-                            CapabilityType.PLATFORM_NAME, getPlatform(json));
-                }
-                Configuration.deviceTests = false;
-            } catch (IOException e) {
-                throw new TestUIException("Could not retrieve remote configuration with testUI " +
-                        "server: \n" + e.toString());
-            } finally {
-                close();
-            }
-            attachShutDownHookSReleaseDevice(CliServerURL, UDID);
-        }
-    }
-
-    public void setAppiumAndroidConfiguration(String CliServerURL) {
-        cliServerURL = CliServerURL;
-        usingGrid = true;
-        HttpPost post = new HttpPost(CliServerURL + "/session");
-        String postBody = "{\"appium\":{\"os\": \"Android\"}}";
-        if (appiumURL.isEmpty()) {
-            try {
-                CloseableHttpClient httpClient = HttpClients.createDefault();
-                StringEntity requestEntity = new StringEntity(postBody, ContentType.APPLICATION_JSON);
-                post.setEntity(requestEntity);
-                CloseableHttpResponse response = httpClient.execute(post);
-                JSONObject json = new JSONObject(EntityUtils.toString(response.getEntity()));
-                appiumURL = json.getString("proxyURL");
-                UDID = json.getString("udid");
-                Configuration.androidDeviceName = json.getString("deviceName");
-                deviceName = Configuration.androidDeviceName;
-                putAllureParameter("Device name", deviceName);
-                Configuration.androidVersion = json.getString("version");
-                if (Configuration.androidVersion.startsWith("4") ||
-                        Configuration.androidVersion.startsWith("3") ||
-                        Configuration.androidVersion.startsWith("2")) {
-                    Configuration.AutomationName = "UiAutomator1";
-                }
-                Configuration.systemPort = json.getInt("port") + 100;
-                Configuration.chromeDriverPort = json.getInt("port") + 101;
-                Configuration.appiumUrl = appiumURL;
-                Configuration.UDID = UDID;
-                Configuration.deviceTests = true;
-                Configuration.iOSTesting = false;
-            } catch (IOException e) {
-                throw new TestUIException("Could not retrieve remote configuration with testUI " +
-                        "server: \n" + e.toString());
-            } finally {
-                close();
-            }
-            attachShutDownHookSReleaseDevice(CliServerURL, UDID);
         }
     }
 
@@ -138,14 +73,13 @@ public class GridTestUI {
             if (Configuration.androidVersion.startsWith("4") ||
                     Configuration.androidVersion.startsWith("3") ||
                     Configuration.androidVersion.startsWith("2")) {
-                Configuration.AutomationName = "UiAutomator1";
+                Configuration.automationName = "UiAutomator1";
             }
             Configuration.systemPort = json.getInt("port") + 100;
             Configuration.chromeDriverPort = json.getInt("port") + 101;
             Configuration.appiumUrl = appiumURL;
             Configuration.UDID = UDID;
-            Configuration.deviceTests = true;
-            Configuration.iOSTesting = false;
+            Configuration.automationType = Configuration.ANDROID_PLATFORM;
         } catch (IOException e) {
             throw new TestUIException("Could not retrieve remote configuration with testUI " +
                     "server: \n" + e.toString());
@@ -154,34 +88,24 @@ public class GridTestUI {
         }
     }
 
-    public void setAppiumiOSConfiguration(String CliServerURL) {
+    public void setConfiguration() {
         usingGrid = true;
-        HttpPost post = new HttpPost(CliServerURL + "/session");
-        String postBody = "{\"appium\":{\"os\": \"IOS\"}}";
-        if (appiumURL.isEmpty()) {
-            try {
-                CloseableHttpClient httpClient = HttpClients.createDefault();
-                StringEntity requestEntity = new StringEntity(postBody, ContentType.APPLICATION_JSON);
-                post.setEntity(requestEntity);
-                CloseableHttpResponse response = httpClient.execute(post);
-                JSONObject json = new JSONObject(EntityUtils.toString(response.getEntity()));
-                appiumURL = json.getString("proxyURL");
-                UDID = json.getString("udid");
-                Configuration.iOSDeviceName = json.getString("deviceName");
-                deviceName = Configuration.iOSDeviceName;
-                Configuration.iOSVersion = json.getString("version");
-                Configuration.wdaPort = json.getInt("port") + 100;
-                Configuration.appiumUrl = appiumURL;
-                Configuration.UDID = UDID;
-                Configuration.deviceTests = true;
-                Configuration.iOSTesting = true;
-            } catch (IOException e) {
-                throw new TestUIException("Could not retrieve remote configuration with testUI " +
-                        "server: \n" + e.toString());
-            } finally {
-                close();
+        if (platformName.toLowerCase().equals(IOS_PLATFORM) ||
+                platformName.toLowerCase().equals(ANDROID_PLATFORM)) {
+            mobile = true;
+        }
+        if (mobile) {
+            if (appiumURL.isEmpty()) {
+                JSONObject json = makeRequest();
+                if (platformName.toLowerCase().equals(IOS_PLATFORM)) {
+                    setIOSConfiguration(json);
+                } else {
+                    setAndroidConfiguration(json);
+                }
             }
-            attachShutDownHookSReleaseDevice(CliServerURL, UDID);
+        } else {
+            JSONObject json = makeRequest();
+            setDesktopConfiguration(json);
         }
     }
 
@@ -230,16 +154,113 @@ public class GridTestUI {
         }
     }
 
-    private String setSeleniumJsonBody() {
-        String jsonBody = "{\"selenium\":{\"browser\": \"" + browser + "\"";
-        if (!platformName.isEmpty()) {
-            jsonBody = jsonBody.concat(", \"os\": \"" + platformName + "\"");
+    public GridTestUI setPlatform(String OS) {
+        platformName = OS;
+
+        return this;
+    }
+
+    public GridTestUI setBrowserName(String browser) {
+        browserName = browser;
+
+        return this;
+    }
+
+    public GridTestUI setServerURL(String url) {
+        cliServerURL = url;
+
+        return this;
+    }
+
+    private String setJsonBody() {
+        String jsonBody;
+        if (!mobile) {
+            jsonBody = "{\"selenium\":{\"browser\": \"" + browser + "\"";
+            if (!platformName.isEmpty()) {
+                jsonBody = jsonBody.concat(", \"os\": \"" +
+                        StringUtils.capitalize(platformName.toLowerCase()) + "\"");
+            }
+        } else {
+            if (platformName.isEmpty()) {
+                platformName = "Android";
+            }
+            jsonBody = "{\"appium\":{\"os\": \"" + StringUtils.capitalize(platformName.toLowerCase())  + "\"";
         }
 
         jsonBody = jsonBody.concat("}}");
 
         return jsonBody;
+    }
 
+    private JSONObject makeRequest() {
+        HttpPost post = new HttpPost(cliServerURL + "/session");
+        String postBody = setJsonBody();
+        JSONObject json;
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            StringEntity requestEntity = new StringEntity(postBody, ContentType.APPLICATION_JSON);
+            post.setEntity(requestEntity);
+            CloseableHttpResponse response = httpClient.execute(post);
+            json = new JSONObject(EntityUtils.toString(response.getEntity()));
+        } catch (IOException e) {
+            throw new TestUIException("Could not retrieve remote configuration with testUI " +
+                    "server: \n" + e.toString());
+        } finally {
+            close();
+        }
+        attachShutDownHookSReleaseDevice(cliServerURL, UDID);
+
+        return json;
+    }
+
+    private void setIOSConfiguration(JSONObject json) {
+        appiumURL = json.getString("proxyURL");
+        UDID = json.getString("udid");
+        Configuration.iOSDeviceName = json.getString("deviceName");
+        deviceName = Configuration.iOSDeviceName;
+        Configuration.iOSVersion = json.getString("version");
+        Configuration.wdaPort = json.getInt("port") + 100;
+        Configuration.appiumUrl = appiumURL;
+        Configuration.UDID = UDID;
+        Configuration.automationType = Configuration.IOS_PLATFORM;
+    }
+
+    private void setAndroidConfiguration(JSONObject json) {
+        try {
+            appiumURL = json.getString("proxyURL");
+            UDID = json.getString("udid");
+            Configuration.androidDeviceName = json.getString("deviceName");
+            deviceName = Configuration.androidDeviceName;
+            putAllureParameter("Device name", json.getString("deviceName"));
+            Configuration.androidVersion = json.getString("version");
+            if (Configuration.androidVersion.startsWith("4") ||
+                    Configuration.androidVersion.startsWith("3") ||
+                    Configuration.androidVersion.startsWith("2")) {
+                Configuration.automationName = "UiAutomator1";
+            }
+            Configuration.systemPort = json.getInt("port") + 100;
+            Configuration.chromeDriverPort = json.getInt("port") + 101;
+            Configuration.appiumUrl = appiumURL;
+            Configuration.UDID = UDID;
+            Configuration.automationType = Configuration.ANDROID_PLATFORM;
+        } catch (JSONException e) {
+            throw new TestUIException("There is no node available for the specified parameters " +
+                    "\n"  + setJsonBody());
+        }
+    }
+
+    private void setDesktopConfiguration(JSONObject json) {
+        try {
+            Configuration.remote = json.getString("proxyURL");
+            if (getPlatform(json) != null) {
+                Configuration.selenideBrowserCapabilities.setCapability(
+                        CapabilityType.PLATFORM_NAME, getPlatform(json));
+            }
+            Configuration.automationType = Configuration.DESKTOP_PLATFORM;
+        } catch (JSONException e) {
+            throw new TestUIException("There is no node available for the specified parameters " +
+                    "\n"  + setJsonBody());
+        }
     }
 }
 

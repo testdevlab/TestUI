@@ -53,8 +53,6 @@ public class AndroidOpen extends TestUIServer {
     }
 
     public void openNewApp(TestUIConfiguration configuration) {
-        Configuration.deviceTests = true;
-        Configuration.iOSTesting = false;
         startServerAndDevice(configuration);
         if (getDevices().size() != 0 && Configuration.installMobileChromeDriver) {
             adbUtils.checkAndInstallChromedriver();
@@ -70,8 +68,7 @@ public class AndroidOpen extends TestUIServer {
     }
 
     public void openBrowser(String urlOrRelativeUrl, TestUIConfiguration configuration) {
-        Configuration.iOSTesting = false;
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(DESKTOP_PLATFORM) ) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
             if ((((getAppiumServices().size() == 0 ||
                     !getAppiumServices().get(0).isRunning()) && desiredCapabilities == null) ||
@@ -112,9 +109,8 @@ public class AndroidOpen extends TestUIServer {
     }
 
     public void navigateURL(String urlOrRelativeUrl) {
-        Configuration.iOSTesting = false;
         urlOrRelativeUrl = Configuration.baseUrl + urlOrRelativeUrl;
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(DESKTOP_PLATFORM)) {
             getDriver().get(urlOrRelativeUrl);
         } else {
             WebDriverRunner.getWebDriver().navigate().to(urlOrRelativeUrl);
@@ -122,8 +118,7 @@ public class AndroidOpen extends TestUIServer {
     }
 
     public void openNewBrowser(String urlOrRelativeUrl, TestUIConfiguration configuration) {
-        Configuration.iOSTesting = false;
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(DESKTOP_PLATFORM)) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
             startServerAndDevice(configuration);
             if (getDevices().size() >= Configuration.driver) {

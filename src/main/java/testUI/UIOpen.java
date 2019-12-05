@@ -26,7 +26,7 @@ public class UIOpen {
     public static UIElement open() {
         networkCalls.setLogs();
         setScreenshotTaken(false);
-        if (iOSTesting) {
+        if (Configuration.automationType.equals(Configuration.IOS_PLATFORM)) {
             if (iOSAppPath.isEmpty() && bundleId.isEmpty() && getDesiredCapabilities() == null) {
                 if (!androidAppPath.isEmpty()
                         || (!appActivity.isEmpty() && !appPackage.isEmpty())) {
@@ -81,7 +81,7 @@ public class UIOpen {
 
     public static UIElement openNew() {
         setScreenshotTaken(false);
-        if (iOSTesting) {
+        if (Configuration.automationType.equals(Configuration.IOS_PLATFORM)) {
             if (iOSAppPath.isEmpty() && bundleId.isEmpty() && getDesiredCapabilities() == null) {
                 if (!androidAppPath.isEmpty()
                         && (!appActivity.isEmpty() && !appPackage.isEmpty())) {
@@ -137,7 +137,7 @@ public class UIOpen {
         networkCalls.setLogs();
         setScreenshotTaken(false);
         long t = System.currentTimeMillis();
-        if (deviceTests && iOSTesting) {
+        if (automationType.equals(IOS_PLATFORM)) {
             iOSTestUIOpen.openIOSBrowser(urlOrRelativeUrl, new TestUIConfiguration());
         } else {
             androidTestUIDriver.openBrowser(urlOrRelativeUrl, new TestUIConfiguration());
@@ -157,7 +157,7 @@ public class UIOpen {
 
     public static UIElement openNew(String urlOrRelativeUrl) {
         setScreenshotTaken(false);
-        if (deviceTests && iOSTesting) {
+        if (automationType.equals(IOS_PLATFORM)) {
             iOSTestUIOpen.openNewIOSBrowser(urlOrRelativeUrl, new TestUIConfiguration());
         } else {
             androidTestUIDriver.openNewBrowser(urlOrRelativeUrl, new TestUIConfiguration());
@@ -169,7 +169,7 @@ public class UIOpen {
 
     public static UIElement addCookie(String key, String value) {
         Cookie cookie = new Cookie(key, value);
-        if (deviceTests) {
+        if (!automationType.equals(DESKTOP_PLATFORM)) {
             getDriver().manage().addCookie(cookie);
         } else {
             getSelenideDriver().manage().addCookie(cookie);
@@ -179,7 +179,7 @@ public class UIOpen {
     }
 
     public static Set<Cookie> getCookies() {
-        if (deviceTests) {
+        if (!automationType.equals(DESKTOP_PLATFORM)) {
             return getDriver().manage().getCookies();
         } else {
             return getSelenideDriver().manage().getCookies();

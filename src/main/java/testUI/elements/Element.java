@@ -189,7 +189,7 @@ public class Element extends TestUI implements UIElement {
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 element, SelenideElement);
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 if (!collection) {
                     waitUntilClickable(
                             getAppiumElement(iOSElement, element),
@@ -228,7 +228,7 @@ public class Element extends TestUI implements UIElement {
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 element, SelenideElement);
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 if (!collection) {
                     waitUntilClickable(
                             getAppiumElement(iOSElement, element),
@@ -260,7 +260,7 @@ public class Element extends TestUI implements UIElement {
     }
 
     public Dimension getSize() {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (!collection) {
                 waitUntilVisible(
                         getAppiumElement(iOSElement, element),
@@ -290,7 +290,7 @@ public class Element extends TestUI implements UIElement {
     }
 
     public Point getLocation() {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (!collection) {
                 waitUntilVisible(
                         getAppiumElement(iOSElement, element),
@@ -334,7 +334,7 @@ public class Element extends TestUI implements UIElement {
 
     public String getText() {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 return getElement(
                         accesibilityIdiOS,
                         accesibilityId,
@@ -355,7 +355,7 @@ public class Element extends TestUI implements UIElement {
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 element, SelenideElement);
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 getElement(
                         accesibilityIdiOS,
                         accesibilityId,
@@ -385,7 +385,7 @@ public class Element extends TestUI implements UIElement {
                 element, SelenideElement);
         click();
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 ((JavascriptExecutor) getDriver()).executeScript(
                         "arguments[0].value='" + value + "';",
                         getElementWithoutException(
@@ -421,7 +421,7 @@ public class Element extends TestUI implements UIElement {
             click();
         }
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 ((JavascriptExecutor) getDriver()).executeScript(
                         "arguments[0].value='" + value + "';",
                         getElementWithoutException(
@@ -454,7 +454,7 @@ public class Element extends TestUI implements UIElement {
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 element, SelenideElement);
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 ((JavascriptExecutor) getDriver()).executeScript(
                         JsScript,
                         getElementWithoutException(
@@ -483,7 +483,7 @@ public class Element extends TestUI implements UIElement {
 
     public UIElement executeJs(String var1, Object... var2) {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 ((JavascriptExecutor) getDriver()).executeScript(var1, var2);
             } else {
                 ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript(var1, var2);
@@ -507,35 +507,9 @@ public class Element extends TestUI implements UIElement {
         );
     }
 
-    @Deprecated
-    public UIElement scrollIntoView(boolean upCenter) {
-        try {
-            if (Configuration.deviceTests) {
-                ((JavascriptExecutor) getDriver()).executeScript(
-                        "arguments[0].scrollIntoView(" + upCenter + ");",
-                        getElementWithoutException(
-                                accesibilityIdiOS,
-                                accesibilityId,
-                                iOSElement,
-                                element,
-                                index,
-                                collection
-                        )
-                );
-            } else {
-                getSelenide(
-                        SelenideElement, index, collection).scrollIntoView(upCenter);
-            }
-        } catch (Throwable e) {
-            takeScreenshotsAllure();
-            throw new Error(e);
-        }
-        return getElementObject();
-    }
-
     public UIElement swipe(int XCoordinate, int YCoordinate) {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 TouchActions action = new TouchActions(getDriver());
                 action.moveToElement(
                         getElement(
@@ -560,7 +534,7 @@ public class Element extends TestUI implements UIElement {
 
     public UIElement swipeRight() {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 Dimension size = getDriver().manage().window().getSize();
                 int endX = (int) (size.width * 0.8);
                 TouchActions action = new TouchActions(getDriver());
@@ -595,7 +569,7 @@ public class Element extends TestUI implements UIElement {
 
     public UIElement swipeLeft() {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 Dimension size = getDriver().manage().window().getSize();
                 int endX = (int) (size.width * 0.10);
                 TouchActions action = new TouchActions(getDriver());
@@ -646,7 +620,7 @@ public class Element extends TestUI implements UIElement {
 
     public UIElement clear() {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 getElement(
                         accesibilityIdiOS,
                         accesibilityId,
@@ -666,7 +640,7 @@ public class Element extends TestUI implements UIElement {
 
     public String getCssValue(String cssValue) {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 return getElement(
                         accesibilityIdiOS,
                         accesibilityId,
@@ -685,7 +659,7 @@ public class Element extends TestUI implements UIElement {
 
     public String getValue() {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 return getElement(
                         accesibilityIdiOS,
                         accesibilityId,
@@ -704,7 +678,7 @@ public class Element extends TestUI implements UIElement {
 
     public String getName() {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 return getElement(
                         accesibilityIdiOS,
                         accesibilityId,
@@ -723,7 +697,7 @@ public class Element extends TestUI implements UIElement {
 
     public String getAttribute(String Attribute) {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 return getElement(
                         accesibilityIdiOS,
                         accesibilityId,
@@ -741,7 +715,7 @@ public class Element extends TestUI implements UIElement {
     }
 
     public boolean isVisible() {
-        if (Configuration.deviceTests)
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM))
             return visible(
                     getAppiumElement(iOSElement, element),
                     getAccesibilityId(accesibilityIdiOS, accesibilityId)
@@ -750,7 +724,7 @@ public class Element extends TestUI implements UIElement {
     }
 
     public boolean isEnabled() {
-        if (Configuration.deviceTests)
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM))
             return enable(
                     getAppiumElement(iOSElement, element),
                     getAccesibilityId(accesibilityIdiOS, accesibilityId)
@@ -759,7 +733,7 @@ public class Element extends TestUI implements UIElement {
     }
 
     public boolean Exists() {
-        if (Configuration.deviceTests)
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM))
             return exists(
                     getAppiumElement(iOSElement, element),
                     getAccesibilityId(accesibilityIdiOS, accesibilityId)
@@ -791,7 +765,7 @@ public class Element extends TestUI implements UIElement {
 
 
     public UIElement saveScreenshot(String path) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (getDrivers().size() != 0) {
                 Configuration.driver = Configuration.driver > getDrivers().size() ?
                         getDrivers().size() : Configuration.driver;

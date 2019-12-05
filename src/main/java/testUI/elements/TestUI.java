@@ -76,14 +76,14 @@ public class TestUI {
     }
 
     protected By getAppiumElement(By iOSElement, By AndroidElement) {
-        if (Configuration.iOSTesting)
+        if (Configuration.automationType.equals(Configuration.IOS_PLATFORM))
             return iOSElement;
         return AndroidElement;
     }
 
     protected String  getStringElement(String accesibilityIdiOS, String accesibilityId,
                                        By iOSElement, By AndroidElement, By SelenideElement) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (getLocator(accesibilityIdiOS,accesibilityId).isEmpty())
                 return getAppiumElement(iOSElement, AndroidElement).toString();
             return getLocator(accesibilityIdiOS,accesibilityId);
@@ -93,7 +93,7 @@ public class TestUI {
     }
 
     protected String getLocator(String accesibilityIdiOS, String accesibilityId) {
-        if (Configuration.iOSTesting) {
+        if (Configuration.automationType.equals(Configuration.IOS_PLATFORM)) {
             if (accesibilityIdiOS != null && !accesibilityIdiOS.isEmpty())
                 return accesibilityIdiOS.split(": ")[1];
             return "";
@@ -105,7 +105,7 @@ public class TestUI {
     }
 
     protected String getAccesibilityId(String accesibilityIdiOS, String accesibilityId) {
-        if (Configuration.iOSTesting)
+        if (Configuration.automationType.equals(Configuration.IOS_PLATFORM))
             return accesibilityIdiOS;
         return accesibilityId;
     }
@@ -253,8 +253,8 @@ public class TestUI {
             if (getStep()) {
                 Allure.step("Previous Step Failed!", Status.FAILED);
             }
-            boolean test = Configuration.deviceTests;
-            Configuration.deviceTests = true;
+            String aType = Configuration.automationType;
+            Configuration.automationType = Configuration.IOS_PLATFORM;
             for (int in = 0; in < getDrivers().size(); in++) {
                 byte[] screenshot = TestUIDriver.takeScreenshot(in);
                 String deviceName = getDevicesNames().size() > in ? getDevicesNames().get(in) : "";
@@ -264,7 +264,7 @@ public class TestUI {
                         "png",
                         screenshot);
             }
-            Configuration.deviceTests = false;
+            Configuration.automationType = Configuration.DESKTOP_PLATFORM;
             if (WebDriverRunner.driver().hasWebDriverStarted()) {
                 try {
                     byte[] screenshot = TestUIDriver.takeScreenshot();
@@ -277,7 +277,7 @@ public class TestUI {
                     System.err.println("Could not take a screenshot in the laptop browser...");
                 }
             }
-            Configuration.deviceTests = test;
+            Configuration.automationType = aType;
             screenshotTaken = true;
         }
     }

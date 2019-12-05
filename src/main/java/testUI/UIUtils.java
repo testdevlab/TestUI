@@ -197,7 +197,7 @@ public class UIUtils extends Configuration {
 
     public static void executeJs(String var1, Object... var2) {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(DESKTOP_PLATFORM)) {
                 ((JavascriptExecutor) getDriver()).executeScript(var1, var2);
             } else {
                 ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript(var1, var2);
@@ -218,7 +218,7 @@ public class UIUtils extends Configuration {
     }
 
     public static void clearBrowserData() {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(DESKTOP_PLATFORM)) {
             getDriver().manage().deleteAllCookies();
             executeJs("localStorage.clear();");
         } else {

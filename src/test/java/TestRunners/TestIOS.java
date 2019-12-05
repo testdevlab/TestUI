@@ -15,8 +15,10 @@ public class TestIOS {
     @Test
     @DisplayName("IOS browser test case")
     public void testIOSBrowser() {
-        GridTestUI gridTestUI = new GridTestUI();
-        gridTestUI.setAppiumiOSConfiguration("http://alvaro:password@10.2.5.202:8000");
+//        GridTestUI gridTestUI = new GridTestUI();
+//        gridTestUI.setPlatform(gridTestUI.IOS_PLATFORM).setConfiguration();
+        Configuration.automationType = Configuration.IOS_PLATFORM;
+        Configuration.serverLogLevel = "all";
         open("https://www.facebook.com");
         System.out.println(getIOSTestUIDriver().getBatteryInfo().getState());
         facebookLandingPage.getSafariFacebookEmailDiv().click();
@@ -38,8 +40,7 @@ public class TestIOS {
     @Test
     @DisplayName("IOS browser test case")
     public void testIOSBrowser2() {
-        Configuration.deviceTests = true;
-        Configuration.iOSTesting = true;
+        Configuration.automationType = Configuration.IOS_PLATFORM;
         open("https://www.facebook.com");
         System.out.println(getIOSTestUIDriver().getBatteryInfo().getState());
         facebookLandingPage.getSafariFacebookEmailDiv().click();
@@ -61,8 +62,7 @@ public class TestIOS {
     @Test
     @DisplayName("IOS browser test case")
     public void testIOSBrowser3() {
-        Configuration.deviceTests = true;
-        Configuration.iOSTesting = true;
+        Configuration.automationType = Configuration.IOS_PLATFORM;
         open("https://www.facebook.com");
         System.out.println(getIOSTestUIDriver().getBatteryInfo().getState());
         facebookLandingPage.getSafariFacebookEmailDiv().click();

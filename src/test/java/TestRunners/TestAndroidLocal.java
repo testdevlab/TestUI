@@ -6,6 +6,7 @@ import org.junit.Test;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
 
+import static testUI.Configuration.ANDROID_PLATFORM;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.Utils.By.byMobileCss;
@@ -18,10 +19,10 @@ public class TestAndroidLocal {
     @DisplayName("Android browser test case stop")
     public void testAndroidBrowser() {
         Configuration.testUILogLevel = LogLevel.DEBUG;
-        Configuration.deviceTests = true;
+        Configuration.automationType = ANDROID_PLATFORM;
         open("https://www.google.com");
         E(byMobileCss("#SIvCob")).click();
-        googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
+        googleLandingPage.getGoogleSearchInput().scrollTo().view(true)
                 .given("Check search input visible and set value").waitFor(5)
                 .untilIsVisible().then().setValueJs("TestUI")
                 .shouldHave().not().emptyAttribute("value");
@@ -32,7 +33,7 @@ public class TestAndroidLocal {
         Configuration.testUILogLevel = LogLevel.DEBUG;
         open("https://www.google.com");
         E(byMobileCss("#SIvCob")).click();
-        googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
+        googleLandingPage.getGoogleSearchInput().scrollTo().view(true)
                 .given("Check search input visible and set value").waitFor(5)
                 .untilIsVisible().then().setValueJs("TestUI")
                 .shouldHave().not().emptyAttribute("value");

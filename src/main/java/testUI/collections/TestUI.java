@@ -163,13 +163,13 @@ public class TestUI implements UICollection {
     }
 
     private By getAppiumElement() {
-        if (Configuration.iOSTesting)
+        if (Configuration.automationType.equals(Configuration.IOS_PLATFORM))
             return iOSElement;
         return element;
     }
 
     private String getAccessibilityId() {
-        if (Configuration.iOSTesting)
+        if (Configuration.automationType.equals(Configuration.IOS_PLATFORM))
             return accesibilityIdiOS;
         return accesibilityId;
     }
@@ -219,7 +219,7 @@ public class TestUI implements UICollection {
 
     public String asString() {
         try {
-            if (Configuration.deviceTests) {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 return getElementList().get(index).toString();
             } else {
                 return $$(SelenideElement).get(index).toString();
@@ -255,7 +255,7 @@ public class TestUI implements UICollection {
     }
 
     public int size() {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             try {
                 return getElementList().size();
             } catch (Exception e) {
@@ -272,7 +272,7 @@ public class TestUI implements UICollection {
     }
 
     public Dimension getSize() {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             try {
                 return ((MobileElement) getElementList().get(index)).getSize();
             } catch (Exception e) {
@@ -289,7 +289,7 @@ public class TestUI implements UICollection {
     }
 
     public UIElement findByVisible() {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             long t= System.currentTimeMillis();
             long end = t+(Configuration.timeout * 1000);
             while(System.currentTimeMillis() < end) {
@@ -335,7 +335,7 @@ public class TestUI implements UICollection {
     }
 
     public UIElement findByText(String text) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             long t= System.currentTimeMillis();
             long end = t+(Configuration.timeout * 1000);
             while(System.currentTimeMillis() < end) {
@@ -383,7 +383,7 @@ public class TestUI implements UICollection {
     }
 
     public UIElement findByEnabled() {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             long t= System.currentTimeMillis();
             long end = t+(Configuration.timeout * 1000);
             while(System.currentTimeMillis() < end) {

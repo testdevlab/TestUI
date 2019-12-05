@@ -62,7 +62,7 @@ public class AttributeImp extends TestUI implements testUI.elements.Attribute {
     }
 
     public UIElement equalTo(String value) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilHasAttribute(
                         getAppiumElement(iOSElement, AppiumElement),

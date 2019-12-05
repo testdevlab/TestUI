@@ -26,7 +26,7 @@ public class TestAndroidRemote {
         Configuration.androidDeviceName = "emulator-5554";
         open("https://www.google.com");
         E(byMobileCss("#SIvCob")).click();
-        googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
+        googleLandingPage.getGoogleSearchInput().scrollTo().view(true)
                 .given("Check search input visible and set value").waitFor(5)
                 .untilIsVisible().then().setValueJs("TestUI")
                 .shouldHave().not().emptyAttribute("value");
@@ -37,7 +37,7 @@ public class TestAndroidRemote {
         Configuration.testUILogLevel = LogLevel.DEBUG;
         open("https://www.google.com");
         E(byMobileCss("#SIvCob")).click();
-        googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
+        googleLandingPage.getGoogleSearchInput().scrollTo().view(true)
                 .given("Check search input visible and set value").waitFor(5)
                 .untilIsVisible().then().setValueJs("TestUI")
                 .shouldHave().not().emptyAttribute("value");
@@ -54,7 +54,7 @@ public class TestAndroidRemote {
         Configuration.androidDeviceName = "emulator-5554";
         open("https://www.google.com");
         E(byMobileCss("#SIvCob")).click();
-        googleLandingPage.getGoogleSearchInput().scrollIntoView(true)
+        googleLandingPage.getGoogleSearchInput().scrollTo().view(true)
                 .given("Check search input visible and set value").waitFor(5)
                 .untilIsVisible().then().setValueJs("TestUI")
                 .shouldHave().not().emptyAttribute("value");
@@ -69,7 +69,9 @@ public class TestAndroidRemote {
     @DisplayName("Test cli testUI")
     public void testCliTestUI() {
         GridTestUI gridTestUI = new GridTestUI();
-        gridTestUI.setAppiumAndroidConfiguration("http://localhost:8000");
+        gridTestUI.setServerURL("http://alvaro:password@10.2.5.202:8000")
+                .setPlatform("ANDROID")
+                .setConfiguration();
         open("https://www.google.com");
         googleLandingPage.getGoogleSearchInput()
                 .given("Check search input visible and set value").waitFor(5)

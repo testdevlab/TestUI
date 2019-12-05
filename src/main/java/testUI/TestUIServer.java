@@ -268,31 +268,23 @@ public class TestUIServer extends UIUtils {
                 }
             }
         } else {
-            if (iOSDeviceName.isEmpty()) {
+            if (UDID.isEmpty()) {
                 IOSCommands iosCommands = new IOSCommands();
-                if (UDID.isEmpty()) {
-                    Map<String, String> sampleIOSDevice = iosCommands.getSampleDevice(device);
-                    iOSDeviceName = sampleIOSDevice.get("name");
-                    iOSVersion = sampleIOSDevice.get("version");
-                    UDID = sampleIOSDevice.get("udid");
-                } else {
-                    iOSDeviceName = iosCommands.getIOSName(UDID);
-                    if (!iOSDeviceName.isEmpty()) {
-                        iOSVersion = iosCommands.getIOSVersion(UDID);
-                    }
-                }
+                Map<String, String> sampleIOSDevice = iosCommands.getSampleDevice(device);
+                UDID = sampleIOSDevice.get("udid");
             }
-            setiOSDevice(iOSDeviceName);
+            setiOSDevice(UDID);
         }
-        driver = iOSTesting ? getDevices().size() + getIOSDevices().size() : getDevices().size();
+        driver = Configuration.automationType.equals(Configuration.IOS_PLATFORM) ?
+                getDevices().size() + getIOSDevices().size() : getDevices().size();
         driver = configuration.getEmulatorName().isEmpty() ? driver : driver + 1;
     }
 
     public static void stop(int driver) {
-        if (deviceTests) {
+        if (!Configuration.automationType.equals(DESKTOP_PLATFORM)) {
             removeUsePort(driver - 1);
             removeUseBootstrapPort(driver - 1);
-            if (iOSTesting) {
+            if (Configuration.automationType.equals(IOS_PLATFORM)) {
                 getDrivers().get(driver - 1).close();
                 sleep(500);
             }
@@ -325,7 +317,7 @@ public class TestUIServer extends UIUtils {
     }
 
     protected static void tryStop(int driver) {
-        if (deviceTests) {
+        if (!Configuration.automationType.equals(DESKTOP_PLATFORM)) {
             try {
                 removeUsePort(driver - 1);
                 removeUseBootstrapPort(driver - 1);
@@ -376,10 +368,10 @@ public class TestUIServer extends UIUtils {
     public static void stop() {
         GridTestUI grid = new GridTestUI();
         grid.releaseAppiumSession();
-        if (deviceTests) {
+        if (!Configuration.automationType.equals(DESKTOP_PLATFORM)) {
             removeUsePort(driver - 1);
             removeUseBootstrapPort(driver - 1);
-            if (iOSTesting) {
+            if (Configuration.automationType.equals(IOS_PLATFORM)) {
                 getDrivers().get(driver - 1).close();
                 sleep(500);
             }

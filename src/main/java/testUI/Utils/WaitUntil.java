@@ -21,12 +21,13 @@ public class WaitUntil {
             boolean found) {
         if (!found) {
             if (Configuration.useAllure) {
-                boolean test = Configuration.deviceTests;
-                Configuration.deviceTests = true;
+                String aType = Configuration.automationType;
+                Configuration.automationType = Configuration.ANDROID_PLATFORM;
                 for (int index = 0; index < getDrivers().size(); index++) {
                     byte[] screenshot = takeScreenshot(index);
-                    List<String> deviceName = Configuration.iOSTesting && index == 0 ?
-                            getIOSDevices() : getDevicesNames();
+                    List<String> deviceName =
+                            Configuration.automationType.equals(Configuration.IOS_PLATFORM)
+                                    && index == 0 ? getIOSDevices() : getDevicesNames();
                     Allure.getLifecycle().addAttachment(
                             "Screenshot Mobile " +
                                     deviceName.get(index),
@@ -35,7 +36,7 @@ public class WaitUntil {
                             screenshot
                     );
                 }
-                Configuration.deviceTests = false;
+                Configuration.automationType = Configuration.DESKTOP_PLATFORM;
                 if (WebDriverRunner.driver().hasWebDriverStarted()) {
                     try {
                         byte[] screenshot = takeScreenshot();
@@ -49,7 +50,7 @@ public class WaitUntil {
                         System.err.println("Could not take a screenshot in the laptop browser...");
                     }
                 }
-                Configuration.deviceTests = test;
+                Configuration.automationType = aType;
             }
             if (accesibility == null || accesibility.isEmpty()) {
                 throw new TestUIException("The element '" + element + "' " + reason);
@@ -125,7 +126,8 @@ public class WaitUntil {
         long end = t + (long)(Configuration.timeout * 1000);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
-            if ((Configuration.iOSTesting || enable(element, accessibility)) && visible(element,
+            if ((Configuration.automationType.equals(Configuration.IOS_PLATFORM) || enable(element,
+                    accessibility)) && visible(element,
                     accessibility)) {
                 found = true;
                 break;

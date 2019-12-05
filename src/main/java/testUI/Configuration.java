@@ -8,47 +8,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Configuration extends SelenideConfiguration {
-    public static String browser = "chrome";
-    public static String baseUrl = "";
-    public static int timeout = 5;
-    public static String appPackage = "";
-    public static String appActivity = "";
-    public static boolean deviceTests = true;
-    public static boolean useEmulators = true;
-    public static int driver = 1;
-    public static int baseAppiumPort = 9586;
-    public static int baseAppiumBootstrapPort = 5333;
-    public static boolean useAllure = false;
-    public static boolean useW3C = false;
-    public static String iOSVersion = "";
-    public static int launchAppTimeout = 20000;
+    public static final String ANDROID_PLATFORM = "android";
+    public static final String IOS_PLATFORM = "ios";
+    public static final String DESKTOP_PLATFORM = "desktop";
+
+    // IOS CAPABILITIES
+    public static int wdaPort = 0;
     public static String iOSAppPath = "";
     public static String iOSDeviceName = "";
+    public static String iOSVersion = "";
+    public static boolean useNewWDA = true;
+    public static String xcodeOrgId = "";
+    public static String xcodeSigningId = "";
+    public static String bundleId = "";
+    public static String updatedWDABundleId = "";
+
+    // ANDROID CAPABILITIES
+    public static String appPackage = "";
+    public static String appActivity = "";
+    public static boolean useEmulators = true;
+    public static boolean useW3C = false;
     public static String androidDeviceName = "";
-    public static boolean iOSTesting = false;
     public static String androidAppPath = "";
     public static String androidVersion = "";
     public static String chromeDriverPath = "";
     public static boolean installMobileChromeDriver = true;
-    public static String appiumUrl = "";
+    public static int chromeDriverPort = 0;
+    public static int systemPort = 0;
     public static String emulatorName = "";
-    public static String xcodeOrgId = "";
-    public static String xcodeSigningId = "";
+
+    // COMMON
+    public static String automationType = DESKTOP_PLATFORM;
+    public static String baseUrl = "";
+    public static int timeout = 5;
+    public static int baseAppiumPort = 9586;
+    public static int baseAppiumBootstrapPort = 5333;
+    public static boolean useAllure = false;
+    public static int driver = 1;
     public static String UDID = "";
-    public static String bundleId = "";
-    public static String updatedWDABundleId = "";
-    public static DesiredCapabilities addMobileDesiredCapabilities = new DesiredCapabilities();
-    public static String AutomationName = "";
-    public static boolean useNewWDA = true;
     public static String serverLogLevel = "error";
     public static String screenshotPath = "";
     public static int timeStartAppiumServer = 20;
     public static boolean cleanStart = true;
     public static LogLevel testUILogLevel = LogLevel.INFO;
-    public static int chromeDriverPort = 0;
-    public static int systemPort = 0;
-    public static int wdaPort = 0;
+    public static int launchAppTimeout = 20000;
+    public static String appiumUrl = "";
+    public static DesiredCapabilities addMobileDesiredCapabilities = new DesiredCapabilities();
+    public static String automationName = "";
 
+
+    public static String browser = "chrome";
     protected static DesiredCapabilities desiredCapabilities;
     protected static int iOSDevices = 0;
     protected static ThreadLocal<String> firstEmulatorName = new ThreadLocal<>();
@@ -95,8 +104,8 @@ public class Configuration extends SelenideConfiguration {
     }
 
     public static void putDataCucumber(Scenario scenario) {
-        if (Configuration.deviceTests) {
-            if (Configuration.iOSTesting) {
+        if (!Configuration.automationType.equals(DESKTOP_PLATFORM)) {
+            if (Configuration.automationType.equals(Configuration.IOS_PLATFORM)) {
                 scenario.write("iOS Device: " + Configuration.iOSDeviceName);
                 scenario.write("iOS Version: " + Configuration.iOSVersion);
             } else {
