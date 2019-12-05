@@ -4,6 +4,7 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import pages.FacebookLandingPage;
 import testUI.Configuration;
+import testUI.Utils.GridTestUI;
 
 import static testUI.TestUIDriver.getIOSTestUIDriver;
 import static testUI.UIOpen.open;
@@ -14,9 +15,8 @@ public class TestIOS {
     @Test
     @DisplayName("IOS browser test case")
     public void testIOSBrowser() {
-        Configuration.deviceTests = true;
-        Configuration.iOSTesting = true;
-        Configuration.iOSDeviceName = "";
+        GridTestUI gridTestUI = new GridTestUI();
+        gridTestUI.setAppiumiOSConfiguration("http://alvaro:password@10.2.5.202:8000");
         open("https://www.facebook.com");
         System.out.println(getIOSTestUIDriver().getBatteryInfo().getState());
         facebookLandingPage.getSafariFacebookEmailDiv().click();

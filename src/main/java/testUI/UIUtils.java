@@ -18,8 +18,6 @@ import static testUI.Utils.Logger.putLogWarn;
 import static testUI.elements.TestUI.takeScreenshotsAllure;
 
 public class UIUtils extends Configuration {
-    private static Logger logger = Logger.getLogger(UIUtils.class.getName());
-
     private volatile static ThreadLocal<List<AppiumDriverLocalService>> service
             = new ThreadLocal<>();
     private static ThreadLocal<List<String>> Device = new ThreadLocal<>();

@@ -66,6 +66,7 @@ public class IOSTestUIDriver {
                 putLogError("Could not create driver! retrying...");
                 sleep(500);
                 if (i == 1) {
+                    e.printStackTrace();
                     throw new Error(e);
                 }
             }

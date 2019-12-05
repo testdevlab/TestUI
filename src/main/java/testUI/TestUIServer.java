@@ -10,6 +10,7 @@ import testUI.AndroidUtils.ADBUtils;
 import testUI.IOSUtils.IOSCommands;
 import testUI.Utils.AppiumHelps;
 import testUI.Utils.AppiumTimeoutException;
+import testUI.Utils.GridTestUI;
 
 import java.io.File;
 import java.util.List;
@@ -276,7 +277,9 @@ public class TestUIServer extends UIUtils {
                     UDID = sampleIOSDevice.get("udid");
                 } else {
                     iOSDeviceName = iosCommands.getIOSName(UDID);
-                    iOSVersion = iosCommands.getIOSVersion(UDID);
+                    if (!iOSDeviceName.isEmpty()) {
+                        iOSVersion = iosCommands.getIOSVersion(UDID);
+                    }
                 }
             }
             setiOSDevice(iOSDeviceName);
@@ -371,6 +374,8 @@ public class TestUIServer extends UIUtils {
     }
 
     public static void stop() {
+        GridTestUI grid = new GridTestUI();
+        grid.releaseAppiumSession();
         if (deviceTests) {
             removeUsePort(driver - 1);
             removeUseBootstrapPort(driver - 1);

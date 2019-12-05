@@ -18,7 +18,7 @@ public class TestAndroidLocal {
     @DisplayName("Android browser test case stop")
     public void testAndroidBrowser() {
         Configuration.testUILogLevel = LogLevel.DEBUG;
-        Configuration.deviceTests = false;
+        Configuration.deviceTests = true;
         open("https://www.google.com");
         E(byMobileCss("#SIvCob")).click();
         googleLandingPage.getGoogleSearchInput().scrollIntoView(true)

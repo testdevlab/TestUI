@@ -28,7 +28,7 @@ public class TestUIConfiguration {
     private static ThreadLocal<String> emulatorName = new ThreadLocal<>();
 //    private final String xcodeOrgId = Configuration.xcodeOrgId;
 //    private final String xcodeSigningId = Configuration.xcodeSigningId;
-//    private final String UDID = Configuration.UDID;
+    private final String UDID = Configuration.UDID;
 //    private final String bundleId = Configuration.bundleId;
 //    private final String updatedWDABundleId = Configuration.updatedWDABundleId;
 //    private final DesiredCapabilities addMobileDesiredCapabilities =
@@ -102,6 +102,10 @@ public class TestUIConfiguration {
 
     public String getAndroidDeviceName() {
         return androidDeviceName;
+    }
+
+    public String getUDID() {
+        return UDID;
     }
 
     public String getAppiumUrl() {

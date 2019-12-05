@@ -178,7 +178,7 @@ public class BrowserLogs {
                         callHar.add(call);
                     }
                 }
-            } catch (UnsupportedCommandException e) {
+            } catch (UnsupportedCommandException | JsonException e) {
                 putLog("The PERFORMANCE logs are not supported for this browser");
             }
         } else {

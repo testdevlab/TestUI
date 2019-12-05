@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
+import testUI.Utils.GridTestUI;
 
 import static testUI.TestUIDriver.getSelenideDriver;
 import static testUI.TestUIDriver.setDriver;
@@ -133,9 +134,11 @@ public class TestBrowser {
     public void testAndroidBrowserOneLine() {
         Configuration.deviceTests = false;
         Configuration.useAllure = false;
-        Configuration.browser = "firefox";
+        Configuration.browser = "chrome";
+        GridTestUI gridTestUI = new GridTestUI();
+        gridTestUI.setSeleniumConfiguration("http://alvaro:password@10.2.5.202:8000");
         Configuration.testUILogLevel = LogLevel.DEBUG;
-        Configuration.browserLogs = true;
+//        Configuration.browserLogs = true;
         open("https://loadero.com/login")
                 .given("I set element").setElement(byCssSelector("#username"))
                 .and("I check if visible").waitFor(5).untilIsVisible()

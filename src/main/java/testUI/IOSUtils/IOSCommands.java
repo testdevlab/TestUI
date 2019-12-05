@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static testUI.UIUtils.putLog;
+import static testUI.Utils.Logger.putLogWarn;
 
 public class IOSCommands {
     private Map<String, Map<String, String>> getSimulatorNames() {
@@ -123,7 +124,8 @@ public class IOSCommands {
             while ((s = stdInput.readLine()) != null) {
                 output.add(s);
                 if (s.contains("No device found")) {
-                    throw new TestUIException("");
+                    putLogWarn("No device found with this UDID: " + udid);
+                    return "";
                 }
             }
             Process p2 = Runtime.getRuntime().exec(
