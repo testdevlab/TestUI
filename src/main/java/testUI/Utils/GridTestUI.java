@@ -102,6 +102,7 @@ public class GridTestUI {
                 } else {
                     setAndroidConfiguration(json);
                 }
+                attachShutDownHookSReleaseDevice(cliServerURL, UDID);
             }
         } else {
             JSONObject json = makeRequest();
@@ -160,6 +161,18 @@ public class GridTestUI {
         return this;
     }
 
+    public GridTestUI setDeviceName(String deviceName) {
+        GridTestUI.deviceName = deviceName;
+
+        return this;
+    }
+
+    public GridTestUI setUDID(String UDID) {
+        GridTestUI.UDID = UDID;
+
+        return this;
+    }
+
     public GridTestUI setBrowserName(String browser) {
         browserName = browser;
 
@@ -178,13 +191,21 @@ public class GridTestUI {
             jsonBody = "{\"selenium\":{\"browser\": \"" + browser + "\"";
             if (!platformName.isEmpty()) {
                 jsonBody = jsonBody.concat(", \"os\": \"" +
-                        StringUtils.capitalize(platformName.toLowerCase()) + "\"");
+                        StringUtils.capitalize(platformName.toUpperCase()) + "\"");
             }
         } else {
-            if (platformName.isEmpty()) {
+            if (platformName.isEmpty() || platformName.toLowerCase().equals("android")) {
                 platformName = "Android";
+            } else {
+                platformName = "IOS";
             }
-            jsonBody = "{\"appium\":{\"os\": \"" + StringUtils.capitalize(platformName.toLowerCase())  + "\"";
+            jsonBody = "{\"appium\":{\"os\": \"" + platformName + "\"";
+            if (!deviceName.isEmpty()) {
+                jsonBody = jsonBody.concat(", \"deviceName\": \"" + deviceName + "\"");
+            }
+            if (!UDID.isEmpty()) {
+                jsonBody = jsonBody.concat(", \"deviceName\": \"" + UDID + "\"");
+            }
         }
 
         jsonBody = jsonBody.concat("}}");
@@ -208,21 +229,25 @@ public class GridTestUI {
         } finally {
             close();
         }
-        attachShutDownHookSReleaseDevice(cliServerURL, UDID);
 
         return json;
     }
 
     private void setIOSConfiguration(JSONObject json) {
-        appiumURL = json.getString("proxyURL");
-        UDID = json.getString("udid");
-        Configuration.iOSDeviceName = json.getString("deviceName");
-        deviceName = Configuration.iOSDeviceName;
-        Configuration.iOSVersion = json.getString("version");
-        Configuration.wdaPort = json.getInt("port") + 100;
-        Configuration.appiumUrl = appiumURL;
-        Configuration.UDID = UDID;
-        Configuration.automationType = Configuration.IOS_PLATFORM;
+        try {
+            appiumURL = json.getString("proxyURL");
+            UDID = json.getString("udid");
+            Configuration.iOSDeviceName = json.getString("deviceName");
+            deviceName = Configuration.iOSDeviceName;
+            Configuration.iOSVersion = json.getString("version");
+            Configuration.wdaPort = json.getInt("port") + 100;
+            Configuration.appiumUrl = appiumURL;
+            Configuration.UDID = UDID;
+            Configuration.automationType = Configuration.IOS_PLATFORM;
+        } catch (Exception e) {
+            throw new TestUIException("there is no device available with this specifications: \n" +
+                    setJsonBody());
+        }
     }
 
     private void setAndroidConfiguration(JSONObject json) {
