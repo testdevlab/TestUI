@@ -84,7 +84,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -109,7 +109,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -132,7 +132,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -155,7 +155,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -179,7 +179,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -204,7 +204,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -229,7 +229,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -254,7 +254,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -280,7 +280,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -308,7 +308,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(getElementString(element) + "[" + index + "]", accessibility,
@@ -330,7 +330,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -356,7 +356,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -382,7 +382,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -406,7 +406,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -432,7 +432,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -457,7 +457,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -482,7 +482,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -508,7 +508,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -535,7 +535,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -563,7 +563,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -590,7 +590,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -618,7 +618,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -647,7 +647,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
@@ -673,7 +673,7 @@ public class WaitUntil {
                 found = true;
                 break;
             }
-            sleep(200);
+            sleep(Configuration.poolingInterval);
         }
         long time = System.currentTimeMillis() - t;
         assertFunction(
