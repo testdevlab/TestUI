@@ -111,7 +111,7 @@ public class GridTestUI {
     }
 
     public void setAppiumRelease(String CliServerURL, String UDID) {
-        HttpPost post = new HttpPost(CliServerURL + "/release");
+        HttpPost post = new HttpPost(CliServerURL + "/session/release");
         String postBody = "{\"appium\":{\"udid\": \"" + UDID + "\"}}";
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -191,7 +191,7 @@ public class GridTestUI {
             jsonBody = "{\"selenium\":{\"browser\": \"" + browser + "\"";
             if (!platformName.isEmpty()) {
                 jsonBody = jsonBody.concat(", \"os\": \"" +
-                        StringUtils.capitalize(platformName.toUpperCase()) + "\"");
+                        platformName + "\"");
             }
         } else {
             if (platformName.isEmpty() || platformName.toLowerCase().equals("android")) {
@@ -214,7 +214,7 @@ public class GridTestUI {
     }
 
     private JSONObject makeRequest() {
-        HttpPost post = new HttpPost(cliServerURL + "/session");
+        HttpPost post = new HttpPost(cliServerURL + "/session/start");
         String postBody = setJsonBody();
         JSONObject json;
         try {
