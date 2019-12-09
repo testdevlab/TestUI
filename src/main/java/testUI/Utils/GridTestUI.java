@@ -175,7 +175,6 @@ public class GridTestUI {
 
     public GridTestUI setBrowserName(String browser) {
         browserName = browser;
-
         return this;
     }
 
@@ -188,7 +187,7 @@ public class GridTestUI {
     private String setJsonBody() {
         String jsonBody;
         if (!mobile) {
-            jsonBody = "{\"selenium\":{\"browser\": \"" + browser + "\"";
+            jsonBody = "{\"selenium\":{\"browser\": \"" + browserName + "\"";
             if (!platformName.isEmpty()) {
                 jsonBody = jsonBody.concat(", \"os\": \"" +
                         platformName + "\"");
@@ -278,9 +277,11 @@ public class GridTestUI {
         try {
             Configuration.remote = json.getString("proxyURL");
             if (getPlatform(json) != null) {
+                System.out.println( getPlatform(json));
                 Configuration.selenideBrowserCapabilities.setCapability(
                         CapabilityType.PLATFORM_NAME, getPlatform(json));
             }
+            Configuration.browser = browserName.toLowerCase();
             Configuration.automationType = Configuration.DESKTOP_PLATFORM;
         } catch (JSONException e) {
             throw new TestUIException("There is no node available for the specified parameters " +
