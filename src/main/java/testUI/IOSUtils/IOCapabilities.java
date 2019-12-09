@@ -96,8 +96,12 @@ public class IOCapabilities extends Configuration {
                     Configuration.iOSVersion = sampleIOSDevice.get("version");
                     Configuration.UDID = sampleIOSDevice.get("udid");
                 } else {
-                    Configuration.iOSDeviceName = iosCommands.getIOSName(Configuration.UDID);
-                    Configuration.iOSVersion = iosCommands.getIOSVersion(Configuration.UDID);
+                    if (Configuration.iOSVersion.isEmpty()) {
+                        Configuration.iOSVersion = iosCommands.getIOSVersion(Configuration.UDID);
+                    }
+                    if (Configuration.iOSDeviceName.isEmpty()) {
+                        Configuration.iOSDeviceName = iosCommands.getIOSName(Configuration.UDID);
+                    }
                 }
                 capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
                         Configuration.iOSDeviceName);

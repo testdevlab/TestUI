@@ -135,10 +135,9 @@ public class TestUIDriver {
     }
 
     public static byte[] takeScreenshot() {
-        if (Configuration.deviceTests) {
+        if (!automationType.equals(DESKTOP_PLATFORM)) {
             if (getDrivers().size() != 0) {
-                Configuration.driver = Configuration.driver > getDrivers().size() ?
-                        getDrivers().size() : Configuration.driver;
+                Configuration.driver = Math.min(Configuration.driver, getDrivers().size());
                 return ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
             } else {
                 return new byte[1];
@@ -149,12 +148,12 @@ public class TestUIDriver {
 
     public static List<byte[]> takeScreenshotAllDevicesList() {
         List<byte[]> screenshots = new ArrayList<>();
-        boolean test = Configuration.deviceTests;
-        Configuration.deviceTests = true;
+        String aType = Configuration.automationType;
+        automationType = ANDROID_PLATFORM;
         for (int index = 0; index < getDrivers().size(); index++) {
             screenshots.add(takeScreenshot(index));
         }
-        Configuration.deviceTests = false;
+        automationType = DESKTOP_PLATFORM;
         if (WebDriverRunner.driver().hasWebDriverStarted()) {
             try {
                 screenshots.add(takeScreenshot());
@@ -162,18 +161,18 @@ public class TestUIDriver {
                 System.err.println("Could not take a screenshot in the laptop browser...");
             }
         }
-        Configuration.deviceTests = test;
+        automationType = aType;
         return screenshots;
     }
 
     public static Map<String, byte[]> takeScreenshotAllDevicesMap(boolean includeAllure) {
         Map<String, byte[]> screenshots = new HashMap<>();
-        boolean test = Configuration.deviceTests;
-        Configuration.deviceTests = true;
+        String aType = Configuration.automationType;
+        automationType = ANDROID_PLATFORM;
         for (int index = 0; index < getDrivers().size(); index++) {
             screenshots.put(getDevicesNames().get(index), takeScreenshot(index));
         }
-        Configuration.deviceTests = false;
+        automationType = DESKTOP_PLATFORM;
         if (WebDriverRunner.driver().hasWebDriverStarted()) {
             try {
                 screenshots.put("browser", takeScreenshot());
@@ -185,12 +184,12 @@ public class TestUIDriver {
             screenshots.forEach((k, v) -> Allure.getLifecycle().addAttachment(
                     k, "image/png", "png", v));
         }
-        Configuration.deviceTests = test;
+        automationType = aType;
         return screenshots;
     }
 
     public static byte[] takeScreenshot(int index) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(DESKTOP_PLATFORM)) {
             return ((TakesScreenshot) getDrivers().get(index)).getScreenshotAs(OutputType.BYTES);
         }
         try {
@@ -202,7 +201,7 @@ public class TestUIDriver {
     }
 
     public static byte[] takeScreenshot(AppiumDriver driver) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(DESKTOP_PLATFORM)) {
             return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
         }
         try {

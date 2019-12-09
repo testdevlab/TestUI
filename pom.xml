@@ -67,7 +67,7 @@
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
-                    <forkCount>3</forkCount>
+                    <forkCount>5</forkCount>
 <!--                    <parallel>methods</parallel>-->
 <!--                    <useUnlimitedThreads>true</useUnlimitedThreads>-->
                     <properties>
@@ -147,7 +147,7 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>5.3.1</version> <!-- Use 4.12.2 if does not work in 5.X.X-->
+            <version>5.5.0</version> <!-- Use 4.12.2 if does not work in 5.X.X-->
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

@@ -61,7 +61,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         long t = System.currentTimeMillis();
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 AppiumElement, SelenideElement);
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilVisible(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -92,7 +92,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         long t = System.currentTimeMillis();
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 AppiumElement, SelenideElement);
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilEnable(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -123,7 +123,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         long t = System.currentTimeMillis();
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 AppiumElement, SelenideElement);
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilExist(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -154,7 +154,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         long t = System.currentTimeMillis();
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 AppiumElement, SelenideElement);
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilContainsText(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -187,7 +187,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         long t = System.currentTimeMillis();
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 AppiumElement, SelenideElement);
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilContainsTextNoCaseSensitive(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -220,7 +220,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         long t = System.currentTimeMillis();
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 AppiumElement, SelenideElement);
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilHasValue(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -253,7 +253,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         long t = System.currentTimeMillis();
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 AppiumElement, SelenideElement);
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilVisible(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -284,7 +284,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         long t = System.currentTimeMillis();
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 AppiumElement, SelenideElement);
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilExist(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -315,7 +315,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         long t = System.currentTimeMillis();
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 AppiumElement, SelenideElement);
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilEnable(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -358,7 +358,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         long t = System.currentTimeMillis();
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 AppiumElement, SelenideElement);
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilContainsText(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -398,7 +398,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         long t = System.currentTimeMillis();
         String stringElement = getStringElement(accesibilityIdiOS, accesibilityId, iOSElement,
                 AppiumElement, SelenideElement);
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilHasValue(
                         getAppiumElement(iOSElement, AppiumElement),

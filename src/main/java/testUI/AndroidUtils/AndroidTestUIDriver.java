@@ -5,6 +5,7 @@ import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import testUI.Configuration;
 import testUI.TestUIConfiguration;
+import testUI.Utils.GridTestUI;
 import testUI.Utils.TestUIException;
 
 import java.net.MalformedURLException;
@@ -90,6 +91,11 @@ public class AndroidTestUIDriver extends AndroidOpen {
                         getDrivers().get(0).get(urlOrRelativeUrl);
                     } else {
                         getDrivers().get(0).quit();
+                        try {
+                            new GridTestUI().setAppiumAndroidConfiguration();
+                        } catch (Exception e) {
+                            putLogInfo("Already requested node");
+                        }
                         setDriver(new AndroidDriver(new URL(url), cap) {
                         }, 0);
                         getDrivers().get(0).get(urlOrRelativeUrl);

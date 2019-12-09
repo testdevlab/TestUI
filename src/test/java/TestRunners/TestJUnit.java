@@ -17,7 +17,6 @@ public class TestJUnit {
     @Test
     @DisplayName("Android app test case")
     public void testAndroidApp() {
-        Configuration.iOSTesting = false;
         Configuration.androidAppPath = "1188.apk";
         open();
         landingPage.getCatering().given().waitFor(10).untilIsVisible().then().click();
@@ -29,7 +28,6 @@ public class TestJUnit {
     @Test
     @DisplayName("Android browser test case")
     public void testAndroidBrowser() {
-        Configuration.iOSTesting = false;
         open("https://www.google.com")
         .given().setElement(googleLandingPage.getGoogleSearchInput())
         .and().waitFor(5).untilIsVisible().then().sendKeys("TestUI")
@@ -40,7 +38,7 @@ public class TestJUnit {
     @Test
     @DisplayName("IOS app test case")
     public void testIOSApp() {
-        Configuration.iOSTesting = true;
+        Configuration.automationType = Configuration.IOS_PLATFORM;
         Configuration.iOSVersion = "12.2";
         Configuration.iOSAppPath
                 = "/Users/alvarolasernalopez/Documents/Automation/" +
@@ -52,8 +50,7 @@ public class TestJUnit {
     @Test
     @DisplayName("IOS browser test case")
     public void testIOSBrowser() {
-        Configuration.iOSTesting = true;
-        Configuration.deviceTests = true;
+        Configuration.automationType = Configuration.IOS_PLATFORM;
         open("https://www.facebook.com");
         facebookLandingPage.getSafariFacebookEmailDiv().click();
         facebookLandingPage.getSafariFacebookEmailInput()

@@ -4,6 +4,7 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import pages.FacebookLandingPage;
 import testUI.Configuration;
+import testUI.Utils.GridTestUI;
 
 import static testUI.TestUIDriver.getIOSTestUIDriver;
 import static testUI.UIOpen.open;
@@ -14,9 +15,10 @@ public class TestIOS {
     @Test
     @DisplayName("IOS browser test case")
     public void testIOSBrowser() {
-        Configuration.deviceTests = true;
-        Configuration.iOSTesting = true;
-        Configuration.iOSDeviceName = "";
+//        GridTestUI gridTestUI = new GridTestUI();
+//        gridTestUI.setPlatform(gridTestUI.IOS_PLATFORM).setConfiguration();
+        Configuration.automationType = Configuration.IOS_PLATFORM;
+        Configuration.serverLogLevel = "all";
         open("https://www.facebook.com");
         System.out.println(getIOSTestUIDriver().getBatteryInfo().getState());
         facebookLandingPage.getSafariFacebookEmailDiv().click();
@@ -38,8 +40,7 @@ public class TestIOS {
     @Test
     @DisplayName("IOS browser test case")
     public void testIOSBrowser2() {
-        Configuration.deviceTests = true;
-        Configuration.iOSTesting = true;
+        Configuration.automationType = Configuration.IOS_PLATFORM;
         open("https://www.facebook.com");
         System.out.println(getIOSTestUIDriver().getBatteryInfo().getState());
         facebookLandingPage.getSafariFacebookEmailDiv().click();
@@ -61,8 +62,7 @@ public class TestIOS {
     @Test
     @DisplayName("IOS browser test case")
     public void testIOSBrowser3() {
-        Configuration.deviceTests = true;
-        Configuration.iOSTesting = true;
+        Configuration.automationType = Configuration.IOS_PLATFORM;
         open("https://www.facebook.com");
         System.out.println(getIOSTestUIDriver().getBatteryInfo().getState());
         facebookLandingPage.getSafariFacebookEmailDiv().click();

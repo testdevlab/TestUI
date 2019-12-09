@@ -2,6 +2,7 @@ package testUI.AndroidUtils;
 
 import org.apache.commons.io.FileUtils;
 import testUI.TestUIConfiguration;
+import testUI.Utils.TestUIException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,17 +19,15 @@ public class ADBUtils {
     private static String androidHome;
     private static String platformTools = "/platform-tools/";
     private static String emulatorFolder = "/emulator/";
-    private static final String MAC_CHROME_DRIVER =
+    public static String MAC_CHROME_DRIVER =
             "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/mac" +
                     "/chromedriver";
-    private static final String LNX_CHROME_DRIVER =
+    public static String LNX_CHROME_DRIVER =
             "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver" +
-                    "/linux/chromedriver";
-    private static final String WIN_CHROME_DRIVER =
+                    "/linux/chromedriver_64";
+    public static String WIN_CHROME_DRIVER =
             "\\node_modules\\appium\\node_modules\\appium-chromedriver\\chromedriver\\win" +
                     "\\chromedriver.exe";
-    private final String NPM_WIN = "npm.cmd";
-    private final String NPM_LIN_MAC = "npm";
 
     private static void setPathAndCheckAdbServer() {
         if (System.getenv("ANDROID_HOME") != null) {
@@ -177,6 +176,7 @@ public class ADBUtils {
     public void stopEmulator(String emulator) {
         setPathAndCheckAdbServer();
         try {
+            if (getDeviceNames().contains(emulator))
             putLog("Stopping emulator for device: " + emulator
                     + "\n adb -s " + emulator + " emu kill");
             Runtime.getRuntime().exec(
@@ -246,15 +246,25 @@ public class ADBUtils {
                         String Platform = System.getProperty("os.name").toLowerCase();
                         if (Platform.contains("win")) {
                             chromeDriverCustomPath = "C:" +
-                                    s.split("C:")[1].split(" successfully put in place")[0];
+                                    s.split("C:")[1]
+                                            .split(" successfully put in place")[0];
                         } else {
                             chromeDriverCustomPath = "/" +
-                                    s.split(" /")[1].split(" successfully put in place")[0];
+                                    s.split(" /")[1]
+                                            .split(" successfully put in place")[0];
+                        }
+                        try {
+                            configuration.setChromeDriverPath(
+                                    copyFileToCustomFolder(chromeDriverCustomPath,
+                                            chromeVersion.split("\\.")[0]));
+                        } catch (Exception e) {
+                            throw new TestUIException("Could not copy chromedriver to target " +
+                                    "folder: check that the command " +
+                                    "'npm install appium-chromedriver -g' ' installs the " +
+                                    "chromedriver in '" + chromeDriverCustomPath + "'");
                         }
                     }
                 }
-                configuration.setChromeDriverPath(copyFileToCustomFolder(chromeDriverCustomPath,
-                        chromeVersion.split("\\.")[0]));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -292,8 +302,8 @@ public class ADBUtils {
     private String getNPMCmd() {
         String Platform = System.getProperty("os.name").toLowerCase();
         if (Platform.contains("mac") || Platform.contains("linux"))
-            return NPM_LIN_MAC;
-        return NPM_WIN;
+            return "npm";
+        return "npm.cmd";
     }
 
     private String getWinNPMPath() {

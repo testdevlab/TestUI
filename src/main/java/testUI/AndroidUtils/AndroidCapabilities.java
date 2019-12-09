@@ -39,10 +39,11 @@ public class AndroidCapabilities extends Configuration {
             }
             cap.setCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION,
                     Configuration.launchAppTimeout);
-            if (Configuration.AutomationName.isEmpty()) {
+            if (Configuration.automationName.isEmpty()) {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
             } else {
-                cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, Configuration.AutomationName);
+                cap.setCapability(MobileCapabilityType.AUTOMATION_NAME,
+                        Configuration.automationName);
             }
             if (!Configuration.chromeDriverPath.isEmpty()) {
                 String chromePath = Configuration.chromeDriverPath.charAt(0) == '/'
@@ -82,7 +83,6 @@ public class AndroidCapabilities extends Configuration {
 
     public static DesiredCapabilities setAndroidBrowserCapabilities(
             TestUIConfiguration configuration) {
-        String deviceVersion = "";
         if (Configuration.appiumUrl.isEmpty()) {
             if (configuration.getEmulatorName().isEmpty() && getDevices().size() == 0) {
                 throw new Error("There is no device available to run the automation!");
@@ -94,21 +94,16 @@ public class AndroidCapabilities extends Configuration {
                 throw new Error();
             }
             getDevModel(configuration);
-            deviceVersion = Configuration.androidVersion.isEmpty() &&
-                    configuration.getEmulatorName().isEmpty() ?
-                    adbUtils.getDeviceVersion(getDevice()) :
-                    Configuration.androidVersion;
         } else {
             if (configuration.getEmulatorName().isEmpty() && getDevices().size() == 0) {
                 if (!Configuration.emulatorName.isEmpty()) {
                     configuration.setEmulatorName(Configuration.emulatorName);
-                } else if (!Configuration.androidDeviceName.isEmpty()) {
-                    setDevice(Configuration.androidDeviceName, Configuration.androidDeviceName);
+                } else if (!Configuration.UDID.isEmpty() && !Configuration.androidDeviceName.isEmpty()) {
+                    setDevice(Configuration.UDID, Configuration.androidDeviceName);
+                } else if (!Configuration.UDID.isEmpty()) {
+                    setDevice(Configuration.UDID, Configuration.UDID);
                 } else {
                     throw new Error("There is no device available to run the automation!");
-                }
-                if (!Configuration.androidVersion.isEmpty()) {
-                    deviceVersion = Configuration.androidVersion;
                 }
             }
         }
@@ -124,23 +119,18 @@ public class AndroidCapabilities extends Configuration {
         }
         if (getDesiredCapabilities() == null) {
             if (configuration.getEmulatorName().isEmpty()) {
-                String deviceName = configuration.getAndroidDeviceName().isEmpty() ? getDevice()
-                        : configuration.getAndroidDeviceName();
-                if (deviceVersion.isEmpty()) {
-                    deviceVersion = Configuration.androidVersion;
-                }
-                cap.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
-                cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceVersion);
+                String udid = configuration.getUDID().isEmpty() ? getDevice()
+                        : configuration.getUDID();
+                cap.setCapability(MobileCapabilityType.UDID, udid);
+                cap.setCapability(MobileCapabilityType.DEVICE_NAME, udid);
             } else {
-                cap.setCapability(MobileCapabilityType.DEVICE_NAME,
-                        configuration.getEmulatorName());
                 cap.setCapability(AndroidMobileCapabilityType.AVD, configuration.getEmulatorName());
             }
-            if (Configuration.AutomationName.isEmpty()) {
+            if (Configuration.automationName.isEmpty()) {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
             } else {
                 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME,
-                        Configuration.AutomationName);
+                        Configuration.automationName);
             }
             if (configuration.getAppiumUrl().isEmpty()) {
                 int systemPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 10;

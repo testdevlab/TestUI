@@ -70,7 +70,7 @@ public class ShouldBe extends TestUI implements Asserts {
     }
 
     public UIElement visible() {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilVisible(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -97,7 +97,7 @@ public class ShouldBe extends TestUI implements Asserts {
     }
 
     public UIElement enabled() {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilEnable(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -119,7 +119,7 @@ public class ShouldBe extends TestUI implements Asserts {
     }
 
     public UIElement exists() {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilExist(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -141,7 +141,7 @@ public class ShouldBe extends TestUI implements Asserts {
     }
 
     public UIElement containText(String text) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilContainsText(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -165,7 +165,7 @@ public class ShouldBe extends TestUI implements Asserts {
     }
 
     public UIElement exactText(String text) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilExactText(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -189,7 +189,7 @@ public class ShouldBe extends TestUI implements Asserts {
     }
 
     public UIElement containNoCaseSensitiveText(String text) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilContainsTextNoCaseSensitive(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -213,7 +213,7 @@ public class ShouldBe extends TestUI implements Asserts {
     }
 
     public UIElement value(String text) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilHasValue(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -251,7 +251,7 @@ public class ShouldBe extends TestUI implements Asserts {
     }
 
     public UIElement theAttribute(String Attribute) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilHasAttribute(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -280,7 +280,7 @@ public class ShouldBe extends TestUI implements Asserts {
     }
 
     public UIElement emptyText() {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilEmptyText(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -302,7 +302,7 @@ public class ShouldBe extends TestUI implements Asserts {
     }
 
     public UIElement emptyAttribute(String Attribute) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (collection) {
                 waitUntilEmptyAttribute(
                         getAppiumElement(iOSElement, AppiumElement),
@@ -332,7 +332,7 @@ public class ShouldBe extends TestUI implements Asserts {
 
 
     public UIElement currentUrlEqualTo(String expectedUrl) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             UIAssert(
                     "The url is not as expected\n" +
                             "Expected: " +
@@ -353,7 +353,7 @@ public class ShouldBe extends TestUI implements Asserts {
     }
 
     public UIElement currentUrlContains(String expectedUrl) {
-        if (Configuration.deviceTests) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             UIAssert("The url is not as expected\n" +
                             "Expected: " +
                             expectedUrl +

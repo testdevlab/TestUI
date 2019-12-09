@@ -8,8 +8,8 @@ public class TestUIConfiguration {
     private final int timeout = Configuration.timeout;
 //    private final String appPackage = Configuration.appPackage;
 //    private final String appActivity = Configuration.appActivity;
-    private final boolean deviceTests = Configuration.deviceTests;
     private final boolean useEmulators = Configuration.useEmulators;
+    private final String automationType = Configuration.automationType;
     private final int driver = Configuration.driver;
     private final int baseAppiumPort = Configuration.baseAppiumPort;
     private final int baseAppiumBootstrapPort = Configuration.baseAppiumBootstrapPort;
@@ -19,7 +19,6 @@ public class TestUIConfiguration {
 //    private final String iOSAppPath = Configuration.iOSAppPath;
 //    private final String iOSDeviceName = Configuration.iOSDeviceName;
     private final String androidDeviceName = Configuration.androidDeviceName;
-    private final boolean iOSTesting = Configuration.iOSTesting;
 //    private final String androidAppPath = Configuration.androidAppPath;
 //    private final String androidVersion = Configuration.androidVersion;
     private final static ThreadLocal<String> chromeDriverPath = new ThreadLocal<>();
@@ -28,7 +27,7 @@ public class TestUIConfiguration {
     private static ThreadLocal<String> emulatorName = new ThreadLocal<>();
 //    private final String xcodeOrgId = Configuration.xcodeOrgId;
 //    private final String xcodeSigningId = Configuration.xcodeSigningId;
-//    private final String UDID = Configuration.UDID;
+    private final String UDID = Configuration.UDID;
 //    private final String bundleId = Configuration.bundleId;
 //    private final String updatedWDABundleId = Configuration.updatedWDABundleId;
 //    private final DesiredCapabilities addMobileDesiredCapabilities =
@@ -72,16 +71,12 @@ public class TestUIConfiguration {
         return baseAppiumBootstrapPort;
     }
 
-    public boolean isDeviceTests() {
-        return deviceTests;
-    }
-
     public boolean isInstallMobileChromeDriver() {
         return installMobileChromeDriver;
     }
 
     public boolean isiOSTesting() {
-        return iOSTesting;
+        return automationType.equals(Configuration.IOS_PLATFORM);
     }
 
     public boolean isUseEmulators() {
@@ -102,6 +97,10 @@ public class TestUIConfiguration {
 
     public String getAndroidDeviceName() {
         return androidDeviceName;
+    }
+
+    public String getUDID() {
+        return UDID;
     }
 
     public String getAppiumUrl() {

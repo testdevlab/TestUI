@@ -78,7 +78,7 @@ public class simpleSteps {
 
     @Given("I am using {word} browser")
     public void iAmUsingLaptopBrowser(String type) {
-        Configuration.deviceTests = type.toLowerCase().equals("mobile");
+        Configuration.automationType = type;
     }
 
     @Given("I in IOS landing app")
