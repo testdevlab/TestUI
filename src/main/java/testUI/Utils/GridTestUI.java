@@ -56,7 +56,7 @@ public class GridTestUI {
 
     public void setAppiumAndroidConfiguration() {
         usingGrid = true;
-        HttpPost post = new HttpPost(cliServerURL + "/session");
+        HttpPost post = new HttpPost(cliServerURL + "/session/start");
         String postBody = "{\"appium\":{\"os\": \"Android\", \"deviceName\": \"" + deviceName + "\"}}";
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
