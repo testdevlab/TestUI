@@ -1,6 +1,5 @@
 package testUI.Utils;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
@@ -16,7 +15,6 @@ import testUI.Configuration;
 
 import java.io.IOException;
 
-import static testUI.Configuration.browser;
 import static testUI.UIUtils.putAllureParameter;
 
 public class GridTestUI {
@@ -277,7 +275,6 @@ public class GridTestUI {
         try {
             Configuration.remote = json.getString("proxyURL");
             if (getPlatform(json) != null) {
-                System.out.println( getPlatform(json));
                 Configuration.selenideBrowserCapabilities.setCapability(
                         CapabilityType.PLATFORM_NAME, getPlatform(json));
             }
