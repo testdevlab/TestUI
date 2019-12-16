@@ -9,7 +9,6 @@ import testUI.Utils.TestUIException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static com.codeborne.selenide.Selenide.*;
 import static testUI.TestUIDriver.*;
