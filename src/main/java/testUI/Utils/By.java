@@ -4,12 +4,13 @@ import com.codeborne.selenide.Selectors;
 import testUI.Configuration;
 
 import static testUI.TestUIDriver.getDriver;
+import static testUI.TestUIDriver.getDrivers;
 
 public class By {
 
     public static org.openqa.selenium.By byText(String text) {
         if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM))
-            if (!getDriver().isBrowser())
+            if (getDrivers().size() != 0 && !getDriver().isBrowser())
                 return org.openqa.selenium.By.xpath("//*[contains(@text,'" + text + "')]");
         return Selectors.byText(text);
     }
