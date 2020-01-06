@@ -243,6 +243,22 @@ public class AppiumHelps {
         }
     }
 
+    public static boolean containsAttribute(By element,
+                                       String accessibilityId,
+                                       int index,
+                                       String attr,
+                                       String text) {
+        try {
+            if (accessibilityId == null || accessibilityId.isEmpty())
+                return ((MobileElement) getDriver().findElements(element).get(index)).
+                        getAttribute(attr).contains(text);
+            return ((MobileElement) getMobileElementList(accessibilityId).get(index)).
+                    getText().contains(text);
+        } catch (Exception var4) {
+            return false;
+        }
+    }
+
     public static boolean containsTextNoCaseSensitive(By element,
                                                       String accessibilityId,
                                                       String text) {

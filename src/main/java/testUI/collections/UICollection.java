@@ -31,6 +31,8 @@ public interface UICollection {
 
     UIElement findByText(String text);
 
+    UIElement findByValue(String value);
+
     UIElement findByEnabled();
 
     String asString();

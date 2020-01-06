@@ -382,6 +382,55 @@ public class TestUI implements UICollection {
         );
     }
 
+    public UIElement findByValue(String value) {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
+            long t= System.currentTimeMillis();
+            long end = t+(Configuration.timeout * 1000);
+            while(System.currentTimeMillis() < end) {
+                for (int i = 0; i < size(); i++) {
+                    if (containsAttribute(getAppiumElement(), getAccessibilityId(), i,
+                            "value", value)) {
+                        return new Element(
+                                element,
+                                SelenideElement,
+                                iOSElement,
+                                i,
+                                true,
+                                accesibilityId,
+                                accesibilityIdiOS
+                        );
+                    }
+                }
+            }
+        } else {
+            long t= System.currentTimeMillis();
+            long end = t+(Configuration.timeout * 1000);
+            while(System.currentTimeMillis() < end) {
+                for (int i = 0; i < size(); i++) {
+                    if ($$(SelenideElement).get(i)
+                            .is(com.codeborne.selenide.Condition.value(value))) {
+                        return new Element(
+                                element,
+                                SelenideElement,
+                                iOSElement,
+                                i,
+                                true,
+                                accesibilityId,
+                                accesibilityIdiOS
+                        );
+                    }
+                }
+            }
+        }
+        takeScreenshotsAllure();
+        throw new TestUIException(
+                "No visible element with that value '" +
+                        value +
+                        "' and this selector: " +
+                        element.toString()
+        );
+    }
+
     public UIElement findByEnabled() {
         if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             long t= System.currentTimeMillis();

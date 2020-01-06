@@ -6,6 +6,7 @@ import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.touch.TouchActions;
+import org.openqa.selenium.support.ui.Quotes;
 import testUI.Configuration;
 import testUI.BrowserLogs;
 import testUI.collections.UICollection;
@@ -377,6 +378,24 @@ public class Element extends TestUI implements UIElement {
         putLogDebug("Send keys '" + charSequence + "' to element '" + stringElement +
                 " after " + finalTime + " ms");
         return getElementObject();
+    }
+
+    public UIElement selectElementByValue(String... values) {
+        for (String value : values) {
+            UIElement e = E(By.xpath("//option[@value = " + Quotes.escape(value) + "]"));
+            e.waitFor(5).untilIsVisible();
+            if (Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
+                if (!e.getSelenideElement().isSelected()) {
+                    e.getSelenideElement().click();
+                }
+            } else {
+                if (!e.getMobileElement().isSelected()) {
+                    e.getMobileElement().click();
+                }
+            }
+        }
+
+        return this;
     }
 
     public UIElement setValueJs(String value) {
@@ -767,8 +786,7 @@ public class Element extends TestUI implements UIElement {
     public UIElement saveScreenshot(String path) {
         if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (getDrivers().size() != 0) {
-                Configuration.driver = Configuration.driver > getDrivers().size() ?
-                        getDrivers().size() : Configuration.driver;
+                Configuration.driver = Math.min(Configuration.driver, getDrivers().size());
                 File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
                 try {
                     FileUtils.copyFile(scrFile, new File(

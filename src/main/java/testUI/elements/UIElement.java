@@ -48,6 +48,8 @@ public interface UIElement {
 
     UIElement setValueJs(String value);
 
+    UIElement selectElementByValue(String... values);
+
     UIElement setValueJs(String value, boolean clickBeforeSetValue);
 
     UIElement executeJsOverElement(String JsScript);
