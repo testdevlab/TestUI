@@ -17,11 +17,11 @@ public class AndroidOpen extends TestUIServer {
     // ANDROID APP AND BROWSER SUPPORT
 
     public void openApp(TestUIConfiguration configuration) {
-        if (((getAppiumServices().size() == 0 || !getAppiumServices().get(0).isRunning())
-                && desiredCapabilities == null) || getDevices().size() == 0
-                && configuration.getAppiumUrl().isEmpty()) {
+        if ((((getAppiumServices().size() == 0 ||
+                !getAppiumServices().get(0).isRunning()) && desiredCapabilities == null) ||
+                getDevices().size() == 0) && configuration.getAppiumUrl().isEmpty()) {
             if (getAppiumServices().size() != 0) {
-                stop(1);
+                tryStop(1);
             }
             startServerAndDevice(configuration);
             if (getDevices().size() != 0 && configuration.isInstallMobileChromeDriver()) {
