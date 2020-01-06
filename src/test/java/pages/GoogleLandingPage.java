@@ -11,6 +11,6 @@ public class GoogleLandingPage {
     private UIElement googleSearch = E(byXpath("//button[@class='Tg7LZd']"))
             .setSelenideElement(byName("btnK"))
             .setiOSElement(byId("id"));
-    private UIElement googleSearchInput = E(byText("text"))
+    private UIElement googleSearchInput = E(byName("q"))
             .setSelenideElement(byName("q"));
 }
