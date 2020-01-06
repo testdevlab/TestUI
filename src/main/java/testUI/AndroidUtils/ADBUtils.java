@@ -371,6 +371,8 @@ public class ADBUtils {
 
     private static String getChromedriverVersion(String chromeVersion) {
         switch (chromeVersion.split("\\.")[0]) {
+            case "79":
+                return "79.0.3945.36";
             case "78":
                 return "78.0.3904.11";
             case "77":
