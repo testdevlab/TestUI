@@ -31,6 +31,11 @@ public class Element extends TestUI implements UIElement {
     private String accesibilityIdiOS;
     private int index;
     private boolean collection;
+    private long lastCommandTime;
+
+    public long getLastCommandTime() {
+        return lastCommandTime;
+    }
 
     public Element(By element,
                    By SelenideElement,
@@ -46,6 +51,24 @@ public class Element extends TestUI implements UIElement {
         this.collection = collection;
         this.accesibilityId = accesibilityId;
         this.accesibilityIdiOS = accesibilityIdiOS;
+    }
+
+    public Element(By element,
+                   By SelenideElement,
+                   By iOSElement,
+                   int index,
+                   boolean collection,
+                   String accesibilityId,
+                   String accesibilityIdiOS,
+                   long lastCommandTime) {
+        this.element = element;
+        this.SelenideElement = SelenideElement;
+        this.iOSElement = iOSElement;
+        this.index = index;
+        this.collection = collection;
+        this.accesibilityId = accesibilityId;
+        this.accesibilityIdiOS = accesibilityIdiOS;
+        this.lastCommandTime = lastCommandTime;
     }
 
     private Element(By element) {

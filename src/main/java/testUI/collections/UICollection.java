@@ -29,7 +29,13 @@ public interface UICollection {
 
     UIElement findByVisible();
 
+    UICollection waitUntilAllVisible(int seconds);
+
     UIElement findByText(String text);
+
+    int getLastCommandTime();
+
+    int getTimeErrorBar();
 
     UIElement findByValue(String value);
 

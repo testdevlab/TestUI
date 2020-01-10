@@ -113,4 +113,6 @@ public interface UIElement {
     UIElement when(String Description);
 
     SelenideElement getSelenideElement();
+
+    long getLastCommandTime();
 }

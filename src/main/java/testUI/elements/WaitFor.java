@@ -17,6 +17,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
     private String accesibilityIdiOS;
     private int index;
     private boolean collection;
+    private long lastCommandTime;
 
     protected WaitFor(By AppiumElement,
                       By SelenideElement,
@@ -53,7 +54,8 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
                 index,
                 collection,
                 accesibilityId,
-                accesibilityIdiOS
+                accesibilityIdiOS,
+                lastCommandTime
         );
     }
 
@@ -81,9 +83,9 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         } else {
             selenideAssert(Condition.visible, time, SelenideElement, index, collection);
         }
-        long finalTime = System.currentTimeMillis() - t;
-        setTime(finalTime);
-        putLogDebug("Element '" + stringElement + "' was visible after " + finalTime +
+        lastCommandTime = System.currentTimeMillis() - t;
+        setTime(lastCommandTime);
+        putLogDebug("Element '" + stringElement + "' was visible after " + lastCommandTime +
                 " ms");
         return getElementObject();
     }
@@ -112,9 +114,9 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         } else {
             selenideAssert(Condition.enabled, time, SelenideElement, index, collection);
         }
-        long finalTime = System.currentTimeMillis() - t;
-        setTime(finalTime);
-        putLogDebug("Element '" + stringElement + "' was enabled after " + finalTime +
+        lastCommandTime = System.currentTimeMillis() - t;
+        setTime(lastCommandTime);
+        putLogDebug("Element '" + stringElement + "' was enabled after " + lastCommandTime +
                 " ms");
         return getElementObject();
     }
@@ -143,9 +145,9 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         } else {
             selenideAssert(Condition.exist, time, SelenideElement, index, collection);
         }
-        long finalTime = System.currentTimeMillis() - t;
-        setTime(finalTime);
-        putLogDebug("Element '" + stringElement + "' exists after " + finalTime +
+        lastCommandTime = System.currentTimeMillis() - t;
+        setTime(lastCommandTime);
+        putLogDebug("Element '" + stringElement + "' exists after " + lastCommandTime +
                 " ms");
         return getElementObject();
     }
@@ -176,10 +178,10 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         } else {
             selenideAssert(Condition.text(text), time, SelenideElement, index, collection);
         }
-        long finalTime = System.currentTimeMillis() - t;
-        setTime(finalTime);
+        lastCommandTime = System.currentTimeMillis() - t;
+        setTime(lastCommandTime);
         putLogDebug("Element '" + stringElement + "' has text '" + text + "' after "
-                + finalTime + " ms");
+                + lastCommandTime + " ms");
         return getElementObject();
     }
 
@@ -209,10 +211,10 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         } else {
             selenideAssert(Condition.text(text), time, SelenideElement, index, collection);
         }
-        long finalTime = System.currentTimeMillis() - t;
-        setTime(finalTime);
+        lastCommandTime = System.currentTimeMillis() - t;
+        setTime(lastCommandTime);
         putLogDebug("Element '" + stringElement + "' has text '" + text + "' after "
-                + finalTime + " ms");
+                + lastCommandTime + " ms");
         return getElementObject();
     }
 
@@ -242,10 +244,10 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         } else {
             selenideAssert(Condition.value(value), time, SelenideElement, index, collection);
         }
-        long finalTime = System.currentTimeMillis() - t;
-        setTime(finalTime);
+        lastCommandTime = System.currentTimeMillis() - t;
+        setTime(lastCommandTime);
         putLogDebug("Element '" + stringElement + "' has value '" + value + "' after "
-                + finalTime + " ms");
+                + lastCommandTime + " ms");
         return getElementObject();
     }
 
@@ -273,10 +275,10 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
                     time, SelenideElement, index, collection);
 
         }
-        long finalTime = System.currentTimeMillis() - t;
-        setTime(finalTime);
+        lastCommandTime = System.currentTimeMillis() - t;
+        setTime(lastCommandTime);
         putLogDebug("Element '" + stringElement + "' is not visible after "
-                + finalTime + " ms");
+                + lastCommandTime + " ms");
         return getElementObject();
     }
 
@@ -304,10 +306,10 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
             selenideAssert(Condition.not(Condition.exist), time,
                     SelenideElement, index, collection);
         }
-        long finalTime = System.currentTimeMillis() - t;
-        setTime(finalTime);
+        lastCommandTime = System.currentTimeMillis() - t;
+        setTime(lastCommandTime);
         putLogDebug("Element '" + stringElement + "' not exists after "
-                + finalTime + " ms");
+                + lastCommandTime + " ms");
         return getElementObject();
     }
 
@@ -347,10 +349,10 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
                     collection
             );
         }
-        long finalTime = System.currentTimeMillis() - t;
-        setTime(finalTime);
+        lastCommandTime = System.currentTimeMillis() - t;
+        setTime(lastCommandTime);
         putLogDebug("Element '" + stringElement + "' is not enabled after "
-                + finalTime + " ms");
+                + lastCommandTime + " ms");
         return getElementObject();
     }
 
@@ -387,10 +389,10 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
                     collection
             );
         }
-        long finalTime = System.currentTimeMillis() - t;
-        setTime(finalTime);
+        lastCommandTime = System.currentTimeMillis() - t;
+        setTime(lastCommandTime);
         putLogDebug("Element '" + stringElement + "' has no text '" + text + "' after "
-                + finalTime + " ms");
+                + lastCommandTime + " ms");
         return getElementObject();
     }
 
@@ -421,10 +423,10 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
             selenideAssert(Condition.not(Condition.text(value)),
                     time, SelenideElement, index, collection);
         }
-        long finalTime = (System.currentTimeMillis() - t);
-        setTime(finalTime);
+        lastCommandTime = (System.currentTimeMillis() - t);
+        setTime(lastCommandTime);
         putLogDebug("Element '" + stringElement + "' has no value '" + value + "' after "
-                + finalTime + " ms");
+                + lastCommandTime + " ms");
         return getElementObject();
     }
 
