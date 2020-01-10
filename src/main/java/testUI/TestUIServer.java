@@ -272,6 +272,8 @@ public class TestUIServer extends UIUtils {
                 IOSCommands iosCommands = new IOSCommands();
                 Map<String, String> sampleIOSDevice = iosCommands.getSampleDevice(device);
                 UDID = sampleIOSDevice.get("udid");
+                iOSDeviceName = sampleIOSDevice.get("name");
+                iOSVersion = sampleIOSDevice.get("version");
             }
             setiOSDevice(UDID);
         }

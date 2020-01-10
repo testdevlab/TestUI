@@ -86,6 +86,9 @@ public class ADBUtils {
     public String getDeviceStatus(String device) {
         setPathAndCheckAdbServer();
         String s;
+        if (device == null || device.isEmpty()) {
+            throw new TestUIException("device name cannot be empty");
+        }
         try {
             Process p = Runtime.getRuntime().exec(
                     androidHome +

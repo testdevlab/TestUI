@@ -17,22 +17,20 @@ public class IOSOpen extends Configuration {
     public void openIOSApp(TestUIConfiguration configuration) {
         Configuration.iOSDevices++;
         if (Configuration.appiumUrl.isEmpty() &&
-                ((getAppiumServices().size() == 0 || getAppiumServices().get(0).isRunning()) &&
-                Configuration.desiredCapabilities == null) || getIOSDevices().size() == 0) {
+                (((getAppiumServices().size() == 0 || !getAppiumServices().get(0).isRunning()) &&
+                        Configuration.desiredCapabilities == null) || getIOSDevices().size() == 0)) {
             if (getAppiumServices().size() != 0) {
                 stop(1);
             }
             startServerAndDevice(configuration);
-            DesiredCapabilities cap = setIOSCapabilities(false);
-            startFirstIOSDriver(cap);
+            startFirstIOSDriver();
         } else {
-            DesiredCapabilities cap = setIOSCapabilities(false);
             if (Configuration.appiumUrl.isEmpty()) {
                 putAllureParameter("Using Appium port", Configuration.getUsePort().get(0));
             } else {
                 putAllureParameter("Using Appium url", Configuration.appiumUrl);
             }
-            startFirstIOSDriver(cap);
+            startFirstIOSDriver();
         }
     }
 
@@ -40,12 +38,10 @@ public class IOSOpen extends Configuration {
         Configuration.iOSDevices++;
         if (getAppiumServices().size() == 0 || !getAppiumServices().get(0).isRunning()) {
             startServerAndDevice(configuration);
-            DesiredCapabilities cap = setIOSCapabilities(false);
-            startFirstIOSDriver(cap);
+            startFirstIOSDriver();
         } else {
-            DesiredCapabilities cap = setIOSCapabilities(false);
             putAllureParameter("Using Appium port", Configuration.getUsePort().get(0));
-            startFirstIOSDriver(cap);
+            startFirstIOSDriver();
         }
     }
 
@@ -53,7 +49,7 @@ public class IOSOpen extends Configuration {
         urlOrRelativeUrl = Configuration.baseUrl + urlOrRelativeUrl;
         if (Configuration.appiumUrl.isEmpty() &&
                 (((getAppiumServices().size() == 0 || !getAppiumServices().get(0).isRunning()) &&
-                Configuration.desiredCapabilities == null) || getIOSDevices().size() == 0)) {
+                        Configuration.desiredCapabilities == null) || getIOSDevices().size() == 0)) {
             if (getAppiumServices().size() != 0) {
                 stop(1);
             }

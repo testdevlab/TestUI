@@ -13,7 +13,7 @@ public class Configuration extends SelenideConfiguration {
     public static final String DESKTOP_PLATFORM = "desktop";
 
     // IOS CAPABILITIES
-    public static int wdaPort = 0;
+    public static int wdaPort = 8100;
     public static String iOSAppPath = "";
     public static String iOSDeviceName = "";
     public static String iOSVersion = "";
