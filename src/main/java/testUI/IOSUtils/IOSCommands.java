@@ -33,7 +33,7 @@ public class IOSCommands {
         }
         boolean Devices = false;
         for (String line : output) {
-            if (Devices && line.contains("iPhone")) {
+            if (Devices && line.contains("iPhone") && !line.toLowerCase().contains("unavailable")) {
                 devices.put(
                         line.split(" \\(")[0].split("    ")[1],
                         line.split("\\(")[1].split("\\)")[0]);
@@ -83,9 +83,11 @@ public class IOSCommands {
             for (String phone : simulators.get(keys).keySet()) {
                 name = phone;
                 udid = simulators.get(keys).get(phone);
-                break;
+                if (!name.isEmpty() && !udid.isEmpty())
+                    break;
             }
-            break;
+            if (!name.isEmpty() && !udid.isEmpty())
+                break;
         }
         sample.put("version", version);
         sample.put("name", name);
@@ -110,6 +112,8 @@ public class IOSCommands {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if (output.get(0).toLowerCase().contains("no device found"))
+            return "13.0";
         return output.get(0);
     }
 
@@ -125,7 +129,7 @@ public class IOSCommands {
                 output.add(s);
                 if (s.contains("No device found")) {
                     putLogWarn("No device found with this UDID: " + udid);
-                    return "";
+                    return "iPhone";
                 }
             }
             Process p2 = Runtime.getRuntime().exec(

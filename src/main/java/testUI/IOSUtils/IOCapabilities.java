@@ -103,6 +103,10 @@ public class IOCapabilities extends Configuration {
                         Configuration.iOSDeviceName = iosCommands.getIOSName(Configuration.UDID);
                     }
                 }
+                Configuration.iOSDeviceName = Configuration.iOSDeviceName.isEmpty() ? "iPhone" :
+                        Configuration.iOSDeviceName;
+                Configuration.iOSVersion = Configuration.iOSVersion.isEmpty() ? "13.2" :
+                        Configuration.iOSVersion;
                 capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
                         Configuration.iOSDeviceName);
                 capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
@@ -114,6 +118,10 @@ public class IOCapabilities extends Configuration {
                 } else {
                     capabilities.setCapability("udid", Configuration.UDID);
                 }
+                capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
+                        Configuration.iOSDeviceName);
+                capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
+                        Configuration.iOSVersion);
             }
         } else {
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,

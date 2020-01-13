@@ -20,21 +20,23 @@ import static testUI.Utils.Logger.putLogError;
 import static testUI.Utils.Logger.putLogInfo;
 
 public class IOSTestUIDriver {
-    protected static void startFirstIOSDriver(DesiredCapabilities desiredCapabilities) {
+    protected static void startFirstIOSDriver() {
         String url = Configuration.appiumUrl.isEmpty() ?
                 "http://127.0.0.1:" + getUsePort().get(0) + "/wd/hub" : Configuration.appiumUrl;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; true; i++) {
+            DesiredCapabilities cap = setIOSCapabilities(false);
             try {
                 putLog("Starting appium driver...");
                 if (getDrivers().size() == 0) {
                     TestUIDriver.setDriver(new IOSDriver(
-                                    new URL(url), desiredCapabilities) {});
+                                    new URL(url), cap) {});
                 } else {
                     TestUIDriver.setDriver(new IOSDriver(
-                                    new URL(url), desiredCapabilities) {}, 0);
+                                    new URL(url), cap) {}, 0);
                 }
+                Configuration.driver = 1;
                 attachShutDownHookStopDriver(getDriver());
-                break;
+                return;
             } catch (Exception e) {
                 putLogError("Could not create driver! retrying...");
                 sleep(500);
@@ -51,7 +53,7 @@ public class IOSTestUIDriver {
     protected static void startFirstIOSBrowserDriver(String urlOrRelativeUrl) {
         String url = Configuration.appiumUrl.isEmpty() ?
                 "http://127.0.0.1:" + getUsePort().get(0) + "/wd/hub" : Configuration.appiumUrl;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; true; i++) {
             DesiredCapabilities cap = setIOSCapabilities(true);
             try {
                 putLog("Starting appium driver...");
@@ -63,13 +65,13 @@ public class IOSTestUIDriver {
                 Configuration.driver = 1;
                 getDriver().get(urlOrRelativeUrl);
                 attachShutDownHookStopDriver(getDriver());
-                break;
+                return;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (Exception e) {
                 putLogError("Could not create driver! retrying...");
                 sleep(500);
-                if (i == 1) {
+                if (i == 0) {
                     e.printStackTrace();
                     throw new Error(e);
                 }

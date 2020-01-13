@@ -2,8 +2,11 @@ package testUI.collections;
 
 import com.codeborne.selenide.ElementsCollection;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
 import testUI.Configuration;
 import testUI.Utils.TestUIException;
 import testUI.elements.Element;
@@ -16,6 +19,7 @@ import static com.codeborne.selenide.Selenide.$$;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.UIAssert;
 import static testUI.Utils.AppiumHelps.*;
+import static testUI.Utils.Logger.putLogDebug;
 import static testUI.elements.TestUI.takeScreenshotsAllure;
 
 public class TestUI implements UICollection {
@@ -25,11 +29,27 @@ public class TestUI implements UICollection {
     private By iOSElement;
     private String accesibilityId;
     private String accesibilityIdiOS;
+    private UIElement[] elementUI;
+    private long lastCommandTime = 0;
+    private long timeErrorBar = 0;
 
     public static UICollection EE(By element) {
         return new TestUI(
                 element,
                 element,
+                element,
+                null,
+                0,
+                "",
+                ""
+        );
+    }
+
+    public static UICollection EE(UIElement ...element) {
+        return new TestUI(
+                null,
+                null,
+                null,
                 element,
                 0,
                 "",
@@ -43,12 +63,14 @@ public class TestUI implements UICollection {
                     null,
                     null,
                     null,
+                    null,
                     0,
                     accessibilityId ,
                     accessibilityId
             );
         }
         return new TestUI(
+                null,
                 null,
                 null,
                 null,
@@ -63,6 +85,7 @@ public class TestUI implements UICollection {
                 By.xpath(xpath),
                 By.xpath(xpath),
                 By.xpath(xpath),
+                null,
                 0,
                 "",
                 ""
@@ -73,6 +96,7 @@ public class TestUI implements UICollection {
             By element,
             By SelenideElement,
             By iOSElement,
+            UIElement []elementUI,
             int index,
             String accessibilityId,
             String accessibilityIdaOS) {
@@ -82,6 +106,7 @@ public class TestUI implements UICollection {
         this.iOSElement = iOSElement;
         this.accesibilityId = accessibilityId;
         this.accesibilityIdiOS = accessibilityIdaOS;
+        this.elementUI = elementUI;
     }
 
     public UICollection setSelenideCollection(By SelenideElement) {
@@ -89,6 +114,7 @@ public class TestUI implements UICollection {
                 element,
                 SelenideElement,
                 element,
+                elementUI,
                 index,
                 accesibilityId,
                 accesibilityIdiOS
@@ -100,6 +126,7 @@ public class TestUI implements UICollection {
                 element,
                 SelenideElement,
                 iOSElement,
+                elementUI,
                 index,
                 accesibilityId,
                 accesibilityIdiOS
@@ -112,6 +139,7 @@ public class TestUI implements UICollection {
                     element,
                     SelenideElement,
                     null,
+                    elementUI,
                     index,
                     accesibilityId,
                     accessibilityIdiOS);
@@ -120,6 +148,7 @@ public class TestUI implements UICollection {
                 element,
                 SelenideElement,
                 null,
+                elementUI,
                 index,
                 accesibilityId,
                 "accessibilityId: " + accessibilityIdiOS
@@ -131,6 +160,7 @@ public class TestUI implements UICollection {
                 element,
                 SelenideElement,
                 iOSElement,
+                elementUI,
                 index,
                 "",
                 accesibilityIdiOS
@@ -143,6 +173,7 @@ public class TestUI implements UICollection {
                     null,
                     SelenideElement,
                     iOSElement,
+                    elementUI,
                     index,
                     accessibilityId,
                     accesibilityIdiOS
@@ -152,6 +183,7 @@ public class TestUI implements UICollection {
                 null,
                 SelenideElement,
                 iOSElement,
+                elementUI,
                 index,
                 "accessibilityId: " + accessibilityId,
                 accesibilityIdiOS
@@ -220,6 +252,8 @@ public class TestUI implements UICollection {
     public String asString() {
         try {
             if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
+                if (elementUI != null)
+                    return elementUI[index].toString();
                 return getElementList().get(index).toString();
             } else {
                 return $$(SelenideElement).get(index).toString();
@@ -231,6 +265,8 @@ public class TestUI implements UICollection {
     }
 
     public UIElement get(int i) {
+        if (elementUI != null)
+            return elementUI[i];
         return new Element(
                 element,
                 SelenideElement,
@@ -243,6 +279,8 @@ public class TestUI implements UICollection {
     }
 
     public UIElement first() {
+        if (elementUI != null)
+            return elementUI[0];
         return new Element(
                 element,
                 SelenideElement,
@@ -257,6 +295,8 @@ public class TestUI implements UICollection {
     public int size() {
         if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             try {
+                if (elementUI != null)
+                    return elementUI.length;
                 return getElementList().size();
             } catch (Exception e) {
                 return 0;
@@ -293,17 +333,25 @@ public class TestUI implements UICollection {
             long t= System.currentTimeMillis();
             long end = t+(Configuration.timeout * 1000);
             while(System.currentTimeMillis() < end) {
-                for (int i = 0; i < size(); i++) {
-                    if (visible(getAppiumElement(), getAccessibilityId(), i)) {
-                        return new Element(
-                                element,
-                                SelenideElement,
-                                iOSElement,
-                                i,
-                                true,
-                                accesibilityId,
-                                accesibilityIdiOS
-                        );
+                if (elementUI != null) {
+                    for (UIElement uiElement : elementUI) {
+                        if (uiElement.isVisible()) {
+                            return uiElement;
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < size(); i++) {
+                        if (visible(getAppiumElement(), getAccessibilityId(), i)) {
+                            return new Element(
+                                    element,
+                                    SelenideElement,
+                                    iOSElement,
+                                    i,
+                                    true,
+                                    accesibilityId,
+                                    accesibilityIdiOS
+                            );
+                        }
                     }
                 }
             }
@@ -334,22 +382,93 @@ public class TestUI implements UICollection {
         );
     }
 
+    public UICollection waitUntilAllVisible(int seconds) {
+        long t = System.currentTimeMillis();
+        List<Thread> threads = new ArrayList<>();
+        for (UIElement uiElement : elementUI) {
+            Thread thread;
+            if (Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
+                WebDriver driver = getSelenideDriver();
+                thread = new Thread(() -> waitUntilVisible(driver, uiElement, seconds));
+                threads.add(thread);
+            } else if (Configuration.automationType.equals(Configuration.IOS_PLATFORM)) {
+                IOSDriver driver = getIOSTestUIDriver();
+                thread = new Thread(() -> waitUntilVisible(driver, uiElement, seconds));
+                threads.add(thread);
+            } else {
+                AndroidDriver driver = getAndroidTestUIDriver();
+                thread = new Thread(() -> waitUntilVisible(driver, uiElement, seconds));
+                threads.add(thread);
+            }
+            thread.start();
+        }
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new Error(e);
+            }
+        }
+        lastCommandTime = System.currentTimeMillis() - t;
+        if (lastCommandTime > seconds * 1000)
+            throw new TestUIException("Collection took more than " + seconds + "s to get found");
+        timeErrorBar = elementUI[0].waitFor(5).untilIsVisible().getLastCommandTime();
+        lastCommandTime = lastCommandTime - timeErrorBar;
+        putLogDebug("Collection of elements visible  after " + lastCommandTime + " ± " +
+                timeErrorBar + " ms");
+
+        return this;
+    }
+
+
+
+    private void waitUntilVisible(WebDriver driver, UIElement element, int seconds) {
+        setDriver(driver);
+        element.waitFor(seconds).untilIsVisible();
+    }
+
+    private void waitUntilVisible(AndroidDriver driver, UIElement element, int seconds) {
+        setDriver(driver);
+        element.waitFor(seconds).untilIsVisible();
+    }
+
+    private void waitUntilVisible(IOSDriver driver, UIElement element, int seconds) {
+        setDriver(driver);
+        element.waitFor(seconds).untilIsVisible();
+    }
+
+    public int getLastCommandTime() {
+        return (int) lastCommandTime;
+    }
+
+    public int getTimeErrorBar() {
+        return (int) lastCommandTime;
+    }
+
     public UIElement findByText(String text) {
         if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             long t= System.currentTimeMillis();
             long end = t+(Configuration.timeout * 1000);
             while(System.currentTimeMillis() < end) {
-                for (int i = 0; i < size(); i++) {
-                    if (containsText(getAppiumElement(), getAccessibilityId(), i, text)) {
-                        return new Element(
-                                element,
-                                SelenideElement,
-                                iOSElement,
-                                i,
-                                true,
-                                accesibilityId,
-                                accesibilityIdiOS
-                        );
+                if (elementUI != null) {
+                    for (UIElement uiElement : elementUI) {
+                        if (uiElement.isVisible() && uiElement.getText().contains(text)) {
+                            return uiElement;
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < size(); i++) {
+                        if (containsText(getAppiumElement(), getAccessibilityId(), i, text)) {
+                            return new Element(
+                                    element,
+                                    SelenideElement,
+                                    iOSElement,
+                                    i,
+                                    true,
+                                    accesibilityId,
+                                    accesibilityIdiOS
+                            );
+                        }
                     }
                 }
             }
@@ -387,18 +506,26 @@ public class TestUI implements UICollection {
             long t= System.currentTimeMillis();
             long end = t+(Configuration.timeout * 1000);
             while(System.currentTimeMillis() < end) {
-                for (int i = 0; i < size(); i++) {
-                    if (containsAttribute(getAppiumElement(), getAccessibilityId(), i,
-                            "value", value)) {
-                        return new Element(
-                                element,
-                                SelenideElement,
-                                iOSElement,
-                                i,
-                                true,
-                                accesibilityId,
-                                accesibilityIdiOS
-                        );
+                if (elementUI != null) {
+                    for (UIElement uiElement : elementUI) {
+                        if (uiElement.isVisible() && uiElement.getValue().contains(value)) {
+                            return uiElement;
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < size(); i++) {
+                        if (containsAttribute(getAppiumElement(), getAccessibilityId(), i,
+                                "value", value)) {
+                            return new Element(
+                                    element,
+                                    SelenideElement,
+                                    iOSElement,
+                                    i,
+                                    true,
+                                    accesibilityId,
+                                    accesibilityIdiOS
+                            );
+                        }
                     }
                 }
             }
@@ -436,17 +563,25 @@ public class TestUI implements UICollection {
             long t= System.currentTimeMillis();
             long end = t+(Configuration.timeout * 1000);
             while(System.currentTimeMillis() < end) {
-                for (int i = 0; i < size(); i++) {
-                    if (enable(getAppiumElement(), getAccessibilityId(), i)) {
-                        return new Element(
-                                element,
-                                SelenideElement,
-                                iOSElement,
-                                i,
-                                true,
-                                accesibilityId,
-                                accesibilityIdiOS
-                        );
+                if (elementUI != null) {
+                    for (UIElement uiElement : elementUI) {
+                        if (uiElement.isEnabled()) {
+                            return uiElement;
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < size(); i++) {
+                        if (enable(getAppiumElement(), getAccessibilityId(), i)) {
+                            return new Element(
+                                    element,
+                                    SelenideElement,
+                                    iOSElement,
+                                    i,
+                                    true,
+                                    accesibilityId,
+                                    accesibilityIdiOS
+                            );
+                        }
                     }
                 }
             }

@@ -41,6 +41,7 @@ public class TestIOS {
     @DisplayName("IOS browser test case")
     public void testIOSBrowser2() {
         Configuration.automationType = Configuration.IOS_PLATFORM;
+        Configuration.serverLogLevel = "all";
         open("https://www.facebook.com");
         System.out.println(getIOSTestUIDriver().getBatteryInfo().getState());
         facebookLandingPage.getSafariFacebookEmailDiv().click();
