@@ -5,6 +5,7 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
 import testUI.Utils.GridTestUI;
@@ -14,6 +15,7 @@ import static testUI.TestUIDriver.setDriver;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
+import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
 import static testUI.Utils.Performance.getListOfCommandsTime;
 import static testUI.Utils.Performance.logAverageTime;
@@ -42,6 +44,16 @@ public class TestBrowser {
                 ".png");
         logAverageTime();
         System.out.println(getListOfCommandsTime());
+    }
+
+    @Test
+    public void setDriverTest() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--user-agent=" + "Agent", "--ignore-certificate-errors");
+        selenideBrowserCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        selenideBrowserCapabilities.setBrowserName("firefox");
+        open("https://www.whatsmyua.info/");
+        sleep(10000);
     }
 
     @Test
