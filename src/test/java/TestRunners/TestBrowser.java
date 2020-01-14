@@ -47,7 +47,7 @@ public class TestBrowser {
     }
 
     @Test
-    public void aksjdnf() {
+    public void setDriverTest() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--user-agent=" + "Agent", "--ignore-certificate-errors");
         selenideBrowserCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
