@@ -77,12 +77,13 @@ Here you see an example of creating an Appium server and Appium driver connectin
 present in your computer:
 
 <pre>
+Configuration.automationType = Configuration.ANDROID_PLATFORM;
 Configuration.appPackage = "appPackage";
 Configuration.appActivity = "appActivity";
 open();
 
 or 
-
+Configuration.automationType = Configuration.ANDROID_PLATFORM;
 Configuration.androidAppPath = "relative or absolute path";
 open();
 </pre>
@@ -144,6 +145,7 @@ responsive websites. In this case you can open a chrome browser in your device s
 aforementioned by:
 
 <pre>
+Configuration.automationType = Configuration.ANDROID_PLATFORM;
 open("url");
 </pre>
 
@@ -157,19 +159,21 @@ comes with the testUI driver specifications, in this case you have to choose a d
 and also the path of the iOS' .app for testing:
 
 <pre>
+ Configuration.automationType = Configuration.IOS_PLATFORM;
  Configuration.iOSVersion = "12.2"
  Configuration.AppPath = "/path/to/testapp.app";    
  Configuration.deviceName = "iPhone 6";
- openIOSApp();
+ open();
 </pre>
 
  In case you want to test the Safari browser within the device, you can avoid writing the AppPath and instead
  of open app method use the following method for browser:
 
 <pre>
+ Configuration.automationType = Configuration.IOS_PLATFORM;
  Configuration.iOSVersion = "12.2";   
  Configuration.deviceName = "iPhone 6";  
- openIOSBrowser();
+ open("http://example.com");
 </pre>
 
 ## Elements
@@ -258,14 +262,17 @@ element.waitFor(timeInteger)
 ## Collections
 
 <!-- copy pasted from elements? -->
-Elements can be defined as a unique for all the different platforms, i.e. same element definition
-for iOS, android and computer Browser:
+Collection definition:
 <pre>
 UICollection collection = EE(byId(“your.Id”));
 </pre>
 
-<!-- copy pasted from elements? -->
-But in most cases the collections are different in each case which means you can use a definition per platform
+or:
+<pre>
+UICollection collection = EE(byId(“your.Id”), byId(“your.Id2”), ...);
+</pre>
+
+You can also use a definition per platform
 like this:
 
 <pre>
@@ -302,6 +309,10 @@ collection.findByExist()
 </pre>
 
 <pre>
+collection.waitUntilAllVisible(timeSeconds) // Only makes sense for collection definitions like EE(E(...), E(...), ...)
+</pre>
+
+<pre>
 collection.findByText("some text")
 </pre>
 
@@ -320,7 +331,7 @@ element section above
 With testUI you can test browsers in mobile devices and computers just by changing the boolean value of a single variable:
 
 <pre>
-Configuration.deviceTests = false;
+Configuration.automationType = Configuration.<IOS_PLATFORM|ANDROID_PLATFORM|DESKTOP_PLATFORM>;
 </pre>
 
 And then using:
@@ -352,13 +363,14 @@ For mobile browsers, android only has chrome for automation and iOS devices only
 Then for Android you will call:
 
 <pre>
+Configuration.automationType = Configuration.ANDROID_PLATFORM;
 open("url");
 </pre>
 
 And for iOS:
 
 <pre>
-Configuration.iOSTesting = true;
+Configuration.automationType = Configuration.IOS_PLATFORM;
 Configuration.iOSversion = "12.2";
 Configuration.iOSDevice = "iPhone 6";
 open("url");
@@ -419,8 +431,7 @@ android application.
 * `Configuration.browser (= "chrome")` (String) you can choose the browser you want to test. However, in mobile version, android just admits chrome and iOS only safari, so it would be just optional for desktop browser testing if you want to test other than chrome (this the default browser).
 * `Configuration.baseUrl` (String) it is possible to set the base url for browser automation.
 * `Configuration.timeout (= 5)` (integer) you can set the time out (in seconds) in which an element is considered to not be present in the current screen. By default is 5 seconds.
-* `Configuration.deviceTests (= true)` (boolean) when set to false the driver used or the driver that will be created will be a
-selenide/selenium one, i.e. it will open or manage a computer browser instead of a mobile device.
+* `Configuration.automationType (= DESKTOP_PLATFORM)` (String) There are three different types, ANDROID_PLATFORM, IOS_PLATFORM, DESKTOP_PLATFORM(default)
 * `Configuration.startMaximized (= false)` (boolean) when set to true the computer browser will start maximized.
 * `Configuration.headless (= false)` (boolean) in computer browser testing you can set this variable to true so it will start a headless session.
 * `Configuration.remote` (String) it is possible to set this variable to a specific url where you have running an Selenium grid which will control your bowsers.
@@ -475,6 +486,7 @@ Android app as a JUnit test case:
 <pre>
     @Test
     public void testAndroidApp() {
+        Configuration.automationType = Configuration.ANDROID_PLATFORM;
         Configuration.androidAppPath = "1188.apk";
         open();
         Ex("//android.widget.Button[@text=\"Catering\"]").given().waitFor(10).untilIsVisible().then().click();
@@ -488,6 +500,19 @@ Android browser as JUnit test case:
 <pre>
     @Test
     public void testAndroidBrowser() {
+        Configuration.automationType = Configuration.ANDROID_PLATFORM;
+        open("https://www.google.com");
+        E(byXpath("//input[@name='q']")).given().waitFor(5).untilIsVisible().then().sendKeys("TestUI");
+        E(byXpath("//button[@class='Tg7LZd']")).given().waitFor(10).untilIsVisible().then().click();
+    }
+</pre>
+
+Desktop browser as JUnit test case:
+
+<pre>
+    @Test
+    public void testAndroidBrowser() {
+        Configuration.automationType = Configuration.DESKTOP_PLATFORM;
         open("https://www.google.com");
         E(byXpath("//input[@name='q']")).given().waitFor(5).untilIsVisible().then().sendKeys("TestUI");
         E(byXpath("//button[@class='Tg7LZd']")).given().waitFor(10).untilIsVisible().then().click();
@@ -499,7 +524,7 @@ IOS App as JUnit test case:
 <pre>
     @Test
     public void testIOSApp() {
-        Configuration.iOSTesting = true;
+        Configuration.automationType = Configuration.IOS_PLATFORM;
         Configuration.iOSVersion = "12.2";
         Configuration.iOSAppPath = "testapp.app";
         Configuration.iOSDeviceName = "iPhone 6";
@@ -512,7 +537,7 @@ IOS browser as JUnit test case:
 <pre>
     @Test
     public void testIOSBrowser() {
-        Configuration.iOSTesting = true;
+        Configuration.automationType = Configuration.IOS_PLATFORM;
         open("https://www.facebook.com");
         E(byXpath("//input[@name='email']")).getSafariFacebookEmailDiv().click();
     }
