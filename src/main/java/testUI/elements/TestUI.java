@@ -19,8 +19,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static testUI.Configuration.useAllure;
 import static testUI.TestUIDriver.*;
-import static testUI.UIUtils.UIAssert;
-import static testUI.UIUtils.getDevicesNames;
+import static testUI.UIUtils.*;
 import static testUI.elements.Element.getStep;
 
 public class TestUI {
@@ -254,15 +253,24 @@ public class TestUI {
                 Allure.step("Previous Step Failed!", Status.FAILED);
             }
             String aType = Configuration.automationType;
-            Configuration.automationType = Configuration.IOS_PLATFORM;
+            if (aType.equals(Configuration.DESKTOP_PLATFORM) && getDevicesNames() != null)
+                Configuration.automationType = Configuration.ANDROID_PLATFORM;
+            if (aType.equals(Configuration.DESKTOP_PLATFORM) && getIOSDevices() != null)
+                Configuration.automationType = Configuration.IOS_PLATFORM;
             for (int in = 0; in < getDrivers().size(); in++) {
                 byte[] screenshot = TestUIDriver.takeScreenshot(in);
-                String deviceName = getDevicesNames().size() > in ? getDevicesNames().get(in) : "";
+                List<String> deviceName =
+                        Configuration.automationType.equals(Configuration.IOS_PLATFORM)
+                                ? getIOSDevices() : getDevicesNames();
+                String name = deviceName != null && deviceName.size() > in ?
+                        deviceName.get(in) : "Device";
                 Allure.getLifecycle().addAttachment(
-                        "Screenshot Mobile " + deviceName,
+                        "Screenshot Mobile " +
+                                name,
                         "image/png",
                         "png",
-                        screenshot);
+                        screenshot
+                );
             }
             Configuration.automationType = Configuration.DESKTOP_PLATFORM;
             if (WebDriverRunner.driver().hasWebDriverStarted()) {

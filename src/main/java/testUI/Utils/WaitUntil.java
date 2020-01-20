@@ -11,6 +11,7 @@ import static testUI.TestUIDriver.takeScreenshot;
 import static testUI.UIUtils.getDevicesNames;
 import static testUI.UIUtils.getIOSDevices;
 import static testUI.Utils.AppiumHelps.*;
+import static testUI.elements.TestUI.setScreenshotTaken;
 
 public class WaitUntil {
 
@@ -22,15 +23,20 @@ public class WaitUntil {
         if (!found) {
             if (Configuration.useAllure) {
                 String aType = Configuration.automationType;
-                Configuration.automationType = Configuration.ANDROID_PLATFORM;
+                if (aType.equals(Configuration.DESKTOP_PLATFORM) && getDevicesNames() != null)
+                    Configuration.automationType = Configuration.ANDROID_PLATFORM;
+                if (aType.equals(Configuration.DESKTOP_PLATFORM) && getIOSDevices() != null)
+                    Configuration.automationType = Configuration.IOS_PLATFORM;
                 for (int index = 0; index < getDrivers().size(); index++) {
                     byte[] screenshot = takeScreenshot(index);
                     List<String> deviceName =
                             Configuration.automationType.equals(Configuration.IOS_PLATFORM)
-                                    && index == 0 ? getIOSDevices() : getDevicesNames();
+                                    ? getIOSDevices() : getDevicesNames();
+                    String name = deviceName != null && deviceName.size() > index ?
+                            deviceName.get(index) : "Device";
                     Allure.getLifecycle().addAttachment(
                             "Screenshot Mobile " +
-                                    deviceName.get(index),
+                                    name,
                             "image/png",
                             "png",
                             screenshot
@@ -52,6 +58,7 @@ public class WaitUntil {
                 }
                 Configuration.automationType = aType;
             }
+            setScreenshotTaken(true);
             if (accesibility == null || accesibility.isEmpty()) {
                 throw new TestUIException("The element '" + element + "' " + reason);
             } else {
