@@ -275,7 +275,7 @@ public class TestUIServer extends UIUtils {
                 iOSDeviceName = sampleIOSDevice.get("name");
                 iOSVersion = sampleIOSDevice.get("version");
             }
-            setiOSDevice(UDID);
+            setiOSDevice(iOSDeviceName);
         }
         driver = Configuration.automationType.equals(Configuration.IOS_PLATFORM) ?
                 getDevices().size() + getIOSDevices().size() : getDevices().size();
