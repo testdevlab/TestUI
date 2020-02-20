@@ -18,6 +18,7 @@ import java.util.List;
 
 import static testUI.UIUtils.getDevice;
 import static testUI.UIUtils.putLog;
+import static testUI.Utils.Logger.putLogWarn;
 
 public class ADBUtils {
 
@@ -387,7 +388,8 @@ public class ADBUtils {
             CloseableHttpResponse response = httpClient.execute(get);
             body = EntityUtils.toString(response.getEntity());
         } catch (Exception e) {
-
+            putLogWarn("Could not connect to \"https://chromedriver.storage.googleapis.com/\"");
+            return "80";
         }
         String chromeDriverVersion = "";  // ToDo it is not pulling the version. I just
         String new_chrome_version = "";
