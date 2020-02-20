@@ -1,6 +1,15 @@
 package testUI.AndroidUtils;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 import testUI.TestUIConfiguration;
 import testUI.Utils.TestUIException;
 
@@ -373,41 +382,27 @@ public class ADBUtils {
     }
 
     private static String getChromedriverVersion(String chromeVersion) {
-        switch (chromeVersion.split("\\.")[0]) {
-            case "79":
-                return "79.0.3945.36";
-            case "78":
-                return "78.0.3904.11";
-            case "77":
-                return "77.0.3865.10";
-            case "76":
-                return "76.0.3809.68";
-            case "75":
-                return "75.0.3770.90";
-            case "74":
-                return "74.0.3729.6";
-            case "73":
-                return "2.46";
-            case "72":
-            case "71":
-            case "70":
-            case "69":
-                return "2.44";
-            case "68":
-            case "67":
-            case "66":
-                return "2.40";
-            case "65":
-            case "64":
-            case "63":
-            case "62":
-                return "2.35";
-            case "61":
-            case "60":
-            case "59":
-                return "2.32";
-            default:
-                return "NOT";
+        String version = chromeVersion.split("\\.")[0] + ".";
+        String URL = "https://chromedriver.storage.googleapis.com/";
+        HttpGet get = new HttpGet(URL);
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String body = "";
+        try {
+            CloseableHttpResponse response = httpClient.execute(get);
+            body = EntityUtils.toString(response.getEntity());
+        } catch (Exception e) {
+
         }
+        String chromeDriverVersion = "";  // ToDo it is not pulling the version. I just
+        String new_chrome_version = "";
+        for (String text : body.split(version)) {
+            if (text.contains("/chromedriver_mac64.zip")) {
+                new_chrome_version =
+                        version + text.split("/chromedriver_mac64\\.zip")[0];
+            }
+            if (new_chrome_version.length() < 17)
+                chromeDriverVersion = new_chrome_version;
+        }
+        return chromeDriverVersion;
     }
 }
