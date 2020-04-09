@@ -5,7 +5,6 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
 import testUI.Utils.GridTestUI;
