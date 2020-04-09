@@ -5,13 +5,9 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
 import testUI.Utils.GridTestUI;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static testUI.TestUIDriver.getSelenideDriver;
 import static testUI.TestUIDriver.setDriver;
@@ -22,7 +18,6 @@ import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
 import static testUI.Utils.Performance.getListOfCommandsTime;
 import static testUI.Utils.Performance.logAverageTime;
-import static testUI.elements.TestUI.E;
 
 public class TestBrowser {
     private GoogleLandingPage googleLandingPage = new GoogleLandingPage();
@@ -166,36 +161,5 @@ public class TestBrowser {
                 .and("I send keys").setValueJs("password")
                 .then("I find the submit").setElement(byCssSelector("[type=\"submit\"]"))
                 .and("I click on it").click();
-    }
-
-    @Test
-    public void testUIWithLoadero() {
-
-        String linkId = "AbbzyH2Gl_dPBPk0";
-        int participant = 1;
-        sleep(participant * 15 * 1000);
-        ChromeOptions options = new ChromeOptions();
-        Map<String, Object> prefs = new HashMap<String, Object>();
-        prefs.put("profile.default_content_setting_values.notifications", 1);
-        options.setExperimentalOption("prefs", prefs);
-        options.addArguments("no-sandbox");
-        options.addArguments("use-fake-ui-for-media-stream");
-        options.addArguments("use-fake-device-for-media-stream");
-        ChromeDriver driver = new ChromeDriver(options);
-        setDriver(driver);
-        Configuration.testUILogLevel = LogLevel.DEBUG;
-        open("https://m.me/v/" + linkId);
-        E(byId("username")).sendKeys("Test");
-        E(byCssSelector("._6z07")).waitFor(10).untilIsVisible().click();
-        for (int i = 0; i < 10; i++) {
-            try {
-                E(byCssSelector("[aria-label=\"Mute microphone\"]")).waitFor(10).untilIsVisible().click();
-                E(byCssSelector("[aria-label=\"Unmute microphone\"]")).waitFor(4).untilIsVisible();
-                break;
-            } catch(Error e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        sleep(600000);
     }
 }
