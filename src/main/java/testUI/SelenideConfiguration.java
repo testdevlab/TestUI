@@ -1,6 +1,8 @@
 package testUI;
 
 import com.codeborne.selenide.AssertionMode;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class SelenideConfiguration {
@@ -34,5 +36,7 @@ public class SelenideConfiguration {
 //    public static boolean driverManagerEnabled;
     public static boolean headless = false;
     public static String browserBinary = "";
+    public static ChromeOptions chromeOptions;
+    public static FirefoxOptions firefoxOptions;
 
 }

@@ -399,7 +399,7 @@ public class Element extends TestUI implements UIElement {
         }
         long finalTime = System.currentTimeMillis() - t;
         putLogDebug("Send keys '" + charSequence + "' to element '" + stringElement +
-                " after " + finalTime + " ms");
+                "' after " + finalTime + " ms");
         return getElementObject();
     }
 

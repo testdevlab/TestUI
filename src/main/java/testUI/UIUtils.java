@@ -5,6 +5,8 @@ import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import testUI.Utils.TestUIException;
 
 import java.util.ArrayList;
@@ -188,8 +190,28 @@ public class UIUtils extends Configuration {
                 ? defaults.browserPosition() : Configuration.browserPosition;
     }
 
+    private static void setChromeDriver() {
+        if (Configuration.chromeOptions != null && Configuration.browser.toLowerCase().equals(
+                "chrome")) {
+            ChromeDriver driver = new ChromeDriver(Configuration.chromeOptions);
+            setDriver(driver);
+            Runtime.getRuntime().addShutdownHook(new Thread(driver::close));
+        }
+    }
+
+    private static void setFirefoxDriver() {
+        if (Configuration.firefoxOptions != null && Configuration.browser.toLowerCase().equals(
+                "firefox")) {
+            FirefoxDriver driver = new FirefoxDriver(Configuration.firefoxOptions);
+            setDriver(driver);
+            Runtime.getRuntime().addShutdownHook(new Thread(driver::close));
+        }
+    }
+
     protected static void startSelenideDriver(String urlOrRelativeUrl) {
         setUpSelenideVariables();
+        setChromeDriver();
+        setFirefoxDriver();
         open(urlOrRelativeUrl);
     }
 
