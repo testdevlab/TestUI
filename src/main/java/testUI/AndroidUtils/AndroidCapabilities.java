@@ -132,6 +132,7 @@ public class AndroidCapabilities extends Configuration {
             cap.setCapability(MobileCapabilityType.DEVICE_NAME, udid);
         } else {
             cap.setCapability(AndroidMobileCapabilityType.AVD, configuration.getEmulatorName());
+            cap.setCapability(MobileCapabilityType.DEVICE_NAME, configuration.getEmulatorName());
         }
 
         return cap;
