@@ -7,8 +7,11 @@ import io.qameta.allure.Allure;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import testUI.Utils.TestUIException;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -193,16 +196,37 @@ public class UIUtils extends Configuration {
     private static void setChromeDriver() {
         if (Configuration.chromeOptions != null && Configuration.browser.toLowerCase().equals(
                 "chrome")) {
-            ChromeDriver driver = new ChromeDriver(Configuration.chromeOptions);
+            Configuration.chromeOptions.merge(Configuration.selenideBrowserCapabilities);
+            RemoteWebDriver driver;
+            if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
+                try {
+                    driver = new RemoteWebDriver(
+                            new URL(Configuration.remote), Configuration.chromeOptions
+                    );
+                } catch (MalformedURLException e) {
+                    throw new TestUIException(e.getMessage());
+                }
+            } else driver = new ChromeDriver(Configuration.chromeOptions);
             setDriver(driver);
             Runtime.getRuntime().addShutdownHook(new Thread(driver::close));
+            Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
         }
     }
 
     private static void setFirefoxDriver() {
         if (Configuration.firefoxOptions != null && Configuration.browser.toLowerCase().equals(
                 "firefox")) {
-            FirefoxDriver driver = new FirefoxDriver(Configuration.firefoxOptions);
+            Configuration.firefoxOptions.merge(Configuration.selenideBrowserCapabilities);
+            RemoteWebDriver driver;
+            if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
+                try {
+                    driver = new RemoteWebDriver(
+                            new URL(Configuration.remote), Configuration.chromeOptions
+                    );
+                } catch (MalformedURLException e) {
+                    throw new TestUIException(e.getMessage());
+                }
+            } else driver = new FirefoxDriver(Configuration.firefoxOptions);
             setDriver(driver);
             Runtime.getRuntime().addShutdownHook(new Thread(driver::close));
         }
