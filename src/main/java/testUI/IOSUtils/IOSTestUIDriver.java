@@ -27,6 +27,7 @@ public class IOSTestUIDriver {
             DesiredCapabilities cap = setIOSCapabilities(false);
             try {
                 putLog("Starting appium driver...");
+                putLog("Caps: " + cap);
                 if (getDrivers().size() == 0) {
                     TestUIDriver.setDriver(new IOSDriver(
                                     new URL(url), cap) {});
@@ -57,6 +58,7 @@ public class IOSTestUIDriver {
             DesiredCapabilities cap = setIOSCapabilities(true);
             try {
                 putLog("Starting appium driver...");
+                putLog("Caps: " + cap);
                 if (getDrivers().size() == 0) {
                     TestUIDriver.setDriver(new IOSDriver(new URL(url), cap) {});
                 } else {
