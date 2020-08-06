@@ -4,6 +4,7 @@ import com.codeborne.selenide.AssertionMode;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.safari.SafariOptions;
 
 public class SelenideConfiguration {
 
@@ -19,6 +20,7 @@ public class SelenideConfiguration {
     public static String browserPosition = "";
     public static boolean startMaximized = false;
     public static DesiredCapabilities selenideBrowserCapabilities = new DesiredCapabilities();
+    public static SafariOptions safariOptions = new SafariOptions();
 //    public static String pageLoadStrategy;
 //    public static boolean clickViaJs;
 //    public static boolean screenshots;
