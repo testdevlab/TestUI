@@ -5,9 +5,11 @@ import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import testUI.Utils.TestUIException;
 
 import java.net.MalformedURLException;
@@ -208,8 +210,8 @@ public class UIUtils extends Configuration {
                 }
             } else driver = new ChromeDriver(Configuration.chromeOptions);
             setDriver(driver);
-            Runtime.getRuntime().addShutdownHook(new Thread(driver::close));
-            Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> tryCloseDriver(driver)));
+            Runtime.getRuntime().addShutdownHook(new Thread(new Thread(() -> tryQuitpDriver(driver))));
         }
     }
 
@@ -221,14 +223,47 @@ public class UIUtils extends Configuration {
             if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
                 try {
                     driver = new RemoteWebDriver(
-                            new URL(Configuration.remote), Configuration.chromeOptions
+                            new URL(Configuration.remote), Configuration.firefoxOptions
                     );
                 } catch (MalformedURLException e) {
                     throw new TestUIException(e.getMessage());
                 }
             } else driver = new FirefoxDriver(Configuration.firefoxOptions);
             setDriver(driver);
-            Runtime.getRuntime().addShutdownHook(new Thread(driver::close));
+            Runtime.getRuntime().addShutdownHook(new Thread(new Thread(() -> tryCloseDriver(driver))));
+        }
+    }
+
+    private static void setSafariDriver() {
+        if (Configuration.browser.toLowerCase().equals("safari")) {
+            RemoteWebDriver driver;
+            if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
+                try {
+                    driver = new RemoteWebDriver(
+                            new URL(Configuration.remote), Configuration.safariOptions
+                    );
+                } catch (MalformedURLException e) {
+                    throw new TestUIException(e.getMessage());
+                }
+            } else driver = new SafariDriver(Configuration.safariOptions);
+            setDriver(driver);
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> tryCloseDriver(driver)));
+        }
+    }
+
+    private static void tryQuitpDriver(WebDriver driver) {
+        try {
+            driver.quit();
+        } catch (Exception e) {
+            System.err.println("Could not quit driver, probably already stopped");
+        }
+    }
+
+    private static void tryCloseDriver(WebDriver driver) {
+        try {
+            driver.close();
+        } catch (Exception e) {
+            System.err.println("Could not close driver, probably already stopped");
         }
     }
 
@@ -236,6 +271,7 @@ public class UIUtils extends Configuration {
         setUpSelenideVariables();
         setChromeDriver();
         setFirefoxDriver();
+        setSafariDriver();
         open(urlOrRelativeUrl);
     }
 
