@@ -92,6 +92,8 @@ public interface UIElement {
 
     BrowserLogs getNetworkCalls();
 
+    String getCurrentUrl();
+
     void getBrowserLogs();
 
     BrowserLogs getLastNetworkCalls(int LastX);

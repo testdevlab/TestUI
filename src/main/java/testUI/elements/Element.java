@@ -830,6 +830,12 @@ public class Element extends TestUI implements UIElement {
         return getElementObject();
     }
 
+    public String getCurrentUrl() {
+        if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM))
+            return getDriver().getCurrentUrl();
+        return getSelenideDriver().getCurrentUrl();
+    }
+
     public BrowserLogs getNetworkCalls() {
         return new BrowserLogs().getNetworkCalls();
     }

@@ -11,8 +11,7 @@ import pages.GoogleLandingPage;
 import testUI.Configuration;
 import testUI.Utils.GridTestUI;
 
-import static testUI.TestUIDriver.getSelenideDriver;
-import static testUI.TestUIDriver.setDriver;
+import static testUI.TestUIDriver.*;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
@@ -64,6 +63,7 @@ public class TestBrowser {
         Configuration.browser = "safari";
         Configuration.serverLogLevel = "all";
         open("https://www.google.com");
+        System.out.println(getTestUIDriver().getCurrentUrl());
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
                 .getSelenideElement().getWrappedElement());
