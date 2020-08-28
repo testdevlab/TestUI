@@ -23,6 +23,8 @@ public class TestUIDriver {
     private static ThreadLocal<List<AppiumDriver>> driver = new ThreadLocal<>();
     private static ThreadLocal<List<AndroidDriver>> AndroidTestUIDriver = new ThreadLocal<>();
     private static ThreadLocal<List<IOSDriver>> IOSTestUIDriver = new ThreadLocal<>();
+    private static TestUIDriver testUIDriver = new TestUIDriver();
+    private static DesiredCapabilities desiredCapabilities;
 
     public synchronized static UIElement setDriver(AndroidDriver driver) {
         List<AppiumDriver> appiumDrivers = new ArrayList<>(getDrivers());
@@ -212,13 +214,15 @@ public class TestUIDriver {
         return new byte[1];
     }
 
-    private static DesiredCapabilities desiredCapabilities;
-
     public static void setDesiredCapabilities(DesiredCapabilities desiredCapabilities) {
         TestUIDriver.desiredCapabilities = desiredCapabilities;
     }
 
     public static DesiredCapabilities getDesiredCapabilities() {
         return TestUIDriver.desiredCapabilities;
+    }
+
+    public static UIElement getTestUIDriver() {
+        return TestUI.E("");
     }
 }

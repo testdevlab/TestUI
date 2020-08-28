@@ -17,6 +17,7 @@ public class AndroidOpen extends TestUIServer {
     // ANDROID APP AND BROWSER SUPPORT
 
     public void openApp(TestUIConfiguration configuration) {
+        configuration.setEmulatorName(Configuration.emulatorName);
         if ((((getAppiumServices().size() == 0 ||
                 !getAppiumServices().get(0).isRunning()) && desiredCapabilities == null) ||
                 getDevices().size() == 0) && configuration.getAppiumUrl().isEmpty()) {
@@ -68,6 +69,7 @@ public class AndroidOpen extends TestUIServer {
     }
 
     public void openBrowser(String urlOrRelativeUrl, TestUIConfiguration configuration) {
+        configuration.setEmulatorName(Configuration.emulatorName);
         if (!Configuration.automationType.equals(DESKTOP_PLATFORM) ) {
             urlOrRelativeUrl = baseUrl + urlOrRelativeUrl;
             if ((((getAppiumServices().size() == 0 ||
