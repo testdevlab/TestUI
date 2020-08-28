@@ -11,6 +11,7 @@ import testUI.TestUIConfiguration;
 import static testUI.TestUIDriver.getDesiredCapabilities;
 import static testUI.UIUtils.*;
 import static testUI.UIUtils.putAllureParameter;
+import static testUI.Utils.Logger.putLogDebug;
 
 public class AndroidCapabilities extends Configuration {
     private static ADBUtils adbUtils = new ADBUtils();
@@ -55,6 +56,7 @@ public class AndroidCapabilities extends Configuration {
             addMobileDesiredCapabilities = new DesiredCapabilities();
         }
         Configuration.desiredCapabilities = cap;
+        putLogDebug("Caps -> " + cap);
         return cap;
     }
 
@@ -92,6 +94,7 @@ public class AndroidCapabilities extends Configuration {
             addMobileDesiredCapabilities = new DesiredCapabilities();
         }
         Configuration.desiredCapabilities = cap;
+        putLogDebug("Caps -> " + cap);
         return cap;
     }
 
