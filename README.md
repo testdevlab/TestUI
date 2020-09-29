@@ -50,7 +50,7 @@ First to start using it you can include it as a dependency in your pom.xml using
              <dependency>
                  <groupId>com.github.testdevlab</groupId>
                  <artifactId>TestUI</artifactId>
-                 <version>1.2.6</version>
+                 <version>1.2.8</version>
              </dependency>
       </dependencies>
 ```
@@ -65,7 +65,7 @@ repositories {
         }
 		
 dependencies {
-        implementation 'com.github.testdevlab:TestUI:1.2.6'
+        implementation 'com.github.testdevlab:TestUI:1.2.8'
     }
 ```
 

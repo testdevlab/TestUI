@@ -10,4 +10,4 @@ chromedriver
 *.ipa
 
 src/test/java/TestRunners/TestParallel*
-src/test/java/TestRunners/TestAndroidRemote
+src/test/java/TestRunners/TestAndroidRemote*
