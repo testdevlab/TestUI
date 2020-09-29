@@ -149,7 +149,7 @@ public class TestBrowser {
         Configuration.useAllure = false;
         Configuration.browser = "chrome";
         GridTestUI gridTestUI = new GridTestUI();
-        gridTestUI.setServerURL("http://alvaro:password@10.2.5.202:8000")
+        gridTestUI.setServerURL("http://admin:admin@localhost:8000")
                 .setPlatform("linux")
                 .setConfiguration();
         Configuration.testUILogLevel = LogLevel.DEBUG;

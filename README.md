@@ -50,7 +50,7 @@ First to start using it you can include it as a dependency in your pom.xml using
              <dependency>
                  <groupId>com.github.testdevlab</groupId>
                  <artifactId>TestUI</artifactId>
-                 <version>master-SNAPSHOT</version>
+                 <version>1.2.6</version>
              </dependency>
       </dependencies>
 ```
@@ -65,7 +65,7 @@ repositories {
         }
 		
 dependencies {
-        implementation 'com.github.testdevlab:TestUI:master-SNAPSHOT'
+        implementation 'com.github.testdevlab:TestUI:1.2.6'
     }
 ```
 
@@ -297,10 +297,6 @@ collection.findByVisible()
 </pre>
 
 <pre>
-collection.findByVisible()
-</pre>
-
-<pre>
 collection.findByEnabled()
 </pre>
 
@@ -484,6 +480,7 @@ For Appium setup check out their [page](http://appium.io/) and you can see if th
 Android app as a JUnit test case:
 
 <pre>
+    // You need to have the app 1188.apk in project root folder!
     @Test
     public void testAndroidApp() {
         Configuration.automationType = Configuration.ANDROID_PLATFORM;
