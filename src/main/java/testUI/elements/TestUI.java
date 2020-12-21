@@ -6,7 +6,6 @@ import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.MobileElement;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
-import org.aspectj.weaver.ast.And;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import testUI.Configuration;
