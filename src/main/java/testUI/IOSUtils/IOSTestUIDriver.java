@@ -75,7 +75,7 @@ public class IOSTestUIDriver {
                 sleep(500);
                 if (i == 0) {
                     e.printStackTrace();
-                    throw new Error(e);
+                    throw new TestUIException(e.getMessage());
                 }
             }
         }
@@ -99,7 +99,7 @@ public class IOSTestUIDriver {
                 putLogError("Could not create driver! retrying...");
                 sleep(500);
                 if (i == 1) {
-                    throw new Error(e);
+                    throw new TestUIException(e.getMessage());
                 }
             }
         }

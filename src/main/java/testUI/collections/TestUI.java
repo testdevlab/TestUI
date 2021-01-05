@@ -260,7 +260,7 @@ public class TestUI implements UICollection {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
     }
 
@@ -306,7 +306,7 @@ public class TestUI implements UICollection {
                 return $$(SelenideElement).size();
             } catch (Throwable e) {
                 takeScreenshotsAllure();
-                throw new Error(e);
+                throw new TestUIException(e.getMessage());
             }
         }
     }
@@ -323,7 +323,7 @@ public class TestUI implements UICollection {
                 return $$(SelenideElement).get(index).getSize();
             } catch (Throwable e) {
                 takeScreenshotsAllure();
-                throw new Error(e);
+                throw new TestUIException(e.getMessage());
             }
         }
     }
@@ -406,7 +406,7 @@ public class TestUI implements UICollection {
             try {
                 thread.join();
             } catch (InterruptedException e) {
-                throw new Error(e);
+                throw new TestUIException(e.getMessage());
             }
         }
         lastCommandTime = System.currentTimeMillis() - t;

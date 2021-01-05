@@ -285,7 +285,7 @@ public class UIUtils extends Configuration {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
     }
 
@@ -294,7 +294,7 @@ public class UIUtils extends Configuration {
             takeScreenshotsAllure();
         }
         if (!assertion) {
-            throw new Error(reason);
+            throw new TestUIException(reason);
         }
     }
 

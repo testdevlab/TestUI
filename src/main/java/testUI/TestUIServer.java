@@ -11,6 +11,7 @@ import testUI.IOSUtils.IOSCommands;
 import testUI.Utils.AppiumHelps;
 import testUI.Utils.AppiumTimeoutException;
 import testUI.Utils.GridTestUI;
+import testUI.Utils.TestUIException;
 
 import java.io.File;
 import java.util.List;
@@ -174,7 +175,7 @@ public class TestUIServer extends UIUtils {
             File tmpDir = new File(appPath);
             if (!tmpDir.exists()) {
                 Configuration.androidAppPath = "";
-                throw new Error("The file for the Android app :" + appPath + " does not exists!");
+                throw new TestUIException("The file for the Android app :" + appPath + " does not exists!");
             }
         }
     }
@@ -241,11 +242,11 @@ public class TestUIServer extends UIUtils {
                     configuration.getEmulatorName().isEmpty()) {
                 if (connectedDevices <= device) {
                     if (!configuration.isUseEmulators()) {
-                        throw new Error("There are not enough devices connected");
+                        throw new TestUIException("There are not enough devices connected");
                     } else if (adbUtils.getEmulatorName().get(device - realDevices) == null ||
 
                             adbUtils.getEmulatorName().get(device - realDevices).isEmpty()) {
-                        throw new Error("There are no emulators to start the automation");
+                        throw new TestUIException("There are no emulators to start the automation");
                     }
                     configuration.setEmulatorName(adbUtils.getEmulatorName()
                             .get(device - realDevices));
