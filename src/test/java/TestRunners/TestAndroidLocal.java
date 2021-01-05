@@ -21,14 +21,14 @@ public class TestAndroidLocal {
         Configuration.testUILogLevel = LogLevel.DEBUG;
         Configuration.automationType = ANDROID_PLATFORM;
         open("https://www.google.com");
-        E(byMobileCss("#SIvCob")).click();
-        googleLandingPage.getGoogleSearchInput().scrollTo().view(true)
-                .given("Check search input visible and set value").waitFor(5)
-                .untilIsVisible().then().setValueJs("TestUI")
-                .shouldHave().not().emptyAttribute("value");
-        googleLandingPage.getGoogleSearch().then("Check that search button visible")
-                .waitFor(1).untilIsVisible()
-                .and("Click on search button").click();
+//        E(byMobileCss("#SIvCob")).click();
+//        googleLandingPage.getGoogleSearchInput().scrollTo().view(true)
+//                .given("Check search input visible and set value").waitFor(5)
+//                .untilIsVisible().then().setValueJs("TestUI")
+//                .shouldHave().not().emptyAttribute("value");
+//        googleLandingPage.getGoogleSearch().then("Check that search button visible")
+//                .waitFor(1).untilIsVisible()
+//                .and("Click on search button").click();
         stop();
         Configuration.testUILogLevel = LogLevel.DEBUG;
         open("https://www.google.com");

@@ -148,11 +148,11 @@ public class AndroidCapabilities extends Configuration {
         if (configuration.getAppiumUrl().isEmpty()) {
             int systemPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 10;
             int chromeDriverPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 15;
-            cap.setCapability("chromeDriverPort", chromeDriverPort);
+            cap.setCapability("chromedriverPort", chromeDriverPort);
             cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
         }
         if (Configuration.chromeDriverPort != 0) {
-            cap.setCapability("chromeDriverPort", chromeDriverPort);
+            cap.setCapability("chromedriverPort", chromeDriverPort);
         }
         if (Configuration.systemPort != 0) {
             cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
