@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import testUI.Configuration;
 import testUI.TestUIDriver;
+import testUI.Utils.TestUIException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -195,7 +196,7 @@ public class TestUI {
             return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
     }
 
@@ -236,7 +237,7 @@ public class TestUI {
             getSelenide(SelenideElement,index, collection).waitUntil(condition, time * 1000);
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
     }
 

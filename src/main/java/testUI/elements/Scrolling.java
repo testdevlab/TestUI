@@ -6,6 +6,7 @@ import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import testUI.Configuration;
+import testUI.Utils.TestUIException;
 
 import java.time.Duration;
 
@@ -71,7 +72,7 @@ public class Scrolling extends TestUI implements SlideActions {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         return getElementObject();
     }
@@ -95,7 +96,7 @@ public class Scrolling extends TestUI implements SlideActions {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         return getElementObject();
     }
@@ -116,7 +117,7 @@ public class Scrolling extends TestUI implements SlideActions {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         return getElementObject();
     }
@@ -137,7 +138,7 @@ public class Scrolling extends TestUI implements SlideActions {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         return getElementObject();
     }
@@ -159,7 +160,7 @@ public class Scrolling extends TestUI implements SlideActions {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         return getElementObject();
     }
@@ -181,7 +182,7 @@ public class Scrolling extends TestUI implements SlideActions {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         return getElementObject();
     }
@@ -216,7 +217,7 @@ public class Scrolling extends TestUI implements SlideActions {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         return getElementObject();
     }

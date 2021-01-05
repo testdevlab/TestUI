@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import testUI.Configuration;
 import testUI.TestUIConfiguration;
+import testUI.Utils.TestUIException;
 
 import static testUI.TestUIDriver.getDesiredCapabilities;
 import static testUI.UIUtils.*;
@@ -102,13 +103,14 @@ public class AndroidCapabilities extends Configuration {
     private static void retrieveDevice(TestUIConfiguration configuration) {
         if (Configuration.appiumUrl.isEmpty()) {
             if (configuration.getEmulatorName().isEmpty() && getDevices().size() == 0) {
-                throw new Error("There is no device available to run the automation!");
+                throw new TestUIException("There is no device available to run the automation!");
             }
             if (configuration.getEmulatorName().isEmpty()
                     && !adbUtils.getDeviceStatus(getDevice()).equals("device")) {
                 System.err.println("The device status is " + adbUtils.getDeviceStatus(getDevice()) +
                         " to use usb, you must allow usb debugging for this device: " + getDevice());
-                throw new Error();
+                throw new TestUIException("The device status is " + adbUtils.getDeviceStatus(getDevice()) +
+                        " to use usb, you must allow usb debugging for this device: " + getDevice());
             }
             getDevModel(configuration);
         } else {
@@ -120,7 +122,7 @@ public class AndroidCapabilities extends Configuration {
                 } else if (!Configuration.UDID.isEmpty()) {
                     setDevice(Configuration.UDID, Configuration.UDID);
                 } else {
-                    throw new Error("There is no device available to run the automation!");
+                    throw new TestUIException("There is no device available to run the automation!");
                 }
             }
         }
@@ -146,11 +148,11 @@ public class AndroidCapabilities extends Configuration {
         if (configuration.getAppiumUrl().isEmpty()) {
             int systemPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 10;
             int chromeDriverPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 15;
-            cap.setCapability("chromeDriverPort", chromeDriverPort);
+            cap.setCapability("chromedriverPort", chromeDriverPort);
             cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
         }
         if (Configuration.chromeDriverPort != 0) {
-            cap.setCapability("chromeDriverPort", chromeDriverPort);
+            cap.setCapability("chromedriverPort", chromeDriverPort);
         }
         if (Configuration.systemPort != 0) {
             cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);

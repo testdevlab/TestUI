@@ -9,6 +9,7 @@ import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.support.ui.Quotes;
 import testUI.Configuration;
 import testUI.BrowserLogs;
+import testUI.Utils.TestUIException;
 import testUI.collections.UICollection;
 
 import java.io.File;
@@ -238,7 +239,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
         setTime(finalTime);
@@ -274,7 +275,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
         setTime(finalTime);
@@ -308,7 +309,7 @@ public class Element extends TestUI implements UIElement {
                 return getSelenide(SelenideElement, index, collection).getSize();
             } catch (Throwable e) {
                 takeScreenshotsAllure();
-                throw new Error(e);
+                throw new TestUIException(e.getMessage());
             }
         }
     }
@@ -338,7 +339,7 @@ public class Element extends TestUI implements UIElement {
                 return getSelenide(SelenideElement, index, collection).getLocation();
             } catch (Throwable e) {
                 takeScreenshotsAllure();
-                throw new Error(e);
+                throw new TestUIException(e.getMessage());
             }
         }
     }
@@ -370,7 +371,7 @@ public class Element extends TestUI implements UIElement {
             return getSelenide(SelenideElement, index, collection).getText();
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
     }
 
@@ -395,7 +396,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
         putLogDebug("Send keys '" + charSequence + "' to element '" + stringElement +
@@ -447,7 +448,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
         putLogDebug("Set value '" + value + "' to element '" + stringElement +
@@ -483,7 +484,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
         putLogDebug("Set value '" + value + "' to element '" + stringElement +
@@ -515,7 +516,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
         putLogDebug("Executed JS '" + JsScript + "' over element '" + stringElement +
@@ -532,7 +533,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         return getElementObject();
     }
@@ -569,7 +570,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         return getElementObject();
     }
@@ -604,7 +605,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         return getElementObject();
     }
@@ -639,7 +640,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         return getElementObject();
     }
@@ -656,7 +657,7 @@ public class Element extends TestUI implements UIElement {
             );
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
     }
 
@@ -675,7 +676,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
         return getElementObject();
     }
@@ -695,7 +696,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
     }
 
@@ -714,7 +715,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
     }
 
@@ -733,7 +734,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
     }
 
@@ -752,7 +753,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new Error(e);
+            throw new TestUIException(e.getMessage());
         }
     }
 

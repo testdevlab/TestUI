@@ -118,7 +118,7 @@ public class AndroidTestUIDriver extends AndroidOpen {
                     adbUtils.checkAndInstallChromedriver();
                 }
                 if (i == 1) {
-                    throw new Error(e);
+                    throw new TestUIException(e.getMessage());
                 }
             }
         }
@@ -145,7 +145,7 @@ public class AndroidTestUIDriver extends AndroidOpen {
                 }
                 sleep(500);
                 if (i == 1) {
-                    throw new Error(e);
+                    throw new TestUIException(e.getMessage());
                 }
             }
         }

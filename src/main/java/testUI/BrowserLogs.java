@@ -15,6 +15,7 @@ import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
+import testUI.Utils.TestUIException;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -477,7 +478,7 @@ public class BrowserLogs {
                                     responses
                     );
                 }
-                throw new Error("Status code should be " + statusCode + " but was "
+                throw new TestUIException("Status code should be " + statusCode + " but was "
                         + responses.getInt("statusCode") + "\n Response: \n" +
                         responses);
             }
@@ -503,7 +504,7 @@ public class BrowserLogs {
                                     responses
                     );
                 }
-                throw new Error(
+                throw new TestUIException(
                         "Status code should be between " +
                                 statusCode +
                                 " and " +
@@ -538,7 +539,7 @@ public class BrowserLogs {
                                     responses
                     );
                 }
-                throw new Error(
+                throw new TestUIException(
                         "The headers should contain '" +
                                 Header +
                                 "' Equal to '" +
@@ -554,7 +555,7 @@ public class BrowserLogs {
             }
         }
         if (!found) {
-            throw new Error(
+            throw new TestUIException(
                     "There were no calls with those response headers: '" +
                             Header +
                             "' equal to '" +
@@ -566,7 +567,7 @@ public class BrowserLogs {
 
     public BrowserLogs assertFilteredCallExists() {
         if (this.filteredCalls.size() == 0) {
-            throw new Error("There are no network calls with the filter parameters included!");
+            throw new TestUIException("There are no network calls with the filter parameters included!");
         }
         return new BrowserLogs(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
