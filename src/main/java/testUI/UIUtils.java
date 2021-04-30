@@ -170,7 +170,12 @@ public class UIUtils extends Configuration {
         com.codeborne.selenide.Configuration.headless = Configuration.headless;
         com.codeborne.selenide.Configuration.baseUrl = Configuration.baseUrl;
         com.codeborne.selenide.Configuration.startMaximized = Configuration.startMaximized;
-        com.codeborne.selenide.Configuration.browser = Configuration.browser;
+        if (selenideBrowserCapabilities.getBrowserName().isEmpty()) {
+            selenideBrowserCapabilities.setBrowserName(Configuration.browser);
+        } else {
+            Configuration.browser = selenideBrowserCapabilities.getBrowserName();
+            com.codeborne.selenide.Configuration.browser = selenideBrowserCapabilities.getBrowserName();
+        }
         com.codeborne.selenide.Configuration.browserBinary
                 = Configuration.browserBinary.isEmpty()
                 ? defaults.browserBinary() : Configuration.browserBinary;
@@ -216,7 +221,7 @@ public class UIUtils extends Configuration {
     }
 
     private static void setFirefoxDriver() {
-        if (Configuration.firefoxOptions != null && Configuration.browser.toLowerCase().equals(
+        if (Configuration.firefoxOptions != null && Configuration.browser.equalsIgnoreCase(
                 "firefox")) {
             Configuration.firefoxOptions.merge(Configuration.selenideBrowserCapabilities);
             RemoteWebDriver driver;

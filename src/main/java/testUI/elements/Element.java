@@ -19,6 +19,7 @@ import static testUI.TestUIDriver.*;
 import static testUI.UIOpen.navigate;
 import static testUI.Utils.AppiumHelps.*;
 import static testUI.Utils.Logger.putLogDebug;
+import static testUI.Utils.Logger.putLogError;
 import static testUI.Utils.Performance.setTime;
 import static testUI.Utils.WaitUntil.waitUntilClickable;
 import static testUI.Utils.WaitUntil.waitUntilVisible;
@@ -816,7 +817,8 @@ public class Element extends TestUI implements UIElement {
                     FileUtils.copyFile(scrFile, new File(
                             Configuration.screenshotPath + path));
                 } catch (IOException e) {
-                    System.err.println("Could not save the screenshot");
+                    putLogError("Could not save the screenshot in '" + Configuration.screenshotPath + path + "': " +
+                            e.getMessage());
                 }
             }
         } else {
@@ -825,7 +827,8 @@ public class Element extends TestUI implements UIElement {
                 FileUtils.copyFile(scrFile, new File(
                         Configuration.screenshotPath + path));
             } catch (IOException e) {
-                System.err.println("Could not save the screenshot");
+                putLogError("Could not save the screenshot in '" + Configuration.screenshotPath + path + "': " +
+                        e.getMessage());
             }
         }
         return getElementObject();

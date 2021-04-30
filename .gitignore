@@ -8,6 +8,7 @@ allure-results
 *.apk
 chromedriver
 *.ipa
+screen.png
 
 src/test/java/TestRunners/TestParallel*
 src/test/java/TestRunners/TestAndroidRemote*
