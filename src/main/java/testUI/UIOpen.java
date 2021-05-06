@@ -13,6 +13,7 @@ import static testUI.Configuration.*;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.putLog;
 import static testUI.Utils.Logger.putLogDebug;
+import static testUI.Utils.Logger.putLogInfo;
 import static testUI.Utils.Performance.setTime;
 import static testUI.elements.TestUI.setScreenshotTaken;
 import static testUI.elements.Element.setStep;
@@ -144,14 +145,14 @@ public class UIOpen {
         }
         long finalTime = System.currentTimeMillis() - t;
         setTime(finalTime);
-        putLogDebug("open url -> " + urlOrRelativeUrl + " after " + finalTime + " ms");
+        putLogDebug("open url -> %s after %d ms", urlOrRelativeUrl, finalTime );
         setStep(false);
         return TestUI.E("");
     }
 
     public static UIElement navigate(String urlOrRelativeUrl) {
         androidTestUIDriver.navigateURL(urlOrRelativeUrl);
-        putLogDebug("navigate to url -> " + urlOrRelativeUrl);
+        putLogInfo("navigate to url -> %s", urlOrRelativeUrl);
         return TestUI.E("");
     }
 
@@ -162,7 +163,7 @@ public class UIOpen {
         } else {
             androidTestUIDriver.openNewBrowser(urlOrRelativeUrl, new TestUIConfiguration());
         }
-        putLogDebug("open url -> " + urlOrRelativeUrl);
+        putLogInfo("open url -> %s", urlOrRelativeUrl);
         setStep(false);
         return TestUI.E("");
     }
@@ -174,7 +175,7 @@ public class UIOpen {
         } else {
             getSelenideDriver().manage().addCookie(cookie);
         }
-        putLogDebug("adding cookie -> " + key + ":" + value);
+        putLogDebug("adding cookie -> %s:%s", key, value);
         return TestUI.E("");
     }
 

@@ -17,32 +17,36 @@ public class Logger {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
-    public static void putLogInfo(String log) {
+    public static void putLogInfo(String log, Object ...arg) {
         if (Configuration.testUILogLevel == LogLevel.INFO ||
                 Configuration.testUILogLevel == LogLevel.DEBUG) {
             Date date = new Date();
             SimpleDateFormat jdf = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss.SSS");
-            System.out.println(ANSI_PURPLE + "[INFO] " + jdf.format(date) + ": " + log + ANSI_RESET);
+            String sf1 = String.format(log, arg);
+            System.out.println(ANSI_PURPLE + "[INFO] " + jdf.format(date) + ": " + sf1 + ANSI_RESET);
         }
     }
 
-    public static void putLogDebug(String log) {
+    public static void putLogDebug(String log, Object ...arg) {
         if (Configuration.testUILogLevel == LogLevel.DEBUG) {
             Date date = new Date();
             SimpleDateFormat jdf = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss.SSS");
-            System.out.println(ANSI_PURPLE + "[DEBUG] " + jdf.format(date) + ": " + log + ANSI_RESET);
+            String sf1 = String.format(log, arg);
+            System.out.println(ANSI_PURPLE + "[DEBUG] " + jdf.format(date) + ": " + sf1 + ANSI_RESET);
         }
     }
 
-    public static void putLogError(String log) {
+    public static void putLogError(String log, Object ...arg) {
             Date date = new Date();
             SimpleDateFormat jdf = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss.SSS");
-            System.out.println(ANSI_RED + "[ERROR] " + jdf.format(date) + ": " + log + ANSI_RESET);
+            String sf1 = String.format(log, arg);
+            System.out.println(ANSI_RED + "[ERROR] " + jdf.format(date) + ": " + sf1 + ANSI_RESET);
     }
 
-    public static void putLogWarn(String log) {
+    public static void putLogWarn(String log, Object ...arg) {
         Date date = new Date();
         SimpleDateFormat jdf = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss.SSS");
-        System.out.println(ANSI_YELLOW + "[WARN] " + jdf.format(date) + ": " + log + ANSI_RESET);
+        String sf1 = String.format(log, arg);
+        System.out.println(ANSI_YELLOW + "[WARN] " + jdf.format(date) + ": " + sf1 + ANSI_RESET);
     }
 }

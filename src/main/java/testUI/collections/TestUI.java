@@ -410,12 +410,11 @@ public class TestUI implements UICollection {
             }
         }
         lastCommandTime = System.currentTimeMillis() - t;
-        if (lastCommandTime > seconds * 1000)
+        if (lastCommandTime > seconds * 1000L)
             throw new TestUIException("Collection took more than " + seconds + "s to get found");
         timeErrorBar = elementUI[0].waitFor(5).untilIsVisible().getLastCommandTime();
         lastCommandTime = lastCommandTime - timeErrorBar;
-        putLogDebug("Collection of elements visible  after " + lastCommandTime + " ± " +
-                timeErrorBar + " ms");
+        putLogDebug("Collection of elements visible  after %d ± %d ms", lastCommandTime, timeErrorBar);
 
         return this;
     }
@@ -448,7 +447,7 @@ public class TestUI implements UICollection {
     public UIElement findByText(String text) {
         if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             long t= System.currentTimeMillis();
-            long end = t+(Configuration.timeout * 1000);
+            long end = t+(Configuration.timeout * 1000L);
             while(System.currentTimeMillis() < end) {
                 if (elementUI != null) {
                     for (UIElement uiElement : elementUI) {
@@ -474,7 +473,7 @@ public class TestUI implements UICollection {
             }
         } else {
             long t= System.currentTimeMillis();
-            long end = t+(Configuration.timeout * 1000);
+            long end = t+(Configuration.timeout * 1000L);
             while(System.currentTimeMillis() < end) {
                 for (int i = 0; i < size(); i++) {
                     if ($$(SelenideElement).get(i)
@@ -504,7 +503,7 @@ public class TestUI implements UICollection {
     public UIElement findByValue(String value) {
         if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             long t= System.currentTimeMillis();
-            long end = t+(Configuration.timeout * 1000);
+            long end = t+(Configuration.timeout * 1000L);
             while(System.currentTimeMillis() < end) {
                 if (elementUI != null) {
                     for (UIElement uiElement : elementUI) {
@@ -531,7 +530,7 @@ public class TestUI implements UICollection {
             }
         } else {
             long t= System.currentTimeMillis();
-            long end = t+(Configuration.timeout * 1000);
+            long end = t+(Configuration.timeout * 1000L);
             while(System.currentTimeMillis() < end) {
                 for (int i = 0; i < size(); i++) {
                     if ($$(SelenideElement).get(i)
@@ -561,7 +560,7 @@ public class TestUI implements UICollection {
     public UIElement findByEnabled() {
         if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             long t= System.currentTimeMillis();
-            long end = t+(Configuration.timeout * 1000);
+            long end = t+(Configuration.timeout * 1000L);
             while(System.currentTimeMillis() < end) {
                 if (elementUI != null) {
                     for (UIElement uiElement : elementUI) {
@@ -587,7 +586,7 @@ public class TestUI implements UICollection {
             }
         } else {
             long t= System.currentTimeMillis();
-            long end = t+(Configuration.timeout * 1000);
+            long end = t+(Configuration.timeout * 1000L);
             while(System.currentTimeMillis() < end) {
                 for (int i = 0; i < size(); i++) {
                     if ($$(SelenideElement).get(i).

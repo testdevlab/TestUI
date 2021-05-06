@@ -57,7 +57,7 @@ public class AndroidCapabilities extends Configuration {
             addMobileDesiredCapabilities = new DesiredCapabilities();
         }
         Configuration.desiredCapabilities = cap;
-        putLogDebug("Caps -> " + cap);
+        putLogDebug("Caps -> %s", cap.toString());
         return cap;
     }
 
@@ -95,7 +95,7 @@ public class AndroidCapabilities extends Configuration {
             addMobileDesiredCapabilities = new DesiredCapabilities();
         }
         Configuration.desiredCapabilities = cap;
-        putLogDebug("Caps -> " + cap);
+        putLogDebug("Caps -> %s", cap.toString());
         return cap;
     }
 

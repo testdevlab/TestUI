@@ -13,4 +13,6 @@ public class GoogleLandingPage {
             .setiOSElement(byId("id"));
     private UIElement googleSearchInput = E(byName("q"))
             .setSelenideElement(byName("q"));
+    private UIElement googleCookies = E(byText("I agree"))
+            .setSelenideElement(byText("I agree"));
 }
