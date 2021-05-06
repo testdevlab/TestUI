@@ -84,7 +84,7 @@ public class WaitUntil {
             int Seconds,
             boolean isVisible) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (visible(element, accessibility) == isVisible) {
@@ -109,7 +109,7 @@ public class WaitUntil {
             int Seconds,
             boolean isVisible) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (visible(element, accesibility, index) == isVisible) {
@@ -130,7 +130,7 @@ public class WaitUntil {
 
     public static void waitUntilClickable(org.openqa.selenium.By element, String accessibility) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Configuration.timeout * 1000);
+        long end = t + (Configuration.timeout * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if ((Configuration.automationType.equals(Configuration.IOS_PLATFORM) || enable(element,
@@ -155,7 +155,7 @@ public class WaitUntil {
             String accessibility,
             int index) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Configuration.timeout * 1000);
+        long end = t + (Configuration.timeout * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (enable(element, accessibility, index) && visible(element, accessibility, index)) {
@@ -179,7 +179,7 @@ public class WaitUntil {
             int Seconds,
             boolean isEnabled) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (enable(element, accessibility) == isEnabled) {
@@ -204,7 +204,7 @@ public class WaitUntil {
             int Seconds,
             boolean isEnabled) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (enable(element, accessibility, index) == isEnabled) {
@@ -229,7 +229,7 @@ public class WaitUntil {
             int Seconds,
             boolean Exist) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (exists(element, accessibility) == Exist) {
@@ -254,7 +254,7 @@ public class WaitUntil {
             int Seconds,
             boolean exists) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (exists(element, accessibility, index) == exists) {
@@ -280,7 +280,7 @@ public class WaitUntil {
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (containsText(element, accessibility, text) == hasText) {
@@ -308,7 +308,7 @@ public class WaitUntil {
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (containsText(element, accessibility, index, text) == hasText) {
@@ -330,7 +330,7 @@ public class WaitUntil {
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (containsTextNoCaseSensitive(element, accessibility, text) == hasText) {
@@ -356,7 +356,7 @@ public class WaitUntil {
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (containsTextNoCaseSensitive(element, accessibility, index, text) == hasText) {
@@ -382,7 +382,7 @@ public class WaitUntil {
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (equalsText(element, accessibility, text) == hasText) {
@@ -406,7 +406,7 @@ public class WaitUntil {
             int Seconds,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (emptyText(element, accessibility) == hasText) {
@@ -432,7 +432,7 @@ public class WaitUntil {
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (equalsText(element, accessibility, index, text) == hasText) {
@@ -457,7 +457,7 @@ public class WaitUntil {
             int Seconds,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (emptyText(element, accessibility, index) == hasText) {
@@ -470,7 +470,7 @@ public class WaitUntil {
         assertFunction(
                 getElementString(element) + "[" + index + "]",
                 accessibility,
-                "with should be empty text or is not visible after " + Seconds + " ms!",
+                "with should be empty text or is not visible after " + time + " ms!",
                 found
         );
     }
@@ -482,7 +482,7 @@ public class WaitUntil {
             String text,
             boolean hasValue) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (value(element, accessibility, text) == hasValue) {
@@ -508,7 +508,7 @@ public class WaitUntil {
             String text,
             boolean hasValue) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (value(element, accessibility, index, text) == hasValue) {
@@ -535,7 +535,7 @@ public class WaitUntil {
             String value,
             boolean hasValue) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (attribute(element, accessibility, index, Attribute, value) == hasValue) {
@@ -563,7 +563,7 @@ public class WaitUntil {
             String Attribute,
             boolean hasAttribute) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (attribute(element, accessibility, index, Attribute) == hasAttribute) {
@@ -590,7 +590,7 @@ public class WaitUntil {
             String Attribute,
             boolean hasAttribute) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (emptyAttribute(element, accessibility, index, Attribute) == hasAttribute) {
@@ -618,7 +618,7 @@ public class WaitUntil {
             String value,
             boolean is) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (attribute(element, accessibility, Attribute, value) == is) {
@@ -647,7 +647,7 @@ public class WaitUntil {
             String Attribute,
             boolean hasAttribute) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (attribute(element, accessibility, Attribute) == hasAttribute) {
@@ -673,7 +673,7 @@ public class WaitUntil {
             String Attribute,
             boolean hasAttribute) {
         long t = System.currentTimeMillis();
-        long end = t + (long)(Seconds * 1000);
+        long end = t + (Seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (emptyAttribute(element, accessibility, Attribute) == hasAttribute) {

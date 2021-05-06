@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import testUI.Configuration;
 
 import static testUI.Utils.Logger.putLogDebug;
+import static testUI.Utils.Logger.putLogInfo;
 import static testUI.Utils.Performance.setTime;
 import static testUI.Utils.WaitUntil.*;
 
@@ -85,7 +86,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         }
         lastCommandTime = System.currentTimeMillis() - t;
         setTime(lastCommandTime);
-        putLogDebug("Element '" + stringElement + "' was visible after " + lastCommandTime +
+        putLogInfo("Element '" + stringElement + "' was visible after " + lastCommandTime +
                 " ms");
         return getElementObject();
     }
@@ -116,7 +117,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         }
         lastCommandTime = System.currentTimeMillis() - t;
         setTime(lastCommandTime);
-        putLogDebug("Element '" + stringElement + "' was enabled after " + lastCommandTime +
+        putLogInfo("Element '" + stringElement + "' was enabled after " + lastCommandTime +
                 " ms");
         return getElementObject();
     }
@@ -147,7 +148,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         }
         lastCommandTime = System.currentTimeMillis() - t;
         setTime(lastCommandTime);
-        putLogDebug("Element '" + stringElement + "' exists after " + lastCommandTime +
+        putLogInfo("Element '" + stringElement + "' exists after " + lastCommandTime +
                 " ms");
         return getElementObject();
     }
@@ -277,7 +278,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         }
         lastCommandTime = System.currentTimeMillis() - t;
         setTime(lastCommandTime);
-        putLogDebug("Element '" + stringElement + "' is not visible after "
+        putLogInfo("Element '" + stringElement + "' is not visible after "
                 + lastCommandTime + " ms");
         return getElementObject();
     }
@@ -308,7 +309,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         }
         lastCommandTime = System.currentTimeMillis() - t;
         setTime(lastCommandTime);
-        putLogDebug("Element '" + stringElement + "' not exists after "
+        putLogInfo("Element '" + stringElement + "' not exists after "
                 + lastCommandTime + " ms");
         return getElementObject();
     }
@@ -351,7 +352,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         }
         lastCommandTime = System.currentTimeMillis() - t;
         setTime(lastCommandTime);
-        putLogDebug("Element '" + stringElement + "' is not enabled after "
+        putLogInfo("Element '" + stringElement + "' is not enabled after "
                 + lastCommandTime + " ms");
         return getElementObject();
     }
