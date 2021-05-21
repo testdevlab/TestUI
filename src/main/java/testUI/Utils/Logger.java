@@ -1,10 +1,11 @@
 package testUI.Utils;
 
 import io.netty.handler.logging.LogLevel;
-import testUI.Configuration;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static testUI.Configuration.testUILogLevel;
 
 public class Logger {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -13,8 +14,7 @@ public class Logger {
     public static final String ANSI_PURPLE = "\u001B[35m";
 
     public static void putLogInfo(String log, Object... arg) {
-        if (Configuration.testUILogLevel != LogLevel.INFO
-                        && Configuration.testUILogLevel != LogLevel.DEBUG)
+        if (testUILogLevel != LogLevel.INFO && testUILogLevel != LogLevel.DEBUG)
             return;
 
         String sf1 = String.format(log, arg);
@@ -22,7 +22,7 @@ public class Logger {
     }
 
     public static void putLogDebug(String log, Object ...arg) {
-        if (Configuration.testUILogLevel == LogLevel.DEBUG) {
+        if (testUILogLevel == LogLevel.DEBUG) {
             String sf1 = String.format(log, arg);
             log(LogLevel.DEBUG, sf1);
         }
