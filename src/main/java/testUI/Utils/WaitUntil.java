@@ -81,10 +81,10 @@ public class WaitUntil {
     public static void waitUntilVisible(
             org.openqa.selenium.By element,
             String accessibility,
-            int Seconds,
+            int seconds,
             boolean isVisible) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (visible(element, accessibility) == isVisible) {
@@ -106,10 +106,10 @@ public class WaitUntil {
             org.openqa.selenium.By element,
             String accesibility,
             int index,
-            int Seconds,
+            int seconds,
             boolean isVisible) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (visible(element, accesibility, index) == isVisible) {
@@ -176,10 +176,10 @@ public class WaitUntil {
     public static void waitUntilEnable(
             org.openqa.selenium.By element,
             String accessibility,
-            int Seconds,
+            int seconds,
             boolean isEnabled) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (enable(element, accessibility) == isEnabled) {
@@ -201,10 +201,10 @@ public class WaitUntil {
             org.openqa.selenium.By element,
             String accessibility,
             int index,
-            int Seconds,
+            int seconds,
             boolean isEnabled) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (enable(element, accessibility, index) == isEnabled) {
@@ -226,10 +226,10 @@ public class WaitUntil {
     public static void waitUntilExist(
             org.openqa.selenium.By element,
             String accessibility,
-            int Seconds,
+            int seconds,
             boolean Exist) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (exists(element, accessibility) == Exist) {
@@ -251,10 +251,10 @@ public class WaitUntil {
             org.openqa.selenium.By element,
             String accessibility,
             int index,
-            int Seconds,
+            int seconds,
             boolean exists) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (exists(element, accessibility, index) == exists) {
@@ -276,11 +276,11 @@ public class WaitUntil {
     public static void waitUntilContainsText(
             org.openqa.selenium.By element,
             String accessibility,
-            int Seconds,
+            int seconds,
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (containsText(element, accessibility, text) == hasText) {
@@ -304,11 +304,11 @@ public class WaitUntil {
             org.openqa.selenium.By element,
             String accessibility,
             int index,
-            int Seconds,
+            int seconds,
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (containsText(element, accessibility, index, text) == hasText) {
@@ -326,11 +326,11 @@ public class WaitUntil {
     public static void waitUntilContainsTextNoCaseSensitive(
             org.openqa.selenium.By element,
             String accessibility,
-            int Seconds,
+            int seconds,
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (containsTextNoCaseSensitive(element, accessibility, text) == hasText) {
@@ -352,11 +352,11 @@ public class WaitUntil {
             org.openqa.selenium.By element,
             String accessibility,
             int index,
-            int Seconds,
+            int seconds,
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (containsTextNoCaseSensitive(element, accessibility, index, text) == hasText) {
@@ -378,11 +378,11 @@ public class WaitUntil {
     public static void waitUntilExactText(
             org.openqa.selenium.By element,
             String accessibility,
-            int Seconds,
+            int seconds,
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (equalsText(element, accessibility, text) == hasText) {
@@ -403,10 +403,10 @@ public class WaitUntil {
     public static void waitUntilEmptyText(
             org.openqa.selenium.By element,
             String accessibility,
-            int Seconds,
+            int seconds,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (emptyText(element, accessibility) == hasText) {
@@ -428,11 +428,11 @@ public class WaitUntil {
             org.openqa.selenium.By element,
             String accessibility,
             int index,
-            int Seconds,
+            int seconds,
             String text,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (equalsText(element, accessibility, index, text) == hasText) {
@@ -454,10 +454,10 @@ public class WaitUntil {
             org.openqa.selenium.By element,
             String accessibility,
             int index,
-            int Seconds,
+            int seconds,
             boolean hasText) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (emptyText(element, accessibility, index) == hasText) {
@@ -478,11 +478,11 @@ public class WaitUntil {
     public static void waitUntilHasValue(
             org.openqa.selenium.By element,
             String accessibility,
-            int Seconds,
+            int seconds,
             String text,
             boolean hasValue) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (value(element, accessibility, text) == hasValue) {
@@ -504,11 +504,11 @@ public class WaitUntil {
             org.openqa.selenium.By element,
             String accessibility,
             int index,
-            int Seconds,
+            int seconds,
             String text,
             boolean hasValue) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (value(element, accessibility, index, text) == hasValue) {
@@ -530,12 +530,12 @@ public class WaitUntil {
             org.openqa.selenium.By element,
             String accessibility,
             int index,
-            int Seconds,
+            int seconds,
             String Attribute,
             String value,
             boolean hasValue) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (attribute(element, accessibility, index, Attribute, value) == hasValue) {
@@ -559,11 +559,11 @@ public class WaitUntil {
             org.openqa.selenium.By element,
             String accessibility,
             int index,
-            int Seconds,
+            int seconds,
             String Attribute,
             boolean hasAttribute) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (attribute(element, accessibility, index, Attribute) == hasAttribute) {
@@ -586,11 +586,11 @@ public class WaitUntil {
             org.openqa.selenium.By element,
             String accessibility,
             int index,
-            int Seconds,
+            int seconds,
             String Attribute,
             boolean hasAttribute) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (emptyAttribute(element, accessibility, index, Attribute) == hasAttribute) {
@@ -613,12 +613,12 @@ public class WaitUntil {
     public static void waitUntilHasAttribute(
             org.openqa.selenium.By element,
             String accessibility,
-            int Seconds,
+            int seconds,
             String Attribute,
             String value,
             boolean is) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (attribute(element, accessibility, Attribute, value) == is) {
@@ -643,11 +643,11 @@ public class WaitUntil {
     public static void waitUntilHasAttribute(
             org.openqa.selenium.By element,
             String accessibility,
-            int Seconds,
+            int seconds,
             String Attribute,
             boolean hasAttribute) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (attribute(element, accessibility, Attribute) == hasAttribute) {
@@ -669,11 +669,11 @@ public class WaitUntil {
     public static void waitUntilEmptyAttribute(
             org.openqa.selenium.By element,
             String accessibility,
-            int Seconds,
+            int seconds,
             String Attribute,
             boolean hasAttribute) {
         long t = System.currentTimeMillis();
-        long end = t + (Seconds * 1000L);
+        long end = t + (seconds * 1000L);
         boolean found = false;
         while (System.currentTimeMillis() < end) {
             if (emptyAttribute(element, accessibility, Attribute) == hasAttribute) {
