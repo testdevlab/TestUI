@@ -242,7 +242,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         }
         lastCommandTime = System.currentTimeMillis() - t;
         setTime(lastCommandTime);
-        putLogDebug("Element '%s' has value '%s' after %d ms", stringElement, value, lastCommandTime);
+        putLogInfo("Element '%s' has value '%s' after %d ms", stringElement, value, lastCommandTime);
         return getElementObject();
     }
 
