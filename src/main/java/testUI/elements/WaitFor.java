@@ -302,7 +302,7 @@ public class WaitFor extends ShouldBe implements Asserts, WaitAsserts {
         }
         lastCommandTime = System.currentTimeMillis() - t;
         setTime(lastCommandTime);
-        putLogInfo("Element '%s' not exists after %d ms", stringElement, lastCommandTime);
+        putLogInfo("Element '%s' does not exist after %d ms", stringElement, lastCommandTime);
         return getElementObject();
     }
 
