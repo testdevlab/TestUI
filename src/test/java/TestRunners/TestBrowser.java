@@ -32,14 +32,16 @@ public class TestBrowser {
         open("https://www.google.com");
         UIAssert("the url is not correct",
                 getSelenideDriver().getCurrentUrl().equals("https://www.google.com/"));
+        googleLandingPage.getGoogleCookies().click();
         googleLandingPage.getGoogleSearchInput().given()
                 .waitFor(5).untilIsVisible();
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
                 .getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
+        googleLandingPage.getGoogleSearchInput().waitFor(5).untilHasValue("TestUI");
         googleLandingPage.getGoogleSearch().shouldHave().not().emptyText();
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible()
-                .then().saveScreenshot("/Users/alvarolasernalopez/Documents" +
+                .then().saveScreenshot("~/Documents" +
                 "/screen" +
                 ".png");
         logAverageTime();

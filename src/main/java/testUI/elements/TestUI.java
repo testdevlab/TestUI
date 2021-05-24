@@ -12,6 +12,7 @@ import testUI.Configuration;
 import testUI.TestUIDriver;
 import testUI.Utils.TestUIException;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -234,7 +235,7 @@ public class TestUI {
                                   int index,
                                   boolean collection) {
         try {
-            getSelenide(SelenideElement,index, collection).waitUntil(condition, time * 1000);
+            getSelenide(SelenideElement,index, collection).shouldBe(condition, Duration.ofSeconds(time));
         } catch (Throwable e) {
             takeScreenshotsAllure();
             throw new TestUIException(e.getMessage());

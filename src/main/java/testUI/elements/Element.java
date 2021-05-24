@@ -244,8 +244,7 @@ public class Element extends TestUI implements UIElement {
         }
         long finalTime = System.currentTimeMillis() - t;
         setTime(finalTime);
-        putLogDebug("Element '" + stringElement + "' was clicked after " + finalTime +
-                " ms");
+        putLogDebug("Element '%s' was clicked after %d ms", stringElement, finalTime);
         return getElementObject();
     }
 
@@ -280,8 +279,7 @@ public class Element extends TestUI implements UIElement {
         }
         long finalTime = System.currentTimeMillis() - t;
         setTime(finalTime);
-        putLogDebug("Element '" + stringElement + "' was double clicked after " + finalTime +
-                " ms");
+        putLogDebug("Element '%s' was double clicked after %d ms", stringElement, finalTime);
         return getElementObject();
     }
 
@@ -400,8 +398,7 @@ public class Element extends TestUI implements UIElement {
             throw new TestUIException(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
-        putLogDebug("Send keys '" + charSequence + "' to element '" + stringElement +
-                "' after " + finalTime + " ms");
+        putLogDebug("Send keys '%s' to element '%s' after %d ms", charSequence, stringElement, finalTime);
         return getElementObject();
     }
 
@@ -452,8 +449,7 @@ public class Element extends TestUI implements UIElement {
             throw new TestUIException(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
-        putLogDebug("Set value '" + value + "' to element '" + stringElement +
-                " after " + finalTime + " ms");
+        putLogDebug("Set value '%s' to element '%s' after %d ms", value, stringElement, finalTime);
         return getElementObject();
     }
 
@@ -488,8 +484,7 @@ public class Element extends TestUI implements UIElement {
             throw new TestUIException(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
-        putLogDebug("Set value '" + value + "' to element '" + stringElement +
-                " after " + finalTime + " ms");
+        putLogDebug("Set value '%s' to element '%s' after %d ms", value, stringElement, finalTime);
         return getElementObject();
     }
 
@@ -520,8 +515,7 @@ public class Element extends TestUI implements UIElement {
             throw new TestUIException(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
-        putLogDebug("Executed JS '" + JsScript + "' over element '" + stringElement +
-                " after " + finalTime + " ms");
+        putLogDebug("Executed JS '%s' over element '%s' after %d ms", JsScript, stringElement, finalTime);
         return getElementObject();
     }
 
