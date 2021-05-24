@@ -53,10 +53,11 @@ public class simpleSteps {
 
     @When("I search for {word} in Google")
     public void iClickOnGoogleSearching(String search){
+        googleLandingPage.getGoogleCookies().click();
         googleLandingPage.getGoogleSearchInput().given().waitFor(5)
                 .untilIsVisible().then().sendKeys(search);
-        googleLandingPage.getGoogleSearch().given().waitFor(10)
-                .untilIsVisible().then().click();
+        googleLandingPage.getGoogleSearch().given().waitFor(30)
+                .untilIsEnabled().then().click();
         sleep(2000);
     }
 

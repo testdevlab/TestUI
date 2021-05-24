@@ -4,6 +4,7 @@ import io.netty.handler.logging.LogLevel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.MissingFormatArgumentException;
 
 import static testUI.Configuration.testUILogLevel;
 
@@ -17,24 +18,24 @@ public class Logger {
         if (testUILogLevel != LogLevel.INFO && testUILogLevel != LogLevel.DEBUG)
             return;
 
-        String sf1 = String.format(log, arg);
+        String sf1 = formatString(log, arg);
         log(LogLevel.INFO, sf1);
     }
 
     public static void putLogDebug(String log, Object ...arg) {
         if (testUILogLevel == LogLevel.DEBUG) {
-            String sf1 = String.format(log, arg);
+            String sf1 = formatString(log, arg);
             log(LogLevel.DEBUG, sf1);
         }
     }
 
     public static void putLogError(String log, Object ...arg) {
-        String sf1 = String.format(log, arg);
+        String sf1 = formatString(log, arg);
         log(LogLevel.ERROR, sf1);
     }
 
     public static void putLogWarn(String log, Object ...arg) {
-        String sf1 = String.format(log, arg);
+        String sf1 = formatString(log, arg);
         log(LogLevel.WARN, sf1);
     }
 
@@ -59,5 +60,14 @@ public class Logger {
                 color + "[%s] %s: %s %s\n",
                 logLevel, jdf.format(date), message, ANSI_RESET
         );
+    }
+
+    private static String formatString(String log, Object... arg) {
+        try {
+            if (arg.length != 0) return String.format(log, arg);
+            else return log;
+        } catch (MissingFormatArgumentException e) {
+            return log + "\n There was an error while formatting the previous message:\n" + e.getMessage();
+        }
     }
 }

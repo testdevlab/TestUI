@@ -1,5 +1,6 @@
 package testUI.AndroidUtils;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -15,9 +16,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static testUI.UIUtils.getDevice;
 import static testUI.UIUtils.putLog;
+import static testUI.Utils.Logger.putLogInfo;
 import static testUI.Utils.Logger.putLogWarn;
 
 public class ADBUtils {
@@ -244,36 +248,10 @@ public class ADBUtils {
                 putLog("Detected Chrome version = " + chromeVersion
                                 + ". Installing the ChromeDriver: "
                                 + chromeDriverVersion);
-                String chromeDriverCustomPath = "";
-                Process p2 = Runtime.getRuntime().exec(getNPMCmd()
-                                + " install appium-chromedriver -g --chromedriver_version=\""
-                                + chromeDriverVersion + "\"");
-                BufferedReader stdInput2 = new BufferedReader(new
-                        InputStreamReader(p2.getInputStream()));
-                while ((s = stdInput2.readLine()) != null) {
-                    if (s.contains("successfully put in place")) {
-                        String Platform = System.getProperty("os.name").toLowerCase();
-                        if (Platform.contains("win")) {
-                            chromeDriverCustomPath = "C:" +
-                                    s.split("C:")[1]
-                                            .split(" successfully put in place")[0];
-                        } else {
-                            chromeDriverCustomPath = "/" +
-                                    s.split(" /")[1]
-                                            .split(" successfully put in place")[0];
-                        }
-                        try {
-                            configuration.setChromeDriverPath(
-                                    copyFileToCustomFolder(chromeDriverCustomPath,
-                                            chromeVersion.split("\\.")[0]));
-                        } catch (Exception e) {
-                            throw new TestUIException("Could not copy chromedriver to target " +
-                                    "folder: check that the command " +
-                                    "'npm install appium-chromedriver -g' ' installs the " +
-                                    "chromedriver in '" + chromeDriverCustomPath + "'");
-                        }
-                    }
-                }
+                WebDriverManager.chromedriver().driverVersion(chromeDriverVersion).setup();
+                configuration.setChromeDriverPath(
+                        copyFileToCustomFolder(WebDriverManager.chromedriver().getDownloadedDriverPath(),
+                                chromeVersion.split("\\.")[0]));
             }
         } catch (IOException e) {
             e.printStackTrace();

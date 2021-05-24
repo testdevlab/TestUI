@@ -9,7 +9,7 @@ import static testUI.elements.TestUI.E;
 @Data
 public class GoogleLandingPage {
     private UIElement googleSearch = E(byXpath("//button[@class='Tg7LZd']"))
-            .setSelenideElement(byName("btnK"))
+            .setSelenideElement(byCssSelector("[aria-label=\"Google Search\"]"))
             .setiOSElement(byId("id"));
     private UIElement googleSearchInput = E(byName("q"))
             .setSelenideElement(byName("q"));
