@@ -21,6 +21,7 @@ import static com.codeborne.selenide.Selenide.$$;
 import static testUI.Configuration.useAllure;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.*;
+import static testUI.Utils.Logger.putLogWarn;
 import static testUI.elements.Element.getStep;
 
 public class TestUI {
@@ -238,7 +239,8 @@ public class TestUI {
             getSelenide(SelenideElement,index, collection).shouldBe(condition, Duration.ofSeconds(time));
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            throw new TestUIException(e.getMessage());
+            if (Configuration.softAsserts) putLogWarn(e.getMessage());
+            else throw new TestUIException(e.getMessage());
         }
     }
 

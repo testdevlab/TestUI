@@ -214,15 +214,20 @@ public class GridTestUI {
         HttpPost post = new HttpPost(cliServerURL + "/session/start");
         String postBody = setJsonBody();
         JSONObject json;
+        String messageResponse = "";
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
             StringEntity requestEntity = new StringEntity(postBody, ContentType.APPLICATION_JSON);
             post.setEntity(requestEntity);
             CloseableHttpResponse response = httpClient.execute(post);
-            json = new JSONObject(EntityUtils.toString(response.getEntity()));
+            messageResponse = EntityUtils.toString(response.getEntity());
+            json = new JSONObject(messageResponse);
         } catch (IOException e) {
             throw new TestUIException("Could not retrieve remote configuration with testUI " +
                     "server: \n" + e.toString());
+        } catch (JSONException e) {
+            throw new TestUIException("Could not parse remote configuration for testUI " +
+                    "server. Response: \n" + messageResponse);
         } finally {
             close();
         }
