@@ -22,6 +22,7 @@ import static testUI.Configuration.useAllure;
 import static testUI.TestUIDriver.*;
 import static testUI.UIUtils.*;
 import static testUI.Utils.Logger.putLogWarn;
+import static testUI.Utils.Logger.putSoftAssert;
 import static testUI.elements.Element.getStep;
 
 public class TestUI {
@@ -239,7 +240,7 @@ public class TestUI {
             getSelenide(SelenideElement,index, collection).shouldBe(condition, Duration.ofSeconds(time));
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            if (Configuration.softAsserts) putLogWarn(e.getMessage());
+            if (Configuration.softAsserts) putSoftAssert(e.getMessage());
             else throw new TestUIException(e.getMessage());
         }
     }
@@ -290,6 +291,16 @@ public class TestUI {
             }
             Configuration.automationType = aType;
             screenshotTaken = true;
+        }
+    }
+
+    public static void raiseSoftAsserts() {
+        if (!Configuration.testUIErrors.isEmpty()) {
+            StringBuilder stringErrors = new StringBuilder();
+            for (int i = 0; i < Configuration.testUIErrors.size(); i++) {
+                stringErrors.append(Configuration.testUIErrors.get(i)).append("\n");
+            }
+            throw new TestUIException(stringErrors.toString());
         }
     }
 }

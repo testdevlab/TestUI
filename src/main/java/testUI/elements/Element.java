@@ -102,7 +102,7 @@ public class Element extends TestUI implements UIElement {
     }
 
     private void handleError(String message) {
-        if (Configuration.softAsserts) putLogWarn(message);
+        if (Configuration.softAsserts) putSoftAssert(message);
         else throw new TestUIException(message);
     }
 

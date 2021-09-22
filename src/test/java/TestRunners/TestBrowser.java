@@ -19,6 +19,7 @@ import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
 import static testUI.Utils.Performance.getListOfCommandsTime;
 import static testUI.Utils.Performance.logAverageTime;
+import static testUI.elements.TestUI.raiseSoftAsserts;
 
 public class TestBrowser {
     private GoogleLandingPage googleLandingPage = new GoogleLandingPage();
@@ -47,6 +48,7 @@ public class TestBrowser {
                 ".png");
         logAverageTime();
         System.out.println(getListOfCommandsTime());
+        raiseSoftAsserts();
     }
 
     @Test
@@ -88,6 +90,7 @@ public class TestBrowser {
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible()
                 .then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
                 ".png");
+        raiseSoftAsserts();
     }
 
 

@@ -1,6 +1,7 @@
 package testUI.Utils;
 
 import io.netty.handler.logging.LogLevel;
+import testUI.Configuration;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,6 +33,12 @@ public class Logger {
     public static void putLogError(String log, Object ...arg) {
         String sf1 = formatString(log, arg);
         log(LogLevel.ERROR, sf1);
+    }
+
+    public static void putSoftAssert(String log, Object ...arg) {
+        String sf1 = formatString(log, arg);
+        log(LogLevel.WARN, sf1);
+        Configuration.testUIErrors.add(sf1);
     }
 
     public static void putLogWarn(String log, Object ...arg) {

@@ -11,7 +11,7 @@ import static testUI.TestUIDriver.takeScreenshot;
 import static testUI.UIUtils.getDevicesNames;
 import static testUI.UIUtils.getIOSDevices;
 import static testUI.Utils.AppiumHelps.*;
-import static testUI.Utils.Logger.putLogWarn;
+import static testUI.Utils.Logger.putSoftAssert;
 import static testUI.elements.TestUI.setScreenshotTaken;
 
 public class WaitUntil {
@@ -69,7 +69,7 @@ public class WaitUntil {
                                 accesibility.split(": ")[1] + "' " +
                                 reason;
             }
-            if (Configuration.softAsserts) putLogWarn(errorMessage);
+            if (Configuration.softAsserts) putSoftAssert(errorMessage);
             else throw new TestUIException(errorMessage);
         }
     }
