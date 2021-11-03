@@ -295,13 +295,16 @@ public class TestUI {
     }
 
     public static void raiseSoftAsserts() {
-        if (!Configuration.testUIErrors.isEmpty()) {
-            StringBuilder stringErrors = new StringBuilder();
-            for (int i = 0; i < Configuration.testUIErrors.size(); i++) {
-                stringErrors.append(Configuration.testUIErrors.get(i)).append("\n");
-            }
-            throw new TestUIException(stringErrors.toString());
+        if (Configuration.testUIErrors.isEmpty()) {
+            return;
         }
+
+        StringBuilder stringErrors = new StringBuilder();
+        for (int i = 0; i < Configuration.testUIErrors.size(); i++) {
+            stringErrors.append(Configuration.testUIErrors.get(i)).append("\n");
+        }
+
+        throw new TestUIException(stringErrors.toString());
     }
 
 }
