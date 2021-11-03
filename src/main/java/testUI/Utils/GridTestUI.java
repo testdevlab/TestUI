@@ -226,8 +226,10 @@ public class GridTestUI {
             throw new TestUIException("Could not retrieve remote configuration with testUI " +
                     "server: \n" + e.toString());
         } catch (JSONException e) {
-            throw new TestUIException("Could not parse remote configuration for testUI " +
-                    "server. Response: \n" + messageResponse);
+            throw new TestUIException(
+                "Could not parse remote configuration for testUI server. Response:\n"
+                + messageResponse
+            );
         } finally {
             close();
         }
