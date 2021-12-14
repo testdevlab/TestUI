@@ -91,6 +91,7 @@ public class TestBrowser {
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible()
                 .then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
                 ".png");
+
         raiseSoftAsserts();
     }
 
