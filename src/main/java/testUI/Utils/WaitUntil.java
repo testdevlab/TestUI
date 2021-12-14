@@ -69,8 +69,7 @@ public class WaitUntil {
                                 accesibility.split(": ")[1] + "' " +
                                 reason;
             }
-            if (Configuration.softAsserts) putSoftAssert(errorMessage);
-            else throw new TestUIException(errorMessage);
+            TestUIException.handleError(errorMessage);
         }
     }
 

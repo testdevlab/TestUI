@@ -173,5 +173,6 @@ public class TestBrowser {
                 .and("I send keys").setValueJs("password")
                 .then("I find the submit").setElement(byCssSelector("[type=\"submit\"]"))
                 .and("I click on it").click();
+        raiseSoftAsserts();
     }
 }

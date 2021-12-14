@@ -11,6 +11,7 @@ import testUI.Configuration;
 import testUI.BrowserLogs;
 import testUI.Utils.TestUIException;
 import testUI.collections.UICollection;
+import testUI.Utils.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +19,6 @@ import java.io.IOException;
 import static testUI.TestUIDriver.*;
 import static testUI.UIOpen.navigate;
 import static testUI.Utils.AppiumHelps.*;
-import static testUI.Utils.Logger.*;
 import static testUI.Utils.Performance.setTime;
 import static testUI.Utils.WaitUntil.waitUntilClickable;
 import static testUI.Utils.WaitUntil.waitUntilVisible;
@@ -99,11 +99,6 @@ public class Element extends TestUI implements UIElement {
                 accesibilityId,
                 accesibilityIdiOS
         );
-    }
-
-    private void handleError(String message) {
-        if (Configuration.softAsserts) putSoftAssert(message);
-        else throw new TestUIException(message);
     }
 
     public UIElement setElement(By element) {
@@ -244,11 +239,11 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
         setTime(finalTime);
-        putLogDebug("Element '%s' was clicked after %d ms", stringElement, finalTime);
+        Logger.putLogDebug("Element '%s' was clicked after %d ms", stringElement, finalTime);
         return getElementObject();
     }
 
@@ -279,11 +274,11 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
         setTime(finalTime);
-        putLogDebug("Element '%s' was double clicked after %d ms", stringElement, finalTime);
+        Logger.putLogDebug("Element '%s' was double clicked after %d ms", stringElement, finalTime);
         return getElementObject();
     }
 
@@ -312,7 +307,7 @@ public class Element extends TestUI implements UIElement {
                 return getSelenide(SelenideElement, index, collection).getSize();
             } catch (Throwable e) {
                 takeScreenshotsAllure();
-                handleError(e.getMessage());
+                TestUIException.handleError(e.getMessage());
                 return new Dimension(0,0);
             }
         }
@@ -343,7 +338,7 @@ public class Element extends TestUI implements UIElement {
                 return getSelenide(SelenideElement, index, collection).getLocation();
             } catch (Throwable e) {
                 takeScreenshotsAllure();
-                handleError(e.getMessage());
+                TestUIException.handleError(e.getMessage());
                 return new Point(0,0);
             }
         }
@@ -376,7 +371,7 @@ public class Element extends TestUI implements UIElement {
             return getSelenide(SelenideElement, index, collection).getText();
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
             return "";
         }
     }
@@ -402,10 +397,10 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
-        putLogDebug("Send keys '%s' to element '%s' after %d ms", charSequence, stringElement, finalTime);
+        Logger.putLogDebug("Send keys '%s' to element '%s' after %d ms", charSequence, stringElement, finalTime);
         return getElementObject();
     }
 
@@ -453,10 +448,10 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
-        putLogDebug("Set value '%s' to element '%s' after %d ms", value, stringElement, finalTime);
+        Logger.putLogDebug("Set value '%s' to element '%s' after %d ms", value, stringElement, finalTime);
         return getElementObject();
     }
 
@@ -488,10 +483,10 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
-        putLogDebug("Set value '%s' to element '%s' after %d ms", value, stringElement, finalTime);
+        Logger.putLogDebug("Set value '%s' to element '%s' after %d ms", value, stringElement, finalTime);
         return getElementObject();
     }
 
@@ -519,10 +514,10 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
         }
         long finalTime = System.currentTimeMillis() - t;
-        putLogDebug("Executed JS '%s' over element '%s' after %d ms", JsScript, stringElement, finalTime);
+        Logger.putLogDebug("Executed JS '%s' over element '%s' after %d ms", JsScript, stringElement, finalTime);
         return getElementObject();
     }
 
@@ -535,7 +530,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
         }
         return getElementObject();
     }
@@ -572,7 +567,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
         }
         return getElementObject();
     }
@@ -607,7 +602,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
         }
         return getElementObject();
     }
@@ -642,7 +637,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
         }
         return getElementObject();
     }
@@ -659,7 +654,7 @@ public class Element extends TestUI implements UIElement {
             );
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
             return null;
         }
     }
@@ -679,7 +674,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
         }
         return getElementObject();
     }
@@ -699,7 +694,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
             return "";
         }
     }
@@ -719,7 +714,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
             return "";
         }
     }
@@ -739,7 +734,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
             return "";
         }
     }
@@ -759,7 +754,7 @@ public class Element extends TestUI implements UIElement {
             }
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            handleError(e.getMessage());
+            TestUIException.handleError(e.getMessage());
             return "";
         }
     }
@@ -823,7 +818,7 @@ public class Element extends TestUI implements UIElement {
                     FileUtils.copyFile(scrFile, new File(
                             Configuration.screenshotPath + path));
                 } catch (IOException e) {
-                    putLogError("Could not save the screenshot in '" + Configuration.screenshotPath + path + "': " +
+                    Logger.putLogError("Could not save the screenshot in '" + Configuration.screenshotPath + path + "': " +
                             e.getMessage());
                 }
             }
@@ -833,7 +828,7 @@ public class Element extends TestUI implements UIElement {
                 FileUtils.copyFile(scrFile, new File(
                         Configuration.screenshotPath + path));
             } catch (IOException e) {
-                putLogError("Could not save the screenshot in '" + Configuration.screenshotPath + path + "': " +
+                Logger.putLogError("Could not save the screenshot in '" + Configuration.screenshotPath + path + "': " +
                         e.getMessage());
             }
         }

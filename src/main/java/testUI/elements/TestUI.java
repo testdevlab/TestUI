@@ -240,8 +240,7 @@ public class TestUI {
             getSelenide(SelenideElement,index, collection).shouldBe(condition, Duration.ofSeconds(time));
         } catch (Throwable e) {
             takeScreenshotsAllure();
-            if (Configuration.softAsserts) putSoftAssert(e.getMessage());
-            else throw new TestUIException(e.getMessage());
+            TestUIException.handleError(e.getMessage());
         }
     }
 
