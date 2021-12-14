@@ -48,6 +48,7 @@ public class TestBrowser {
                 ".png");
         logAverageTime();
         System.out.println(getListOfCommandsTime());
+
         raiseSoftAsserts();
     }
 

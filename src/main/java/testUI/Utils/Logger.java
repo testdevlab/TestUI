@@ -37,7 +37,7 @@ public class Logger {
 
     public static void putSoftAssert(String log, Object ...arg) {
         String sf1 = formatString(log, arg);
-        log(LogLevel.WARN, sf1);
+        log(LogLevel.ERROR, sf1);
         Configuration.testUIErrors.add(sf1);
     }
 
