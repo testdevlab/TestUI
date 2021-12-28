@@ -446,6 +446,7 @@ test scenario, being the first one the 1 and next ones 2, 3...
 * `Configuration.androidVersion` (String) you can set manually the android version of your device. However this is not necessary since the version is
 taken automatically by adb commands testUI executes previous to generate the driver
 * `Configuration.chromeDriverPath` (String) relative path of your chromedriver (if it's in the root of your directory => "chromedriver"). Only specify if current is not working.
+* `Configuration.softAsserts` (Boolean) if set to True, then any TestUI error will not stop the execution, and in the end of the case (or any given part of the test) it is possible to call `raiseSoftAsserts();` to raise all errors that have occurred through the test.
 
 
 `* this parameters are mandatory before calling open() or open("url")`

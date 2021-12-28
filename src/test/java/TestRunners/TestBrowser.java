@@ -19,6 +19,7 @@ import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
 import static testUI.Utils.Performance.getListOfCommandsTime;
 import static testUI.Utils.Performance.logAverageTime;
+import static testUI.elements.TestUI.raiseSoftAsserts;
 
 public class TestBrowser {
     private GoogleLandingPage googleLandingPage = new GoogleLandingPage();
@@ -28,6 +29,7 @@ public class TestBrowser {
     public void testDesktopBrowser() {
         Configuration.automationType = DESKTOP_PLATFORM;
         Configuration.testUILogLevel = LogLevel.DEBUG;
+        Configuration.softAsserts = true;
         Configuration.browser = "chrome";
         open("https://www.google.com");
         UIAssert("the url is not correct",
@@ -46,14 +48,17 @@ public class TestBrowser {
                 ".png");
         logAverageTime();
         System.out.println(getListOfCommandsTime());
+
+        raiseSoftAsserts();
     }
 
     @Test
     public void setDriverTest() {
         ChromeOptions options = new ChromeOptions();
+        Configuration.softAsserts = false;
         options.addArguments("--user-agent=" + "Agent", "--ignore-certificate-errors");
         selenideBrowserCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
-        selenideBrowserCapabilities.setBrowserName("firefox");
+        selenideBrowserCapabilities.setBrowserName("chrome");
         open("https://www.whatsmyua.info/");
         sleep(10000);
     }
@@ -64,9 +69,11 @@ public class TestBrowser {
         Configuration.automationType = DESKTOP_PLATFORM;
         Configuration.browser = "safari";
         Configuration.serverLogLevel = "all";
+        Configuration.softAsserts = true;
         open("https://www.google.com");
         System.out.println(getTestUIDriver().getCurrentUrl());
         googleLandingPage.getGoogleSearchInput().given().waitFor(5).untilIsVisible();
+        googleLandingPage.getGoogleCookies().click();
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
                 .getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearchInput().given().shouldBe().visible().sendKeys("TestUI");
@@ -84,6 +91,8 @@ public class TestBrowser {
         googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible()
                 .then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
                 ".png");
+
+        raiseSoftAsserts();
     }
 
 
@@ -149,6 +158,7 @@ public class TestBrowser {
     public void testAndroidBrowserOneLine() {
         Configuration.automationType = DESKTOP_PLATFORM;
         Configuration.useAllure = false;
+        Configuration.softAsserts = true;
         Configuration.browser = "chrome";
         GridTestUI gridTestUI = new GridTestUI();
         gridTestUI.setServerURL("http://admin:admin@localhost:8000")
@@ -165,5 +175,6 @@ public class TestBrowser {
                 .and("I send keys").setValueJs("password")
                 .then("I find the submit").setElement(byCssSelector("[type=\"submit\"]"))
                 .and("I click on it").click();
+        raiseSoftAsserts();
     }
 }

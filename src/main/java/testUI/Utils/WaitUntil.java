@@ -11,6 +11,7 @@ import static testUI.TestUIDriver.takeScreenshot;
 import static testUI.UIUtils.getDevicesNames;
 import static testUI.UIUtils.getIOSDevices;
 import static testUI.Utils.AppiumHelps.*;
+import static testUI.Utils.Logger.putSoftAssert;
 import static testUI.elements.TestUI.setScreenshotTaken;
 
 public class WaitUntil {
@@ -59,16 +60,16 @@ public class WaitUntil {
                 Configuration.automationType = aType;
             }
             setScreenshotTaken(true);
+            String errorMessage;
             if (accesibility == null || accesibility.isEmpty()) {
-                throw new TestUIException("The element '" + element + "' " + reason);
+                errorMessage = "The element '" + element + "' " + reason;
             } else {
-                throw new TestUIException(
-                        "The element 'By." +
+                errorMessage = "The element 'By." +
                                 accesibility.split(": ")[0] + ": " +
                                 accesibility.split(": ")[1] + "' " +
-                                reason
-                );
+                                reason;
             }
+            TestUIException.handleError(errorMessage);
         }
     }
 

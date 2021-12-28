@@ -56,6 +56,8 @@ public class Configuration extends SelenideConfiguration {
     public static DesiredCapabilities addMobileDesiredCapabilities = new DesiredCapabilities();
     public static String automationName = "";
     public static int poolingInterval = 200;
+    public static boolean softAsserts = false;
+    public static ArrayList<String> testUIErrors = new ArrayList<>();
 
 
     public static String browser = "chrome";
