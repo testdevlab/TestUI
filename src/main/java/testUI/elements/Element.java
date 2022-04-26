@@ -1,11 +1,10 @@
 package testUI.elements;
 
 import com.codeborne.selenide.WebDriverRunner;
-import io.appium.java_client.MobileElement;
 import io.qameta.allure.Allure;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.touch.TouchActions;
+import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.Quotes;
 import testUI.Configuration;
 import testUI.BrowserLogs;
@@ -642,7 +641,7 @@ public class Element extends TestUI implements UIElement {
         return getElementObject();
     }
 
-    public MobileElement getMobileElement() {
+    public WebElement getMobileElement() {
         try {
             return getElement(
                     accesibilityIdiOS,
@@ -815,7 +814,7 @@ public class Element extends TestUI implements UIElement {
                 Configuration.driver = Math.min(Configuration.driver, getDrivers().size());
                 File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
                 try {
-                    FileUtils.copyFile(scrFile, new File(
+                    FileHandler.copy(scrFile, new File(
                             Configuration.screenshotPath + path));
                 } catch (IOException e) {
                     Logger.putLogError("Could not save the screenshot in '" + Configuration.screenshotPath + path + "': " +
@@ -825,7 +824,7 @@ public class Element extends TestUI implements UIElement {
         } else {
             File scrFile = ((TakesScreenshot) getSelenideDriver()).getScreenshotAs(OutputType.FILE);
             try {
-                FileUtils.copyFile(scrFile, new File(
+                FileHandler.copy(scrFile, new File(
                         Configuration.screenshotPath + path));
             } catch (IOException e) {
                 Logger.putLogError("Could not save the screenshot in '" + Configuration.screenshotPath + path + "': " +

@@ -1,12 +1,13 @@
 package testUI.collections;
 
 import com.codeborne.selenide.ElementsCollection;
-import io.appium.java_client.MobileElement;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import testUI.Configuration;
 import testUI.Utils.TestUIException;
 import testUI.elements.Element;
@@ -212,32 +213,32 @@ public class TestUI implements UICollection {
             switch (getAccessibilityId().split(": ")[0]) {
                 case "accessibilityId":
                     return getDriver().
-                            findElementsByAccessibilityId(
-                                    getAccessibilityId().split(": ")[1]);
+                            findElements(AppiumBy.accessibilityId(
+                                    getAccessibilityId().split(": ")[1]));
                 case "className":
                     return getDriver().
-                            findElementsByClassName(getAccessibilityId().split(": ")[1]);
+                            findElements(By.className(getAccessibilityId().split(": ")[1]));
                 case "androidUIAutomator":
                     return getAndroidTestUIDriver().
-                            findElementsByAndroidUIAutomator(
-                                    getAccessibilityId().split(": ")[1]);
+                            findElements(AppiumBy.androidUIAutomator(
+                                    getAccessibilityId().split(": ")[1]));
                 case "predicate":
                     return getIOSTestUIDriver().
-                            findElementsByIosNsPredicate(getAccessibilityId().split(": ")[1]);
+                            findElements(AppiumBy.iOSNsPredicateString(getAccessibilityId().split(": ")[1]));
                 case "classChain":
                     return getIOSTestUIDriver().
-                            findElementsByIosClassChain(getAccessibilityId().split(": ")[1]);
+                            findElements(AppiumBy.iOSClassChain(getAccessibilityId().split(": ")[1]));
                 case "name":
                     return getDriver().
-                            findElementsByName(getAccessibilityId().split(": ")[1]);
+                            findElements(By.name(getAccessibilityId().split(": ")[1]));
                 case "xpath":
                     return getDriver()
-                            .findElementsByXPath(getAccessibilityId().split(": ")[1]);
+                            .findElements(By.xpath(getAccessibilityId().split(": ")[1]));
                 case "id":
-                    return getDriver().findElementsById(getAccessibilityId().split(": ")[1]);
+                    return getDriver().findElements(By.id(getAccessibilityId().split(": ")[1]));
                 case "css":
                     return getDriver()
-                            .findElementsByCssSelector(getAccessibilityId().split(": ")[1]);
+                            .findElements(By.cssSelector(getAccessibilityId().split(": ")[1]));
                 default:
                     UIAssert("The type of locator is not valid! " +
                             getAccessibilityId().split(": ")[0],
@@ -314,7 +315,7 @@ public class TestUI implements UICollection {
     public Dimension getSize() {
         if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             try {
-                return ((MobileElement) getElementList().get(index)).getSize();
+                return ((WebElement) getElementList().get(index)).getSize();
             } catch (Exception e) {
                 return new Dimension(0,0);
             }

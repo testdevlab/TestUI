@@ -169,7 +169,6 @@ public class UIUtils extends Configuration {
         com.codeborne.selenide.Configuration.screenshots = false;
         com.codeborne.selenide.Configuration.headless = Configuration.headless;
         com.codeborne.selenide.Configuration.baseUrl = Configuration.baseUrl;
-        com.codeborne.selenide.Configuration.startMaximized = Configuration.startMaximized;
         if (selenideBrowserCapabilities.getBrowserName().isEmpty()) {
             selenideBrowserCapabilities.setBrowserName(Configuration.browser);
         } else {
