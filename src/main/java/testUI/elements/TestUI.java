@@ -219,7 +219,7 @@ public class TestUI {
                     getAppiumElement(iOSElement, element)).get(index);
         }
         if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-            return (WebElement) getMobileElement(
+            return getMobileElement(
                     getAccesibilityId(accesibilityIdiOS,accesibilityId));
         }
         return (WebElement) getDriver().findElement(getAppiumElement(iOSElement, element));
