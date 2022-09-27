@@ -222,7 +222,7 @@ public class TestUI {
             return getMobileElement(
                     getAccesibilityId(accesibilityIdiOS,accesibilityId));
         }
-        return (WebElement) getDriver().findElement(getAppiumElement(iOSElement, element));
+        return getDriver().findElement(getAppiumElement(iOSElement, element));
     }
 
     protected SelenideElement getSelenide(By element, int index, boolean collection) {
