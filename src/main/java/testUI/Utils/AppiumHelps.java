@@ -332,7 +332,7 @@ public class AppiumHelps {
             case "accessibilityId":
                 return getDriver().findElement(AppiumBy.accessibilityId(locator.split(": ")[1]));
             case "className":
-                return (WebElement) getDriver().findElement(By.className(locator.split(": ")[1]));
+                return getDriver().findElement(By.className(locator.split(": ")[1]));
             case "androidUIAutomator":
                 return (WebElement) getAndroidTestUIDriver().findElement(AppiumBy.androidUIAutomator(locator.split(": ")[1]));
             case "predicate":
