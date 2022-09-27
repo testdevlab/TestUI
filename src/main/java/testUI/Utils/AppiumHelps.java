@@ -330,7 +330,7 @@ public class AppiumHelps {
     private static WebElement getMobileElement(String locator) {
         switch (locator.split(": ")[0]) {
             case "accessibilityId":
-                return (WebElement) getDriver().findElement(AppiumBy.accessibilityId(locator.split(": ")[1]));
+                return getDriver().findElement(AppiumBy.accessibilityId(locator.split(": ")[1]));
             case "className":
                 return (WebElement) getDriver().findElement(By.className(locator.split(": ")[1]));
             case "androidUIAutomator":
