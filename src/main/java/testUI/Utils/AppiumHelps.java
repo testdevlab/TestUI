@@ -298,7 +298,7 @@ public class AppiumHelps {
         }
     }
 
-    private static List getMobileElementList(String locator) {
+    private static List<WebElement> getMobileElementList(String locator) {
         switch (locator.split(": ")[0]) {
             case "accessibilityId":
                 return getDriver().findElements(AppiumBy.accessibilityId(locator.split(": ")[1]));
