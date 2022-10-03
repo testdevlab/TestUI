@@ -31,10 +31,10 @@ public class ADBUtils {
     private static String emulatorFolder = "/emulator/";
     public static String MAC_CHROME_DRIVER =
             "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/mac" +
-                    "/chromedriver";
+                    "/chromedriver*";
     public static String LNX_CHROME_DRIVER =
             "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver" +
-                    "/linux/chromedriver_64";
+                    "/linux/chromedriver*";
     public static String WIN_CHROME_DRIVER =
             "\\node_modules\\appium\\node_modules\\appium-chromedriver\\chromedriver\\win" +
                     "\\chromedriver.exe";
