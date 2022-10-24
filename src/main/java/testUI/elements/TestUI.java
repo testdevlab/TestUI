@@ -186,7 +186,7 @@ public class TestUI {
         try {
             if (collection) {
                 if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-                    return (WebElement) getMobileElementList(
+                    return getMobileElementList(
                             getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
                 }
                 return (WebElement) getDriver().findElements(
