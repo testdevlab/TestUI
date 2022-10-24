@@ -346,7 +346,7 @@ public class AppiumHelps {
             case "id":
                 return getDriver().findElement(By.id(locator.split(": ")[1]));
             case "css":
-                return (WebElement) getDriver().findElement(By.cssSelector(locator.split(": ")[1]));
+                return getDriver().findElement(By.cssSelector(locator.split(": ")[1]));
             default:
                 UIAssert(
                         "The type of locator is not valid! " +
