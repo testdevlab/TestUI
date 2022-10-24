@@ -112,7 +112,7 @@ public class TestUI {
         return accesibilityId;
     }
 
-    protected List getMobileElementList(String locator) {
+    protected List<WebElement> getMobileElementList(String locator) {
         switch (locator.split(": ")[0]) {
             case "accessibilityId":
                 return getDriver().findElements(AppiumBy.accessibilityId(locator.split(": ")[1]));
