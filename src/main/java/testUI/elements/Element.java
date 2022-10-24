@@ -3,7 +3,9 @@ package testUI.elements;
 import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.touch.TouchActions;
+import org.openqa.selenium.interactions.Pause;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.Quotes;
 import testUI.Configuration;
@@ -15,6 +17,8 @@ import testUI.Utils.Logger;
 import java.io.File;
 import java.io.IOException;
 
+import static java.time.Duration.ofMillis;
+import static java.util.Collections.singletonList;
 import static testUI.TestUIDriver.*;
 import static testUI.UIOpen.navigate;
 import static testUI.Utils.AppiumHelps.*;
@@ -549,18 +553,26 @@ public class Element extends TestUI implements UIElement {
     public UIElement swipe(int XCoordinate, int YCoordinate) {
         try {
             if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
-                TouchActions action = new TouchActions(getDriver());
-                action.moveToElement(
-                        getElement(
-                                accesibilityIdiOS,
-                                accesibilityId,
-                                iOSElement,
-                                element,
-                                index,
-                                collection),
-                        XCoordinate,
-                        YCoordinate
-                );
+                WebElement slider = getElement(
+                        accesibilityIdiOS,
+                        accesibilityId,
+                        iOSElement,
+                        element,
+                        index,
+                        collection);
+
+                Point source = slider.getLocation();
+                PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+                Sequence sequence = new Sequence(finger, 1);
+                sequence.addAction(finger.createPointerMove(ofMillis(0),
+                        PointerInput.Origin.viewport(), source.x, source.y));
+                sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
+                sequence.addAction(new Pause(finger, ofMillis(600)));
+                sequence.addAction(finger.createPointerMove(ofMillis(600),
+                        PointerInput.Origin.viewport(), source.x + XCoordinate, source.y + YCoordinate));
+                sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
+
+                getDriver().perform(singletonList(sequence));
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
             }
@@ -574,28 +586,27 @@ public class Element extends TestUI implements UIElement {
     public UIElement swipeRight() {
         try {
             if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
+                WebElement slider = getElement(
+                        accesibilityIdiOS,
+                        accesibilityId,
+                        iOSElement,
+                        element,
+                        index,
+                        collection);
                 Dimension size = getDriver().manage().window().getSize();
                 int endX = (int) (size.width * 0.8);
-                TouchActions action = new TouchActions(getDriver());
-                action.longPress(
-                        getElement(
-                                accesibilityIdiOS,
-                                accesibilityId,
-                                iOSElement,
-                                element,
-                                index,
-                                collection
-                        )
-                ).move(
-                        endX,
-                        getElement(
-                                accesibilityIdiOS,
-                                accesibilityId,
-                                iOSElement,
-                                element,
-                                index,
-                                collection).getLocation().getY()
-                ).release().perform();
+                Point source = slider.getLocation();
+                PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+                Sequence sequence = new Sequence(finger, 1);
+                sequence.addAction(finger.createPointerMove(ofMillis(0),
+                        PointerInput.Origin.viewport(), source.x, source.y));
+                sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
+                sequence.addAction(new Pause(finger, ofMillis(600)));
+                sequence.addAction(finger.createPointerMove(ofMillis(600),
+                        PointerInput.Origin.viewport(), source.x + endX, source.y));
+                sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
+
+                getDriver().perform(singletonList(sequence));
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
             }
@@ -609,28 +620,27 @@ public class Element extends TestUI implements UIElement {
     public UIElement swipeLeft() {
         try {
             if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
+                WebElement slider = getElement(
+                        accesibilityIdiOS,
+                        accesibilityId,
+                        iOSElement,
+                        element,
+                        index,
+                        collection);
                 Dimension size = getDriver().manage().window().getSize();
                 int endX = (int) (size.width * 0.10);
-                TouchActions action = new TouchActions(getDriver());
-                action.longPress(
-                        getElement(
-                                accesibilityIdiOS,
-                                accesibilityId,
-                                iOSElement,
-                                element,
-                                index,
-                                collection
-                        )
-                ).move(
-                        endX,
-                        getElement(
-                                accesibilityIdiOS,
-                                accesibilityId,
-                                iOSElement,
-                                element,
-                                index,
-                                collection).getLocation().getY()
-                ).release().perform();
+                Point source = slider.getLocation();
+                PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+                Sequence sequence = new Sequence(finger, 1);
+                sequence.addAction(finger.createPointerMove(ofMillis(0),
+                        PointerInput.Origin.viewport(), source.x, source.y));
+                sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
+                sequence.addAction(new Pause(finger, ofMillis(600)));
+                sequence.addAction(finger.createPointerMove(ofMillis(600),
+                        PointerInput.Origin.viewport(), endX, source.y));
+                sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
+
+                getDriver().perform(singletonList(sequence));
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
             }
