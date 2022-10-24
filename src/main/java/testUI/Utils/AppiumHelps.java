@@ -298,7 +298,7 @@ public class AppiumHelps {
         }
     }
 
-    private static List getMobileElementList(String locator) {
+    private static List<WebElement> getMobileElementList(String locator) {
         switch (locator.split(": ")[0]) {
             case "accessibilityId":
                 return getDriver().findElements(AppiumBy.accessibilityId(locator.split(": ")[1]));
@@ -330,9 +330,9 @@ public class AppiumHelps {
     private static WebElement getMobileElement(String locator) {
         switch (locator.split(": ")[0]) {
             case "accessibilityId":
-                return (WebElement) getDriver().findElement(AppiumBy.accessibilityId(locator.split(": ")[1]));
+                return getDriver().findElement(AppiumBy.accessibilityId(locator.split(": ")[1]));
             case "className":
-                return (WebElement) getDriver().findElement(By.className(locator.split(": ")[1]));
+                return getDriver().findElement(By.className(locator.split(": ")[1]));
             case "androidUIAutomator":
                 return (WebElement) getAndroidTestUIDriver().findElement(AppiumBy.androidUIAutomator(locator.split(": ")[1]));
             case "predicate":
