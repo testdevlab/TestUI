@@ -340,7 +340,7 @@ public class AppiumHelps {
             case "classChain":
                 return getIOSTestUIDriver().findElement(AppiumBy.iOSClassChain(locator.split(": ")[1]));
             case "name":
-                return (WebElement) getDriver().findElement(By.name(locator.split(": ")[1]));
+                return getDriver().findElement(By.name(locator.split(": ")[1]));
             case "xpath":
                 return (WebElement) getIOSTestUIDriver().findElement(By.xpath(locator.split(": ")[1]));
             case "id":
