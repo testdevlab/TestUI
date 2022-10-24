@@ -338,7 +338,7 @@ public class AppiumHelps {
             case "predicate":
                 return getIOSTestUIDriver().findElement(AppiumBy.iOSNsPredicateString(locator.split(": ")[1]));
             case "classChain":
-                return (WebElement) getIOSTestUIDriver().findElement(AppiumBy.iOSClassChain(locator.split(": ")[1]));
+                return getIOSTestUIDriver().findElement(AppiumBy.iOSClassChain(locator.split(": ")[1]));
             case "name":
                 return (WebElement) getDriver().findElement(By.name(locator.split(": ")[1]));
             case "xpath":
