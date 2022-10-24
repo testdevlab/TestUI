@@ -344,7 +344,7 @@ public class AppiumHelps {
             case "xpath":
                 return getIOSTestUIDriver().findElement(By.xpath(locator.split(": ")[1]));
             case "id":
-                return (WebElement) getDriver().findElement(By.id(locator.split(": ")[1]));
+                return getDriver().findElement(By.id(locator.split(": ")[1]));
             case "css":
                 return (WebElement) getDriver().findElement(By.cssSelector(locator.split(": ")[1]));
             default:
