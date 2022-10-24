@@ -196,7 +196,7 @@ public class TestUI {
                 return getMobileElement(
                         getAccesibilityId(accesibilityIdiOS,accesibilityId));
             }
-            return (WebElement) getDriver().findElement(getAppiumElement(iOSElement, element));
+            return getDriver().findElement(getAppiumElement(iOSElement, element));
         } catch (Throwable e) {
             takeScreenshotsAllure();
             throw new TestUIException(e.getMessage());
