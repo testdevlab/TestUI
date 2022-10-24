@@ -353,7 +353,7 @@ public class AppiumHelps {
                                 locator.split(": ")[0],
                         false
                 );
-                return (WebElement) getAndroidTestUIDriver().findElement(By.name(""));
+                return getAndroidTestUIDriver().findElement(By.name(""));
         }
     }
 }
