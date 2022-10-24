@@ -336,7 +336,7 @@ public class AppiumHelps {
             case "androidUIAutomator":
                 return getAndroidTestUIDriver().findElement(AppiumBy.androidUIAutomator(locator.split(": ")[1]));
             case "predicate":
-                return (WebElement) getIOSTestUIDriver().findElement(AppiumBy.iOSNsPredicateString(locator.split(": ")[1]));
+                return getIOSTestUIDriver().findElement(AppiumBy.iOSNsPredicateString(locator.split(": ")[1]));
             case "classChain":
                 return (WebElement) getIOSTestUIDriver().findElement(AppiumBy.iOSClassChain(locator.split(": ")[1]));
             case "name":
