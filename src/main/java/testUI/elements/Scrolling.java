@@ -1,16 +1,17 @@
 package testUI.elements;
 
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.interactions.Pause;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import testUI.Configuration;
 import testUI.Utils.TestUIException;
 
-import java.time.Duration;
-
 import static java.lang.Math.abs;
+import static java.time.Duration.ofMillis;
+import static java.util.Collections.singletonList;
 import static testUI.TestUIDriver.getDriver;
 
 public class Scrolling extends TestUI implements SlideActions {
@@ -53,7 +54,6 @@ public class Scrolling extends TestUI implements SlideActions {
         try {
             if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 for (int i = 0; i < numberOfSwipes; i++) {
-                    TouchAction action = new TouchAction(getDriver());
                     int startY = 500;
                     PixelGap = abs(PixelGap);
                     int endY = 500 - PixelGap;
@@ -61,11 +61,21 @@ public class Scrolling extends TestUI implements SlideActions {
                         endY = 100;
                         startY = endY + PixelGap;
                     }
-                    action.press(
-                            PointOption.point(40, startY)
-                    ).waitAction(
-                            WaitOptions.waitOptions(Duration.ofMillis(300))
-                    ).moveTo(PointOption.point(40, endY)).release().perform();
+
+                    Dimension size = getDriver().manage().window().getSize();
+                    int endX = (int) (size.width * 0.10);
+
+                    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+                    Sequence sequence = new Sequence(finger, 1);
+                    sequence.addAction(finger.createPointerMove(ofMillis(0),
+                            PointerInput.Origin.viewport(), endX, startY));
+                    sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
+                    sequence.addAction(new Pause(finger, ofMillis(600)));
+                    sequence.addAction(finger.createPointerMove(ofMillis(600),
+                            PointerInput.Origin.viewport(), endX, endY));
+                    sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
+
+                    getDriver().perform(singletonList(sequence));
                 }
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
@@ -81,15 +91,23 @@ public class Scrolling extends TestUI implements SlideActions {
         try {
             if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 for (int i = 0; i < numberOfSwipes; i++) {
-                    TouchAction action = new TouchAction(getDriver());
                     int startY = 500;
                     PixelGap = abs(PixelGap);
                     int endY = 500 + PixelGap;
-                    action.press(
-                            PointOption.point(40, startY)
-                    ).waitAction(
-                            WaitOptions.waitOptions(Duration.ofMillis(300))
-                    ).moveTo(PointOption.point(40, endY)).release().perform();
+                    Dimension size = getDriver().manage().window().getSize();
+                    int endX = (int) (size.width * 0.10);
+
+                    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+                    Sequence sequence = new Sequence(finger, 1);
+                    sequence.addAction(finger.createPointerMove(ofMillis(0),
+                            PointerInput.Origin.viewport(), endX, startY));
+                    sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
+                    sequence.addAction(new Pause(finger, ofMillis(600)));
+                    sequence.addAction(finger.createPointerMove(ofMillis(600),
+                            PointerInput.Origin.viewport(), endX, endY));
+                    sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
+
+                    getDriver().perform(singletonList(sequence));
                 }
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
@@ -104,14 +122,20 @@ public class Scrolling extends TestUI implements SlideActions {
     public UIElement swipeLeft(int PixelGap, int startX, int startY) {
         try {
             if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
-                TouchAction action = new TouchAction(getDriver());
                 PixelGap = abs(PixelGap);
                 int endX = startX - PixelGap;
-                action.press(
-                        PointOption.point(startX, startY)
-                ).waitAction(
-                        WaitOptions.waitOptions(Duration.ofMillis(300))
-                ).moveTo(PointOption.point(endX, startY)).release().perform();
+
+                PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+                Sequence sequence = new Sequence(finger, 1);
+                sequence.addAction(finger.createPointerMove(ofMillis(0),
+                        PointerInput.Origin.viewport(), startX, startY));
+                sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
+                sequence.addAction(new Pause(finger, ofMillis(600)));
+                sequence.addAction(finger.createPointerMove(ofMillis(600),
+                        PointerInput.Origin.viewport(), endX, startY));
+                sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
+
+                getDriver().perform(singletonList(sequence));
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
             }
@@ -122,17 +146,23 @@ public class Scrolling extends TestUI implements SlideActions {
         return getElementObject();
     }
 
-    public UIElement swipeRigt(int PixelGap, int startX, int startY) {
+    public UIElement swipeRight(int PixelGap, int startX, int startY) {
         try {
             if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
-                TouchAction action = new TouchAction(getDriver());
                 PixelGap = abs(PixelGap);
                 int endX = startX + PixelGap;
-                action.press(
-                        PointOption.point(startX, startY)
-                ).waitAction(
-                        WaitOptions.waitOptions(Duration.ofMillis(300))
-                ).moveTo(PointOption.point(endX, startY)).release().perform();
+
+                PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+                Sequence sequence = new Sequence(finger, 1);
+                sequence.addAction(finger.createPointerMove(ofMillis(0),
+                        PointerInput.Origin.viewport(), startX, startY));
+                sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
+                sequence.addAction(new Pause(finger, ofMillis(600)));
+                sequence.addAction(finger.createPointerMove(ofMillis(600),
+                        PointerInput.Origin.viewport(), endX, startY));
+                sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
+
+                getDriver().perform(singletonList(sequence));
             } else {
                 getSelenide(SelenideElement, index, collection).scrollIntoView(true);
             }

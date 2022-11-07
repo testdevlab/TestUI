@@ -3,7 +3,7 @@ package testUI.elements;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
-import io.appium.java_client.MobileElement;
+import io.appium.java_client.AppiumBy;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import org.openqa.selenium.By;
@@ -112,29 +112,29 @@ public class TestUI {
         return accesibilityId;
     }
 
-    protected List getMobileElementList(String locator) {
+    protected List<WebElement> getMobileElementList(String locator) {
         switch (locator.split(": ")[0]) {
             case "accessibilityId":
-                return getDriver().findElementsByAccessibilityId(locator.split(": ")[1]);
+                return getDriver().findElements(AppiumBy.accessibilityId(locator.split(": ")[1]));
             case "className":
-                return getDriver().findElementsByClassName(locator.split(": ")[1]);
+                return getDriver().findElements(By.className(locator.split(": ")[1]));
             case "androidUIAutomator":
                 return getAndroidTestUIDriver()
-                        .findElementsByAndroidUIAutomator(locator.split(": ")[1]);
+                        .findElements(AppiumBy.androidUIAutomator(locator.split(": ")[1]));
             case "predicate":
                 return getIOSTestUIDriver()
-                        .findElementsByIosNsPredicate(locator.split(": ")[1]);
+                        .findElements(AppiumBy.iOSNsPredicateString(locator.split(": ")[1]));
             case "classChain":
                 return getIOSTestUIDriver()
-                        .findElementsByIosClassChain(locator.split(": ")[1]);
+                        .findElements(AppiumBy.iOSClassChain(locator.split(": ")[1]));
             case "name":
-                return getDriver().findElementsByName(locator.split(": ")[1]);
+                return getDriver().findElements(By.name(locator.split(": ")[1]));
             case "xpath":
-                return getDriver().findElementsByXPath(locator.split(": ")[1]);
+                return getDriver().findElements(By.xpath(locator.split(": ")[1]));
             case "id":
-                return getDriver().findElementsById(locator.split(": ")[1]);
+                return getDriver().findElements(By.id(locator.split(": ")[1]));
             case "css":
-                return getDriver().findElementsByCssSelector(locator.split(": ")[1]);
+                return getDriver().findElements(By.cssSelector(locator.split(": ")[1]));
             default:
                 UIAssert(
                         "The type of locator is not valid! "
@@ -147,36 +147,36 @@ public class TestUI {
     protected WebElement getMobileElement(String locator) {
         switch (locator.split(": ")[0]) {
             case "accessibilityId":
-                return getDriver().findElementByAccessibilityId(locator.split(": ")[1]);
+                return getDriver().findElement(AppiumBy.accessibilityId(locator.split(": ")[1]));
             case "className":
-                return getDriver().findElementByClassName(locator.split(": ")[1]);
+                return getDriver().findElement(By.className(locator.split(": ")[1]));
             case "androidUIAutomator":
                 return getAndroidTestUIDriver()
-                        .findElementByAndroidUIAutomator(locator.split(": ")[1]);
+                        .findElement(AppiumBy.androidUIAutomator(locator.split(": ")[1]));
             case "predicate":
                 return getIOSTestUIDriver()
-                        .findElementByIosNsPredicate(locator.split(": ")[1]);
+                        .findElement(AppiumBy.iOSNsPredicateString(locator.split(": ")[1]));
             case "classChain":
                 return getIOSTestUIDriver()
-                        .findElementByIosClassChain(locator.split(": ")[1]);
+                        .findElement(AppiumBy.iOSClassChain(locator.split(": ")[1]));
             case "name":
-                return getDriver().findElementByName(locator.split(": ")[1]);
+                return getDriver().findElement(By.name(locator.split(": ")[1]));
             case "xpath":
-                return getDriver().findElementByXPath(locator.split(": ")[1]);
+                return getDriver().findElement(By.xpath(locator.split(": ")[1]));
             case "id":
-                return getDriver().findElementById(locator.split(": ")[1]);
+                return getDriver().findElement(By.id(locator.split(": ")[1]));
             case "css":
-                return getDriver().findElementByCssSelector(locator.split(": ")[1]);
+                return getDriver().findElement(By.cssSelector(locator.split(": ")[1]));
             default:
                 UIAssert(
                         "The type of locator is not valid! "
                                 + locator.split(": ")[0],
                         false);
-                return getDriver().findElementByName("");
+                return getDriver().findElement(By.name(""));
         }
     }
 
-    protected MobileElement getElement(
+    protected WebElement getElement(
             String accesibilityIdiOS,
             String accesibilityId,
             By iOSElement,
@@ -186,24 +186,24 @@ public class TestUI {
         try {
             if (collection) {
                 if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-                    return (MobileElement) getMobileElementList(
+                    return getMobileElementList(
                             getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
                 }
-                return (MobileElement) getDriver().findElements(
+                return getDriver().findElements(
                         getAppiumElement(iOSElement, element)).get(index);
             }
             if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-                return (MobileElement) getMobileElement(
+                return getMobileElement(
                         getAccesibilityId(accesibilityIdiOS,accesibilityId));
             }
-            return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
+            return getDriver().findElement(getAppiumElement(iOSElement, element));
         } catch (Throwable e) {
             takeScreenshotsAllure();
             throw new TestUIException(e.getMessage());
         }
     }
 
-    protected MobileElement getElementWithoutException(
+    protected WebElement getElementWithoutException(
             String accesibilityIdiOS,
             String accesibilityId,
             By iOSElement,
@@ -212,17 +212,17 @@ public class TestUI {
             boolean collection) {
         if (collection) {
             if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-                return (MobileElement) getMobileElementList(
+                return getMobileElementList(
                         getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
             }
-            return (MobileElement) getDriver().findElements(
+            return getDriver().findElements(
                     getAppiumElement(iOSElement, element)).get(index);
         }
         if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-            return (MobileElement) getMobileElement(
+            return getMobileElement(
                     getAccesibilityId(accesibilityIdiOS,accesibilityId));
         }
-        return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
+        return getDriver().findElement(getAppiumElement(iOSElement, element));
     }
 
     protected SelenideElement getSelenide(By element, int index, boolean collection) {

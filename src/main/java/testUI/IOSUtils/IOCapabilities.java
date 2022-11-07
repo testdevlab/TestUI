@@ -66,7 +66,7 @@ public class IOCapabilities extends Configuration {
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.IOS);
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
             capabilities.setCapability(IOSMobileCapabilityType.START_IWDP, true);
-            capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
+            capabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
                     Configuration.launchAppTimeout);
             capabilities.setCapability(IOSMobileCapabilityType.COMMAND_TIMEOUTS, 30000);
             // ADD CUSTOM CAPABILITIES
