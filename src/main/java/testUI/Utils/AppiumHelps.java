@@ -29,8 +29,8 @@ public class AppiumHelps {
     public static boolean exists(By element, String accessibilityId, int index) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((WebElement) getDriver().findElements(element).get(index)).isDisplayed();
-            return ((WebElement) getMobileElementList(accessibilityId).get(index)).isDisplayed();
+                return (getDriver().findElements(element).get(index)).isDisplayed();
+            return (getMobileElementList(accessibilityId).get(index)).isDisplayed();
         } catch (WebDriverException e) {
             if (e.getMessage().contains("Unable to locate element")) {
                 return false;
@@ -53,8 +53,8 @@ public class AppiumHelps {
     public static boolean visible(By element, String accessibilityId, int index) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((WebElement) getDriver().findElements(element).get(index)).isDisplayed();
-            return ((WebElement) getMobileElementList(accessibilityId).get(index)).isDisplayed();
+                return (getDriver().findElements(element).get(index)).isDisplayed();
+            return (getMobileElementList(accessibilityId).get(index)).isDisplayed();
         } catch (Exception var4) {
             return false;
         }
@@ -73,8 +73,8 @@ public class AppiumHelps {
     public static boolean enable(By element, String accessibilityId, int index) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((WebElement) getDriver().findElements(element).get(index)).isEnabled();
-            return ((WebElement) getMobileElementList(accessibilityId).get(index)).isEnabled();
+                return (getDriver().findElements(element).get(index)).isEnabled();
+            return (getMobileElementList(accessibilityId).get(index)).isEnabled();
         } catch (Exception var4) {
             return false;
         }
@@ -93,9 +93,9 @@ public class AppiumHelps {
     public static boolean value(By element, String accessibilityId, int index, String text) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((WebElement) getDriver().findElements(element).get(index)).
+                return (getDriver().findElements(element).get(index)).
                         getAttribute("value").equals(text);
-            return ((WebElement) getMobileElementList(accessibilityId).get(index)).
+            return (getMobileElementList(accessibilityId).get(index)).
                     getAttribute("value").equals(text);
         } catch (Exception var4) {
             return false;
@@ -105,9 +105,9 @@ public class AppiumHelps {
     public static boolean attribute(By element, String accessibilityId, int index, String Attribute, String text) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((WebElement) getDriver().findElements(element).get(index)).
+                return (getDriver().findElements(element).get(index)).
                         getAttribute(Attribute).equals(text);
-            return ((WebElement) getMobileElementList(accessibilityId).get(index)).
+            return (getMobileElementList(accessibilityId).get(index)).
                     getAttribute(Attribute).equals(text);
         } catch (Exception var4) {
             return false;
@@ -117,9 +117,9 @@ public class AppiumHelps {
     public static boolean attribute(By element, String accessibilityId, int index, String Attribute) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((WebElement) getDriver().findElements(element).get(index)).
+                return (getDriver().findElements(element).get(index)).
                         getAttribute(Attribute) != null;
-            return ((WebElement) getMobileElementList(accessibilityId).get(index)).
+            return (getMobileElementList(accessibilityId).get(index)).
                     getAttribute(Attribute) != null;
         } catch (Exception var4) {
             return false;
@@ -129,13 +129,13 @@ public class AppiumHelps {
     public static boolean emptyAttribute(By element, String accessibilityId, int index, String Attribute) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((WebElement) getDriver().findElements(element).get(index)).
+                return (getDriver().findElements(element).get(index)).
                         getAttribute(Attribute) == null ||
-                        ((WebElement) getDriver().findElements(element).get(index)).
+                        (getDriver().findElements(element).get(index)).
                                 getAttribute(Attribute).isEmpty();
-            return ((WebElement) getMobileElementList(accessibilityId).get(index)).
+            return (getMobileElementList(accessibilityId).get(index)).
                     getAttribute(Attribute) == null ||
-                    ((WebElement) getMobileElementList(accessibilityId).get(index)).
+                    (getMobileElementList(accessibilityId).get(index)).
                             getAttribute(Attribute).isEmpty();
         } catch (Exception var4) {
             return false;
@@ -177,9 +177,9 @@ public class AppiumHelps {
     public static boolean equalsText(By element, String accessibilityId, int index, String text) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((WebElement) getDriver().findElements(element).get(index)).
+                return (getDriver().findElements(element).get(index)).
                         getText().contains(text);
-            return ((WebElement) getMobileElementList(accessibilityId).get(index)).
+            return (getMobileElementList(accessibilityId).get(index)).
                     getText().contains(text);
         } catch (Exception var4) {
             return false;
@@ -189,9 +189,9 @@ public class AppiumHelps {
     public static boolean emptyText(By element, String accessibilityId, int index) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((WebElement) getDriver().findElements(element).get(index)).
+                return (getDriver().findElements(element).get(index)).
                         getText().isEmpty();
-            return ((WebElement) getMobileElementList(accessibilityId).get(index)).
+            return (getMobileElementList(accessibilityId).get(index)).
                     getText().isEmpty();
         } catch (Exception var4) {
             return false;
@@ -234,9 +234,9 @@ public class AppiumHelps {
                                        String text) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((WebElement) getDriver().findElements(element).get(index)).
+                return (getDriver().findElements(element).get(index)).
                         getText().contains(text);
-            return ((WebElement) getMobileElementList(accessibilityId).get(index)).
+            return (getMobileElementList(accessibilityId).get(index)).
                     getText().contains(text);
         } catch (Exception var4) {
             return false;
@@ -250,9 +250,9 @@ public class AppiumHelps {
                                        String text) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((WebElement) getDriver().findElements(element).get(index)).
+                return (getDriver().findElements(element).get(index)).
                         getAttribute(attr).contains(text);
-            return ((WebElement) getMobileElementList(accessibilityId).get(index)).
+            return (getMobileElementList(accessibilityId).get(index)).
                     getText().contains(text);
         } catch (Exception var4) {
             return false;
@@ -280,9 +280,9 @@ public class AppiumHelps {
             String text) {
         try {
             if (accessibilityId == null || accessibilityId.isEmpty())
-                return ((WebElement) getDriver().findElements(element).get(index)).
+                return (getDriver().findElements(element).get(index)).
                         getText().toLowerCase().contains(text.toLowerCase());
-            return ((WebElement) getMobileElementList(accessibilityId).get(index)).
+            return (getMobileElementList(accessibilityId).get(index)).
                     getText().toLowerCase().contains(text.toLowerCase());
         } catch (Exception var4) {
             return false;
