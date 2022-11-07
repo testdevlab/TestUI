@@ -16,8 +16,8 @@ import testUI.Utils.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 
-import static java.time.Duration.ofMillis;
 import static java.util.Collections.singletonList;
 import static testUI.TestUIDriver.*;
 import static testUI.UIOpen.navigate;
@@ -564,11 +564,11 @@ public class Element extends TestUI implements UIElement {
                 Point source = slider.getLocation();
                 PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
                 Sequence sequence = new Sequence(finger, 1);
-                sequence.addAction(finger.createPointerMove(ofMillis(0),
+                sequence.addAction(finger.createPointerMove(Duration.ofMillis(0),
                         PointerInput.Origin.viewport(), source.x, source.y));
                 sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
-                sequence.addAction(new Pause(finger, ofMillis(600)));
-                sequence.addAction(finger.createPointerMove(ofMillis(600),
+                sequence.addAction(new Pause(finger, Duration.ofMillis(600)));
+                sequence.addAction(finger.createPointerMove(Duration.ofMillis(600),
                         PointerInput.Origin.viewport(), source.x + XCoordinate, source.y + YCoordinate));
                 sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
 
@@ -598,11 +598,11 @@ public class Element extends TestUI implements UIElement {
                 Point source = slider.getLocation();
                 PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
                 Sequence sequence = new Sequence(finger, 1);
-                sequence.addAction(finger.createPointerMove(ofMillis(0),
+                sequence.addAction(finger.createPointerMove(Duration.ofMillis(0),
                         PointerInput.Origin.viewport(), source.x, source.y));
                 sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
-                sequence.addAction(new Pause(finger, ofMillis(600)));
-                sequence.addAction(finger.createPointerMove(ofMillis(600),
+                sequence.addAction(new Pause(finger, Duration.ofMillis(600)));
+                sequence.addAction(finger.createPointerMove(Duration.ofMillis(600),
                         PointerInput.Origin.viewport(), source.x + endX, source.y));
                 sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
 
@@ -632,11 +632,11 @@ public class Element extends TestUI implements UIElement {
                 Point source = slider.getLocation();
                 PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
                 Sequence sequence = new Sequence(finger, 1);
-                sequence.addAction(finger.createPointerMove(ofMillis(0),
+                sequence.addAction(finger.createPointerMove(Duration.ofMillis(0),
                         PointerInput.Origin.viewport(), source.x, source.y));
                 sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
-                sequence.addAction(new Pause(finger, ofMillis(600)));
-                sequence.addAction(finger.createPointerMove(ofMillis(600),
+                sequence.addAction(new Pause(finger, Duration.ofMillis(600)));
+                sequence.addAction(finger.createPointerMove(Duration.ofMillis(600),
                         PointerInput.Origin.viewport(), endX, source.y));
                 sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
 
