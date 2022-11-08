@@ -1,10 +1,10 @@
 package testUI.elements;
 
 import com.codeborne.selenide.SelenideElement;
-import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
 import testUI.BrowserLogs;
 import testUI.collections.UICollection;
 
@@ -64,7 +64,7 @@ public interface UIElement {
 
     UIElement swipeLeft();
 
-    MobileElement getMobileElement();
+    WebElement getMobileElement();
 
     UIElement clear();
 

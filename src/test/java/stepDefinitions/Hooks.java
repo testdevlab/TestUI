@@ -28,7 +28,6 @@ public class Hooks {
     @Before("@testLaptopBrowser") // BROWSER, YOU CAN CHOOSE BROWSER WITH Configuration.browser VARIABLE
     public void beforeLaptopBrowser() {
         Configuration.automationType = Configuration.DESKTOP_PLATFORM;
-        Configuration.startMaximized = true;
         open("https://www.google.com");
     }
 

@@ -3,7 +3,7 @@ package testUI.elements;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
-import io.appium.java_client.MobileElement;
+import io.appium.java_client.AppiumBy;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import org.openqa.selenium.By;
@@ -112,7 +112,7 @@ public class TestUI {
         return accesibilityId;
     }
 
-    protected List getMobileElementList(String locator) {
+    protected List<WebElement> getMobileElementList(String locator) {
         switch (locator.split(": ", 2)[0]) {
             case "accessibilityId":
                 return getDriver().findElementsByAccessibilityId(locator.split(": ", 2)[1]);
@@ -172,11 +172,11 @@ public class TestUI {
                         "The type of locator is not valid! "
                                 + locator.split(": ", 2)[0],
                         false);
-                return getDriver().findElementByName("");
+                return getDriver().findElement(By.name(""));
         }
     }
 
-    protected MobileElement getElement(
+    protected WebElement getElement(
             String accesibilityIdiOS,
             String accesibilityId,
             By iOSElement,
@@ -186,24 +186,24 @@ public class TestUI {
         try {
             if (collection) {
                 if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-                    return (MobileElement) getMobileElementList(
+                    return getMobileElementList(
                             getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
                 }
-                return (MobileElement) getDriver().findElements(
+                return getDriver().findElements(
                         getAppiumElement(iOSElement, element)).get(index);
             }
             if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-                return (MobileElement) getMobileElement(
+                return getMobileElement(
                         getAccesibilityId(accesibilityIdiOS,accesibilityId));
             }
-            return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
+            return getDriver().findElement(getAppiumElement(iOSElement, element));
         } catch (Throwable e) {
             takeScreenshotsAllure();
             throw new TestUIException(e.getMessage());
         }
     }
 
-    protected MobileElement getElementWithoutException(
+    protected WebElement getElementWithoutException(
             String accesibilityIdiOS,
             String accesibilityId,
             By iOSElement,
@@ -212,17 +212,17 @@ public class TestUI {
             boolean collection) {
         if (collection) {
             if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-                return (MobileElement) getMobileElementList(
+                return getMobileElementList(
                         getAccesibilityId(accesibilityIdiOS,accesibilityId)).get(index);
             }
-            return (MobileElement) getDriver().findElements(
+            return getDriver().findElements(
                     getAppiumElement(iOSElement, element)).get(index);
         }
         if (!getLocator(accesibilityIdiOS,accesibilityId).isEmpty()) {
-            return (MobileElement) getMobileElement(
+            return getMobileElement(
                     getAccesibilityId(accesibilityIdiOS,accesibilityId));
         }
-        return (MobileElement) getDriver().findElement(getAppiumElement(iOSElement, element));
+        return getDriver().findElement(getAppiumElement(iOSElement, element));
     }
 
     protected SelenideElement getSelenide(By element, int index, boolean collection) {

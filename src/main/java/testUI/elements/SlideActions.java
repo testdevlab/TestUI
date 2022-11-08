@@ -8,7 +8,7 @@ public interface SlideActions {
 
     UIElement swipeLeft(int PixelGap, int startX, int startY);
 
-    UIElement swipeRigt(int PixelGap, int startX, int startY);
+    UIElement swipeRight(int PixelGap, int startX, int startY);
 
     UIElement view(boolean upCenter);
 

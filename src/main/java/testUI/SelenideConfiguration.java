@@ -18,7 +18,6 @@ public class SelenideConfiguration {
     public static String browserVersion = "";
     public static String browserSize = "";
     public static String browserPosition = "";
-    public static boolean startMaximized = false;
     public static DesiredCapabilities selenideBrowserCapabilities = new DesiredCapabilities();
     public static SafariOptions safariOptions = new SafariOptions();
 //    public static String pageLoadStrategy;

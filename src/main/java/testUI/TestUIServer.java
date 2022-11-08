@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import static com.codeborne.selenide.Selenide.close;
+import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static testUI.BrowserLogs.getProxy;
 import static testUI.BrowserLogs.stopProxy;
 import static testUI.TestUIDriver.*;
@@ -308,7 +308,7 @@ public class TestUIServer extends UIUtils {
             } catch (Exception e) {
                 putLog("Browser closed already");
             }
-            close();
+            closeWebDriver();
         }
         try {
             if (getProxy() != null && getProxy().isStarted()) {
@@ -357,7 +357,7 @@ public class TestUIServer extends UIUtils {
             } catch (Exception e) {
                 putLog("Browser closed already");
             }
-            close();
+            closeWebDriver();
         }
         try {
             if (getProxy() != null && getProxy().isStarted()) {
@@ -407,7 +407,7 @@ public class TestUIServer extends UIUtils {
             } catch (Exception e) {
                 putLog("Browser closed already");
             }
-            close();
+            closeWebDriver();
         }
         try {
             if (getProxy() != null && getProxy().isStarted()) {

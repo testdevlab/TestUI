@@ -1,7 +1,6 @@
 package testUI.AndroidUtils;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.commons.io.FileUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -14,6 +13,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -31,10 +33,10 @@ public class ADBUtils {
     private static String emulatorFolder = "/emulator/";
     public static String MAC_CHROME_DRIVER =
             "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/mac" +
-                    "/chromedriver";
+                    "/chromedriver*";
     public static String LNX_CHROME_DRIVER =
             "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver" +
-                    "/linux/chromedriver_64";
+                    "/linux/chromedriver*";
     public static String WIN_CHROME_DRIVER =
             "\\node_modules\\appium\\node_modules\\appium-chromedriver\\chromedriver\\win" +
                     "\\chromedriver.exe";
@@ -322,9 +324,9 @@ public class ADBUtils {
             destinationPath = targetDir + "\\chromedriver" + chromeVersion + ".exe";
         }
         try {
-            FileUtils.moveFile(
-                    FileUtils.getFile(originalPath),
-                    FileUtils.getFile(destinationPath));
+            Files.move(
+                    Paths.get(originalPath),
+                    Paths.get(destinationPath), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }
