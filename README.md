@@ -1,4 +1,4 @@
-![TestUI](assets/logo.jpg)
+![TestUI](docs/logo.jpg)
 
 # TestUI
 
