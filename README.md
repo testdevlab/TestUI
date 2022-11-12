@@ -17,14 +17,14 @@ how it looks...
 
 * [Installation](#installation)
     * [Maven](#maven)
-    * [Gradle (Kotlin DSL)](#gradle-kotlin-dsl)
-    * [Gradle (Groovy DSL)](#gradle-groovy-dsl)
+    * [Gradle (Kotlin)](#gradle-kotlin)
+    * [Gradle (Groovy )](#gradle-groovy)
 * [Start using TestUI](#start-using-testui)
     * [Android](#android)
     * [iOS](#ios)
 * [Elements](#elements)
     * [Element Action Methods](#element-action-methods)
-    * [Element Assertion Methods](#element-assertions-methods)
+    * [Element Assertion Methods](#element-assertion-methods)
 * [Collections](#collections)
     * [Collection Action Methods](#collection-action-methods)
     * [Collection Assertion Methods](#collection-assertion-methods)
@@ -403,9 +403,13 @@ With testUI you can test browsers in mobile devices and computers just by changi
 of a single variable:
 
 ```java
-Configuration.automationType=Configuration.IOS_PLATFORM;
-    Configuration.automationType=Configuration.ANDROID_PLATFORM;
-    Configuration.automationType=Configuration.DESKTOP_PLATFORM>;
+public class Test {
+    public void test() {
+        Configuration.automationType = Configuration.IOS_PLATFORM;
+        Configuration.automationType = Configuration.ANDROID_PLATFORM;
+        Configuration.automationType = Configuration.DESKTOP_PLATFORM >;
+    }
+}
 ```
 
 And then using:
