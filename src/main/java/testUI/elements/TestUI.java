@@ -140,7 +140,7 @@ public class TestUI {
                         "The type of locator is not valid! "
                                 + locator.split(": ", 2)[0],
                         false);
-                return new ArrayList();
+                return new ArrayList<>();
         }
     }
 

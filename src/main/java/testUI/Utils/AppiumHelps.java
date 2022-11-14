@@ -323,7 +323,7 @@ public class AppiumHelps {
                                 locator.split(": ")[0],
                         false
                 );
-                return new ArrayList();
+                return new ArrayList<>();
         }
     }
 
