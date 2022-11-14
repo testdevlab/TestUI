@@ -407,7 +407,7 @@ public class Test {
     public void test() {
         Configuration.automationType = Configuration.IOS_PLATFORM;
         Configuration.automationType = Configuration.ANDROID_PLATFORM;
-        Configuration.automationType = Configuration.DESKTOP_PLATFORM >;
+        Configuration.automationType = Configuration.DESKTOP_PLATFORM;
     }
 }
 ```
