@@ -37,6 +37,7 @@ public class TestUIConfiguration {
     private final String serverLogLevel = Configuration.serverLogLevel;
 //    private final String screenshotPath = Configuration.screenshotPath;
     private final int timeStartAppiumServer = Configuration.timeStartAppiumServer;
+    private final String BASE_APPIUM_PATH = Configuration.BASE_APPIUM_PATH;
 
     public TestUIConfiguration() {
         if (!Configuration.chromeDriverPath.isEmpty()) {
@@ -121,6 +122,10 @@ public class TestUIConfiguration {
 
     public String getServerLogLevel() {
         return serverLogLevel;
+    }
+
+    public String getBaseAppiumPath() {
+        return BASE_APPIUM_PATH;
     }
 
 }

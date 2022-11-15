@@ -44,6 +44,7 @@ public class TestUIServer extends UIUtils {
         builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
         builder.withArgument(GeneralServerFlag.LOG_LEVEL, "info");
         builder.withArgument(AndroidServerFlag.BOOTSTRAP_PORT_NUMBER, Bootstrap);
+        builder.withArgument(GeneralServerFlag.BASEPATH, configuration.getBaseAppiumPath());
         //Start the server with the builder
         TestUIServer.serviceRunning.set(false);
         boolean slowResponse = false;

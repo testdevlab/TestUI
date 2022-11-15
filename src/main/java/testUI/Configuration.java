@@ -11,6 +11,7 @@ public class Configuration extends SelenideConfiguration {
     public static final String ANDROID_PLATFORM = "android";
     public static final String IOS_PLATFORM = "ios";
     public static final String DESKTOP_PLATFORM = "desktop";
+    public static final String BASE_APPIUM_PATH = "/wd/hub/";
 
     // IOS CAPABILITIES
     public static int wdaPort = 8100;

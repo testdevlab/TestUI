@@ -20,6 +20,7 @@ public class TestAndroidLocal {
     public void testAndroidBrowser() {
         Configuration.testUILogLevel = LogLevel.DEBUG;
         Configuration.automationType = ANDROID_PLATFORM;
+        Configuration.installMobileChromeDriver = true;
         open("https://www.google.com");
         E(byMobileCss("#SIvCob")).click();
         googleLandingPage.getGoogleSearchInput().scrollTo().view(true)
