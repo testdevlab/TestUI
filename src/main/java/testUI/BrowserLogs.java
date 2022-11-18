@@ -34,9 +34,9 @@ public class BrowserLogs {
     private static Proxy seleniumProxy;
 
     private BrowserLogs(List<List<JSONObject>> calls,
-        List<JSONObject> filteredCalls,
-        List<Map<String, String>> callHar,
-        boolean severalFilters) {
+                        List<JSONObject> filteredCalls,
+                        List<Map<String, String>> callHar,
+                        boolean severalFilters) {
         this.calls = calls;
         this.filteredCalls = filteredCalls;
         this.callHar = callHar;
@@ -70,11 +70,11 @@ public class BrowserLogs {
                     seleniumProxy.setHttpProxy("localhost:" + getProxy().getPort());
                     seleniumProxy.setSslProxy("localhost:" + getProxy().getPort());
                     Configuration.selenideBrowserCapabilities.setCapability(
-                        CapabilityType.PROXY, seleniumProxy);
+                            CapabilityType.PROXY, seleniumProxy);
                     // enable more detailed HAR capture, if desired (see CaptureType for the complete list)
                     proxy.enableHarCaptureTypes(
-                        CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT,
-                        CaptureType.REQUEST_HEADERS, CaptureType.RESPONSE_HEADERS);
+                            CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT,
+                            CaptureType.REQUEST_HEADERS, CaptureType.RESPONSE_HEADERS);
                     // create a new HAR with the label "Proxy"
                     proxy.newHar("Proxy");
                 }
@@ -87,7 +87,7 @@ public class BrowserLogs {
         if (Configuration.browserLogs || Configuration.logNetworkCalls) {
             Configuration.selenideBrowserCapabilities.setCapability("goog:loggingPrefs", logPrefs);
             Configuration.selenideBrowserCapabilities.setCapability(
-                CapabilityType.LOGGING_PREFS, logPrefs);
+                    CapabilityType.LOGGING_PREFS, logPrefs);
         }
     }
 
@@ -101,48 +101,48 @@ public class BrowserLogs {
         if (Configuration.remote != null && !Configuration.remote.isEmpty()) {
             try {
                 for (LogEntry list : getWebDriver().manage().logs().get(LogType.PERFORMANCE)
-                                                   .getAll()) {
+                        .getAll()) {
                     JSONObject obj = new JSONObject(list.getMessage());
                     JSONObject requests = obj.getJSONObject("message").getJSONObject("params");
                     Map<String, String> call = new HashMap<>();
                     if (requests.has("request") &&
-                        requests.getJSONObject("request").has("url")) {
+                            requests.getJSONObject("request").has("url")) {
                         call.put("URL", requests.getJSONObject("request").getString("url"));
                         if (requests.getJSONObject("request").has("status")) {
                             call.put(
-                                "Status",
-                                String.valueOf(requests.getJSONObject("request")
-                                                       .getInt("status"))
+                                    "Status",
+                                    String.valueOf(requests.getJSONObject("request")
+                                            .getInt("status"))
                             );
                         } else {
                             call.put("Status", "0");
                         }
                         if (requests.getJSONObject("request").has("headers")) {
                             call.put(
-                                "RequestHeaders",
-                                requests.getJSONObject("request").getJSONObject("headers")
-                                        .toString()
+                                    "RequestHeaders",
+                                    requests.getJSONObject("request").getJSONObject("headers")
+                                            .toString()
                             );
                         } else {
                             call.put("RequestHeaders", "");
                         }
                     } else if (requests.has("response") &&
-                               requests.getJSONObject("response").has("url")) {
+                            requests.getJSONObject("response").has("url")) {
                         call.put("URL", requests.getJSONObject("response").getString("url"));
                         if (requests.getJSONObject("response").has("status")) {
                             call.put(
-                                "Status",
-                                String.valueOf(requests.getJSONObject("response")
-                                                       .getInt("status"))
+                                    "Status",
+                                    String.valueOf(requests.getJSONObject("response")
+                                            .getInt("status"))
                             );
                         } else {
                             call.put("Status", "0");
                         }
                         if (requests.getJSONObject("response").has("headers")) {
                             call.put(
-                                "ResponseHeaders",
-                                requests.getJSONObject("response").getJSONObject("headers")
-                                        .toString()
+                                    "ResponseHeaders",
+                                    requests.getJSONObject("response").getJSONObject("headers")
+                                            .toString()
                             );
                         } else {
                             call.put("RequestHeaders", "");
@@ -153,23 +153,23 @@ public class BrowserLogs {
                         call = new HashMap<>();
                     }
                     if (requests.has("redirectResponse") &&
-                        requests.getJSONObject("redirectResponse").has("url")) {
+                            requests.getJSONObject("redirectResponse").has("url")) {
                         call.put("URL", requests.getJSONObject("redirectResponse")
-                                                .getString("url"));
+                                .getString("url"));
                         if (requests.getJSONObject("redirectResponse").has("status")) {
                             call.put(
-                                "Status",
-                                String.valueOf(requests.getJSONObject("redirectResponse")
-                                                       .getInt("status"))
+                                    "Status",
+                                    String.valueOf(requests.getJSONObject("redirectResponse")
+                                            .getInt("status"))
                             );
                         } else {
                             call.put("Status", "0");
                         }
                         if (requests.getJSONObject("redirectResponse").has("headers")) {
                             call.put(
-                                "ResponseHeaders",
-                                requests.getJSONObject("redirectResponse")
-                                        .getJSONObject("headers").toString()
+                                    "ResponseHeaders",
+                                    requests.getJSONObject("redirectResponse")
+                                            .getJSONObject("headers").toString()
                             );
                         } else {
                             call.put("ResponseHeaders", "");
@@ -192,11 +192,11 @@ public class BrowserLogs {
                     call.put("RequestHeaders", entry.getRequest().getHeaders().toString());
                     call.put("ResponseHeaders", entry.getResponse().getHeaders().toString());
                     String payload = entry.getResponse().getContent().getText() == null ?
-                        "" : entry.getResponse().getContent().getText();
+                            "" : entry.getResponse().getContent().getText();
                     call.put("Payload", payload);
                     if (entry.getResponse().getStatus() >= 300) {
                         call.put("Response: ", String.valueOf(entry.getResponse().getContent()
-                                                                   .getText()));
+                                .getText()));
                     }
                     callHar.add(call);
                 }
@@ -213,7 +213,7 @@ public class BrowserLogs {
                 SimpleDateFormat jdf = new SimpleDateFormat("YYYY.MM.dd HH:mm:ss.SSS");
 
                 browserLogs.add(
-                    "[" + log.getLevel() + "] " + jdf.format(date) + ": " + log.getMessage()
+                        "[" + log.getLevel() + "] " + jdf.format(date) + ": " + log.getMessage()
                 );
             }
         } catch (UnsupportedCommandException e) {
@@ -241,37 +241,37 @@ public class BrowserLogs {
                     if (requests.has("requestId")) {
                         Map<String, String> call = new HashMap<>();
                         if (requests.has("request") &&
-                            requests.getJSONObject("request").has("url")) {
+                                requests.getJSONObject("request").has("url")) {
                             call.put("URL", requests.getJSONObject("request").getString("url"));
                             if (requests.getJSONObject("request").has("status")) {
                                 call.put("Status", requests.getJSONObject("request")
-                                                           .getString("status"));
+                                        .getString("status"));
                             }
                             if (requests.getJSONObject("request").has("headers")) {
                                 call.put(
-                                    "RequestHeaders",
-                                    requests.getJSONObject("request").getJSONObject("headers")
-                                            .toString()
+                                        "RequestHeaders",
+                                        requests.getJSONObject("request").getJSONObject("headers")
+                                                .toString()
                                 );
                             }
                         } else if (requests.has("response") &&
-                                   requests.getJSONObject("response").has("url")) {
+                                requests.getJSONObject("response").has("url")) {
                             call.put(
-                                "URL",
-                                requests.getJSONObject("response").getString("url")
+                                    "URL",
+                                    requests.getJSONObject("response").getString("url")
                             );
                             if (requests.getJSONObject("response").has("status")) {
                                 call.put(
-                                    "Status",
-                                    String.valueOf(requests.getJSONObject("response")
-                                                           .getInt("status"))
+                                        "Status",
+                                        String.valueOf(requests.getJSONObject("response")
+                                                .getInt("status"))
                                 );
                             }
                             if (requests.getJSONObject("response").has("headers")) {
                                 call.put(
-                                    "ResponseHeaders",
-                                    requests.getJSONObject("response")
-                                            .getJSONObject("headers").toString()
+                                        "ResponseHeaders",
+                                        requests.getJSONObject("response")
+                                                .getJSONObject("headers").toString()
                                 );
                             }
                         }
@@ -294,11 +294,11 @@ public class BrowserLogs {
                 call.put("RequestHeaders", entryList.get(j).getRequest().getHeaders().toString());
                 call.put("ResponseHeaders", entryList.get(j).getResponse().getHeaders().toString());
                 String payload = entryList.get(j).getResponse().getContent().getText() == null ?
-                    "" : entryList.get(j).getResponse().getContent().getText();
+                        "" : entryList.get(j).getResponse().getContent().getText();
                 call.put("Payload", payload);
                 if (entryList.get(j).getResponse().getStatus() >= 300) {
                     call.put("Response: ", String.valueOf(entryList.get(j).getResponse()
-                                                                   .getContent().getText()));
+                            .getContent().getText()));
                 }
                 callHar.add(call);
             }
@@ -396,11 +396,11 @@ public class BrowserLogs {
             for (Map<String, String> call : this.callHar) {
                 JSONObject jsonObject = new JSONObject();
                 if (call.get("RequestHeaders") != null
-                    && call.get("RequestHeaders").toLowerCase().contains(header.toLowerCase())
-                    && call.get("RequestHeaders").contains(value)
-                    || call.get("ResponseHeaders") != null
-                       && call.get("ResponseHeaders").toLowerCase().contains(header.toLowerCase())
-                       && call.get("ResponseHeaders").contains(value)) {
+                        && call.get("RequestHeaders").toLowerCase().contains(header.toLowerCase())
+                        && call.get("RequestHeaders").contains(value)
+                        || call.get("ResponseHeaders") != null
+                        && call.get("ResponseHeaders").toLowerCase().contains(header.toLowerCase())
+                        && call.get("ResponseHeaders").contains(value)) {
                     jsonObject.put("URL", call.get("URL"));
                     jsonObject.put("statusCode", call.get("Status"));
                     if (call.get("Payload") != null) {
@@ -419,13 +419,13 @@ public class BrowserLogs {
             for (JSONObject jsonObject : this.filteredCalls) {
                 JSONObject jsonObject2 = new JSONObject();
                 if (jsonObject.has("RequestHeaders")
-                    && jsonObject.getString("RequestHeaders").toLowerCase()
-                                 .contains(header.toLowerCase())
-                    && jsonObject.getString("RequestHeaders").contains(value)
-                    || jsonObject.has("ResponseHeaders")
-                       && jsonObject.getString("ResponseHeaders").toLowerCase()
-                                    .contains(header.toLowerCase())
-                       && jsonObject.getString("ResponseHeaders").contains(value)) {
+                        && jsonObject.getString("RequestHeaders").toLowerCase()
+                        .contains(header.toLowerCase())
+                        && jsonObject.getString("RequestHeaders").contains(value)
+                        || jsonObject.has("ResponseHeaders")
+                        && jsonObject.getString("ResponseHeaders").toLowerCase()
+                        .contains(header.toLowerCase())
+                        && jsonObject.getString("ResponseHeaders").contains(value)) {
                     jsonObject2.put("URL", jsonObject.get("URL"));
                     jsonObject2.put("statusCode", jsonObject.get("statusCode"));
                     if (jsonObject.has("Payload")) {
@@ -447,40 +447,40 @@ public class BrowserLogs {
 
     public BrowserLogs and() {
         return new BrowserLogs(
-            this.calls,
-            this.filteredCalls,
-            this.callHar,
-            true
+                this.calls,
+                this.filteredCalls,
+                this.callHar,
+                true
         );
     }
 
     public BrowserLogs or() {
         return new BrowserLogs(
-            this.calls,
-            this.filteredCalls,
-            this.callHar,
-            false
+                this.calls,
+                this.filteredCalls,
+                this.callHar,
+                false
         );
     }
 
     public BrowserLogs assertStatusCode(int statusCode) {
         for (JSONObject responses : this.filteredCalls) {
             if (responses.getInt("statusCode") != statusCode
-                && responses.getInt("statusCode") != 0) {
+                    && responses.getInt("statusCode") != 0) {
                 if (Configuration.useAllure) {
                     Allure.addAttachment(
-                        "Assert Status Code",
-                        "Status code should be " +
-                        statusCode +
-                        " but was " +
-                        responses.getInt("statusCode") +
-                        "\n Response: \n" +
-                        responses
+                            "Assert Status Code",
+                            "Status code should be " +
+                                    statusCode +
+                                    " but was " +
+                                    responses.getInt("statusCode") +
+                                    "\n Response: \n" +
+                                    responses
                     );
                 }
                 throw new TestUIException("Status code should be " + statusCode + " but was "
-                                          + responses.getInt("statusCode") + "\n Response: \n" +
-                                          responses);
+                        + responses.getInt("statusCode") + "\n Response: \n" +
+                        responses);
             }
         }
         return new BrowserLogs(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
@@ -489,30 +489,30 @@ public class BrowserLogs {
     public BrowserLogs assertStatusCode(int statusCode, int statusCode2) {
         for (JSONObject responses : this.filteredCalls) {
             if ((responses.getInt("statusCode") < statusCode ||
-                 responses.getInt("statusCode") > statusCode2)
-                && responses.getInt("statusCode") != 0) {
+                    responses.getInt("statusCode") > statusCode2)
+                    && responses.getInt("statusCode") != 0) {
                 if (Configuration.useAllure) {
                     Allure.addAttachment(
-                        "Assert Status Code",
-                        "Status code should be between " +
-                        statusCode +
-                        " and " +
-                        statusCode2 +
-                        " but was " +
-                        responses.getInt("statusCode") +
-                        "\n Response: \n" +
-                        responses
+                            "Assert Status Code",
+                            "Status code should be between " +
+                                    statusCode +
+                                    " and " +
+                                    statusCode2 +
+                                    " but was " +
+                                    responses.getInt("statusCode") +
+                                    "\n Response: \n" +
+                                    responses
                     );
                 }
                 throw new TestUIException(
-                    "Status code should be between " +
-                    statusCode +
-                    " and " +
-                    statusCode2 +
-                    " but was " +
-                    responses.getInt("statusCode") +
-                    "\n Response: \n" +
-                    responses
+                        "Status code should be between " +
+                                statusCode +
+                                " and " +
+                                statusCode2 +
+                                " but was " +
+                                responses.getInt("statusCode") +
+                                "\n Response: \n" +
+                                responses
                 );
             }
         }
@@ -524,42 +524,42 @@ public class BrowserLogs {
         boolean found = false;
         for (JSONObject responses : this.filteredCalls) {
             if (responses.has("ResponseHeaders") &&
-                !responses.getString("ResponseHeaders").toLowerCase()
-                          .contains(Value.toLowerCase())) {
+                    !responses.getString("ResponseHeaders").toLowerCase()
+                            .contains(Value.toLowerCase())) {
                 if (Configuration.useAllure) {
                     Allure.addAttachment(
-                        "Assert Headers",
-                        "The headers should contain '" +
-                        Header +
-                        "' Equal to '" +
-                        Value +
-                        " but is: \n " +
-                        responses.getString("ResponseHeaders") +
-                        "\n Response: \n" +
-                        responses
+                            "Assert Headers",
+                            "The headers should contain '" +
+                                    Header +
+                                    "' Equal to '" +
+                                    Value +
+                                    " but is: \n " +
+                                    responses.getString("ResponseHeaders") +
+                                    "\n Response: \n" +
+                                    responses
                     );
                 }
                 throw new TestUIException(
-                    "The headers should contain '" +
-                    Header +
-                    "' Equal to '" +
-                    Value +
-                    " but is: \n " +
-                    responses.getString("ResponseHeaders") +
-                    "\n Response: \n" +
-                    responses
+                        "The headers should contain '" +
+                                Header +
+                                "' Equal to '" +
+                                Value +
+                                " but is: \n " +
+                                responses.getString("ResponseHeaders") +
+                                "\n Response: \n" +
+                                responses
                 );
             } else if (responses.has("ResponseHeaders") &&
-                       responses.getString("ResponseHeaders").contains(Value)) {
+                    responses.getString("ResponseHeaders").contains(Value)) {
                 found = true;
             }
         }
         if (!found) {
             throw new TestUIException(
-                "There were no calls with those response headers: '" +
-                Header +
-                "' equal to '" +
-                Value + "'"
+                    "There were no calls with those response headers: '" +
+                            Header +
+                            "' equal to '" +
+                            Value + "'"
             );
         }
         return new BrowserLogs(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
