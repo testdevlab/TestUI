@@ -33,12 +33,10 @@ public class BrowserLogs {
     private boolean severalFilters;
     private static Proxy seleniumProxy;
 
-    private BrowserLogs(
-        List<List<JSONObject>> calls,
+    private BrowserLogs(List<List<JSONObject>> calls,
         List<JSONObject> filteredCalls,
         List<Map<String, String>> callHar,
-        boolean severalFilters
-    ) {
+        boolean severalFilters) {
         this.calls = calls;
         this.filteredCalls = filteredCalls;
         this.callHar = callHar;
@@ -73,12 +71,10 @@ public class BrowserLogs {
                     seleniumProxy.setSslProxy("localhost:" + getProxy().getPort());
                     Configuration.selenideBrowserCapabilities.setCapability(
                         CapabilityType.PROXY, seleniumProxy);
-                    // enable more detailed HAR capture, if desired (see CaptureType for the
-                    // complete list)
+                    // enable more detailed HAR capture, if desired (see CaptureType for the complete list)
                     proxy.enableHarCaptureTypes(
                         CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT,
-                        CaptureType.REQUEST_HEADERS, CaptureType.RESPONSE_HEADERS
-                    );
+                        CaptureType.REQUEST_HEADERS, CaptureType.RESPONSE_HEADERS);
                     // create a new HAR with the label "Proxy"
                     proxy.newHar("Proxy");
                 }
@@ -492,10 +488,8 @@ public class BrowserLogs {
 
     public BrowserLogs assertStatusCode(int statusCode, int statusCode2) {
         for (JSONObject responses : this.filteredCalls) {
-            if ((
-                    responses.getInt("statusCode") < statusCode ||
-                    responses.getInt("statusCode") > statusCode2
-                )
+            if ((responses.getInt("statusCode") < statusCode ||
+                 responses.getInt("statusCode") > statusCode2)
                 && responses.getInt("statusCode") != 0) {
                 if (Configuration.useAllure) {
                     Allure.addAttachment(
@@ -555,10 +549,8 @@ public class BrowserLogs {
                     "\n Response: \n" +
                     responses
                 );
-            } else if (
-                responses.has("ResponseHeaders")
-                && responses.getString("ResponseHeaders").contains(Value)
-            ) {
+            } else if (responses.has("ResponseHeaders") &&
+                       responses.getString("ResponseHeaders").contains(Value)) {
                 found = true;
             }
         }
@@ -575,8 +567,7 @@ public class BrowserLogs {
 
     public BrowserLogs assertFilteredCallExists() {
         if (this.filteredCalls.size() == 0) {
-            throw new TestUIException(
-                "There are no network calls with the filter parameters included!");
+            throw new TestUIException("There are no network calls with the filter parameters included!");
         }
         return new BrowserLogs(this.calls, this.filteredCalls, this.callHar, this.severalFilters);
     }
