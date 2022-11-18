@@ -18,7 +18,7 @@ how it looks...
 * [Installation](#installation)
     * [Maven](#maven)
     * [Gradle (Kotlin)](#gradle-kotlin)
-    * [Gradle (Groovy )](#gradle-groovy)
+    * [Gradle (Groovy)](#gradle-groovy)
 * [Start using TestUI](#start-using-testui)
     * [Android](#android)
     * [iOS](#ios)
