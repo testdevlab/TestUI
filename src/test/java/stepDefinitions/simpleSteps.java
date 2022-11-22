@@ -53,12 +53,6 @@ public class simpleSteps {
 
     @When("I search for {word} in Google")
     public void iClickOnGoogleSearching(String search){
-        googleLandingPage.getGoogleCookies().click();
-        googleLandingPage.getGoogleSearchInput().given().waitFor(5)
-                .untilIsVisible().then().sendKeys(search);
-        googleLandingPage.getGoogleSearch().given().waitFor(30)
-                .untilIsEnabled().then().click();
-        sleep(2000);
     }
 
     @Then("I take screenshot in all devices")
@@ -68,13 +62,6 @@ public class simpleSteps {
 
     @When("I search for {word} in Google and fail assertion")
     public void iClickOnGoogleSearchingAndFail(String search){
-        googleLandingPage.getGoogleSearchInput()
-                .given().waitFor(5).untilIsVisible()
-                .then().sendKeys(search)
-                .and().should().containText("fakeText");
-        // Tailored assert that takes screenshot on failure:
-        UIAssert("Fail assert",
-                googleLandingPage.getGoogleSearchInput().getText().equals("fakeText"));
     }
 
     @Given("I am using {word} browser")

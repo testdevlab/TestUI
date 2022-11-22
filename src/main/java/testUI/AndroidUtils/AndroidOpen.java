@@ -137,7 +137,8 @@ public class AndroidOpen extends TestUIServer {
             setEmulatorIfNeeded(configuration);
             putAllureParameter(
                     "Version",
-                    getDriver().getCapabilities().asMap().get("platformVersion").toString()
+                    getDriver().getCapabilities().asMap()
+                            .getOrDefault("appium:platformVersion", "emulator").toString()
             );
         } else {
             startSelenideDriver(urlOrRelativeUrl);
@@ -147,13 +148,16 @@ public class AndroidOpen extends TestUIServer {
 
     private void setEmulatorIfNeeded(TestUIConfiguration configuration) {
         if (!configuration.getEmulatorName().isEmpty()) {
+            System.out.println(getDriver().getCapabilities().asMap());
             setDevice(
-                    getDriver().getCapabilities().asMap().get("deviceUDID").toString(),
-                    getDriver().getCapabilities().asMap().get("deviceUDID").toString()
+                    getDriver().getCapabilities().asMap()
+                            .getOrDefault("appium:deviceUDID", "emulator").toString(),
+                    getDriver().getCapabilities().asMap()
+                            .getOrDefault("appium:deviceUDID", "emulator").toString()
             );
             attachShutDownHookStopEmulator(
                     getAppiumServices(),
-                    getDriver().getCapabilities().asMap().get("deviceUDID").toString()
+                    getDriver().getCapabilities().asMap().get("appium:deviceUDID").toString()
             );
         }
     }

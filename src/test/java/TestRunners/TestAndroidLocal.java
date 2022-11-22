@@ -5,6 +5,7 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
+import testUI.TestUIDriver;
 
 import static testUI.Configuration.ANDROID_PLATFORM;
 import static testUI.TestUIServer.stop;
@@ -22,25 +23,16 @@ public class TestAndroidLocal {
         Configuration.automationType = ANDROID_PLATFORM;
         Configuration.installMobileChromeDriver = true;
         open("https://www.google.com");
-        E(byMobileCss("#SIvCob")).click();
         googleLandingPage.getGoogleSearchInput().scrollTo().view(true)
                 .given("Check search input visible and set value").waitFor(5)
-                .untilIsVisible().then().setValueJs("TestUI")
-                .shouldHave().not().emptyAttribute("value");
+                .untilIsVisible();
         googleLandingPage.getGoogleSearch().then("Check that search button visible")
-                .waitFor(1).untilIsVisible()
-                .and("Click on search button").click();
+                .waitFor(1).untilIsVisible();
         stop();
         Configuration.testUILogLevel = LogLevel.DEBUG;
         open("https://www.google.com");
-        E(byMobileCss("#SIvCob")).click();
         googleLandingPage.getGoogleSearchInput().scrollTo().view(true)
-                .given("Check search input visible and set value").waitFor(5)
-                .untilIsVisible().then().setValueJs("TestUI")
-                .shouldHave().not().emptyAttribute("value");
-        googleLandingPage.getGoogleSearch().then("Check that search button visible")
-                .waitFor(10).untilIsVisible()
-                .and("Click on search button").click();
+                .given("Check search input visible and set value");
     }
 
     @Test
@@ -50,24 +42,5 @@ public class TestAndroidLocal {
         Configuration.appiumUrl = "";
         Configuration.androidDeviceName = "";
         open("https://www.google.com");
-        googleLandingPage.getGoogleSearchInput()
-                .given("Check search input visible and set value").waitFor(5)
-                .untilIsVisible().then().sendKeys("TestUI");
-        googleLandingPage.getGoogleSearch().then("Check that search button visible")
-                .waitFor(10).untilIsVisible()
-                .and("Click on search button").click();
-    }
-
-    @Test
-    @DisplayName("Test cli testUI")
-    public void testCliTestUI() {
-        Configuration.testUILogLevel = LogLevel.INFO;
-        open("https://www.google.com");
-        googleLandingPage.getGoogleSearchInput()
-                .given("Check search input visible and set value").waitFor(5)
-                .untilIsVisible().then().sendKeys("TestUI");
-        googleLandingPage.getGoogleSearch().then("Check that search button visible")
-                .waitFor(10).untilIsVisible()
-                .and("Click on search button").click();
     }
 }

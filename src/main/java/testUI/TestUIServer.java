@@ -289,11 +289,14 @@ public class TestUIServer extends UIUtils {
             removeUsePort(driver - 1);
             removeUseBootstrapPort(driver - 1);
             if (Configuration.automationType.equals(IOS_PLATFORM)) {
-                getDrivers().get(driver - 1).close();
+                if (getDrivers().size() != 0)
+                    getDrivers().get(driver - 1).close();
                 sleep(500);
             }
-            getDrivers().get(driver - 1).quit();
-            removeDriver(driver - 1);
+            if (getDrivers().size() != 0) {
+                getDrivers().get(driver - 1).quit();
+                removeDriver(driver - 1);
+            }
             getAppiumServices().get(driver - 1).stop();
             getAppiumServices().remove(driver - 1);
             if (getDevices().size() != 0) {

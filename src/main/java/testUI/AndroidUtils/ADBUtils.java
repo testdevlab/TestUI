@@ -234,6 +234,7 @@ public class ADBUtils {
                 putLog("Detected Chrome version = " + chromeVersion
                                 + " matches with the actual chromedriver: "
                                 + ActualVersion);
+                configuration.setChromeDriverPath(chromeDriverPath);
             } else if (getTargetDirectory(configuration, chromeVersion.split("\\.")[0])) {
                 putLog("Detected Chrome driver already installed "
                         + "for this device, placed in target directory");
