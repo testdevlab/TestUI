@@ -25,6 +25,7 @@ public class TestJUnit {
     public void testAndroidBrowser() {
         Configuration.automationType = Configuration.ANDROID_PLATFORM;
         Configuration.testUILogLevel = LogLevel.DEBUG;
+        Configuration.UDID = "";
         Configuration.installMobileChromeDriver = true;
         open("https://www.google.com")
         .given().setElement(googleLandingPage.getGoogleSearchInput());

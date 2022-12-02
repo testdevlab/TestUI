@@ -135,6 +135,12 @@
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-api</artifactId>
+                </exclusion>
+            </exclusions>
             <version>8.1.1</version>
         </dependency>
         <dependency>
@@ -151,6 +157,7 @@
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
             <version>6.7.4</version>
+
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
