@@ -35,7 +35,7 @@ public class TestUIServer extends UIUtils {
         DesiredCapabilities cap;
         //Set Capabilities
         cap = new DesiredCapabilities();
-        cap.setCapability("noReset", "false");
+        cap.setCapability("appium:noReset", "false");
         //Build the Appium service
         builder = new AppiumServiceBuilder();
         builder.withIPAddress("127.0.0.1");

@@ -27,14 +27,14 @@ public class IOCapabilities extends Configuration {
             }
             // BROWSER OR APP
             if (browser) {
-                capabilities.setCapability(MobileCapabilityType.AUTO_WEBVIEW, true);
-                capabilities.setCapability(MobileCapabilityType.BROWSER_NAME,
+                capabilities.setCapability("appium:" + MobileCapabilityType.AUTO_WEBVIEW, true);
+                capabilities.setCapability("appium:" + MobileCapabilityType.BROWSER_NAME,
                         MobileBrowserType.SAFARI);
             } else if (!Configuration.iOSAppPath.isEmpty()) {
                 String appPath = Configuration.iOSAppPath.charAt(0) == '/' ?
                         Configuration.iOSAppPath :
                         System.getProperty("user.dir") + "/" + Configuration.iOSAppPath;
-                capabilities.setCapability(MobileCapabilityType.APP, appPath);
+                capabilities.setCapability("appium:" + MobileCapabilityType.APP, appPath);
             }
             // IN CASE OF REAL DEVICE
             if (!Configuration.xcodeOrgId.isEmpty()) {
@@ -44,11 +44,11 @@ public class IOCapabilities extends Configuration {
                         Configuration.xcodeSigningId);
             }
             if (!Configuration.updatedWDABundleId.isEmpty()) {
-                capabilities.setCapability("updatedWDABundleId",
+                capabilities.setCapability("appium:updatedWDABundleId",
                         Configuration.updatedWDABundleId);
             }
             if (!Configuration.bundleId.isEmpty()) {
-                capabilities.setCapability("bundleId", Configuration.bundleId);
+                capabilities.setCapability("appium:bundleId", Configuration.bundleId);
             }
             // DEFAULT THINGS
             int wdaLocalPort;
@@ -60,11 +60,11 @@ public class IOCapabilities extends Configuration {
                 wdaLocalPort = Configuration.wdaPort;
             }
             capabilities.setCapability(IOSMobileCapabilityType.WDA_LOCAL_PORT, wdaLocalPort);
-            capabilities.setCapability(MobileCapabilityType.NO_RESET, false);
+            capabilities.setCapability("appium:" + MobileCapabilityType.NO_RESET, false);
             capabilities.setCapability(IOSMobileCapabilityType.USE_NEW_WDA,
                     Configuration.useNewWDA);
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.IOS);
-            capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
+            capabilities.setCapability("appium:platformName", Platform.IOS);
+            capabilities.setCapability("appium:" + MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
             capabilities.setCapability(IOSMobileCapabilityType.START_IWDP, true);
             capabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
                     Configuration.launchAppTimeout);
@@ -107,28 +107,28 @@ public class IOCapabilities extends Configuration {
                         Configuration.iOSDeviceName;
                 Configuration.iOSVersion = Configuration.iOSVersion.isEmpty() ? "13.2" :
                         Configuration.iOSVersion;
-                capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
+                capabilities.setCapability("appium:" + MobileCapabilityType.DEVICE_NAME,
                         Configuration.iOSDeviceName);
-                capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
+                capabilities.setCapability("appium:" + MobileCapabilityType.PLATFORM_VERSION,
                         Configuration.iOSVersion);
-                capabilities.setCapability("udid", Configuration.UDID);
+                capabilities.setCapability("appium:udid", Configuration.UDID);
             } else {
                 if (Configuration.UDID.isEmpty()) {
-                    capabilities.setCapability("udid", "auto");
+                    capabilities.setCapability("appium:udid", "auto");
                 } else {
-                    capabilities.setCapability("udid", Configuration.UDID);
+                    capabilities.setCapability("appium:udid", Configuration.UDID);
                 }
-                capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
+                capabilities.setCapability("appium:" + MobileCapabilityType.DEVICE_NAME,
                         Configuration.iOSDeviceName);
-                capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
+                capabilities.setCapability("appium:" + MobileCapabilityType.PLATFORM_VERSION,
                         Configuration.iOSVersion);
             }
         } else {
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
+            capabilities.setCapability("appium:" + MobileCapabilityType.DEVICE_NAME,
                     Configuration.iOSDeviceName);
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
+            capabilities.setCapability("appium:" + MobileCapabilityType.PLATFORM_VERSION,
                     Configuration.iOSVersion);
-            capabilities.setCapability("udid", Configuration.UDID);
+            capabilities.setCapability("appium:udid", Configuration.UDID);
         }
 
         return capabilities;
