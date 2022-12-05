@@ -35,7 +35,7 @@ public class TestUIServer extends UIUtils {
         DesiredCapabilities cap;
         //Set Capabilities
         cap = new DesiredCapabilities();
-        cap.setCapability("noReset", "false");
+        cap.setCapability("appium:noReset", "false");
         //Build the Appium service
         builder = new AppiumServiceBuilder();
         builder.withIPAddress("127.0.0.1");
@@ -44,6 +44,7 @@ public class TestUIServer extends UIUtils {
         builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
         builder.withArgument(GeneralServerFlag.LOG_LEVEL, "info");
         builder.withArgument(AndroidServerFlag.BOOTSTRAP_PORT_NUMBER, Bootstrap);
+        builder.withArgument(GeneralServerFlag.BASEPATH, configuration.getBaseAppiumPath());
         //Start the server with the builder
         TestUIServer.serviceRunning.set(false);
         boolean slowResponse = false;
@@ -288,11 +289,14 @@ public class TestUIServer extends UIUtils {
             removeUsePort(driver - 1);
             removeUseBootstrapPort(driver - 1);
             if (Configuration.automationType.equals(IOS_PLATFORM)) {
-                getDrivers().get(driver - 1).close();
+                if (getDrivers().size() != 0)
+                    getDrivers().get(driver - 1).close();
                 sleep(500);
             }
-            getDrivers().get(driver - 1).quit();
-            removeDriver(driver - 1);
+            if (getDrivers().size() != 0) {
+                getDrivers().get(driver - 1).quit();
+                removeDriver(driver - 1);
+            }
             getAppiumServices().get(driver - 1).stop();
             getAppiumServices().remove(driver - 1);
             if (getDevices().size() != 0) {

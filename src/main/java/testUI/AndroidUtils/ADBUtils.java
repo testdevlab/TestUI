@@ -18,12 +18,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static testUI.UIUtils.getDevice;
 import static testUI.UIUtils.putLog;
-import static testUI.Utils.Logger.putLogInfo;
 import static testUI.Utils.Logger.putLogWarn;
 
 public class ADBUtils {
@@ -32,8 +29,7 @@ public class ADBUtils {
     private static String platformTools = "/platform-tools/";
     private static String emulatorFolder = "/emulator/";
     public static String MAC_CHROME_DRIVER =
-            "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver/mac" +
-                    "/chromedriver*";
+            "/usr/local/bin/chromedriver";
     public static String LNX_CHROME_DRIVER =
             "/usr/local/lib/node_modules/appium/node_modules/appium-chromedriver/chromedriver" +
                     "/linux/chromedriver*";
@@ -238,21 +234,23 @@ public class ADBUtils {
                 putLog("Detected Chrome version = " + chromeVersion
                                 + " matches with the actual chromedriver: "
                                 + ActualVersion);
-            } else if (!doesFileExists(chromeDriverPath)) {
-                putLog("Detected Chrome version = " + chromeVersion
-                                + " but the Appium ChromeDriver is unknown, "
-                                + "maybe you should check the appium "
-                                + "installation or run npm install appium -g");
+                configuration.setChromeDriverPath(chromeDriverPath);
             } else if (getTargetDirectory(configuration, chromeVersion.split("\\.")[0])) {
                 putLog("Detected Chrome driver already installed "
                         + "for this device, placed in target directory");
             } else {
+                if (!doesFileExists(chromeDriverPath)) {
+                    putLog("Detected Chrome version = " + chromeVersion
+                            + " but the ChromeDriver is unknown, "
+                            + "maybe you should check the appium/chromedriver "
+                            + "installation");
+                }
                 putLog("Detected Chrome version = " + chromeVersion
                                 + ". Installing the ChromeDriver: "
                                 + chromeDriverVersion);
                 WebDriverManager.chromedriver().driverVersion(chromeDriverVersion).setup();
                 configuration.setChromeDriverPath(
-                        copyFileToCustomFolder(WebDriverManager.chromedriver().getDownloadedDriverPath(),
+                        copyFileToCustomFolder(System.getProperty("webdriver.chrome.driver"),
                                 chromeVersion.split("\\.")[0]));
             }
         } catch (IOException e) {

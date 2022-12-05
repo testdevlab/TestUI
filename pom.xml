@@ -6,7 +6,7 @@
 
     <groupId>com.testdevlab</groupId>
     <artifactId>TestUI</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 
     <developers>
         <developer>
@@ -133,9 +133,28 @@
     </repositories>
     <dependencies>
         <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.6.0</version>
+        </dependency>
+        <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <version>8.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-remote-driver</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-support</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>8.1.0</version>
         </dependency>
         <dependency>
             <groupId>net.lightbody.bmp</groupId>
@@ -150,7 +169,8 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>6.7.4</version>
+
+            <version>6.10.1</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

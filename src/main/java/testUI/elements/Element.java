@@ -7,7 +7,7 @@ import org.openqa.selenium.interactions.Pause;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.io.FileHandler;
-import org.openqa.selenium.support.ui.Quotes;
+//import org.openqa.selenium.support.ui.Quotes;
 import testUI.Configuration;
 import testUI.BrowserLogs;
 import testUI.Utils.TestUIException;
@@ -409,7 +409,7 @@ public class Element extends TestUI implements UIElement {
 
     public UIElement selectElementByValue(String... values) {
         for (String value : values) {
-            UIElement e = E(By.xpath("//option[@value = " + Quotes.escape(value) + "]"));
+            UIElement e = E(By.xpath("//option[@value = " + value + "]"));
             e.waitFor(5).untilIsVisible();
             if (Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
                 if (!e.getSelenideElement().isSelected()) {

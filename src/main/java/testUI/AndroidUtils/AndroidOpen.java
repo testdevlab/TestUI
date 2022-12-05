@@ -34,7 +34,8 @@ public class AndroidOpen extends TestUIServer {
             setEmulatorIfNeeded(configuration);
             putAllureParameter(
                     "Version",
-                    getDriver().getCapabilities().asMap().get("platformVersion").toString()
+                    getDriver().getCapabilities().asMap()
+                            .getOrDefault("appium:platformVersion", "Unknown").toString()
             );
         } else {
             driver = 1;
@@ -47,7 +48,8 @@ public class AndroidOpen extends TestUIServer {
             startFirstAndroidDriver(cap);
             putAllureParameter(
                     "Version",
-                    getDriver().getCapabilities().asMap().get("platformVersion").toString()
+                    getDriver().getCapabilities().asMap()
+                            .getOrDefault("appium:platformVersion", "Unknown").toString()
             );
         }
         Configuration.emulatorName = "";
@@ -63,7 +65,8 @@ public class AndroidOpen extends TestUIServer {
         setEmulatorIfNeeded(configuration);
         putAllureParameter(
                 "Version",
-                getDriver().getCapabilities().asMap().get("platformVersion").toString()
+                getDriver().getCapabilities().asMap()
+                        .getOrDefault("appium:platformVersion", "Unknown").toString()
         );
         Configuration.emulatorName = "";
     }
@@ -87,7 +90,8 @@ public class AndroidOpen extends TestUIServer {
                 setEmulatorIfNeeded(configuration);
                 putAllureParameter(
                         "Version",
-                        getDriver().getCapabilities().asMap().get("platformVersion").toString()
+                        getDriver().getCapabilities().asMap()
+                                .getOrDefault("appium:platformVersion", "Unknown").toString()
                 );
             } else {
                 Configuration.driver = 1;
@@ -99,7 +103,8 @@ public class AndroidOpen extends TestUIServer {
                 startFirstAndroidBrowserDriver(urlOrRelativeUrl, configuration);
                 putAllureParameter(
                         "Version",
-                        getDriver().getCapabilities().asMap().get("platformVersion").toString()
+                        getDriver().getCapabilities().asMap()
+                                .getOrDefault("appium:platformVersion", "Unknown").toString()
                 );
             }
             putAllureParameter("Browser", "Chrome");
@@ -132,7 +137,8 @@ public class AndroidOpen extends TestUIServer {
             setEmulatorIfNeeded(configuration);
             putAllureParameter(
                     "Version",
-                    getDriver().getCapabilities().asMap().get("platformVersion").toString()
+                    getDriver().getCapabilities().asMap()
+                            .getOrDefault("appium:platformVersion", "emulator").toString()
             );
         } else {
             startSelenideDriver(urlOrRelativeUrl);
@@ -142,13 +148,16 @@ public class AndroidOpen extends TestUIServer {
 
     private void setEmulatorIfNeeded(TestUIConfiguration configuration) {
         if (!configuration.getEmulatorName().isEmpty()) {
+            System.out.println(getDriver().getCapabilities().asMap());
             setDevice(
-                    getDriver().getCapabilities().asMap().get("deviceUDID").toString(),
-                    getDriver().getCapabilities().asMap().get("deviceUDID").toString()
+                    getDriver().getCapabilities().asMap()
+                            .getOrDefault("appium:deviceUDID", "emulator").toString(),
+                    getDriver().getCapabilities().asMap()
+                            .getOrDefault("appium:deviceUDID", "emulator").toString()
             );
             attachShutDownHookStopEmulator(
                     getAppiumServices(),
-                    getDriver().getCapabilities().asMap().get("deviceUDID").toString()
+                    getDriver().getCapabilities().asMap().get("appium:deviceUDID").toString()
             );
         }
     }
