@@ -11,7 +11,6 @@ import static testUI.TestUIDriver.takeScreenshot;
 import static testUI.UIUtils.getDevicesNames;
 import static testUI.UIUtils.getIOSDevices;
 import static testUI.Utils.AppiumHelps.*;
-import static testUI.Utils.Logger.putSoftAssert;
 import static testUI.elements.TestUI.setScreenshotTaken;
 
 public class WaitUntil {
@@ -65,8 +64,8 @@ public class WaitUntil {
                 errorMessage = "The element '" + element + "' " + reason;
             } else {
                 errorMessage = "The element 'By." +
-                                accesibility.split(": ")[0] + ": " +
-                                accesibility.split(": ")[1] + "' " +
+                                accesibility.split(": ", 2)[0] + ": " +
+                                accesibility.split(": ", 2)[1] + "' " +
                                 reason;
             }
             TestUIException.handleError(errorMessage);
