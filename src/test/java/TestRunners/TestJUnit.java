@@ -5,8 +5,10 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
+import testUI.Utils.By;
 
 import static testUI.UIOpen.open;
+import static testUI.elements.TestUI.E;
 
 public class TestJUnit {
     private GoogleLandingPage googleLandingPage = new GoogleLandingPage();
@@ -39,6 +41,7 @@ public class TestJUnit {
         Configuration.useNewWDA = false;
         Configuration.bundleId = "com.apple.Preferences";
         open();
+        E(By.byAccesibilityId("message: 2123")).waitFor(1).untilNotVisible();
     }
 
     @Test

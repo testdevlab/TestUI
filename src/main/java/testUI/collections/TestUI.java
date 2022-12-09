@@ -214,31 +214,31 @@ public class TestUI implements UICollection {
                 case "accessibilityId":
                     return getDriver().
                             findElements(AppiumBy.accessibilityId(
-                                    getAccessibilityId().split(": ")[1]));
+                                    getAccessibilityId().split(": ", 2)[1]));
                 case "className":
                     return getDriver().
-                            findElements(By.className(getAccessibilityId().split(": ")[1]));
+                            findElements(By.className(getAccessibilityId().split(": ", 2)[1]));
                 case "androidUIAutomator":
                     return getAndroidTestUIDriver().
                             findElements(AppiumBy.androidUIAutomator(
-                                    getAccessibilityId().split(": ")[1]));
+                                    getAccessibilityId().split(": ", 2)[1]));
                 case "predicate":
                     return getIOSTestUIDriver().
-                            findElements(AppiumBy.iOSNsPredicateString(getAccessibilityId().split(": ")[1]));
+                            findElements(AppiumBy.iOSNsPredicateString(getAccessibilityId().split(": ", 2)[1]));
                 case "classChain":
                     return getIOSTestUIDriver().
-                            findElements(AppiumBy.iOSClassChain(getAccessibilityId().split(": ")[1]));
+                            findElements(AppiumBy.iOSClassChain(getAccessibilityId().split(": ", 2)[1]));
                 case "name":
                     return getDriver().
-                            findElements(By.name(getAccessibilityId().split(": ")[1]));
+                            findElements(By.name(getAccessibilityId().split(": ", 2)[1]));
                 case "xpath":
                     return getDriver()
-                            .findElements(By.xpath(getAccessibilityId().split(": ")[1]));
+                            .findElements(By.xpath(getAccessibilityId().split(": ", 2)[1]));
                 case "id":
-                    return getDriver().findElements(By.id(getAccessibilityId().split(": ")[1]));
+                    return getDriver().findElements(By.id(getAccessibilityId().split(": ", 2)[1]));
                 case "css":
                     return getDriver()
-                            .findElements(By.cssSelector(getAccessibilityId().split(": ")[1]));
+                            .findElements(By.cssSelector(getAccessibilityId().split(": ", 2)[1]));
                 default:
                     UIAssert("The type of locator is not valid! " +
                             getAccessibilityId().split(": ")[0],
