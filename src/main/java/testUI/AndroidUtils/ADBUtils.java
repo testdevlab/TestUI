@@ -369,15 +369,12 @@ public class ADBUtils {
             putLogWarn("Could not connect to \"https://chromedriver.storage.googleapis.com/\"");
             return "80";
         }
-        String chromeDriverVersion = "";  // ToDo it is not pulling the version. I just
-        String new_chrome_version = "";
-        for (String text : body.split(version)) {
+        String chromeDriverVersion = "";
+        for (String text : body.split(">" +version)) {
             if (text.contains("/chromedriver_mac64.zip")) {
-                new_chrome_version =
-                        version + text.split("/chromedriver_mac64\\.zip")[0];
+                if (text.split("/chromedriver_mac64\\.zip")[0].length() < 17)
+                    chromeDriverVersion = version + text.split("/chromedriver_mac64\\.zip")[0];
             }
-            if (new_chrome_version.length() < 17)
-                chromeDriverVersion = new_chrome_version;
         }
         return chromeDriverVersion;
     }
