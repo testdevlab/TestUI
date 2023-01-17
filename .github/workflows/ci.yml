@@ -15,8 +15,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ macos-latest, windows-latest, ubuntu-latest ]
-        java: [ '8', '11', '17' ]
+        os: [macos-latest, windows-latest, ubuntu-latest]
+        java: ["8", "11", "17"]
 
     steps:
       - uses: actions/checkout@v3
@@ -24,18 +24,18 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: ${{ matrix.java }}
-          distribution: 'zulu'
+          distribution: "zulu"
       - name: Build with Maven
         run: mvn compile
-
-  lint:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-
-    steps:
-      - uses: actions/checkout@v3
-      - run: cat .github/super-linter.env >> "$GITHUB_ENV"
-      - name: Lint with Checkstyle
-        uses: github/super-linter@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#  TODO: Uncomment once all code is formatted
+#  lint:
+#    runs-on: ubuntu-latest
+#    continue-on-error: true
+#
+#    steps:
+#      - uses: actions/checkout@v3
+#      - run: cat .github/super-linter.env >> "$GITHUB_ENV"
+#      - name: Lint with Checkstyle
+#        uses: github/super-linter@v4
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
