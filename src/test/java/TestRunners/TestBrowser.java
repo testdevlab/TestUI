@@ -36,9 +36,7 @@ public class TestBrowser {
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
                 .getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearch()
-                .then().saveScreenshot("~/Documents" +
-                "/screen" +
-                ".png");
+                .then().saveScreenshot("~/target/screen.png");
         logAverageTime();
         System.out.println(getListOfCommandsTime());
 
