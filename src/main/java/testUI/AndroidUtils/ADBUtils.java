@@ -380,8 +380,9 @@ public class ADBUtils {
         String chromeName = "";
         String Platform = System.getProperty("os.name").toLowerCase();
         if (Platform.contains("mac")) {
+            System.out.println(System.getProperty("os.arch"));
             if (System.getProperty("os.arch").toLowerCase().contains("aarch64")) {
-                chromeName = "/chromedriver_mac64_m1.zip";
+                chromeName = "mac-aarch64";
             } else {
                 chromeName = "/chromedriver_mac64.zip";
             }
@@ -401,8 +402,14 @@ public class ADBUtils {
 
                 String text = element.getTextContent();
                 // Check that the version and platform matches
+
+                if (text.startsWith(version) && chromeName.equals("mac-aarch64")) {
+                    if (text.contains("mac_arm64") || text.contains("m1")) {
+                        chromeDriverVersion = text.split("/")[0];
+                    }
+                }
                 if (text.startsWith(version) && text.contains(chromeName)) {
-                    chromeDriverVersion = text.split(chromeName)[0];
+                    chromeDriverVersion = text.split("/")[0];
                 }
             }
         }
@@ -416,8 +423,7 @@ public class ADBUtils {
         try {
             dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             DocumentBuilder builder = dbf.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(xmlString)));
-            return doc;
+            return builder.parse(new InputSource(new StringReader(xmlString)));
 
         } catch (ParserConfigurationException | IOException | SAXException e) {
             throw new RuntimeException(e);

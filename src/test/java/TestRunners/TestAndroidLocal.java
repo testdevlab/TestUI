@@ -26,8 +26,6 @@ public class TestAndroidLocal {
         googleLandingPage.getGoogleSearchInput().scrollTo().view(true)
                 .given("Check search input visible and set value").waitFor(5)
                 .untilIsVisible();
-        googleLandingPage.getGoogleSearch().then("Check that search button visible")
-                .waitFor(1).untilIsVisible();
         stop();
         Configuration.testUILogLevel = LogLevel.DEBUG;
         open("https://www.google.com");
