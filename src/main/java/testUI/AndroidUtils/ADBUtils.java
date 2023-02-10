@@ -422,8 +422,8 @@ public class ADBUtils {
         try {
             dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             DocumentBuilder builder = dbf.newDocumentBuilder();
-            return builder.parse(new InputSource(new StringReader(xmlString)));
 
+            return builder.parse(new InputSource(new StringReader(xmlString)));
         } catch (ParserConfigurationException | IOException | SAXException e) {
             throw new RuntimeException(e);
         }
