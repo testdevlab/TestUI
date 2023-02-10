@@ -417,8 +417,7 @@ public class ADBUtils {
         return chromeDriverVersion;
     }
 
-    private static Document loadXMLFromString(String xmlString)
-    {
+    private static Document loadXMLFromString(String xmlString) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
