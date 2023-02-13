@@ -400,7 +400,7 @@ public class ADBUtils {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
 
-                String text = element.getTextContent();
+                String text = element.getElementsByTagName("Key").item(0).getTextContent();
                 // Check that the version and platform matches
 
                 if (text.startsWith(version) && chromeName.equals("mac-aarch64")) {
