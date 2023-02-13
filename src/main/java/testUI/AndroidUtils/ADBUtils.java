@@ -283,10 +283,10 @@ public class ADBUtils {
     }
 
     private String getChromeDriverPath() {
-        String Platform = System.getProperty("os.name").toLowerCase();
-        if (Platform.contains("mac")) {
+        String platform = System.getProperty("os.name").toLowerCase();
+        if (platform.contains("mac")) {
             return MAC_CHROME_DRIVER;
-        } else if (Platform.contains("linux")) {
+        } else if (platform.contains("linux")) {
             return LNX_CHROME_DRIVER;
         } else {
             return getWinNPMPath() + WIN_CHROME_DRIVER;
@@ -294,8 +294,8 @@ public class ADBUtils {
     }
 
     private String getNPMCmd() {
-        String Platform = System.getProperty("os.name").toLowerCase();
-        if (Platform.contains("mac") || Platform.contains("linux"))
+        String platform = System.getProperty("os.name").toLowerCase();
+        if (platform.contains("mac") || platform.contains("linux"))
             return "npm";
         return "npm.cmd";
     }
@@ -322,8 +322,8 @@ public class ADBUtils {
         );
         File targetDir = targetClassesDir.getParentFile();
         String destinationPath;
-        String Platform = System.getProperty("os.name").toLowerCase();
-        if (Platform.contains("mac") || Platform.contains("linux")) {
+        String platform = System.getProperty("os.name").toLowerCase();
+        if (platform.contains("mac") || platform.contains("linux")) {
             destinationPath = targetDir + "/chromedriver" + chromeVersion;
         } else {
             destinationPath = targetDir + "\\chromedriver" + chromeVersion + ".exe";
@@ -345,8 +345,8 @@ public class ADBUtils {
         );
         File targetDir = targetClassesDir.getParentFile();
         String destinationPath;
-        String Platform = System.getProperty("os.name").toLowerCase();
-        if (Platform.contains("mac") || Platform.contains("linux")) {
+        String platform = System.getProperty("os.name").toLowerCase();
+        if (platform.contains("mac") || platform.contains("linux")) {
             destinationPath = targetDir + "/chromedriver" + chromeVersion;
         } else {
             destinationPath = targetDir + "\\chromedriver" + chromeVersion + ".exe";
@@ -378,18 +378,19 @@ public class ADBUtils {
         }
         String chromeDriverVersion = "";
         String chromeName = "";
-        String Platform = System.getProperty("os.name").toLowerCase();
-        if (Platform.contains("mac")) {
-            System.out.println(System.getProperty("os.arch"));
+        String platform = System.getProperty("os.name").toLowerCase();
+        if (platform.contains("mac")) {
             if (System.getProperty("os.arch").toLowerCase().contains("aarch64")) {
                 chromeName = "mac-aarch64";
             } else {
                 chromeName = "/chromedriver_mac64.zip";
             }
-        } else if (Platform.contains("linux")) {
+        } else if (platform.contains("linux")) {
             chromeName = "/chromedriver_linux64.zip";
-        } else {
+        } else if (platform.contains("win")) {
             chromeName = "/chromedriver_win32.zip";
+        } else {
+            throw new TestUIException("Platform is not included within chromedriver downloads");
         }
         Document doc = loadXMLFromString(body);
         // Getting each of the chrome driver versions from the chromium api
@@ -397,20 +398,21 @@ public class ADBUtils {
 
         for (int temp = 0; temp < list.getLength(); temp++) {
             Node node = list.item(temp);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
+            if (node.getNodeType() != Node.ELEMENT_NODE) {
+                continue;
+            }
+            Element element = (Element) node;
 
-                String text = element.getElementsByTagName("Key").item(0).getTextContent();
-                // Check that the version and platform matches
+            String text = element.getElementsByTagName("Key").item(0).getTextContent();
+            // Check that the version and platform matches
 
-                if (text.startsWith(version) && chromeName.equals("mac-aarch64")) {
-                    if (text.contains("mac_arm64") || text.contains("m1")) {
-                        chromeDriverVersion = text.split("/")[0];
-                    }
-                }
-                if (text.startsWith(version) && text.contains(chromeName)) {
+            if (text.startsWith(version) && chromeName.equals("mac-aarch64")) {
+                if (text.contains("mac_arm64") || text.contains("m1")) {
                     chromeDriverVersion = text.split("/")[0];
                 }
+            }
+            if (text.startsWith(version) && text.contains(chromeName)) {
+                chromeDriverVersion = text.split("/")[0];
             }
         }
 
