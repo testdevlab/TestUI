@@ -6,13 +6,20 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import testUI.TestUIConfiguration;
 import testUI.Utils.TestUIException;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -276,10 +283,10 @@ public class ADBUtils {
     }
 
     private String getChromeDriverPath() {
-        String Platform = System.getProperty("os.name").toLowerCase();
-        if (Platform.contains("mac")) {
+        String platform = System.getProperty("os.name").toLowerCase();
+        if (platform.contains("mac")) {
             return MAC_CHROME_DRIVER;
-        } else if (Platform.contains("linux")) {
+        } else if (platform.contains("linux")) {
             return LNX_CHROME_DRIVER;
         } else {
             return getWinNPMPath() + WIN_CHROME_DRIVER;
@@ -287,8 +294,8 @@ public class ADBUtils {
     }
 
     private String getNPMCmd() {
-        String Platform = System.getProperty("os.name").toLowerCase();
-        if (Platform.contains("mac") || Platform.contains("linux"))
+        String platform = System.getProperty("os.name").toLowerCase();
+        if (platform.contains("mac") || platform.contains("linux"))
             return "npm";
         return "npm.cmd";
     }
@@ -315,8 +322,8 @@ public class ADBUtils {
         );
         File targetDir = targetClassesDir.getParentFile();
         String destinationPath;
-        String Platform = System.getProperty("os.name").toLowerCase();
-        if (Platform.contains("mac") || Platform.contains("linux")) {
+        String platform = System.getProperty("os.name").toLowerCase();
+        if (platform.contains("mac") || platform.contains("linux")) {
             destinationPath = targetDir + "/chromedriver" + chromeVersion;
         } else {
             destinationPath = targetDir + "\\chromedriver" + chromeVersion + ".exe";
@@ -338,8 +345,8 @@ public class ADBUtils {
         );
         File targetDir = targetClassesDir.getParentFile();
         String destinationPath;
-        String Platform = System.getProperty("os.name").toLowerCase();
-        if (Platform.contains("mac") || Platform.contains("linux")) {
+        String platform = System.getProperty("os.name").toLowerCase();
+        if (platform.contains("mac") || platform.contains("linux")) {
             destinationPath = targetDir + "/chromedriver" + chromeVersion;
         } else {
             destinationPath = targetDir + "\\chromedriver" + chromeVersion + ".exe";
@@ -369,16 +376,58 @@ public class ADBUtils {
             putLogWarn("Could not connect to \"https://chromedriver.storage.googleapis.com/\"");
             return "80";
         }
-        String chromeDriverVersion = "";  // ToDo it is not pulling the version. I just
-        String new_chrome_version = "";
-        for (String text : body.split(version)) {
-            if (text.contains("/chromedriver_mac64.zip")) {
-                new_chrome_version =
-                        version + text.split("/chromedriver_mac64\\.zip")[0];
+        String chromeDriverVersion = "";
+        String chromeName = "";
+        String platform = System.getProperty("os.name").toLowerCase();
+        if (platform.contains("mac")) {
+            if (System.getProperty("os.arch").toLowerCase().contains("aarch64")) {
+                chromeName = "mac-aarch64";
+            } else {
+                chromeName = "/chromedriver_mac64.zip";
             }
-            if (new_chrome_version.length() < 17)
-                chromeDriverVersion = new_chrome_version;
+        } else if (platform.contains("linux")) {
+            chromeName = "/chromedriver_linux64.zip";
+        } else if (platform.contains("win")) {
+            chromeName = "/chromedriver_win32.zip";
+        } else {
+            throw new TestUIException("Platform is not included within chromedriver downloads");
         }
+        Document doc = loadXMLFromString(body);
+        // Getting each of the chrome driver versions from the chromium api
+        NodeList list = doc.getDocumentElement().getElementsByTagName("Contents");
+
+        for (int temp = 0; temp < list.getLength(); temp++) {
+            Node node = list.item(temp);
+            if (node.getNodeType() != Node.ELEMENT_NODE) {
+                continue;
+            }
+            Element element = (Element) node;
+
+            String text = element.getElementsByTagName("Key").item(0).getTextContent();
+            // Check that the version and platform matches
+
+            if (text.startsWith(version) && chromeName.equals("mac-aarch64")) {
+                if (text.contains("mac_arm64") || text.contains("m1")) {
+                    chromeDriverVersion = text.split("/")[0];
+                }
+            }
+            if (text.startsWith(version) && text.contains(chromeName)) {
+                chromeDriverVersion = text.split("/")[0];
+            }
+        }
+
         return chromeDriverVersion;
+    }
+
+    private static Document loadXMLFromString(String xmlString) {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        try {
+            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            DocumentBuilder builder = dbf.newDocumentBuilder();
+
+            return builder.parse(new InputSource(new StringReader(xmlString)));
+        } catch (ParserConfigurationException | IOException | SAXException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

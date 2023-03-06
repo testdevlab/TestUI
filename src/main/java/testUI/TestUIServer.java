@@ -390,12 +390,10 @@ public class TestUIServer extends UIUtils {
             }
             if (getDevices().size() != 0) {
                 iOSDevices = driver - getDevices().size();
-                adbUtils.stopEmulator(getDevices().get(driver - iOSDevices - 1));
                 removeDevice(driver - iOSDevices - 1);
             }
             if (getEmulators().size() != 0) {
                 if ((driver - iOSDevices - 1) < getEmulators().size()) {
-                    adbUtils.stopEmulator(getEmulators().get(driver - iOSDevices - 1));
                     removeEmulator(driver - iOSDevices - 1);
                 }
                 if ((driver - iOSDevices - 1) < getDevices().size()) {
