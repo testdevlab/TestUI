@@ -5,6 +5,7 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
 
@@ -48,7 +49,8 @@ public class TestBrowser {
     public void setDriverTest() {
         ChromeOptions options = new ChromeOptions();
         Configuration.softAsserts = false;
-        options.addArguments("--user-agent=Agent", "--ignore-certificate-errors", "--headless");
+        options.addArguments(
+                "--user-agent=Agent", "--ignore-certificate-errors", "--headless", "--remote-allow-origins=*");
         Configuration.chromeOptions = options;
         selenideBrowserCapabilities.setBrowserName("chrome");
         open("https://www.whatsmyua.info/");
@@ -89,8 +91,9 @@ public class TestBrowser {
         Configuration.headless = true;
         open("https://www.google.com");
         stop();
-        ChromeOptions options = new ChromeOptions();
         String userAgent = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
         options.addArguments("--user-agent=" + userAgent);
         options.addArguments("--headless");
         ChromeDriver chromeDriver = new ChromeDriver(options);
