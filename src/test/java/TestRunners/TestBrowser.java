@@ -5,6 +5,7 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
 
@@ -29,54 +30,33 @@ public class TestBrowser {
         Configuration.testUILogLevel = LogLevel.DEBUG;
         Configuration.softAsserts = true;
         Configuration.browser = "chrome";
+        Configuration.headless = true;
         open("https://www.google.com");
         UIAssert("the url is not correct",
                 getSelenideDriver().getCurrentUrl().equals("https://www.google.com/"));
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
                 .getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearch()
-                .then().saveScreenshot("~/Documents" +
-                "/screen" +
-                ".png");
+                .then().saveScreenshot("~/target/screen.png");
         logAverageTime();
         System.out.println(getListOfCommandsTime());
 
         raiseSoftAsserts();
+        stop();
     }
 
     @Test
     public void setDriverTest() {
         ChromeOptions options = new ChromeOptions();
         Configuration.softAsserts = false;
-        options.addArguments("--user-agent=Agent", "--ignore-certificate-errors");
+        options.addArguments(
+                "--user-agent=Agent", "--ignore-certificate-errors", "--headless", "--remote-allow-origins=*");
         Configuration.chromeOptions = options;
         selenideBrowserCapabilities.setBrowserName("chrome");
         open("https://www.whatsmyua.info/");
         E(byCssSelector("textarea")).waitFor(10).untilHasText("Agent");
         sleep(1000);
-    }
-
-    @Test
-    @DisplayName("Laptop browser test case")
-    public void testDesktopBrowserSafari() {
-        Configuration.automationType = DESKTOP_PLATFORM;
-        Configuration.browser = "safari";
-        Configuration.serverLogLevel = "all";
-        Configuration.softAsserts = true;
-        open("https://www.google.com");
-        System.out.println(getTestUIDriver().getCurrentUrl());
-        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
-                .getSelenideElement().getWrappedElement());
-        googleLandingPage.getGoogleSearch().given()
-                .then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
-                ".png");
         stop();
-        open("https://www.google.com");
-        googleLandingPage.getGoogleSearch().given().waitFor(10).untilIsVisible()
-                .then().click().saveScreenshot("/Users/alvarolasernalopez/Documents/screen" +
-                ".png");
-
-        raiseSoftAsserts();
     }
 
 
@@ -86,6 +66,7 @@ public class TestBrowser {
         Configuration.automationType = DESKTOP_PLATFORM;
         Configuration.logNetworkCalls = true;
         Configuration.browser = "chrome";
+        Configuration.headless = true;
         open("https://www.google.com")
                 .getNetworkCalls().logAllCalls().filterByExactUrl("https://www.google.com/")
                 .logFilteredCalls()
@@ -107,11 +88,14 @@ public class TestBrowser {
     public void testDesktopCustomDriverBrowser() {
         Configuration.automationType = DESKTOP_PLATFORM;
         Configuration.browser = "chrome";
+        Configuration.headless = true;
         open("https://www.google.com");
         stop();
-        ChromeOptions options = new ChromeOptions();
         String userAgent = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
         options.addArguments("--user-agent=" + userAgent);
+        options.addArguments("--headless");
         ChromeDriver chromeDriver = new ChromeDriver(options);
         setDriver(chromeDriver);
         open("https://www.whatsmyua.info/");
@@ -128,6 +112,7 @@ public class TestBrowser {
         Configuration.useAllure = false;
         Configuration.softAsserts = true;
         Configuration.browser = "chrome";
+        Configuration.headless = true;
         Configuration.testUILogLevel = LogLevel.DEBUG;
         open("https://loadero.com/login")
                 .given("I set element").setElement(byCssSelector("#username"))
@@ -139,5 +124,6 @@ public class TestBrowser {
                 .then("I find the submit").setElement(byCssSelector("[type=\"submit\"]"))
                 .and("I click on it").click();
         raiseSoftAsserts();
+        stop();
     }
 }
