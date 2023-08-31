@@ -1,13 +1,23 @@
 package TestRunners;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
 import io.netty.handler.logging.LogLevel;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static testUI.TestUIDriver.*;
 import static testUI.TestUIServer.stop;
@@ -53,8 +63,8 @@ public class TestBrowser {
                 "--user-agent=Agent", "--ignore-certificate-errors", "--headless", "--remote-allow-origins=*");
         Configuration.chromeOptions = options;
         selenideBrowserCapabilities.setBrowserName("chrome");
-        open("https://www.whatsmyua.info/");
-        E(byCssSelector("textarea")).waitFor(10).untilHasText("Agent");
+        open("https://www.whatismybrowser.com/detect/what-is-my-user-agent/");
+        E(byCssSelector("#detected_value a")).waitFor(10).untilHasText("Agent");
         sleep(1000);
         stop();
     }
@@ -98,8 +108,8 @@ public class TestBrowser {
         options.addArguments("--headless");
         ChromeDriver chromeDriver = new ChromeDriver(options);
         setDriver(chromeDriver);
-        open("https://www.whatsmyua.info/");
-        E(byCssSelector("textarea")).waitFor(10).untilHasText(userAgent);
+        open("https://www.whatismybrowser.com/detect/what-is-my-user-agent/");
+        E(byCssSelector("#detected_value a")).waitFor(10).untilHasText(userAgent);
         stop();
         open("https://www.google.com");
         stop();

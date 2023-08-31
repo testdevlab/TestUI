@@ -135,7 +135,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.8.3</version>
+            <version>4.11.0</version>
         </dependency>
         <dependency>
             <groupId>io.appium</groupId>
@@ -154,7 +154,7 @@
                     <artifactId>selenium-support</artifactId>
                 </exclusion>
             </exclusions>
-            <version>8.4.0</version>
+            <version>8.5.0</version>
         </dependency>
         <dependency>
             <groupId>net.lightbody.bmp</groupId>
