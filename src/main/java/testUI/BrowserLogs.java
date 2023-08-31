@@ -86,8 +86,6 @@ public class BrowserLogs {
         }
         if (Configuration.browserLogs || Configuration.logNetworkCalls) {
             Configuration.selenideBrowserCapabilities.setCapability("goog:loggingPrefs", logPrefs);
-            Configuration.selenideBrowserCapabilities.setCapability(
-                    CapabilityType.LOGGING_PREFS, logPrefs);
         }
     }
 

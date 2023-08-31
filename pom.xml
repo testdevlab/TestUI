@@ -135,7 +135,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.6.0</version>
+            <version>4.8.3</version>
         </dependency>
         <dependency>
             <groupId>io.appium</groupId>
@@ -154,7 +154,7 @@
                     <artifactId>selenium-support</artifactId>
                 </exclusion>
             </exclusions>
-            <version>8.1.0</version>
+            <version>8.4.0</version>
         </dependency>
         <dependency>
             <groupId>net.lightbody.bmp</groupId>
@@ -169,8 +169,12 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-
-            <version>6.12.2</version>
+            <version>6.17.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>5.5.2</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
