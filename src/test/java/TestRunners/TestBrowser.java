@@ -1,23 +1,12 @@
 package TestRunners;
 
-import com.codeborne.selenide.logevents.SelenideLogger;
 import io.netty.handler.logging.LogLevel;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
-import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static testUI.TestUIDriver.*;
 import static testUI.TestUIServer.stop;

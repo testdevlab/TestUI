@@ -10,6 +10,8 @@ import testUI.TestUIDriver;
 import static testUI.Configuration.ANDROID_PLATFORM;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
+import static testUI.UIUtils.executeJs;
+import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.byMobileCss;
 import static testUI.elements.TestUI.E;
 
@@ -23,14 +25,14 @@ public class TestAndroidLocal {
         Configuration.automationType = ANDROID_PLATFORM;
         Configuration.installMobileChromeDriver = true;
         open("https://www.google.com");
-        googleLandingPage.getGoogleSearchInput().scrollTo().view(true)
-                .given("Check search input visible and set value").waitFor(5)
-                .untilIsVisible();
+        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
+                .getMobileElement());
+        sleep(2000);
         stop();
         Configuration.testUILogLevel = LogLevel.DEBUG;
         open("https://www.google.com");
-        googleLandingPage.getGoogleSearchInput().scrollTo().view(true)
-                .given("Check search input visible and set value");
+        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
+                .getMobileElement());
     }
 
     @Test
