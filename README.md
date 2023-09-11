@@ -1,5 +1,6 @@
 ![TestUI](docs/logo.jpg)
 
+[![](https://jitpack.io/v/testdevlab/TestUI.svg)](https://jitpack.io/#testdevlab/TestUI)
 # TestUI
 
 The idea of “TestUI” was born from a desire of having a simpler way to automate tests for mobile.
