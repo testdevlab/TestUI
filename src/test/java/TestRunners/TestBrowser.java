@@ -67,17 +67,16 @@ public class TestBrowser {
         Configuration.browser = "chrome";
         Configuration.headless = true;
         open("https://www.google.com")
-                .getNetworkCalls().logAllCalls().filterByExactUrl("https://www.google.com/")
-                .logFilteredCalls()
+                .getNetworkCalls().filterByExactUrl("https://www.google.com/")
                 .and()
                 .filterByUrl("https://www.google.com/").assertFilteredCallExists()
-                .logFilteredCalls().assertStatusCode(200)
+                .assertStatusCode(200)
                 .assertResponseHeader("Content-Type", "text/html; charset=UTF-8");
 
         stop();
         open("https://www.google.com")
-                .getLastNetworkCalls(100).logAllCalls()
-                .filterByUrl("https://www.google.com/").logFilteredCalls()
+                .getLastNetworkCalls(100)
+                .filterByUrl("https://www.google.com/")
                 .assertFilteredCallExists();
         stop();
     }
@@ -111,7 +110,7 @@ public class TestBrowser {
         Configuration.useAllure = false;
         Configuration.softAsserts = true;
         Configuration.browser = "chrome";
-        Configuration.headless = false;
+        Configuration.headless = true;
         Configuration.testUILogLevel = LogLevel.DEBUG;
         open("https://loadero.com/login");
         getSelenideDriver().switchTo().frame(1); // It uses iFrame now
