@@ -111,10 +111,11 @@ public class TestBrowser {
         Configuration.useAllure = false;
         Configuration.softAsserts = true;
         Configuration.browser = "chrome";
-        Configuration.headless = true;
+        Configuration.headless = false;
         Configuration.testUILogLevel = LogLevel.DEBUG;
-        open("https://loadero.com/login")
-                .given("I set element").setElement(byCssSelector("#username"))
+        open("https://loadero.com/login");
+        getSelenideDriver().switchTo().frame(1); // It uses iFrame now
+        E(byCssSelector("#username"))
                 .and("I check if visible").waitFor(5).untilIsVisible()
                 .and("I send keys").setValueJs("\\uD83D\\uDE00")
                 .given("I set element").setElement(byCssSelector("#password"))
