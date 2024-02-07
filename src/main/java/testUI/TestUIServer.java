@@ -3,7 +3,6 @@ package testUI;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import io.appium.java_client.service.local.flags.AndroidServerFlag;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import testUI.AndroidUtils.ADBUtils;
@@ -29,7 +28,6 @@ public class TestUIServer extends UIUtils {
 
     protected static void startServer(
             String port,
-            String Bootstrap,
             TestUIConfiguration configuration) {
         AppiumServiceBuilder builder;
         DesiredCapabilities cap;
@@ -43,7 +41,6 @@ public class TestUIServer extends UIUtils {
         builder.withCapabilities(cap);
         builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
         builder.withArgument(GeneralServerFlag.LOG_LEVEL, "info");
-        builder.withArgument(AndroidServerFlag.BOOTSTRAP_PORT_NUMBER, Bootstrap);
         builder.withArgument(GeneralServerFlag.BASEPATH, configuration.getBaseAppiumPath());
         //Start the server with the builder
         TestUIServer.serviceRunning.set(false);
@@ -193,27 +190,21 @@ public class TestUIServer extends UIUtils {
         int emulators = configuration.isUseEmulators() ? adbUtils.getEmulatorName().size() : 0;
         int totalDevices;
         int ports;
-        int bootstrap;
         int realDevices;
         if (configuration.isiOSTesting()) {
             ports = configuration.getBaseAppiumPort() + getUsePort().size() * 100 + 5;
-            bootstrap = configuration.getBaseAppiumBootstrapPort() +
-                    getUseBootstrapPort().size() * 100;
             totalDevices = 10;
             realDevices = 0;
 
         } else {
             ports = configuration.getBaseAppiumPort() + getUsePort().size() * 100;
-            bootstrap = configuration.getBaseAppiumBootstrapPort() +
-                    getUseBootstrapPort().size() * 100;
             totalDevices = emulators + connectedDevices - startedEmulators;
             realDevices = totalDevices - emulators;
         }
         String port = String.valueOf(ports);
-        String Bootstrap = String.valueOf(bootstrap);
         for (int device = getUsePort().size(); device < totalDevices; device++) {
             if (configuration.getAppiumUrl().isEmpty()) {
-                startServer(port, Bootstrap, configuration);
+                startServer(port, configuration);
                 attachShutDownHook(getAppiumServices(), getDrivers());
             }
             if (serviceRunning.get() || (!configuration.getAppiumUrl().isEmpty() &&
@@ -222,11 +213,9 @@ public class TestUIServer extends UIUtils {
                 break;
             }
             port = String.valueOf(Integer.parseInt(port) + 100);
-            Bootstrap = String.valueOf(Integer.parseInt(Bootstrap) + 100);
         }
         if (configuration.getAppiumUrl().isEmpty()) {
             setUsePort(port);
-            setUseBootstrapPort(Bootstrap);
             putAllureParameter("Using Appium port", getUsePort()
                     .get(getUsePort().size() - 1));
         } else {
