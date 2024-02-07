@@ -12,7 +12,6 @@ import static testUI.TestUIDriver.*;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
-import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
 import static testUI.Utils.Performance.getListOfCommandsTime;
 import static testUI.Utils.Performance.logAverageTime;
@@ -36,7 +35,7 @@ public class TestBrowser {
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
                 .getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearch()
-                .then().saveScreenshot("~/target/screen.png");
+                .then().saveScreenshot("~/screen.png");
         logAverageTime();
         System.out.println(getListOfCommandsTime());
 
@@ -47,14 +46,13 @@ public class TestBrowser {
     @Test
     public void setDriverTest() {
         ChromeOptions options = new ChromeOptions();
-        Configuration.softAsserts = false;
+        Configuration.softAsserts = true;
         options.addArguments(
                 "--user-agent=Agent", "--ignore-certificate-errors", "--headless", "--remote-allow-origins=*");
         Configuration.chromeOptions = options;
         selenideBrowserCapabilities.setBrowserName("chrome");
         open("https://www.whatismybrowser.com/detect/what-is-my-user-agent/");
         E(byCssSelector("#detected_value a")).waitFor(10).untilHasText("Agent");
-        sleep(1000);
         stop();
     }
 
@@ -87,6 +85,7 @@ public class TestBrowser {
         Configuration.automationType = DESKTOP_PLATFORM;
         Configuration.browser = "chrome";
         Configuration.headless = true;
+        Configuration.softAsserts = true;
         open("https://www.google.com");
         stop();
         String userAgent = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
