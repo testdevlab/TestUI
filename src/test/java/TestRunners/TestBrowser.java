@@ -8,11 +8,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
 
+import java.util.ArrayList;
+
 import static testUI.TestUIDriver.*;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
-import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
 import static testUI.Utils.Performance.getListOfCommandsTime;
 import static testUI.Utils.Performance.logAverageTime;
@@ -36,7 +37,7 @@ public class TestBrowser {
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
                 .getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearch()
-                .then().saveScreenshot("~/target/screen.png");
+                .then().saveScreenshot("~/screen.png");
         logAverageTime();
         System.out.println(getListOfCommandsTime());
 
@@ -47,14 +48,13 @@ public class TestBrowser {
     @Test
     public void setDriverTest() {
         ChromeOptions options = new ChromeOptions();
-        Configuration.softAsserts = false;
+        Configuration.softAsserts = true;
         options.addArguments(
                 "--user-agent=Agent", "--ignore-certificate-errors", "--headless", "--remote-allow-origins=*");
         Configuration.chromeOptions = options;
         selenideBrowserCapabilities.setBrowserName("chrome");
         open("https://www.whatismybrowser.com/detect/what-is-my-user-agent/");
         E(byCssSelector("#detected_value a")).waitFor(10).untilHasText("Agent");
-        sleep(1000);
         stop();
     }
 
@@ -67,17 +67,16 @@ public class TestBrowser {
         Configuration.browser = "chrome";
         Configuration.headless = true;
         open("https://www.google.com")
-                .getNetworkCalls().logAllCalls().filterByExactUrl("https://www.google.com/")
-                .logFilteredCalls()
+                .getNetworkCalls().filterByExactUrl("https://www.google.com/")
                 .and()
                 .filterByUrl("https://www.google.com/").assertFilteredCallExists()
-                .logFilteredCalls().assertStatusCode(200)
+                .assertStatusCode(200)
                 .assertResponseHeader("Content-Type", "text/html; charset=UTF-8");
 
         stop();
         open("https://www.google.com")
-                .getLastNetworkCalls(100).logAllCalls()
-                .filterByUrl("https://www.google.com/").logFilteredCalls()
+                .getLastNetworkCalls(100)
+                .filterByUrl("https://www.google.com/")
                 .assertFilteredCallExists();
         stop();
     }
@@ -88,6 +87,7 @@ public class TestBrowser {
         Configuration.automationType = DESKTOP_PLATFORM;
         Configuration.browser = "chrome";
         Configuration.headless = true;
+        Configuration.softAsserts = true;
         open("https://www.google.com");
         stop();
         String userAgent = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
@@ -112,9 +112,11 @@ public class TestBrowser {
         Configuration.softAsserts = true;
         Configuration.browser = "chrome";
         Configuration.headless = true;
+        Configuration.testUIErrors = new ArrayList<>();
         Configuration.testUILogLevel = LogLevel.DEBUG;
-        open("https://loadero.com/login")
-                .given("I set element").setElement(byCssSelector("#username"))
+        open("https://loadero.com/login");
+        getSelenideDriver().switchTo().frame(1); // It uses iFrame now
+        E(byCssSelector("#username"))
                 .and("I check if visible").waitFor(5).untilIsVisible()
                 .and("I send keys").setValueJs("\\uD83D\\uDE00")
                 .given("I set element").setElement(byCssSelector("#password"))

@@ -1,7 +1,5 @@
 package testUI.IOSUtils;
 
-import testUI.Utils.TestUIException;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -38,7 +36,7 @@ public class IOSCommands {
                         line.split(" \\(")[0].split("    ")[1],
                         line.split("\\(")[1].split("\\)")[0]);
             } else if (Devices && line.contains("iOS")) {
-                if (versions.size() != 0 && devices.size() != 0) {
+                if (!versions.isEmpty() && !devices.isEmpty()) {
                     iOS.put(versions.get(versions.size() - 1), devices);
                     devices = new HashMap<>();
                 }
@@ -49,10 +47,12 @@ public class IOSCommands {
             if (line.contains("== Devices ==")) {
                 Devices = true;
             } else if (line.contains("== Device Pairs ==")) {
-                iOS.put(versions.get(versions.size() - 1), devices);
+                if (!iOS.isEmpty() && !devices.isEmpty())
+                    iOS.put(versions.get(versions.size() - 1), devices);
                 Devices = false;
             }
         }
+        putLog("Found simulator devices: " + iOS);
         return iOS;
     }
 
