@@ -8,6 +8,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import pages.GoogleLandingPage;
 import testUI.Configuration;
 
+import java.util.ArrayList;
+
 import static testUI.TestUIDriver.*;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
@@ -110,6 +112,7 @@ public class TestBrowser {
         Configuration.softAsserts = true;
         Configuration.browser = "chrome";
         Configuration.headless = true;
+        Configuration.testUIErrors = new ArrayList<>();
         Configuration.testUILogLevel = LogLevel.DEBUG;
         open("https://loadero.com/login");
         getSelenideDriver().switchTo().frame(1); // It uses iFrame now
