@@ -817,8 +817,12 @@ public class Element extends TestUI implements UIElement {
         return shouldHave();
     }
 
-
     public UIElement saveScreenshot(String path) {
+        if (!path.toLowerCase().endsWith(".png")) {
+            Logger.putLogError("Invalid file extension. Only .png files are supported for screenshots.");
+            return null;
+        }
+
         if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
             if (getDrivers().size() != 0) {
                 Configuration.driver = Math.min(Configuration.driver, getDrivers().size());
