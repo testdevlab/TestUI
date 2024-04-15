@@ -12,10 +12,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import testUI.elements.TestUI;
 import testUI.elements.UIElement;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static testUI.UIUtils.*;
 
@@ -224,5 +221,44 @@ public class TestUIDriver {
 
     public static UIElement getTestUIDriver() {
         return TestUI.E("");
+    }
+
+    public static void switchApplicationContext(String context) {
+        AppiumDriver driver = getDriver();
+
+        if (driver instanceof AndroidDriver) {
+            AndroidDriver androidDriver = (AndroidDriver) driver;
+            Set<String> contextNames = androidDriver.getContextHandles();
+
+            boolean contextFound = false;
+            for (String contextName : contextNames) {
+                if (contextName.contains(context)) {
+                    androidDriver.context(contextName);
+                    System.out.println("Switched to context: " + contextName);
+                    contextFound = true;
+                    break;
+                }
+            }
+            if (!contextFound) {
+                System.out.println("Provided context is not available");
+            }
+        } else if (driver instanceof IOSDriver) {
+            IOSDriver iosDriver = (IOSDriver) driver;
+            Set<String> contextNames = iosDriver.getContextHandles();
+            boolean contextFound = false;
+            for (String contextName : contextNames) {
+                if (contextName.contains(context)) {
+                    iosDriver.context(contextName);
+                    System.out.println("Switched to context: " + contextName);
+                    contextFound = true;
+                    break;
+                }
+            }
+            if (!contextFound) {
+                System.out.println("Provided context is not available");
+            }
+        } else {
+            System.out.println("Unsupported driver type.");
+        }
     }
 }
