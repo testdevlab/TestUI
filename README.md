@@ -249,6 +249,14 @@ public class Test {
 }
 ```
 
+## Changing application context
+In certain scenarios, applications may switch contexts, which can be necessary for automation purposes. 
+Utilize the following function to switch the application context:
+
+```java
+changeAppContext(""); // Pass the application context to switch to
+```
+
 ## Elements
 
 Same element can be defined for all the platforms, i.e. same element definition
