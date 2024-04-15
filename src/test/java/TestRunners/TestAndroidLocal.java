@@ -8,7 +8,6 @@ import testUI.Configuration;
 import testUI.TestUIDriver;
 
 import static testUI.Configuration.ANDROID_PLATFORM;
-import static testUI.Configuration.driver;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.executeJs;
