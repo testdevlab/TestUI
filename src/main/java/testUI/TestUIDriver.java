@@ -15,6 +15,7 @@ import testUI.elements.UIElement;
 import java.util.*;
 
 import static testUI.UIUtils.*;
+import static testUI.Utils.Logger.putLogInfo;
 
 public class TestUIDriver {
     private static ThreadLocal<List<AppiumDriver>> driver = new ThreadLocal<>();
@@ -234,13 +235,13 @@ public class TestUIDriver {
             for (String contextName : contextNames) {
                 if (contextName.contains(context)) {
                     androidDriver.context(contextName);
-                    System.out.println("Switched to context: " + contextName);
+                    putLogInfo("Switched to context: " + contextName);
                     contextFound = true;
                     break;
                 }
             }
             if (!contextFound) {
-                System.out.println("Provided context is not available");
+                putLogInfo("Provided context is not available");
             }
         } else if (driver instanceof IOSDriver) {
             IOSDriver iosDriver = (IOSDriver) driver;
@@ -249,16 +250,16 @@ public class TestUIDriver {
             for (String contextName : contextNames) {
                 if (contextName.contains(context)) {
                     iosDriver.context(contextName);
-                    System.out.println("Switched to context: " + contextName);
+                    putLogInfo("Switched to context: " + contextName);
                     contextFound = true;
                     break;
                 }
             }
             if (!contextFound) {
-                System.out.println("Provided context is not available");
+                putLogInfo("Provided context is not available");
             }
         } else {
-            System.out.println("Unsupported driver type.");
+            putLogInfo("Unsupported driver type.");
         }
     }
 }
