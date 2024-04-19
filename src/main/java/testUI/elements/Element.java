@@ -583,6 +583,74 @@ public class Element extends TestUI implements UIElement {
         return getElementObject();
     }
 
+    public UIElement scrollUp() {
+        try {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
+                WebElement slider = getElement(
+                        accesibilityIdiOS,
+                        accesibilityId,
+                        iOSElement,
+                        element,
+                        index,
+                        collection);
+                Dimension size = getDriver().manage().window().getSize();
+                int endY = (int) (size.height * 0.2);
+                Point source = slider.getLocation();
+                PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+                Sequence sequence = new Sequence(finger, 1);
+                sequence.addAction(finger.createPointerMove(Duration.ofMillis(0),
+                        PointerInput.Origin.viewport(), source.x, source.y));
+                sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
+                sequence.addAction(new Pause(finger, Duration.ofMillis(600)));
+                sequence.addAction(finger.createPointerMove(Duration.ofMillis(600),
+                        PointerInput.Origin.viewport(), source.x, source.y - endY));
+                sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
+
+                getDriver().perform(singletonList(sequence));
+            } else {
+                getSelenide(SelenideElement, index, collection).scrollIntoView(true);
+            }
+        } catch (Throwable e) {
+            takeScreenshotsAllure();
+            TestUIException.handleError(e.getMessage());
+        }
+        return getElementObject();
+    }
+
+    public UIElement scrollDown() {
+        try {
+            if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
+                WebElement slider = getElement(
+                        accesibilityIdiOS,
+                        accesibilityId,
+                        iOSElement,
+                        element,
+                        index,
+                        collection);
+                Dimension size = getDriver().manage().window().getSize();
+                int endY = (int) (size.height * 0.8);
+                Point source = slider.getLocation();
+                PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+                Sequence sequence = new Sequence(finger, 1);
+                sequence.addAction(finger.createPointerMove(Duration.ofMillis(0),
+                        PointerInput.Origin.viewport(), source.x, source.y));
+                sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.MIDDLE.asArg()));
+                sequence.addAction(new Pause(finger, Duration.ofMillis(600)));
+                sequence.addAction(finger.createPointerMove(Duration.ofMillis(600),
+                        PointerInput.Origin.viewport(), source.x, source.y + endY));
+                sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.MIDDLE.asArg()));
+
+                getDriver().perform(singletonList(sequence));
+            } else {
+                getSelenide(SelenideElement, index, collection).scrollIntoView(true);
+            }
+        } catch (Throwable e) {
+            takeScreenshotsAllure();
+            TestUIException.handleError(e.getMessage());
+        }
+        return getElementObject();
+    }
+
     public UIElement swipeRight() {
         try {
             if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {

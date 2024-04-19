@@ -298,7 +298,15 @@ element.getAttribute("attribute")
 </pre>
 
 <pre>
-element.scrollIntoView()
+element.scrollTo()
+</pre>
+
+<pre>
+element.scrollUp()
+</pre>
+
+<pre>
+element.scrollDown()
 </pre>
 
 <pre>

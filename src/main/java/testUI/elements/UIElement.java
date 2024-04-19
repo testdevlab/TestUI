@@ -58,6 +58,10 @@ public interface UIElement {
 
     SlideActions scrollTo();
 
+    UIElement scrollUp();
+
+    UIElement scrollDown();
+
     UIElement swipe(int XCoordinate, int YCoordinate);
 
     UIElement swipeRight();
