@@ -305,6 +305,8 @@ element.scrollTo()
 element.scrollUp()
 </pre>
 
+Note: For the web version, both scrollUp() and scrollDown() use the same Selenide method.
+
 <pre>
 element.scrollDown()
 </pre>
