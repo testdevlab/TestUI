@@ -254,7 +254,7 @@ In certain scenarios, applications may switch contexts, which can be necessary f
 Utilize the following function to switch the application context:
 
 ```java
-changeAppContext(""); // Pass the application context to switch to
+switchApplicationContext(""); // Pass the application context to switch to
 ```
 
 ## Elements
