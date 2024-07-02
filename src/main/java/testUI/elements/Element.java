@@ -819,8 +819,8 @@ public class Element extends TestUI implements UIElement {
 
     public UIElement saveScreenshot(String path) {
         if (!path.toLowerCase().endsWith(".png")) {
-            Logger.putLogError("Invalid file extension. Only .png files are supported for screenshots.");
-            return null;
+            Logger.putLogWarn("Invalid file extension: Only .png files are supported. Screenshot saved in: "+ Configuration.screenshotPath + path);
+            return getElementObject();
         }
 
         if (!Configuration.automationType.equals(Configuration.DESKTOP_PLATFORM)) {
