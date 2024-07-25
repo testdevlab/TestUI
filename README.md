@@ -306,7 +306,17 @@ element.getAttribute("attribute")
 </pre>
 
 <pre>
-element.scrollIntoView()
+element.scrollTo()
+</pre>
+
+<pre>
+element.scrollUp()
+</pre>
+
+Note: For the web version, both scrollUp() and scrollDown() use the same Selenide method.
+
+<pre>
+element.scrollDown()
 </pre>
 
 <pre>
