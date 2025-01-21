@@ -29,7 +29,7 @@ public class TestJUnit {
         Configuration.testUILogLevel = LogLevel.DEBUG;
         Configuration.UDID = "emulator-5554";
         Configuration.installMobileChromeDriver = true;
-        Configuration.appiumUrl = "http://localhost:4723/wd/hub";
+        Configuration.appiumUrl = "http://localhost:4723";
         open("https://www.google.com")
         .given().setElement(googleLandingPage.getGoogleSearchInput());
     }

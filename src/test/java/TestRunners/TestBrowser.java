@@ -1,5 +1,7 @@
 package TestRunners;
 
+import com.codeborne.selenide.FileDownloadMode;
+import com.codeborne.selenide.WebDriverRunner;
 import io.netty.handler.logging.LogLevel;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
@@ -14,6 +16,7 @@ import static testUI.TestUIDriver.*;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
+import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
 import static testUI.Utils.Performance.getListOfCommandsTime;
 import static testUI.Utils.Performance.logAverageTime;
@@ -34,12 +37,9 @@ public class TestBrowser {
         open("https://www.google.com");
         UIAssert("the url is not correct",
                 getSelenideDriver().getCurrentUrl().equals("https://www.google.com/"));
-        executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
-                .getSelenideElement().getWrappedElement());
         googleLandingPage.getGoogleSearch()
                 .then().saveScreenshot("~/screen.png");
         logAverageTime();
-        System.out.println(getListOfCommandsTime());
 
         raiseSoftAsserts();
         stop();
@@ -66,6 +66,7 @@ public class TestBrowser {
         Configuration.logNetworkCalls = true;
         Configuration.browser = "chrome";
         Configuration.headless = true;
+
         open("https://www.google.com")
                 .getNetworkCalls().filterByExactUrl("https://www.google.com/")
                 .and()
@@ -88,6 +89,7 @@ public class TestBrowser {
         Configuration.browser = "chrome";
         Configuration.headless = true;
         Configuration.softAsserts = true;
+
         open("https://www.google.com");
         stop();
         String userAgent = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
