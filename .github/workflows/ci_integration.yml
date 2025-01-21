@@ -28,5 +28,6 @@ jobs:
         run: sudo apt purge chromium-browser
       - name: Install a new Chromium
         run: sudo apt install -y chromium-browser
+      - uses: nanasess/setup-chromedriver@v2
       - name: Integration browser test with Maven
         run: mvn -Dtest=TestBrowser test
