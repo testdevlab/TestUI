@@ -25,7 +25,7 @@ public class TestAndroidLocal {
         Configuration.automationType = ANDROID_PLATFORM;
         Configuration.installMobileChromeDriver = true;
         Configuration.UDID = "emulator-5554";
-        Configuration.appiumUrl = "http://10.1.21.153:4723/";
+        Configuration.appiumUrl = "http://localhost:4723/";
         open("https://www.google.com");
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
                 .getMobileElement());
