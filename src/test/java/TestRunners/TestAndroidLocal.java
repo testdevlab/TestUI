@@ -41,7 +41,7 @@ public class TestAndroidLocal {
     @DisplayName("Android browser test case")
     public void testAndroidBrowser2() {
         Configuration.testUILogLevel = LogLevel.DEBUG;
-        Configuration.appiumUrl = "http://10.1.21.153:4723/";
+        Configuration.appiumUrl = "http://localhost:4723/";
         Configuration.UDID = "emulator-5554";
         open("https://www.google.com");
     }
