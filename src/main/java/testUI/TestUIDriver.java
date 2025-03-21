@@ -130,6 +130,18 @@ public class TestUIDriver {
         TestUIDriver.driver.set(appiumDrivers);
     }
 
+    public static void removeiOSDriver(int driver) {
+        List<IOSDriver> appiumiOSDrivers = new ArrayList<>(getIOSDrivers());
+        appiumiOSDrivers.remove(driver);
+        TestUIDriver.IOSTestUIDriver.set(appiumiOSDrivers);
+    }
+
+    public static void removeAndroidDriver(int driver) {
+        List<AndroidDriver> appiumAndroidDrivers = new ArrayList<>(getAndroidDrivers());
+        appiumAndroidDrivers.remove(driver);
+        TestUIDriver.AndroidTestUIDriver.set(appiumAndroidDrivers);
+    }
+
     public static WebDriver getSelenideDriver() {
         return WebDriverRunner.getWebDriver();
     }
