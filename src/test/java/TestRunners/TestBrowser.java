@@ -1,7 +1,5 @@
 package TestRunners;
 
-import com.codeborne.selenide.FileDownloadMode;
-import com.codeborne.selenide.WebDriverRunner;
 import io.netty.handler.logging.LogLevel;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
@@ -16,9 +14,7 @@ import static testUI.TestUIDriver.*;
 import static testUI.TestUIServer.stop;
 import static testUI.UIOpen.open;
 import static testUI.UIUtils.*;
-import static testUI.Utils.AppiumHelps.sleep;
 import static testUI.Utils.By.*;
-import static testUI.Utils.Performance.getListOfCommandsTime;
 import static testUI.Utils.Performance.logAverageTime;
 import static testUI.elements.TestUI.E;
 import static testUI.elements.TestUI.raiseSoftAsserts;

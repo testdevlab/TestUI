@@ -367,10 +367,6 @@ public class TestUIServer extends UIUtils {
         if (!Configuration.automationType.equals(DESKTOP_PLATFORM)) {
             removeUsePort(driver - 1);
             removeUseBootstrapPort(driver - 1);
-            if (Configuration.automationType.equals(IOS_PLATFORM)) {
-                getDrivers().get(driver - 1).close();
-                sleep(500);
-            }
             getDrivers().get(driver - 1).quit();
             removeDriver(driver - 1);
             if (getAppiumServices() != null && getAppiumServices().size() >= driver) {

@@ -54,19 +54,16 @@ public class IOCapabilities extends Configuration {
                 wdaLocalPort =
                         8100 + 20 * (Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) -
                                 Configuration.baseAppiumPort) / 100;
-            } else {
-                wdaLocalPort = Configuration.wdaPort;
+                capabilities.setCapability("appium:wdaLocalPort", wdaLocalPort);
             }
-            capabilities.setCapability("wdaLocalPort", wdaLocalPort);
             capabilities.setCapability("appium:noReset", false);
-            capabilities.setCapability("useNewWDA",
+            capabilities.setCapability("appium:useNewWDA",
                     Configuration.useNewWDA);
             capabilities.setCapability("appium:platformName", Platform.IOS);
             capabilities.setCapability("appium:automationName", "XCUITest");
-            capabilities.setCapability("startIWDP", true);
-            capabilities.setCapability("wdaLaunchTimeout",
+            capabilities.setCapability("appium:wdaLaunchTimeout",
                     Configuration.launchAppTimeout);
-            capabilities.setCapability("commandTimeouts", 30000);
+            capabilities.setCapability("appium:commandTimeouts", 30000);
             // ADD CUSTOM CAPABILITIES
             if (!Configuration.addMobileDesiredCapabilities.asMap().isEmpty()) {
                 for (String key : addMobileDesiredCapabilities.asMap().keySet()) {
