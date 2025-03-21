@@ -1,6 +1,7 @@
 package testUI.elements;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import org.openqa.selenium.By;
 import testUI.Configuration;
 
@@ -39,7 +40,7 @@ public class ShouldBe extends TestUI implements Asserts {
         this.collection = collection;
     }
 
-    private Condition condition(boolean hasCondition, Condition condition) {
+    private WebElementCondition condition(boolean hasCondition, WebElementCondition condition) {
         if (hasCondition)
             return condition;
         return Condition.not(condition);

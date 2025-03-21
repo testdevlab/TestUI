@@ -24,6 +24,8 @@ public class TestAndroidLocal {
         Configuration.testUILogLevel = LogLevel.DEBUG;
         Configuration.automationType = ANDROID_PLATFORM;
         Configuration.installMobileChromeDriver = true;
+        Configuration.UDID = "emulator-5554";
+        Configuration.appiumUrl = "http://localhost:4723/";
         open("https://www.google.com");
         executeJs("arguments[0].value='TestUI';", googleLandingPage.getGoogleSearchInput()
                 .getMobileElement());
@@ -39,8 +41,8 @@ public class TestAndroidLocal {
     @DisplayName("Android browser test case")
     public void testAndroidBrowser2() {
         Configuration.testUILogLevel = LogLevel.DEBUG;
-        Configuration.appiumUrl = "";
-        Configuration.androidDeviceName = "";
+        Configuration.appiumUrl = "http://localhost:4723/";
+        Configuration.UDID = "emulator-5554";
         open("https://www.google.com");
     }
 }

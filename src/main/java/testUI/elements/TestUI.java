@@ -3,6 +3,7 @@ package testUI.elements;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.WebElementCondition;
 import io.appium.java_client.AppiumBy;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
@@ -231,7 +232,7 @@ public class TestUI {
         return $(element);
     }
 
-    protected void selenideAssert(Condition condition,
+    protected void selenideAssert(WebElementCondition condition,
                                   int time,
                                   By SelenideElement,
                                   int index,

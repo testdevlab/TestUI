@@ -11,8 +11,8 @@ public class GoogleLandingPage {
     private UIElement googleSearch = E(byXpath("//button[@class='Tg7LZd']"))
             .setSelenideElement(byCssSelector("[aria-label=\"Google Search\"]"))
             .setiOSElement(byId("id"));
-    private UIElement googleSearchInput = E(byName("q"))
-            .setSelenideElement(byName("q"));
+    private UIElement googleSearchInput = E(byCssSelector("form[role=\"search\"] textarea"))
+            .setSelenideElement(byCssSelector("form[role=\"search\"] textarea"));
     private UIElement googleCookies = E(byText("I agree"))
             .setSelenideElement(byText("I agree"));
 }

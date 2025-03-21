@@ -1,7 +1,5 @@
 package testUI.AndroidUtils;
 
-import io.appium.java_client.remote.AndroidMobileCapabilityType;
-import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -23,19 +21,19 @@ public class AndroidCapabilities extends Configuration {
         DesiredCapabilities cap = setChromeDriverCap(configuration);
         if (getDesiredCapabilities() == null) {
             cap.merge(setDeviceCapability(configuration));
-            cap.setCapability("appium:" + AndroidMobileCapabilityType.APP_WAIT_DURATION,
+            cap.setCapability("appium:appWaitDuration",
                     Configuration.launchAppTimeout);
             if (Configuration.automationName.isEmpty()) {
-                cap.setCapability("appium:" + MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
+                cap.setCapability("appium:automationName", "UiAutomator2");
             } else {
-                cap.setCapability("appium:" + MobileCapabilityType.AUTOMATION_NAME,
+                cap.setCapability("appium:automationName",
                         Configuration.automationName);
             }
             cap.setCapability("appium:platformName", Platform.ANDROID);
             if (!Configuration.appActivity.isEmpty() && !Configuration.appPackage.isEmpty()) {
-                cap.setCapability("appium:" + AndroidMobileCapabilityType.APP_ACTIVITY,
+                cap.setCapability("appium:appActivity",
                         Configuration.appActivity);
-                cap.setCapability("appium:" + AndroidMobileCapabilityType.APP_PACKAGE,
+                cap.setCapability("appium:appPackage",
                         Configuration.appPackage);
             }
             if (!Configuration.androidAppPath.isEmpty()) {
@@ -69,16 +67,16 @@ public class AndroidCapabilities extends Configuration {
         if (getDesiredCapabilities() == null) {
             cap.merge(setDeviceCapability(configuration));
             if (Configuration.automationName.isEmpty()) {
-                cap.setCapability("appium:" + MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
+                cap.setCapability("appium:automationName", "UiAutomator2");
             } else {
-                cap.setCapability("appium:" + MobileCapabilityType.AUTOMATION_NAME,
+                cap.setCapability("appium:automationName",
                         Configuration.automationName);
             }
             cap.merge(setPortCapabilities(configuration));
-            cap.setCapability("appium:" + MobileCapabilityType.NO_RESET, true);
-            cap.setCapability("appium:" + MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
-            cap.setCapability("appium:" + MobileCapabilityType.BROWSER_NAME, "chrome");
-            cap.setCapability("appium:" + AndroidMobileCapabilityType.NATIVE_WEB_SCREENSHOT, true);
+            cap.setCapability("appium:noReset", true);
+            cap.setCapability("appium:platformName", Platform.ANDROID);
+            cap.setCapability("appium:browserName", "chrome");
+            cap.setCapability("appium:nativeWebScreenshot", true);
             if (!Configuration.useW3C) {
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setExperimentalOption("w3c", false);
@@ -133,11 +131,11 @@ public class AndroidCapabilities extends Configuration {
         if (configuration.getEmulatorName().isEmpty()) {
             String udid = configuration.getUDID().isEmpty() ? getDevice()
                     : configuration.getUDID();
-            cap.setCapability("appium:" + MobileCapabilityType.UDID, udid);
-            cap.setCapability("appium:" + MobileCapabilityType.DEVICE_NAME, udid);
+            cap.setCapability("appium:udid", udid);
+            cap.setCapability("appium:deviceName", udid);
         } else {
-            cap.setCapability("appium:" + AndroidMobileCapabilityType.AVD, configuration.getEmulatorName());
-            cap.setCapability("appium:" + MobileCapabilityType.DEVICE_NAME, configuration.getEmulatorName());
+            cap.setCapability("appium:avd", configuration.getEmulatorName());
+            cap.setCapability("appium:deviceName", configuration.getEmulatorName());
         }
 
         return cap;
@@ -148,14 +146,14 @@ public class AndroidCapabilities extends Configuration {
         if (configuration.getAppiumUrl().isEmpty()) {
             int systemPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 10;
             int chromeDriverPort = Integer.parseInt(getUsePort().get(getUsePort().size() - 1)) + 15;
-            cap.setCapability("appium:" + "chromedriverPort", chromeDriverPort);
-            cap.setCapability("appium:" + AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
+            cap.setCapability("appium:chromedriverPort", chromeDriverPort);
+            cap.setCapability("appium:systemPort", systemPort);
         }
         if (Configuration.chromeDriverPort != 0) {
             cap.setCapability("appium:chromedriverPort", chromeDriverPort);
         }
         if (Configuration.systemPort != 0) {
-            cap.setCapability("appium:" + AndroidMobileCapabilityType.SYSTEM_PORT, systemPort);
+            cap.setCapability("appium:systemPort", systemPort);
         }
 
         return cap;
@@ -170,7 +168,7 @@ public class AndroidCapabilities extends Configuration {
                     configuration.getChromeDriverPath().startsWith("C:\\")
                     ? configuration.getChromeDriverPath()
                     : System.getProperty("user.dir") + slash + configuration.getChromeDriverPath();
-            cap.setCapability("appium:" + AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, chromePath);
+            cap.setCapability("appium:chromedriverExecutable", chromePath);
             return cap;
         }
 
