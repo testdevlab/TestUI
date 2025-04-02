@@ -39,7 +39,7 @@ public class IOSTestUIDriver {
                 attachShutDownHookStopDriver(getDriver());
                 return;
             } catch (Exception e) {
-                putLogError("Could not create driver! retrying...");
+                putLogError("Could not create driver! retrying...\n" + e.getMessage());
                 sleep(500);
                 if (i == 1) {
                     throw new TestUIException(
