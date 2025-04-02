@@ -119,7 +119,7 @@ public class AndroidCapabilities extends Configuration {
                     setDevice(Configuration.UDID, Configuration.androidDeviceName);
                 } else if (!Configuration.UDID.isEmpty()) {
                     setDevice(Configuration.UDID, Configuration.UDID);
-                } else {
+                } else if (Configuration.appiumUrl.isEmpty()) {
                     throw new TestUIException("There is no device available to run the automation!");
                 }
             }
