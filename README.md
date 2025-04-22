@@ -62,7 +62,7 @@ Then add TestUI dependency
   <dependency>
     <groupId>com.github.testdevlab</groupId>
     <artifactId>TestUI</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.1</version>
   </dependency>
 </dependencies>
 ```
@@ -77,7 +77,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.testdevlab:TestUI:2.0.0")
+    implementation("com.github.testdevlab:TestUI:3.0.1")
 }
 ```
 
@@ -91,7 +91,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.testdevlab:TestUI:2.0.0'
+    implementation 'com.github.testdevlab:TestUI:3.0.1'
 }
 ```
 
