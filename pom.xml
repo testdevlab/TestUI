@@ -159,7 +159,7 @@
                     <artifactId>selenium-support</artifactId>
                 </exclusion>
             </exclusions>
-            <version>9.3.0</version>
+            <version>10.1.1</version>
         </dependency>
         <dependency>
             <groupId>net.lightbody.bmp</groupId>
